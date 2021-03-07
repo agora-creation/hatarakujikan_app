@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
+import 'package:provider/provider.dart';
 
 class UserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -20,6 +24,7 @@ class UserScreen extends StatelessWidget {
       body: Center(
         child: TextButton(
           onPressed: () {
+            userProvider.signOut();
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
