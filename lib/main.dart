@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/screens/home.dart';
+import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -37,11 +39,11 @@ class SplashController extends StatelessWidget {
         return SplashScreen();
       case Status.Unauthenticated:
       case Status.Authenticating:
-        return SplashScreen();
+        return LoginScreen();
       case Status.Authenticated:
-        return SplashScreen();
+        return HomeScreen();
       default:
-        return SplashScreen();
+        return LoginScreen();
     }
   }
 }

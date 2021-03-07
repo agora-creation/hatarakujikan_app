@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hatarakujikan_app/widgets/spin_kit.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -22,12 +22,7 @@ class SplashScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 32.0),
-                Center(
-                  child: SpinKitFadingCube(
-                    color: Colors.blueAccent,
-                    size: 32.0,
-                  ),
-                ),
+                SpinKitWidget(size: 32),
               ],
             ),
           ),

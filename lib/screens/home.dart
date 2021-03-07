@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/app.dart';
 import 'package:hatarakujikan_app/screens/user.dart';
 import 'package:hatarakujikan_app/screens/work.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,13 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    UserModel _user = userProvider.user;
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
           padding: EdgeInsets.all(10.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.grey,
-          ),
+          child: CircleAvatar(backgroundColor: Colors.grey),
         ),
         title: GestureDetector(
           onTap: () {
@@ -33,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) => UserScreen(),
             );
           },
-          child: Text('島村 裕太'),
+          child: Text(_user?.name ?? ''),
         ),
         actions: [
           IconButton(
