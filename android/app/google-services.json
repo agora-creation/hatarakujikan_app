@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "433017475057",
+    "project_id": "hatarakujikan",
+    "storage_bucket": "hatarakujikan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433017475057:android:0d0d2934bfd89bdcebfe50",
+        "android_client_info": {
+          "package_name": "com.agoracreation.hatarakujikan_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433017475057-sau290nom0hdsn8id8gjvj64rfdk31jl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOAsTMFWd94ULj1wETZPcQ2WQdRKEKBgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433017475057-sau290nom0hdsn8id8gjvj64rfdk31jl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "433017475057-ho8b8lm1ithvk71of28k6ciqca9df960.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.agoracreation.hatarakujikanApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
