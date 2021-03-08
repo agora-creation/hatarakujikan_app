@@ -26,10 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: CircleAvatar(backgroundColor: Colors.grey),
-        ),
         title: GestureDetector(
           onTap: () {
             showMaterialModalBottomSheet(
@@ -41,32 +37,67 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              showMaterialModalBottomSheet(
-                context: context,
-                builder: (context) => UserScreen(),
-              );
-            },
+            onPressed: () {},
             icon: Icon(Icons.notifications),
           ),
           IconButton(
-            onPressed: () {
-              showMaterialModalBottomSheet(
-                context: context,
-                builder: (context) => UserScreen(),
-              );
-            },
+            onPressed: () {},
             icon: Icon(Icons.settings),
           ),
         ],
       ),
       body: _tabs[_tabsIndex],
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: Text(_tabsIndex == 0 ? '打刻する' : '申請する'),
-        icon: Icon(Icons.add),
-        backgroundColor: Colors.blueAccent.withOpacity(0.8),
-      ),
+      floatingActionButton: _tabsIndex == 0
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Text('打刻する'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('11:00'),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text('出勤する'),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text('退勤する'),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text('休憩する'),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text('休憩しない'),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('やめる'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              label: Text('打刻する'),
+              icon: Icon(Icons.add),
+              backgroundColor: Colors.blueAccent.withOpacity(0.8),
+            )
+          : FloatingActionButton.extended(
+              onPressed: () {},
+              label: Text('申請する'),
+              icon: Icon(Icons.add),
+              backgroundColor: Colors.redAccent.withOpacity(0.8),
+            ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
