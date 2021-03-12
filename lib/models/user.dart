@@ -5,6 +5,7 @@ class UserModel {
   String _name;
   String _email;
   String _password;
+  bool _work;
   bool _admin;
   DateTime _createdAt;
 
@@ -12,6 +13,7 @@ class UserModel {
   String get name => _name;
   String get email => _email;
   String get password => _password;
+  bool get work => _work;
   bool get admin => _admin;
   DateTime get createdAt => _createdAt;
 
@@ -20,6 +22,7 @@ class UserModel {
     _name = snapshot.data()['name'];
     _email = snapshot.data()['email'];
     _password = snapshot.data()['password'];
+    _work = snapshot.data()['work'];
     _admin = snapshot.data()['admin'];
     _createdAt = snapshot.data()['createdAt'].toDate();
   }

@@ -94,7 +94,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future reloadUserModel() async {
-    _user = await _userService.select(id: _fUser.uid);
+    _user = await _userService.select(userId: _fUser.uid);
     notifyListeners();
   }
 
@@ -104,7 +104,7 @@ class UserProvider with ChangeNotifier {
     } else {
       _fUser = firebaseUser;
       _status = Status.Authenticated;
-      _user = await _userService.select(id: _fUser.uid);
+      _user = await _userService.select(userId: _fUser.uid);
     }
     notifyListeners();
   }

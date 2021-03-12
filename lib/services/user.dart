@@ -17,9 +17,9 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).delete();
   }
 
-  Future<UserModel> select({String id}) async {
+  Future<UserModel> select({String userId}) async {
     DocumentSnapshot snapshot =
-        await _firebaseFirestore.collection(_collection).doc(id).get();
+        await _firebaseFirestore.collection(_collection).doc(userId).get();
     return UserModel.fromSnapshot(snapshot);
   }
 }

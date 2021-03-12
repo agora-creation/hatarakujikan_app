@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
 
-const kMainColor = Color(0xFF795548);
-const kSubColor = Color(0xFF8D6E63);
-const kMainTextColor = Color(0xFF424242);
-const kSubTextColor = Color(0xFF616161);
-
-const TextStyle kTitleTextStyle = TextStyle(
-  color: kMainColor,
-  fontSize: 32.0,
-  fontWeight: FontWeight.bold,
-);
-
 ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
@@ -35,3 +24,12 @@ ThemeData theme() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 }
+
+const BoxDecoration kNavigationDecoration = BoxDecoration(
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black26,
+      blurRadius: 5.0,
+    ),
+  ],
+);

@@ -10,6 +10,7 @@ class UserScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         elevation: 0.0,
         centerTitle: true,
         leading: Container(),
