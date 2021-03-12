@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class WorkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double _deviceWidth = MediaQuery.of(context).size.width;
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       children: [
         Container(
-          width: 300,
-          height: 300,
+          width: _deviceWidth,
+          height: _deviceWidth,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: Colors.blueAccent, width: 3.0)),
