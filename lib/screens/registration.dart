@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
@@ -31,9 +33,8 @@ class RegistrationScreen extends StatelessWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('はたらくじかん', style: TextStyle(fontSize: 32.0)),
-                            Text('for スマートフォン',
-                                style: TextStyle(fontSize: 16.0)),
+                            Text('はたらくじかん', style: kTitleTextStyle),
+                            Text('for スマートフォン', style: kSubTitleTextStyle),
                           ],
                         ),
                         SizedBox(height: 24.0),
@@ -83,6 +84,8 @@ class RegistrationScreen extends StatelessWidget {
                           labelText: '登録',
                           labelColor: Colors.blueAccent,
                           borderColor: Colors.blueAccent,
+                          labelFontSize: 16.0,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await userProvider.signUp()) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -91,13 +94,7 @@ class RegistrationScreen extends StatelessWidget {
                               return;
                             }
                             userProvider.clearController();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
-                                fullscreenDialog: true,
-                              ),
-                            );
+                            changeScreen(context, HomeScreen());
                           },
                         ),
                         SizedBox(height: 32.0),

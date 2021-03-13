@@ -4,12 +4,16 @@ class RoundBorderButton extends StatelessWidget {
   final String labelText;
   final Color labelColor;
   final Color borderColor;
+  final double labelFontSize;
+  final EdgeInsetsGeometry padding;
   final Function onPressed;
 
   RoundBorderButton({
     this.labelText,
     this.labelColor,
     this.borderColor,
+    this.labelFontSize,
+    this.padding,
     this.onPressed,
   });
 
@@ -17,18 +21,19 @@ class RoundBorderButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: FlatButton(
-        padding: EdgeInsets.all(16.0),
-        shape: StadiumBorder(side: BorderSide(color: borderColor)),
-        color: Colors.white,
+      child: TextButton(
         onPressed: onPressed,
         child: Text(
           labelText,
           style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
             color: labelColor,
+            fontSize: labelFontSize,
           ),
+        ),
+        style: TextButton.styleFrom(
+          side: BorderSide(color: borderColor, width: 1),
+          shape: StadiumBorder(),
+          padding: padding,
         ),
       ),
     );

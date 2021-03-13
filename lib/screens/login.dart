@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
@@ -32,9 +34,8 @@ class LoginScreen extends StatelessWidget {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('はたらくじかん', style: TextStyle(fontSize: 32.0)),
-                            Text('for スマートフォン',
-                                style: TextStyle(fontSize: 16.0)),
+                            Text('はたらくじかん', style: kTitleTextStyle),
+                            Text('for スマートフォン', style: kSubTitleTextStyle),
                           ],
                         ),
                         SizedBox(height: 24.0),
@@ -73,6 +74,8 @@ class LoginScreen extends StatelessWidget {
                           labelText: 'ログイン',
                           labelColor: Colors.white,
                           backgroundColor: Colors.blueAccent,
+                          labelFontSize: 16.0,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await userProvider.signIn()) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -81,13 +84,7 @@ class LoginScreen extends StatelessWidget {
                               return;
                             }
                             userProvider.clearController();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
-                                fullscreenDialog: true,
-                              ),
-                            );
+                            changeScreen(context, HomeScreen());
                           },
                         ),
                         SizedBox(height: 32.0),
@@ -95,12 +92,7 @@ class LoginScreen extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               userProvider.clearController();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegistrationScreen(),
-                                ),
-                              );
+                              nextScreen(context, RegistrationScreen());
                             },
                             child: Text(
                               '初めての方はココをタップ',

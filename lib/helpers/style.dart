@@ -33,3 +33,22 @@ const BoxDecoration kNavigationDecoration = BoxDecoration(
     ),
   ],
 );
+
+const TextStyle kTitleTextStyle = TextStyle(
+  fontSize: 32.0,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle kSubTitleTextStyle = TextStyle(
+  fontSize: 16.0,
+);
+
+const TextStyle kDateTextStyle = TextStyle(
+  fontSize: 24.0,
+);
+
+const TextStyle kTimeTextStyle = TextStyle(
+  fontSize: 40.0,
+  fontWeight: FontWeight.bold,
+  letterSpacing: 10.0,
+);

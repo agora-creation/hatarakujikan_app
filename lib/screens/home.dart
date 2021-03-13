@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/apply.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
 import 'package:hatarakujikan_app/screens/work.dart';
@@ -13,17 +14,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Widget> _tabs = [
-    WorkScreen(),
-    HistoryScreen(),
-    ApplyScreen(),
-  ];
   int _tabsIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     UserModel _user = userProvider.user;
+    final userWorkProvider = Provider.of<UserWorkProvider>(context);
+    final List<Widget> _tabs = [
+      WorkScreen(
+        user: _user,
+        userProvider: userProvider,
+        userWorkProvider: userWorkProvider,
+      ),
+      HistoryScreen(),
+      ApplyScreen(),
+    ];
 
     return Scaffold(
       appBar: AppBar(
