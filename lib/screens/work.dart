@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialog.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
+import 'package:hatarakujikan_app/widgets/round_border_button.dart';
 
 class WorkScreen extends StatelessWidget {
   final UserModel user;
@@ -23,7 +25,7 @@ class WorkScreen extends StatelessWidget {
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -41,9 +43,8 @@ class WorkScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('2021/03/12(金)', style: kDateTextStyle),
-                  SizedBox(height: 4.0),
                   Text('18:20', style: kTimeTextStyle),
-                  SizedBox(height: 4.0),
+                  SizedBox(height: 8.0),
                   Text(
                     '未出勤',
                     style: TextStyle(fontSize: 16.0),
@@ -51,25 +52,98 @@ class WorkScreen extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 8.0),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RoundBackgroundButton(
-                  labelText: '出勤する',
-                  labelColor: Colors.white,
-                  backgroundColor: Colors.blueAccent,
-                  labelFontSize: 24.0,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  onPressed: () {},
-                ),
-                RoundBackgroundButton(
-                  labelText: '退勤する',
-                  labelColor: Colors.white,
-                  backgroundColor: Colors.redAccent,
-                  labelFontSize: 24.0,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  onPressed: () {},
-                ),
+                user.workId == ''
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
+                        child: RoundBackgroundButton(
+                          labelText: '出勤する',
+                          labelColor: Colors.white,
+                          backgroundColor: Colors.blueAccent,
+                          labelFontSize: 16.0,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => WorkStartDialog(
+                                user: user,
+                                userProvider: userProvider,
+                                userWorkProvider: userWorkProvider,
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
+                user.workId != ''
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
+                        child: RoundBackgroundButton(
+                          labelText: '退勤する',
+                          labelColor: Colors.white,
+                          backgroundColor: Colors.redAccent,
+                          labelFontSize: 16.0,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => WorkEndDialog(
+                                user: user,
+                                userProvider: userProvider,
+                                userWorkProvider: userWorkProvider,
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
+                user.workBreakId == '' && user.workId != ''
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
+                        child: RoundBackgroundButton(
+                          labelText: '休憩する',
+                          labelColor: Colors.white,
+                          backgroundColor: Colors.orangeAccent,
+                          labelFontSize: 16.0,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => WorkBreakStartDialog(
+                                user: user,
+                                userProvider: userProvider,
+                                userWorkProvider: userWorkProvider,
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
+                user.workBreakId != '' && user.workId != ''
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
+                        child: RoundBorderButton(
+                          labelText: '休憩をやめる',
+                          labelColor: Colors.orangeAccent,
+                          borderColor: Colors.orangeAccent,
+                          labelFontSize: 16.0,
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => WorkBreakEndDialog(
+                                user: user,
+                                userProvider: userProvider,
+                                userWorkProvider: userWorkProvider,
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ],

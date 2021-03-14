@@ -67,7 +67,9 @@ class UserProvider with ChangeNotifier {
           'name': name.text.trim(),
           'email': email.text.trim(),
           'password': password.text.trim(),
-          'admin': false,
+          'workFlag': false,
+          'breakFlag': false,
+          'adminFlag': false,
           'createdAt': DateTime.now(),
         });
       });
