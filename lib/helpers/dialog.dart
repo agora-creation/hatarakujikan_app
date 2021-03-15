@@ -134,7 +134,8 @@ class WorkBreakStartDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.createWorkStart(user: user)) {
+                  if (!await userWorkProvider.createWorkBreakStart(
+                      user: user)) {
                     return;
                   }
                   userProvider.reloadUserModel();
@@ -183,7 +184,7 @@ class WorkBreakEndDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.updateWorkEnd(user: user)) {
+                  if (!await userWorkProvider.updateWorkBreakEnd(user: user)) {
                     return;
                   }
                   userProvider.reloadUserModel();

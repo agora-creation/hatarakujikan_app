@@ -50,5 +50,5 @@ const TextStyle kDateTextStyle = TextStyle(
 const TextStyle kTimeTextStyle = TextStyle(
   fontSize: 40.0,
   fontWeight: FontWeight.bold,
-  letterSpacing: 10.0,
+  letterSpacing: 8.0,
 );
