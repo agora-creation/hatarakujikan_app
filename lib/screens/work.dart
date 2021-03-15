@@ -26,8 +26,8 @@ class WorkScreen extends StatefulWidget {
 }
 
 class _WorkScreenState extends State<WorkScreen> {
-  String date = '';
-  String time = '';
+  String date = '----/--/-- (-)';
+  String time = '--:--:--';
 
   void _onTimer(Timer timer) {
     var _now = DateTime.now();
@@ -50,15 +50,15 @@ class _WorkScreenState extends State<WorkScreen> {
   @override
   Widget build(BuildContext context) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
-    String _workStatus = 'エラー';
+    String _workStatus = '';
     Color _workStatusColor = Colors.grey;
-    if (widget.user.workId == '' && widget.user.workBreakId == '') {
+    if (widget.user?.workId == '' && widget.user?.workBreakId == '') {
       _workStatus = '未出勤';
       _workStatusColor = Colors.grey;
-    } else if (widget.user.workId != '' && widget.user.workBreakId == '') {
+    } else if (widget.user?.workId != '' && widget.user?.workBreakId == '') {
       _workStatus = '出勤中';
       _workStatusColor = Colors.blueAccent;
-    } else if (widget.user.workId != '' && widget.user.workBreakId != '') {
+    } else if (widget.user?.workId != '' && widget.user?.workBreakId != '') {
       _workStatus = '休憩中';
       _workStatusColor = Colors.orangeAccent;
     }
@@ -79,7 +79,7 @@ class _WorkScreenState extends State<WorkScreen> {
                   color: _workStatusColor,
                   width: 8.0,
                 ),
-                color: _workStatusColor.withOpacity(0.1),
+                color: _workStatusColor.withOpacity(0.3),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -92,6 +92,7 @@ class _WorkScreenState extends State<WorkScreen> {
                     style: TextStyle(
                       color: _workStatusColor,
                       fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -99,7 +100,7 @@ class _WorkScreenState extends State<WorkScreen> {
             ),
             Column(
               children: [
-                widget.user.workId == '' && widget.user.workBreakId == ''
+                widget.user?.workId == '' && widget.user?.workBreakId == ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBackgroundButton(
@@ -121,7 +122,7 @@ class _WorkScreenState extends State<WorkScreen> {
                         ),
                       )
                     : Container(),
-                widget.user.workId != '' && widget.user.workBreakId == ''
+                widget.user?.workId != '' && widget.user?.workBreakId == ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBackgroundButton(
@@ -143,7 +144,7 @@ class _WorkScreenState extends State<WorkScreen> {
                         ),
                       )
                     : Container(),
-                widget.user.workId != '' && widget.user.workBreakId == ''
+                widget.user?.workId != '' && widget.user?.workBreakId == ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBackgroundButton(
@@ -165,7 +166,7 @@ class _WorkScreenState extends State<WorkScreen> {
                         ),
                       )
                     : Container(),
-                widget.user.workId != '' && widget.user.workBreakId != ''
+                widget.user?.workId != '' && widget.user?.workBreakId != ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBorderButton(

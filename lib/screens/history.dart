@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
+import 'package:hatarakujikan_app/widgets/custom_month_list_tile.dart';
 import 'package:intl/intl.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -7,11 +11,15 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  DateTime selectMonth = DateTime.now();
   List<DateTime> days = [];
 
   void _generateDays() {
-    DateTime _start = DateTime.now();
-    DateTime _end = DateTime.now().add(Duration(days: 31));
+    var _dateMap = DateMachineUtil.getMonthDate(selectMonth, 0);
+    DateTime _start = DateTime.parse(_dateMap['start']);
+    DateTime _end = DateTime.parse(_dateMap['end']);
+    print(_start);
+    print(_end);
     final _daysToGenerate = _end.difference(_start).inDays;
     days = List.generate(_daysToGenerate,
         (i) => DateTime(_start.year, _start.month, _start.day + (i)));
@@ -25,33 +33,37 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+    return Column(
       children: [
-        Text('年月選択'),
-        SizedBox(height: 8.0),
-        Divider(height: 1.0, color: Colors.grey),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          itemCount: days.length,
-          itemBuilder: (_, index) {
-            return Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 1.0,
-                    color: Colors.grey.shade300,
-                  ),
-                ),
-              ),
-              child: ListTile(
-                leading:
-                    Text('${DateFormat('dd (E)', 'ja').format(days[index])}'),
-                title: Text('11:00'),
-              ),
+        CustomMonthListTile(
+          month: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+          onTap: () async {
+            var selected = await showMonthPicker(
+              context: context,
+              initialDate: selectMonth,
+              firstDate: DateTime(DateTime.now().year - 1),
+              lastDate: DateTime(DateTime.now().year + 1),
             );
+            if (selected == null) return;
+            setState(() {
+              selectMonth = selected;
+            });
           },
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: days.length,
+            itemBuilder: (_, index) {
+              return Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  leading:
+                      Text('${DateFormat('dd (E)', 'ja').format(days[index])}'),
+                  title: Text(''),
+                ),
+              );
+            },
+          ),
         ),
       ],
     );

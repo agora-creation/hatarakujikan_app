@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 
 class CustomSettingListTile extends StatelessWidget {
   final IconData iconData;
@@ -16,14 +17,7 @@ class CustomSettingListTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              width: 1.0,
-              color: Colors.grey.shade300,
-            ),
-          ),
-        ),
+        decoration: kBottomBorderDecoration,
         child: ListTile(
           leading: Icon(iconData),
           title: Text(title),
