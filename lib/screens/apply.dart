@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/widgets/custom_month_list_tile.dart';
+import 'package:intl/intl.dart';
 
-class ApplyScreen extends StatelessWidget {
+class ApplyScreen extends StatefulWidget {
+  @override
+  _ApplyScreenState createState() => _ApplyScreenState();
+}
+
+class _ApplyScreenState extends State<ApplyScreen> {
+  DateTime selectMonth = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+    return Column(
       children: [
-        Text('年月選択'),
-        SizedBox(height: 8.0),
-        Divider(height: 1.0, color: Colors.grey),
+        CustomMonthListTile(
+          month: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+          onTap: () {},
+        ),
+        Expanded(
+          child: Center(
+            child: Text('申請'),
+          ),
+        ),
       ],
     );
   }

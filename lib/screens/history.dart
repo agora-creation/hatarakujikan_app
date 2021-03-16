@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
+import 'package:hatarakujikan_app/helpers/dialog.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/widgets/custom_month_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/custom_total_list_tile.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -14,21 +16,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
   DateTime selectMonth = DateTime.now();
   List<DateTime> days = [];
 
-  void _generateDays() {
+  List<DateTime> _generateDays(DateTime month) {
+    days.clear();
+    List<DateTime> _days = [];
     var _dateMap = DateMachineUtil.getMonthDate(selectMonth, 0);
-    DateTime _start = DateTime.parse(_dateMap['start']);
-    DateTime _end = DateTime.parse(_dateMap['end']);
-    print(_start);
-    print(_end);
-    final _daysToGenerate = _end.difference(_start).inDays;
-    days = List.generate(_daysToGenerate,
-        (i) => DateTime(_start.year, _start.month, _start.day + (i)));
+    DateTime _start = DateTime.parse('${_dateMap['start']} 00:00:00');
+    DateTime _end = DateTime.parse('${_dateMap['end']} 23:59:59');
+    for (int i = 0; i <= _end.difference(_start).inDays; i++) {
+      _days.add(_start.add(Duration(days: i)));
+    }
+    return _days;
   }
 
   @override
   void initState() {
     super.initState();
-    _generateDays();
+    days = _generateDays(selectMonth);
   }
 
   @override
@@ -47,6 +50,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             if (selected == null) return;
             setState(() {
               selectMonth = selected;
+              days = _generateDays(selectMonth);
             });
           },
         ),
@@ -59,11 +63,63 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 child: ListTile(
                   leading:
                       Text('${DateFormat('dd (E)', 'ja').format(days[index])}'),
-                  title: Text(''),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '出勤時間',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          Text('11:00'),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '退勤時間',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          Text('11:00'),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '勤務時間',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          Text('11:00'),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
           ),
+        ),
+        CustomTotalListTile(
+          title: '合計を確認する',
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (_) => WorkTotalDialog(),
+            );
+          },
         ),
       ],
     );

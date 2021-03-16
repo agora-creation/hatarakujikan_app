@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CustomMonthListTile extends StatelessWidget {
-  final String month;
+class CustomTotalListTile extends StatelessWidget {
+  final String title;
   final Function onTap;
 
-  CustomMonthListTile({
-    this.month,
+  CustomTotalListTile({
+    this.title,
     this.onTap,
   });
 
@@ -24,13 +24,13 @@ class CustomMonthListTile extends StatelessWidget {
           ],
         ),
         child: ListTile(
-          leading: Icon(
-            Icons.calendar_today,
-            color: Colors.white,
-          ),
           title: Text(
-            month,
+            title,
             style: TextStyle(color: Colors.white),
+          ),
+          trailing: Icon(
+            Icons.arrow_drop_up,
+            color: Colors.white,
           ),
         ),
       ),

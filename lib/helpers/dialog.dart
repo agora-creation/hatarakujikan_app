@@ -92,7 +92,7 @@ class WorkEndDialog extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blueAccent),
+                style: TextButton.styleFrom(backgroundColor: Colors.redAccent),
               ),
             ],
           ),
@@ -142,7 +142,8 @@ class WorkBreakStartDialog extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blueAccent),
+                style:
+                    TextButton.styleFrom(backgroundColor: Colors.orangeAccent),
               ),
             ],
           ),
@@ -191,9 +192,49 @@ class WorkBreakEndDialog extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blueAccent),
+                style:
+                    TextButton.styleFrom(backgroundColor: Colors.orangeAccent),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class WorkTotalDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CustomDialog(
+      title: '2021年3月',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '勤務時間',
+            style: TextStyle(color: Colors.grey, fontSize: 14.0),
+          ),
+          Text('100:00'),
+          Text(
+            '深夜労働時間',
+            style: TextStyle(color: Colors.grey, fontSize: 14.0),
+          ),
+          Text('100:00'),
+          Text(
+            '残業時間',
+            style: TextStyle(color: Colors.grey, fontSize: 14.0),
+          ),
+          Text('100:00'),
+          SizedBox(height: 16.0),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('閉じる', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(backgroundColor: Colors.grey),
+            ),
           ),
         ],
       ),
