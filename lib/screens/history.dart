@@ -20,8 +20,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     days.clear();
     List<DateTime> _days = [];
     var _dateMap = DateMachineUtil.getMonthDate(selectMonth, 0);
-    DateTime _start = DateTime.parse('${_dateMap['start']} 00:00:00');
-    DateTime _end = DateTime.parse('${_dateMap['end']} 23:59:59');
+    DateTime _start = DateTime.parse('${_dateMap['start']}');
+    DateTime _end = DateTime.parse('${_dateMap['end']}');
     for (int i = 0; i <= _end.difference(_start).inDays; i++) {
       _days.add(_start.add(Duration(days: i)));
     }

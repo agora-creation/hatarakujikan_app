@@ -26,8 +26,8 @@ class WorkScreen extends StatefulWidget {
 }
 
 class _WorkScreenState extends State<WorkScreen> {
-  String date = '----/--/-- (-)';
-  String time = '--:--:--';
+  String date = '';
+  String time = '';
 
   void _onTimer(Timer timer) {
     var _now = DateTime.now();
