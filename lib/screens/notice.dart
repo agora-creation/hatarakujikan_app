@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 
 class NoticeScreen extends StatelessWidget {
   @override
@@ -17,11 +18,27 @@ class NoticeScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
           Text('お知らせ一覧'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: 30,
+            itemBuilder: (_, index) {
+              return Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  leading: Text('既読'),
+                  title: Text('新しいメッセージがあります'),
+                  subtitle: Text('2021/03/30'),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

@@ -58,7 +58,7 @@ class RegistrationScreen extends StatelessWidget {
                               textInputType: TextInputType.emailAddress,
                               maxLines: 1,
                               labelText: 'メールアドレス',
-                              prefixIconData: Icons.mail_outline,
+                              prefixIconData: Icons.email_outlined,
                               suffixIconData: null,
                               onTap: null,
                             ),
@@ -73,9 +73,21 @@ class RegistrationScreen extends StatelessWidget {
                               suffixIconData: userProvider.isHidden
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              onTap: () {
-                                userProvider.changeHidden();
-                              },
+                              onTap: () => userProvider.changeHidden(),
+                            ),
+                            SizedBox(height: 16.0),
+                            CustomTextFormField(
+                              controller: userProvider.rePassword,
+                              obscureText:
+                                  userProvider.isReHidden ? false : true,
+                              textInputType: null,
+                              maxLines: 1,
+                              labelText: 'パスワードの再入力',
+                              prefixIconData: Icons.lock_outline,
+                              suffixIconData: userProvider.isReHidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              onTap: () => userProvider.changeReHidden(),
                             ),
                           ],
                         ),

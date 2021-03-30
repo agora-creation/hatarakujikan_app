@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                               textInputType: TextInputType.emailAddress,
                               maxLines: 1,
                               labelText: 'メールアドレス',
-                              prefixIconData: Icons.mail,
+                              prefixIconData: Icons.email,
                               suffixIconData: null,
                               onTap: null,
                             ),

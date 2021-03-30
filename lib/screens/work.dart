@@ -28,6 +28,7 @@ class WorkScreen extends StatefulWidget {
 class _WorkScreenState extends State<WorkScreen> {
   String date = '';
   String time = '';
+  String address = '現在地取得';
 
   void _onTimer(Timer timer) {
     var _now = DateTime.now();
@@ -41,10 +42,23 @@ class _WorkScreenState extends State<WorkScreen> {
     }
   }
 
+  void _checkLocation() async {
+    bool isGetLocation = await widget.userProvider.checkLocation();
+    if (isGetLocation) {
+      address = await widget.userProvider.getLocation();
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => LocationDialog(),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 1), _onTimer);
+    _checkLocation();
   }
 
   @override
@@ -66,10 +80,20 @@ class _WorkScreenState extends State<WorkScreen> {
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: TextButton.icon(
+                onPressed: () => _checkLocation(),
+                icon: Icon(Icons.location_pin, color: Colors.white),
+                label: Text(address, style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.lightBlueAccent),
+              ),
+            ),
             Container(
               width: _deviceWidth,
               height: _deviceWidth,

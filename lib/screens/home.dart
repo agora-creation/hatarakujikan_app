@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -8,7 +9,6 @@ import 'package:hatarakujikan_app/screens/history.dart';
 import 'package:hatarakujikan_app/screens/notice.dart';
 import 'package:hatarakujikan_app/screens/setting.dart';
 import 'package:hatarakujikan_app/screens/work.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,23 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(_user?.name ?? ''),
         actions: [
           IconButton(
-            onPressed: () {
-              showMaterialModalBottomSheet(
-                expand: true,
-                context: context,
-                builder: (context) => NoticeScreen(),
-              );
-            },
+            onPressed: () => overlayScreen(context, NoticeScreen()),
             icon: Icon(Icons.notifications),
           ),
           IconButton(
-            onPressed: () {
-              showMaterialModalBottomSheet(
-                expand: true,
-                context: context,
-                builder: (context) => SettingScreen(),
-              );
-            },
+            onPressed: () => overlayScreen(context, SettingScreen()),
             icon: Icon(Icons.settings),
           ),
         ],

@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/user.dart';
+import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -19,7 +22,10 @@ class UserProvider with ChangeNotifier {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController rePassword = TextEditingController();
   bool isHidden = false;
+  bool isReHidden = false;
+  bool isLoading = false;
 
   UserProvider.initialize() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChanged);
@@ -27,6 +33,16 @@ class UserProvider with ChangeNotifier {
 
   void changeHidden() {
     isHidden = !isHidden;
+    notifyListeners();
+  }
+
+  void changeReHidden() {
+    isReHidden = !isReHidden;
+    notifyListeners();
+  }
+
+  void changeLoading() {
+    isLoading = !isLoading;
     notifyListeners();
   }
 
@@ -53,6 +69,7 @@ class UserProvider with ChangeNotifier {
     if (name.text == null) return false;
     if (email.text == null) return false;
     if (password.text == null) return false;
+    if (password.text != rePassword.text) return false;
     try {
       _status = Status.Authenticating;
       notifyListeners();
@@ -82,9 +99,47 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> updateEmail() async {
+    if (name.text == null) return false;
+    if (email.text == null) return false;
+    try {
+      await _auth.currentUser.updateEmail(email.text.trim()).then((value) {
+        _userService.update({
+          'id': _auth.currentUser.uid,
+          'name': name.text.trim(),
+          'email': email.text.trim(),
+        });
+      });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> updatePassword() async {
+    if (password.text == null) return false;
+    if (password.text != rePassword.text) return false;
+    try {
+      await _auth.currentUser
+          .updatePassword(password.text.trim())
+          .then((value) {
+        _userService.update({
+          'id': _auth.currentUser.uid,
+          'password': password.text.trim(),
+        });
+      });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
   Future signOut() async {
     _auth.signOut();
     _status = Status.Unauthenticated;
+    _user = null;
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
@@ -93,6 +148,7 @@ class UserProvider with ChangeNotifier {
     name.text = '';
     email.text = '';
     password.text = '';
+    rePassword.text = '';
   }
 
   Future reloadUserModel() async {
@@ -109,5 +165,43 @@ class UserProvider with ChangeNotifier {
       _user = await _userService.select(userId: _fUser.uid);
     }
     notifyListeners();
+  }
+
+  Future<bool> checkLocation() async {
+    Location location = Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return false;
+      }
+    }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Future<String> getLocation() async {
+    Location location = new Location();
+    LocationData _locationData = await location.getLocation();
+    Coordinates _coordinates =
+        Coordinates(_locationData.latitude, _locationData.longitude);
+    var _addressList =
+        await Geocoder.local.findAddressesFromCoordinates(_coordinates);
+    var _address = _addressList.first;
+    List<String> _location = [
+      _locationData.longitude.toString(),
+      _locationData.latitude.toString(),
+    ];
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setStringList('location', _location);
+    return '${_address.adminArea}${_address.locality}';
   }
 }

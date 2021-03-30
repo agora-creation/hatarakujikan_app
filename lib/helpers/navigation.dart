@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 void nextScreen(BuildContext context, Widget widget) {
   Navigator.push(
@@ -16,5 +17,13 @@ void changeScreen(BuildContext context, Widget widget) {
       builder: (context) => widget,
       fullscreenDialog: true,
     ),
+  );
+}
+
+void overlayScreen(BuildContext context, Widget widget) {
+  showMaterialModalBottomSheet(
+    expand: true,
+    context: context,
+    builder: (context) => widget,
   );
 }
