@@ -210,23 +210,38 @@ class WorkTotalDialog extends StatelessWidget {
       title: '2021年3月',
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '勤務時間',
-            style: TextStyle(color: Colors.grey, fontSize: 14.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Text('勤務日数'),
+                  Divider(),
+                  Text('出勤'),
+                  Text('休日出勤'),
+                  Text('有給取得'),
+                  Text('欠勤'),
+                  Text('休暇日'),
+                  Text('遅刻・早退'),
+                  Text('有給残日数'),
+                  Text('振休残日数'),
+                  Text('代休残日数'),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('勤務時間'),
+                  Divider(),
+                  Text('勤務'),
+                  Text('深夜労働'),
+                  Text('残業'),
+                  Text('休日労働'),
+                  Text('所定労働'),
+                ],
+              ),
+            ],
           ),
-          Text('100:00'),
-          Text(
-            '深夜労働時間',
-            style: TextStyle(color: Colors.grey, fontSize: 14.0),
-          ),
-          Text('100:00'),
-          Text(
-            '残業時間',
-            style: TextStyle(color: Colors.grey, fontSize: 14.0),
-          ),
-          Text('100:00'),
           SizedBox(height: 16.0),
           Align(
             alignment: Alignment.bottomRight,

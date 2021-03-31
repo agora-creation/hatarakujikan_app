@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
         userWorkProvider: userWorkProvider,
       ),
-      HistoryScreen(),
+      HistoryScreen(user: _user),
       ApplyScreen(),
     ];
 

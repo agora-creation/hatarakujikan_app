@@ -202,6 +202,6 @@ class UserProvider with ChangeNotifier {
     ];
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setStringList('location', _location);
-    return '${_address.adminArea}${_address.locality}';
+    return '${_address.adminArea}${_address.locality}${_address.subLocality}';
   }
 }

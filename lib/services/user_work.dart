@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hatarakujikan_app/models/user_work.dart';
 
 class UserWorkService {
   String _collection = 'user';
@@ -40,5 +41,19 @@ class UserWorkService {
         .collection(_subCollection)
         .doc(values['id'])
         .delete();
+  }
+
+  Future<List<UserWorkModel>> selectList({String userId}) async {
+    List<UserWorkModel> _works = [];
+    QuerySnapshot snapshot = await _firebaseFirestore
+        .collection(_collection)
+        .doc(userId)
+        .collection(_subCollection)
+        .orderBy('startedAt', descending: false)
+        .get();
+    for (DocumentSnapshot _work in snapshot.docs) {
+      _works.add(UserWorkModel.fromSnapshot(_work));
+    }
+    return _works;
   }
 }

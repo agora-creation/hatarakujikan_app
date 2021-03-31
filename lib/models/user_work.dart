@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserWork {
+class UserWorkModel {
   String _id;
   String _userId;
   DateTime _startedAt;
@@ -21,7 +21,7 @@ class UserWork {
   double get endedLat => _endedLat;
   DateTime get createdAt => _createdAt;
 
-  UserWork.fromSnapshot(DocumentSnapshot snapshot) {
+  UserWorkModel.fromSnapshot(DocumentSnapshot snapshot) {
     _id = snapshot.data()['id'];
     _userId = snapshot.data()['userId'];
     _startedAt = snapshot.data()['startedAt'].toDate();
