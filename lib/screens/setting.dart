@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/screens/company.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
 import 'package:hatarakujikan_app/screens/user_password.dart';
@@ -16,6 +17,7 @@ class SettingScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFF5F5F5),
         elevation: 0.0,
         centerTitle: true,
         leading: Container(),
@@ -60,13 +62,13 @@ class SettingScreen extends StatelessWidget {
                 CustomSettingListTile(
                   iconData: Icons.business_outlined,
                   title: '開発/運営会社',
-                  onTap: () {},
+                  onTap: () => nextScreen(context, CompanyScreen()),
                 ),
                 SizedBox(height: 24.0),
                 RoundBorderButton(
                   labelText: 'ログアウト',
-                  labelColor: Colors.blueAccent,
-                  borderColor: Colors.blueAccent,
+                  labelColor: Colors.blue,
+                  borderColor: Colors.blue,
                   labelFontSize: 16.0,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomMonthListTile extends StatelessWidget {
+class CustomMonthButton extends StatelessWidget {
   final String month;
   final Function onTap;
 
-  CustomMonthListTile({
+  CustomMonthButton({
     this.month,
     this.onTap,
   });
@@ -15,7 +15,7 @@ class CustomMonthListTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.lightBlue,
           boxShadow: [
             BoxShadow(
               color: Colors.black87,

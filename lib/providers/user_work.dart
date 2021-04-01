@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:hatarakujikan_app/services/user_work.dart';
-import 'package:hatarakujikan_app/services/user_work_break.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserWorkProvider with ChangeNotifier {
   UserService _userService = UserService();
   UserWorkService _userWorkService = UserWorkService();
-  UserWorkBreakService _userWorkBreakService = UserWorkBreakService();
 
   Future<bool> createWorkStart({UserModel user}) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -24,6 +23,7 @@ class UserWorkProvider with ChangeNotifier {
         'endedAt': DateTime.now(),
         'endedLon': double.parse(_location.first),
         'endedLat': double.parse(_location.last),
+        'breaks': [],
         'createdAt': DateTime.now(),
       });
       _userService.update({
@@ -59,55 +59,14 @@ class UserWorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> createWorkBreakStart({UserModel user}) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    try {
-      List<String> _location = _prefs.getStringList('location');
-      String id =
-          _userWorkBreakService.newId(userId: user.id, workId: user.workId);
-      _userWorkBreakService.create({
-        'id': id,
-        'userId': user.id,
-        'workId': user.workId,
-        'startedAt': DateTime.now(),
-        'startedLon': double.parse(_location.first),
-        'startedLat': double.parse(_location.last),
-        'endedAt': DateTime.now(),
-        'endedLon': double.parse(_location.first),
-        'endedLat': double.parse(_location.last),
-        'createdAt': DateTime.now(),
-      });
-      _userService.update({
-        'id': user.id,
-        'workBreakId': id,
-      });
-      return true;
-    } catch (e) {
-      print(e.toString());
-      return false;
-    }
-  }
-
-  Future<bool> updateWorkBreakEnd({UserModel user}) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    try {
-      List<String> _location = _prefs.getStringList('location');
-      _userWorkBreakService.update({
-        'id': user.workBreakId,
-        'userId': user.id,
-        'workId': user.workId,
-        'endedAt': DateTime.now(),
-        'endedLon': double.parse(_location.first),
-        'endedLat': double.parse(_location.last),
-      });
-      _userService.update({
-        'id': user.id,
-        'workBreakId': '',
-      });
-      return true;
-    } catch (e) {
-      print(e.toString());
-      return false;
-    }
+  Future<List<UserWorkModel>> selectList(
+      {String userId, DateTime startAt, DateTime endAt}) async {
+    List<UserWorkModel> _works = [];
+    await _userWorkService
+        .selectList(userId: userId, startAt: startAt, endAt: endAt)
+        .then((value) {
+      _works = value;
+    });
+    return _works;
   }
 }

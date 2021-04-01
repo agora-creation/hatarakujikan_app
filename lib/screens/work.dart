@@ -66,15 +66,15 @@ class _WorkScreenState extends State<WorkScreen> {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     String _workStatus = '';
     Color _workStatusColor = Colors.grey;
-    if (widget.user?.workId == '' && widget.user?.workBreakId == '') {
+    if (widget.user?.workId == '' && widget.user?.breaksId == '') {
       _workStatus = '未出勤';
       _workStatusColor = Colors.grey;
-    } else if (widget.user?.workId != '' && widget.user?.workBreakId == '') {
+    } else if (widget.user?.workId != '' && widget.user?.breaksId == '') {
       _workStatus = '出勤中';
-      _workStatusColor = Colors.blueAccent;
-    } else if (widget.user?.workId != '' && widget.user?.workBreakId != '') {
+      _workStatusColor = Colors.blue;
+    } else if (widget.user?.workId != '' && widget.user?.breaksId != '') {
       _workStatus = '休憩中';
-      _workStatusColor = Colors.orangeAccent;
+      _workStatusColor = Colors.orange;
     }
 
     return Container(
@@ -90,8 +90,7 @@ class _WorkScreenState extends State<WorkScreen> {
                 onPressed: () => _checkLocation(),
                 icon: Icon(Icons.location_pin, color: Colors.white),
                 label: Text(address, style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(
-                    backgroundColor: Colors.lightBlueAccent),
+                style: TextButton.styleFrom(backgroundColor: Colors.lightBlue),
               ),
             ),
             Container(
@@ -124,13 +123,13 @@ class _WorkScreenState extends State<WorkScreen> {
             ),
             Column(
               children: [
-                widget.user?.workId == '' && widget.user?.workBreakId == ''
+                widget.user?.workId == '' && widget.user?.breaksId == ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBackgroundButton(
                           labelText: '出勤する',
                           labelColor: Colors.white,
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.blue,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () {
@@ -146,13 +145,13 @@ class _WorkScreenState extends State<WorkScreen> {
                         ),
                       )
                     : Container(),
-                widget.user?.workId != '' && widget.user?.workBreakId == ''
+                widget.user?.workId != '' && widget.user?.breaksId == ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBackgroundButton(
                           labelText: '退勤する',
                           labelColor: Colors.white,
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: Colors.red,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () {
@@ -168,13 +167,13 @@ class _WorkScreenState extends State<WorkScreen> {
                         ),
                       )
                     : Container(),
-                widget.user?.workId != '' && widget.user?.workBreakId == ''
+                widget.user?.workId != '' && widget.user?.breaksId == ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBackgroundButton(
                           labelText: '休憩する',
                           labelColor: Colors.white,
-                          backgroundColor: Colors.orangeAccent,
+                          backgroundColor: Colors.orange,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () {
@@ -190,13 +189,13 @@ class _WorkScreenState extends State<WorkScreen> {
                         ),
                       )
                     : Container(),
-                widget.user?.workId != '' && widget.user?.workBreakId != ''
+                widget.user?.workId != '' && widget.user?.breaksId != ''
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: RoundBorderButton(
                           labelText: '休憩をやめる',
-                          labelColor: Colors.orangeAccent,
-                          borderColor: Colors.orangeAccent,
+                          labelColor: Colors.orange,
+                          borderColor: Colors.orange,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () {

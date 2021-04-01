@@ -39,11 +39,14 @@ class WorkStartDialog extends StatelessWidget {
                   if (!await userWorkProvider.createWorkStart(user: user)) {
                     return;
                   }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('出勤時間を記録しました')),
+                  );
                   userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blueAccent),
+                style: TextButton.styleFrom(backgroundColor: Colors.blue),
               ),
             ],
           ),
@@ -92,7 +95,7 @@ class WorkEndDialog extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.redAccent),
+                style: TextButton.styleFrom(backgroundColor: Colors.red),
               ),
             ],
           ),
@@ -133,17 +136,9 @@ class WorkBreakStartDialog extends StatelessWidget {
                 style: TextButton.styleFrom(backgroundColor: Colors.grey),
               ),
               TextButton(
-                onPressed: () async {
-                  if (!await userWorkProvider.createWorkBreakStart(
-                      user: user)) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
+                onPressed: () {},
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style:
-                    TextButton.styleFrom(backgroundColor: Colors.orangeAccent),
+                style: TextButton.styleFrom(backgroundColor: Colors.orange),
               ),
             ],
           ),
@@ -184,72 +179,11 @@ class WorkBreakEndDialog extends StatelessWidget {
                 style: TextButton.styleFrom(backgroundColor: Colors.grey),
               ),
               TextButton(
-                onPressed: () async {
-                  if (!await userWorkProvider.updateWorkBreakEnd(user: user)) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
+                onPressed: () {},
                 child: Text('はい', style: TextStyle(color: Colors.white)),
-                style:
-                    TextButton.styleFrom(backgroundColor: Colors.orangeAccent),
+                style: TextButton.styleFrom(backgroundColor: Colors.orange),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class WorkTotalDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CustomDialog(
-      title: '2021年3月',
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  Text('勤務日数'),
-                  Divider(),
-                  Text('出勤'),
-                  Text('休日出勤'),
-                  Text('有給取得'),
-                  Text('欠勤'),
-                  Text('休暇日'),
-                  Text('遅刻・早退'),
-                  Text('有給残日数'),
-                  Text('振休残日数'),
-                  Text('代休残日数'),
-                ],
-              ),
-              Column(
-                children: [
-                  Text('勤務時間'),
-                  Divider(),
-                  Text('勤務'),
-                  Text('深夜労働'),
-                  Text('残業'),
-                  Text('休日労働'),
-                  Text('所定労働'),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 16.0),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('閉じる', style: TextStyle(color: Colors.white)),
-              style: TextButton.styleFrom(backgroundColor: Colors.grey),
-            ),
           ),
         ],
       ),

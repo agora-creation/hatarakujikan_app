@@ -30,12 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
         userWorkProvider: userWorkProvider,
       ),
-      HistoryScreen(user: _user),
+      HistoryScreen(
+        user: _user,
+        userWorkProvider: userWorkProvider,
+      ),
       ApplyScreen(),
     ];
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(_user?.name ?? ''),
         actions: [
           IconButton(
@@ -59,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           backgroundColor: Colors.white,
           currentIndex: _tabsIndex,
-          fixedColor: Colors.blueAccent,
+          fixedColor: Colors.blue,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(

@@ -27,7 +27,7 @@ class CustomHistoryListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '出勤時間',
+                  '出勤',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12.0,
@@ -40,7 +40,7 @@ class CustomHistoryListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '退勤時間',
+                  '退勤',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12.0,
@@ -53,7 +53,7 @@ class CustomHistoryListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '勤務時間',
+                  '勤務',
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 12.0,
@@ -64,6 +64,7 @@ class CustomHistoryListTile extends StatelessWidget {
             ),
           ],
         ),
+        trailing: Icon(Icons.chevron_right),
       ),
     );
   }

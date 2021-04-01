@@ -73,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                         RoundBackgroundButton(
                           labelText: 'ログイン',
                           labelColor: Colors.white,
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: Colors.blue,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                             child: Text(
                               '初めての方はココをタップ',
                               style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.blue,
                                 decoration: TextDecoration.underline,
                               ),
                             ),

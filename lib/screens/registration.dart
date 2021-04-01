@@ -94,8 +94,8 @@ class RegistrationScreen extends StatelessWidget {
                         SizedBox(height: 24.0),
                         RoundBorderButton(
                           labelText: '登録',
-                          labelColor: Colors.blueAccent,
-                          borderColor: Colors.blueAccent,
+                          labelColor: Colors.blue,
+                          borderColor: Colors.blue,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {

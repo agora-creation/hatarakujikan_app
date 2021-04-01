@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomTotalListTile extends StatelessWidget {
+class CustomTotalButton extends StatelessWidget {
   final String title;
   final Function onTap;
 
-  CustomTotalListTile({
+  CustomTotalButton({
     this.title,
     this.onTap,
   });
@@ -15,7 +15,7 @@ class CustomTotalListTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.teal,
           boxShadow: [
             BoxShadow(
               color: Colors.black87,

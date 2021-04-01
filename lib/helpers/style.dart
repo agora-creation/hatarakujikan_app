@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: Color(0xFFF5F5F5),
     fontFamily: 'NotoSansJP',
     appBarTheme: AppBarTheme(
       color: Colors.white,

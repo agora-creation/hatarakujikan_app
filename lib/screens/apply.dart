@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/widgets/custom_month_list_tile.dart';
-import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ApplyScreen extends StatefulWidget {
   @override
@@ -12,18 +11,13 @@ class _ApplyScreenState extends State<ApplyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomMonthListTile(
-          month: '${DateFormat('yyyy年MM月').format(selectMonth)}',
-          onTap: () {},
-        ),
-        Expanded(
-          child: Center(
-            child: Text('申請'),
-          ),
-        ),
-      ],
+    return Container(
+      child: SfCalendar(
+        view: CalendarView.month,
+        initialSelectedDate: DateTime.now(),
+        showNavigationArrow: true,
+        monthViewSettings: MonthViewSettings(showAgenda: true),
+      ),
     );
   }
 }

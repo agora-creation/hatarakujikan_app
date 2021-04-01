@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   String _id;
   String _workId;
-  String _workBreakId;
+  String _breaksId;
   String _name;
   String _email;
   String _password;
@@ -12,7 +12,7 @@ class UserModel {
 
   String get id => _id;
   String get workId => _workId;
-  String get workBreakId => _workBreakId;
+  String get breaksId => _breaksId;
   String get name => _name;
   String get email => _email;
   String get password => _password;
@@ -22,7 +22,7 @@ class UserModel {
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     _id = snapshot.data()['id'];
     _workId = snapshot.data()['workId'];
-    _workBreakId = snapshot.data()['workBreakId'];
+    _breaksId = snapshot.data()['breaksId'];
     _name = snapshot.data()['name'];
     _email = snapshot.data()['email'];
     _password = snapshot.data()['password'];

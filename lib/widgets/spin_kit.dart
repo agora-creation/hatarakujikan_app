@@ -10,7 +10,7 @@ class SpinKitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SpinKitFadingCube(
-        color: Colors.blueAccent,
+        color: Colors.blue,
         size: size,
       ),
     );

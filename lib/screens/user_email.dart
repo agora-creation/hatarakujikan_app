@@ -12,6 +12,7 @@ class UserEmailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFF5F5F5),
         elevation: 0.0,
         centerTitle: true,
         title: Text('ユーザー情報変更'),
@@ -21,6 +22,7 @@ class UserEmailScreen extends StatelessWidget {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
+                SizedBox(height: 16.0),
                 CustomTextFormField(
                   controller: userProvider.name,
                   obscureText: false,
