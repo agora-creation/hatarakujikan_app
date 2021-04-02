@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/stream.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
@@ -8,6 +10,7 @@ import 'package:hatarakujikan_app/screens/total.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_month_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_total_button.dart';
+import 'package:hatarakujikan_app/widgets/spin_kit.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -27,21 +30,12 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   DateTime selectMonth = DateTime.now();
   List<DateTime> days = [];
-  List<Map<DateTime, UserWorkModel>> _works = [];
 
   void _generateDays(DateTime month) async {
     days.clear();
     var _dateMap = DateMachineUtil.getMonthDate(selectMonth, 0);
     DateTime _startAt = DateTime.parse('${_dateMap['start']}');
     DateTime _endAt = DateTime.parse('${_dateMap['end']}');
-    await widget.userWorkProvider
-        .selectList(userId: widget.user?.id, startAt: _startAt, endAt: _endAt)
-        .then((value) {
-      print(_startAt);
-      print(_endAt);
-      print(value.length);
-    });
-
     for (int i = 0; i <= _endAt.difference(_startAt).inDays; i++) {
       days.add(_startAt.add(Duration(days: i)));
     }
@@ -55,6 +49,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _userWorkStream = userWorkStream(
+        userId: widget.user?.id, startAt: days.first, endAt: days.last);
+
     return Column(
       children: [
         CustomMonthButton(
@@ -74,14 +71,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
           },
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: days.length,
-            itemBuilder: (_, index) {
-              return CustomHistoryListTile(
-                day: '${DateFormat('dd (E)', 'ja').format(days[index])}',
-                started: '11:00',
-                ended: '22:00',
-                work: '33:00',
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _userWorkStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return SpinKitWidget(size: 32.0);
+              }
+              for (DocumentSnapshot work in snapshot.data.docs) {
+                UserWorkModel _work = UserWorkModel.fromSnapshot(work);
+              }
+              return ListView.builder(
+                itemCount: days.length,
+                itemBuilder: (_, index) {
+                  return CustomHistoryListTile(
+                    day: '${DateFormat('dd (E)', 'ja').format(days[index])}',
+                    started: '',
+                    ended: '',
+                    work: '',
+                  );
+                },
               );
             },
           ),

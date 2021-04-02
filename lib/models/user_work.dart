@@ -32,7 +32,7 @@ class UserWorkModel {
     _endedAt = snapshot.data()['endedAt'].toDate();
     _endedLon = snapshot.data()['endedLon'];
     _endedLat = snapshot.data()['endedLat'];
-    breaks = _convertBreaks(breaks: snapshot.data()['break']) ?? [];
+    breaks = _convertBreaks(breaks: snapshot.data()['breaks']) ?? [];
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 
