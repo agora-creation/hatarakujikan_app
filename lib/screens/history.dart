@@ -4,7 +4,6 @@ import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/stream.dart';
 import 'package:hatarakujikan_app/models/user.dart';
-import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/total.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
@@ -50,7 +49,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _userWorkStream = userWorkStream(
-        userId: widget.user?.id, startAt: days.first, endAt: days.last);
+      userId: widget.user?.id,
+      startAt: days.first,
+      endAt: days.last,
+    );
 
     return Column(
       children: [
@@ -77,12 +79,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
               if (!snapshot.hasData) {
                 return SpinKitWidget(size: 32.0);
               }
-              for (DocumentSnapshot work in snapshot.data.docs) {
-                UserWorkModel _work = UserWorkModel.fromSnapshot(work);
-              }
+              // for (DocumentSnapshot work in snapshot.data.docs) {
+              //   works.add(UserWorkModel.fromSnapshot(work));
+              // }
               return ListView.builder(
                 itemCount: days.length,
                 itemBuilder: (_, index) {
+                  print(days[index]);
                   return CustomHistoryListTile(
                     day: '${DateFormat('dd (E)', 'ja').format(days[index])}',
                     started: '',
