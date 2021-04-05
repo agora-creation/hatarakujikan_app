@@ -23,8 +23,6 @@ dependencies:
   provider: ^5.0.0
   flutter_spinkit: ^5.0.0
   webview_flutter: ^2.0.2
-  syncfusion_flutter_calendar: ^19.1.54+1
-  syncfusion_localizations: ^19.1.54+1
   month_picker_dialog: ^0.4.0
   common_utils: ^2.0.2
   location: ^4.1.1

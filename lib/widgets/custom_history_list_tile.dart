@@ -1,70 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
+import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:intl/intl.dart';
 
 class CustomHistoryListTile extends StatelessWidget {
-  final String day;
-  final String started;
-  final String ended;
-  final String work;
+  final DateTime day;
+  final List<UserWorkModel> works;
+  final Function onTap;
 
   CustomHistoryListTile({
     this.day,
-    this.started,
-    this.ended,
-    this.work,
+    this.works,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: kBottomBorderDecoration,
-      child: ListTile(
-        leading: Text(day),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '出勤',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12.0,
-                  ),
-                ),
-                Text(started),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '退勤',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12.0,
-                  ),
-                ),
-                Text(ended),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '勤務',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12.0,
-                  ),
-                ),
-                Text(work),
-              ],
-            ),
-          ],
+      child: GestureDetector(
+        onTap: onTap,
+        child: ListTile(
+          leading: Text('${DateFormat('dd (E)', 'ja').format(day)}'),
+          title: works.length > 0
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: works.length,
+                  itemBuilder: (_, index) {
+                    UserWorkModel _work = works[index];
+                    return ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '出勤',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                              Text(
+                                '${DateFormat('HH:mm').format(_work.startedAt)}',
+                              ),
+                            ],
+                          ),
+                          _work.startedAt == _work.endedAt
+                              ? Container()
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '退勤',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${DateFormat('HH:mm').format(_work.endedAt)}',
+                                    ),
+                                  ],
+                                ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '勤務',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                              Text(
+                                '${_work.workTime()}',
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+              : Container(),
+          trailing: Icon(Icons.chevron_right),
         ),
-        trailing: Icon(Icons.chevron_right),
       ),
     );
   }

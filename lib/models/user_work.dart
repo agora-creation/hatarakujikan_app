@@ -43,4 +43,12 @@ class UserWorkModel {
     }
     return _breaks;
   }
+
+  String workTime() {
+    Duration _diff = _endedAt.difference(_startedAt);
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(_diff.inMinutes.remainder(60));
+    // String twoDigitSeconds = twoDigits(_diff.inSeconds.remainder(60));
+    return '${twoDigits(_diff.inHours)}:$twoDigitMinutes';
+  }
 }

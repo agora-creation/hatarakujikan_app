@@ -4,7 +4,9 @@ import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/stream.dart';
 import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:hatarakujikan_app/screens/total.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_month_button.dart';
@@ -29,6 +31,7 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   DateTime selectMonth = DateTime.now();
   List<DateTime> days = [];
+  List<UserWorkModel> works = [];
 
   void _generateDays(DateTime month) async {
     days.clear();
@@ -79,18 +82,27 @@ class _HistoryScreenState extends State<HistoryScreen> {
               if (!snapshot.hasData) {
                 return SpinKitWidget(size: 32.0);
               }
-              // for (DocumentSnapshot work in snapshot.data.docs) {
-              //   works.add(UserWorkModel.fromSnapshot(work));
-              // }
+              for (DocumentSnapshot data in snapshot.data.docs) {
+                works.add(UserWorkModel.fromSnapshot(data));
+              }
               return ListView.builder(
                 itemCount: days.length,
                 itemBuilder: (_, index) {
-                  print(days[index]);
+                  List<UserWorkModel> _dayWorks = [];
+                  for (UserWorkModel _work in works) {
+                    String _started =
+                        DateFormat('yyyy-MM-dd').format(_work.startedAt);
+                    if (days[index] == DateTime.parse(_started)) {
+                      _dayWorks.add(_work);
+                    }
+                  }
                   return CustomHistoryListTile(
-                    day: '${DateFormat('dd (E)', 'ja').format(days[index])}',
-                    started: '',
-                    ended: '',
-                    work: '',
+                    day: days[index],
+                    works: _dayWorks,
+                    onTap: () {
+                      nextScreen(
+                          context, HistoryDetailsScreen(day: days[index]));
+                    },
                   );
                 },
               );
