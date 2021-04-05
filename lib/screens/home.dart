@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.question_answer),
-              label: '申請/承認',
+              label: '各種申請',
             ),
           ],
         ),

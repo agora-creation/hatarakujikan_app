@@ -23,9 +23,10 @@ class CustomHistoryListTile extends StatelessWidget {
         child: ListTile(
           leading: Text('${DateFormat('dd (E)', 'ja').format(day)}'),
           title: works.length > 0
-              ? ListView.builder(
+              ? ListView.separated(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
+                  separatorBuilder: (_, index) => Divider(height: 0.0),
                   itemCount: works.length,
                   itemBuilder: (_, index) {
                     UserWorkModel _work = works[index];
@@ -48,23 +49,21 @@ class CustomHistoryListTile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          _work.startedAt == _work.endedAt
-                              ? Container()
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '退勤',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${DateFormat('HH:mm').format(_work.endedAt)}',
-                                    ),
-                                  ],
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '退勤',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.0,
                                 ),
+                              ),
+                              Text(
+                                '${DateFormat('HH:mm').format(_work.endedAt)}',
+                              ),
+                            ],
+                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

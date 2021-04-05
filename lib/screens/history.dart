@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
-import 'package:hatarakujikan_app/helpers/stream.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
@@ -31,7 +30,6 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   DateTime selectMonth = DateTime.now();
   List<DateTime> days = [];
-  List<UserWorkModel> works = [];
 
   void _generateDays(DateTime month) async {
     days.clear();
@@ -51,12 +49,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _userWorkStream = userWorkStream(
-      userId: widget.user?.id,
-      startAt: days.first,
-      endAt: days.last,
-    );
-
     return Column(
       children: [
         CustomMonthButton(
@@ -77,11 +69,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            stream: _userWorkStream,
+            stream: widget.userWorkProvider.userWorkStream(
+              userId: widget.user?.id,
+              startAt: days.first,
+              endAt: days.last,
+            ),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return SpinKitWidget(size: 32.0);
               }
+              List<UserWorkModel> works = [];
               for (DocumentSnapshot data in snapshot.data.docs) {
                 works.add(UserWorkModel.fromSnapshot(data));
               }

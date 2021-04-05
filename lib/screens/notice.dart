@@ -18,21 +18,14 @@ class NoticeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
+      body: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        children: [
-          Text('お知らせ一覧'),
-          SizedBox(height: 8.0),
-          Divider(height: 1.0, color: Colors.grey),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: (_, index) {
-              return CustomNoticeListTile();
-            },
-          ),
-        ],
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        itemCount: 5,
+        itemBuilder: (_, index) {
+          return CustomNoticeListTile();
+        },
       ),
     );
   }
