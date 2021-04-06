@@ -109,7 +109,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         CustomTotalButton(
           title: '合計時間を確認する',
           onTap: () {
-            overlayScreen(context, TotalScreen());
+            overlayScreen(context, TotalScreen(month: selectMonth));
           },
         ),
       ],

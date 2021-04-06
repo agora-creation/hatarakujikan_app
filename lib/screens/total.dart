@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TotalScreen extends StatelessWidget {
+  final DateTime month;
+
+  TotalScreen({@required this.month});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,7 +14,10 @@ class TotalScreen extends StatelessWidget {
         elevation: 0.0,
         centerTitle: true,
         leading: Container(),
-        title: Text('2021年04月の合計時間', style: TextStyle(color: Colors.white)),
+        title: Text(
+          '${DateFormat('yyyy年MM月').format(month)}の合計時間',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),

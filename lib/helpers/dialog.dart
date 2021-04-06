@@ -39,9 +39,6 @@ class WorkStartDialog extends StatelessWidget {
                   if (!await userWorkProvider.createWorkStart(user: user)) {
                     return;
                   }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('出勤時間を記録しました')),
-                  );
                   userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
