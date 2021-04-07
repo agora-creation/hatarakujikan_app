@@ -21,33 +21,28 @@ class CustomWorkArea extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black38,
-            blurRadius: 3.0,
+            blurRadius: 5.0,
           ),
         ],
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
-        child: ListTile(
-          title: Column(
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(child: topLeft),
-                  SizedBox(width: 8.0),
-                  Expanded(child: topRight),
-                ],
-              ),
-              SizedBox(height: 8.0),
-              Row(
-                children: [
-                  Expanded(child: bottomLeft),
-                  SizedBox(width: 8.0),
-                  Expanded(child: bottomRight),
-                ],
-              ),
+              Expanded(child: topLeft),
+              SizedBox(width: 1.0),
+              Expanded(child: topRight),
             ],
           ),
-        ),
+          SizedBox(height: 1.0),
+          Row(
+            children: [
+              Expanded(child: bottomLeft),
+              SizedBox(width: 1.0),
+              Expanded(child: bottomRight),
+            ],
+          ),
+        ],
       ),
     );
   }

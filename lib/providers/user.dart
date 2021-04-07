@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:location/location.dart';
@@ -188,20 +187,15 @@ class UserProvider with ChangeNotifier {
     return true;
   }
 
-  Future<String> getLocation() async {
-    Location location = new Location();
+  Future<List<String>> getLocation() async {
+    Location location = Location();
     LocationData _locationData = await location.getLocation();
-    Coordinates _coordinates =
-        Coordinates(_locationData.latitude, _locationData.longitude);
-    var _addressList =
-        await Geocoder.local.findAddressesFromCoordinates(_coordinates);
-    var _address = _addressList.first;
     List<String> _location = [
       _locationData.longitude.toString(),
       _locationData.latitude.toString(),
     ];
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setStringList('location', _location);
-    return '${_address.adminArea}${_address.locality}${_address.subLocality}';
+    return _location;
   }
 }

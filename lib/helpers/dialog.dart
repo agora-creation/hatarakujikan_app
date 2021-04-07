@@ -18,12 +18,12 @@ class WorkStartDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: '出勤する',
+      title: '出勤打刻',
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('出勤時間を記録します。'),
+          Text('出勤時間を打刻します。'),
           Text('よろしいですか？'),
           SizedBox(height: 16.0),
           Row(
@@ -67,12 +67,12 @@ class WorkEndDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: '退勤する',
+      title: '退勤',
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('退勤時間を記録します。'),
+          Text('退勤時間を打刻します。'),
           Text('よろしいですか？'),
           SizedBox(height: 16.0),
           Row(

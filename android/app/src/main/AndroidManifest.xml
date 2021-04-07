@@ -3,6 +3,9 @@
    <application
         android:label="はたらくじかん"
         android:icon="@mipmap/launcher_icon">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCsS1-ozieu9hR4YNoMcIJjZEVBb4-uURE"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
