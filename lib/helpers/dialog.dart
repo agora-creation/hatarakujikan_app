@@ -1,28 +1,65 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_dialog.dart';
+import 'package:intl/intl.dart';
 
-class WorkStartDialog extends StatelessWidget {
+class WorkStartDialog extends StatefulWidget {
   final UserModel user;
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
+  final double longitude;
+  final double latitude;
 
   WorkStartDialog({
     @required this.user,
     @required this.userProvider,
     @required this.userWorkProvider,
+    @required this.longitude,
+    @required this.latitude,
   });
+
+  @override
+  _WorkStartDialogState createState() => _WorkStartDialogState();
+}
+
+class _WorkStartDialogState extends State<WorkStartDialog> {
+  String _date = '';
+  String _time = '';
+
+  void _onTimer(Timer timer) {
+    var _now = DateTime.now();
+    var _dateText = DateFormat('yyyy/MM/dd (E)', 'ja').format(_now);
+    var _timeText = DateFormat('HH:mm:ss').format(_now);
+    if (mounted) {
+      setState(() {
+        _date = _dateText;
+        _time = _timeText;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 1), _onTimer);
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: '出勤打刻',
+      title: '出勤',
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(child: Text(_date, style: kDateTextStyle)),
+          Center(child: Text(_time, style: kTimeTextStyle)),
+          SizedBox(height: 8.0),
           Text('出勤時間を打刻します。'),
           Text('よろしいですか？'),
           SizedBox(height: 16.0),
@@ -36,10 +73,13 @@ class WorkStartDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.createWorkStart(user: user)) {
+                  if (!await widget.userWorkProvider.createWorkStart(
+                      user: widget.user,
+                      longitude: widget.longitude,
+                      latitude: widget.latitude)) {
                     return;
                   }
-                  userProvider.reloadUserModel();
+                  widget.userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
@@ -53,16 +93,46 @@ class WorkStartDialog extends StatelessWidget {
   }
 }
 
-class WorkEndDialog extends StatelessWidget {
+class WorkEndDialog extends StatefulWidget {
   final UserModel user;
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
+  final double longitude;
+  final double latitude;
 
   WorkEndDialog({
     @required this.user,
     @required this.userProvider,
     @required this.userWorkProvider,
+    @required this.longitude,
+    @required this.latitude,
   });
+
+  @override
+  _WorkEndDialogState createState() => _WorkEndDialogState();
+}
+
+class _WorkEndDialogState extends State<WorkEndDialog> {
+  String _date = '';
+  String _time = '';
+
+  void _onTimer(Timer timer) {
+    var _now = DateTime.now();
+    var _dateText = DateFormat('yyyy/MM/dd (E)', 'ja').format(_now);
+    var _timeText = DateFormat('HH:mm:ss').format(_now);
+    if (mounted) {
+      setState(() {
+        _date = _dateText;
+        _time = _timeText;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 1), _onTimer);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +142,9 @@ class WorkEndDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(child: Text(_date, style: kDateTextStyle)),
+          Center(child: Text(_time, style: kTimeTextStyle)),
+          SizedBox(height: 8.0),
           Text('退勤時間を打刻します。'),
           Text('よろしいですか？'),
           SizedBox(height: 16.0),
@@ -85,100 +158,17 @@ class WorkEndDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.updateWorkEnd(user: user)) {
+                  if (!await widget.userWorkProvider.updateWorkEnd(
+                      user: widget.user,
+                      longitude: widget.longitude,
+                      latitude: widget.latitude)) {
                     return;
                   }
-                  userProvider.reloadUserModel();
+                  widget.userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(backgroundColor: Colors.red),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class WorkBreakStartDialog extends StatelessWidget {
-  final UserModel user;
-  final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
-
-  WorkBreakStartDialog({
-    @required this.user,
-    @required this.userProvider,
-    @required this.userWorkProvider,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomDialog(
-      title: '休憩する',
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('休憩時間を記録します。'),
-          Text('よろしいですか？'),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('いいえ', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.orange),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class WorkBreakEndDialog extends StatelessWidget {
-  final UserModel user;
-  final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
-
-  WorkBreakEndDialog({
-    @required this.user,
-    @required this.userProvider,
-    @required this.userWorkProvider,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomDialog(
-      title: '休憩をやめる',
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('休憩時間を記録します。'),
-          Text('よろしいですか？'),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('いいえ', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.orange),
               ),
             ],
           ),

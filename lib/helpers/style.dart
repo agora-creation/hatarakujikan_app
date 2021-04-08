@@ -53,11 +53,11 @@ const TextStyle kSubTitleTextStyle = TextStyle(
 );
 
 const TextStyle kDateTextStyle = TextStyle(
-  fontSize: 24.0,
+  fontSize: 18.0,
 );
 
 const TextStyle kTimeTextStyle = TextStyle(
-  fontSize: 40.0,
+  fontSize: 24.0,
   fontWeight: FontWeight.bold,
-  letterSpacing: 8.0,
+  letterSpacing: 4.0,
 );

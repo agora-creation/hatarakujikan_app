@@ -4,26 +4,24 @@ import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:hatarakujikan_app/services/user_work.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserWorkProvider with ChangeNotifier {
   UserService _userService = UserService();
   UserWorkService _userWorkService = UserWorkService();
 
-  Future<bool> createWorkStart({UserModel user}) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+  Future<bool> createWorkStart(
+      {UserModel user, double longitude, double latitude}) async {
     try {
-      List<String> _location = _prefs.getStringList('location');
       String id = _userWorkService.newId(userId: user.id);
       _userWorkService.create({
         'id': id,
         'userId': user.id,
         'startedAt': DateTime.now(),
-        'startedLon': double.parse(_location.first),
-        'startedLat': double.parse(_location.last),
+        'startedLon': longitude,
+        'startedLat': latitude,
         'endedAt': DateTime.now(),
-        'endedLon': double.parse(_location.first),
-        'endedLat': double.parse(_location.last),
+        'endedLon': longitude,
+        'endedLat': latitude,
         'breaks': [],
         'createdAt': DateTime.now(),
       });
@@ -38,16 +36,15 @@ class UserWorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateWorkEnd({UserModel user}) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+  Future<bool> updateWorkEnd(
+      {UserModel user, double longitude, double latitude}) async {
     try {
-      List<String> _location = _prefs.getStringList('location');
       _userWorkService.update({
         'id': user.workId,
         'userId': user.id,
         'endedAt': DateTime.now(),
-        'endedLon': double.parse(_location.first),
-        'endedLat': double.parse(_location.last),
+        'endedLon': longitude,
+        'endedLat': latitude,
       });
       _userService.update({
         'id': user.id,

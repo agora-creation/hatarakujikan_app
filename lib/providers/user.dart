@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:location/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -194,8 +193,6 @@ class UserProvider with ChangeNotifier {
       _locationData.longitude.toString(),
       _locationData.latitude.toString(),
     ];
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.setStringList('location', _location);
     return _location;
   }
 }

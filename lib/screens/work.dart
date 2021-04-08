@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/helpers/dialog.dart';
@@ -7,7 +5,7 @@ import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_work_area.dart';
-import 'package:intl/intl.dart';
+import 'package:hatarakujikan_app/widgets/spin_kit.dart';
 
 class WorkScreen extends StatefulWidget {
   final UserModel user;
@@ -26,26 +24,19 @@ class WorkScreen extends StatefulWidget {
 
 class _WorkScreenState extends State<WorkScreen> {
   GoogleMapController mapController;
-  List<String> _location;
-  String _date = '';
-  String _time = '';
+  double _longitude;
+  double _latitude;
 
-  void _onTimer(Timer timer) {
-    var _now = DateTime.now();
-    var _dateText = DateFormat('yyyy/MM/dd (E)', 'ja').format(_now);
-    var _timeText = DateFormat('HH:mm:ss').format(_now);
-    if (mounted) {
-      setState(() {
-        _date = _dateText;
-        _time = _timeText;
-      });
-    }
-  }
-
-  void _checkLocation() async {
+  void _init() async {
     bool isGetLocation = await widget.userProvider.checkLocation();
     if (isGetLocation) {
-      _location = await widget.userProvider.getLocation();
+      List<String> _location = await widget.userProvider.getLocation();
+      if (_location != null) {
+        setState(() {
+          _longitude = double.parse(_location.first);
+          _latitude = double.parse(_location.last);
+        });
+      }
     } else {
       showDialog(
         context: context,
@@ -63,69 +54,29 @@ class _WorkScreenState extends State<WorkScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer.periodic(Duration(seconds: 1), _onTimer);
-    _checkLocation();
+    _init();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double _deviceWidth = MediaQuery.of(context).size.width;
-    Color _workStatusColor = Colors.grey;
-    if (widget.user?.workId == '' && widget.user?.breaksId == '') {
-      _workStatusColor = Colors.grey;
-    } else if (widget.user?.workId != '' && widget.user?.breaksId == '') {
-      _workStatusColor = Colors.blue;
-    } else if (widget.user?.workId != '' && widget.user?.breaksId != '') {
-      _workStatusColor = Colors.orange;
-    }
-
     return Column(
       children: [
         Expanded(
           child: Container(
             height: double.infinity,
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(33.558271, 133.551724),
-                zoom: 17.0,
-              ),
-              compassEnabled: false,
-              rotateGesturesEnabled: false,
-              tiltGesturesEnabled: false,
-              myLocationEnabled: true,
-            ),
-
-            // Center(
-            //   child: SingleChildScrollView(
-            //     padding: EdgeInsets.symmetric(horizontal: 24.0),
-            //     child: Container(
-            //       width: _deviceWidth,
-            //       height: _deviceWidth,
-            //       decoration: BoxDecoration(
-            //         shape: BoxShape.circle,
-            //         border: Border.all(color: _workStatusColor, width: 8.0),
-            //         color: _workStatusColor.withOpacity(0.3),
-            //       ),
-            //       child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           Text(_date, style: kDateTextStyle),
-            //           Text(_time, style: kTimeTextStyle),
-            //           SizedBox(height: 8.0),
-            //           Text(
-            //             _location,
-            //             style: TextStyle(
-            //               color: Colors.black38,
-            //               fontSize: 16.0,
-            //               fontWeight: FontWeight.bold,
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            child: _longitude != null && _latitude != null
+                ? GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_latitude, _longitude),
+                      zoom: 17.0,
+                    ),
+                    compassEnabled: false,
+                    rotateGesturesEnabled: false,
+                    tiltGesturesEnabled: false,
+                    myLocationEnabled: true,
+                  )
+                : SpinKitWidget(size: 32.0),
           ),
         ),
         CustomWorkArea(
@@ -138,6 +89,8 @@ class _WorkScreenState extends State<WorkScreen> {
                         user: widget.user,
                         userProvider: widget.userProvider,
                         userWorkProvider: widget.userWorkProvider,
+                        longitude: _longitude,
+                        latitude: _latitude,
                       ),
                     );
                   },
@@ -207,16 +160,7 @@ class _WorkScreenState extends State<WorkScreen> {
                 ),
           bottomLeft: widget.user?.workId != '' && widget.user?.breaksId == ''
               ? TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => WorkBreakStartDialog(
-                        user: widget.user,
-                        userProvider: widget.userProvider,
-                        userWorkProvider: widget.userWorkProvider,
-                      ),
-                    );
-                  },
+                  onPressed: () {},
                   child: Text(
                     '休憩開始',
                     style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -245,16 +189,7 @@ class _WorkScreenState extends State<WorkScreen> {
                 ),
           bottomRight: widget.user?.workId != '' && widget.user?.breaksId != ''
               ? TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => WorkBreakEndDialog(
-                        user: widget.user,
-                        userProvider: widget.userProvider,
-                        userWorkProvider: widget.userWorkProvider,
-                      ),
-                    );
-                  },
+                  onPressed: () {},
                   child: Text(
                     '休憩終了',
                     style: TextStyle(color: Colors.orange, fontSize: 16.0),
