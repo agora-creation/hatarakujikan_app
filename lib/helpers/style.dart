@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: Color(0xFFF5F5F5),
+    scaffoldBackgroundColor: Color(0xFFFEFFFA),
     fontFamily: 'NotoSansJP',
     appBarTheme: AppBarTheme(
       color: Colors.white,
@@ -44,11 +44,13 @@ const BoxDecoration kBottomBorderDecoration = BoxDecoration(
 );
 
 const TextStyle kTitleTextStyle = TextStyle(
+  color: Color(0xFF0097A7),
   fontSize: 32.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle kSubTitleTextStyle = TextStyle(
+  color: Color(0xFF0097A7),
   fontSize: 16.0,
 );
 

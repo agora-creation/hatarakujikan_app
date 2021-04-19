@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
 class UserPasswordScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class UserPasswordScreen extends StatelessWidget {
         title: Text('パスワード再設定'),
       ),
       body: userProvider.isLoading
-          ? SpinKitWidget(size: 32.0)
+          ? Loading(size: 32.0)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [

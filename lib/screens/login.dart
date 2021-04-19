@@ -6,8 +6,8 @@ import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
           child: Container(
             height: double.infinity,
             child: userProvider.status == Status.Authenticating
-                ? SpinKitWidget(size: 32.0)
+                ? Loading(size: 32.0)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding:
@@ -97,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                             child: Text(
                               '初めての方はココをタップ',
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.cyan.shade700,
                                 decoration: TextDecoration.underline,
                               ),
                             ),

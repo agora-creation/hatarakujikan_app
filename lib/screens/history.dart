@@ -10,7 +10,7 @@ import 'package:hatarakujikan_app/screens/total.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_month_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_total_button.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -76,7 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return SpinKitWidget(size: 32.0);
+                return Loading(size: 32.0);
               }
               List<UserWorkModel> works = [];
               for (DocumentSnapshot data in snapshot.data.docs) {

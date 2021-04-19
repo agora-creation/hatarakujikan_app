@@ -5,7 +5,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
-import 'package:hatarakujikan_app/screens/login.dart';
+import 'package:hatarakujikan_app/screens/intro.dart';
 import 'package:hatarakujikan_app/screens/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -50,11 +50,11 @@ class SplashController extends StatelessWidget {
         return SplashScreen();
       case Status.Unauthenticated:
       case Status.Authenticating:
-        return LoginScreen();
+        return IntroScreen();
       case Status.Authenticated:
         return HomeScreen();
       default:
-        return LoginScreen();
+        return IntroScreen();
     }
   }
 }

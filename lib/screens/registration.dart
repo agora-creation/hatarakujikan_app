@@ -4,9 +4,10 @@ import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
+import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class RegistrationScreen extends StatelessWidget {
           child: Container(
             height: double.infinity,
             child: userProvider.status == Status.Authenticating
-                ? SpinKitWidget(size: 32.0)
+                ? Loading(size: 32.0)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding:
@@ -114,12 +115,12 @@ class RegistrationScreen extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               userProvider.clearController();
-                              Navigator.pop(context);
+                              nextScreen(context, LoginScreen());
                             },
                             child: Text(
                               '登録済みの方はココをタップ',
                               style: TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.cyan.shade700,
                                 decoration: TextDecoration.underline,
                               ),
                             ),

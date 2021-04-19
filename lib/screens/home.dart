@@ -4,9 +4,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
-import 'package:hatarakujikan_app/screens/apply.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
-import 'package:hatarakujikan_app/screens/notice.dart';
 import 'package:hatarakujikan_app/screens/setting.dart';
 import 'package:hatarakujikan_app/screens/work.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
         user: _user,
         userWorkProvider: userWorkProvider,
       ),
-      ApplyScreen(),
     ];
 
     return Scaffold(
@@ -42,9 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         title: Text(_user?.name ?? ''),
         actions: [
+          // IconButton(
+          //   onPressed: () => overlayScreen(context, NoticeScreen()),
+          //   icon: Icon(Icons.notifications),
+          // ),
           IconButton(
-            onPressed: () => overlayScreen(context, NoticeScreen()),
-            icon: Icon(Icons.notifications),
+            onPressed: () {},
+            icon: Icon(Icons.group),
           ),
           IconButton(
             onPressed: () => overlayScreen(context, SettingScreen()),
@@ -57,13 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: kNavigationDecoration,
         child: BottomNavigationBar(
           onTap: (index) {
-            setState(() {
-              _tabsIndex = index;
-            });
+            setState(() => _tabsIndex = index);
           },
           backgroundColor: Colors.white,
           currentIndex: _tabsIndex,
-          fixedColor: Colors.blue,
+          fixedColor: Colors.cyan.shade700,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
@@ -73,10 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.history),
               label: '打刻履歴',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.question_answer),
-              label: '各種申請',
             ),
           ],
         ),

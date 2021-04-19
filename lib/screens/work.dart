@@ -5,7 +5,7 @@ import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_work_area.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class WorkScreen extends StatefulWidget {
   final UserModel user;
@@ -76,7 +76,7 @@ class _WorkScreenState extends State<WorkScreen> {
                     tiltGesturesEnabled: false,
                     myLocationEnabled: true,
                   )
-                : SpinKitWidget(size: 32.0),
+                : Loading(size: 32.0),
           ),
         ),
         CustomWorkArea(

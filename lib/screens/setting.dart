@@ -6,8 +6,8 @@ import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
 import 'package:hatarakujikan_app/screens/user_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
 import 'package:provider/provider.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -30,7 +30,7 @@ class SettingScreen extends StatelessWidget {
         ],
       ),
       body: userProvider.isLoading
-          ? SpinKitWidget(size: 32.0)
+          ? Loading(size: 32.0)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [

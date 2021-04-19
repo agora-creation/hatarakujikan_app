@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
-import 'package:hatarakujikan_app/widgets/spin_kit.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 32.0),
-                SpinKitWidget(size: 32),
+                Loading(size: 32),
               ],
             ),
           ),
