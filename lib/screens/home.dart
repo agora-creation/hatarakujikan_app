@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
-import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
@@ -20,16 +19,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    UserModel _user = userProvider.user;
     final userWorkProvider = Provider.of<UserWorkProvider>(context);
     final List<Widget> _tabs = [
       WorkScreen(
-        user: _user,
         userProvider: userProvider,
         userWorkProvider: userWorkProvider,
       ),
       HistoryScreen(
-        user: _user,
+        userProvider: userProvider,
         userWorkProvider: userWorkProvider,
       ),
     ];
@@ -37,12 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(_user?.name ?? ''),
+        title: Text(userProvider.user?.name ?? ''),
         actions: [
-          // IconButton(
-          //   onPressed: () => overlayScreen(context, NoticeScreen()),
-          //   icon: Icon(Icons.notifications),
-          // ),
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.group),
@@ -70,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'ホーム',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history),
+              icon: Icon(Icons.list_alt),
               label: '打刻履歴',
             ),
           ],

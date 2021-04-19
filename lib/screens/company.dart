@@ -13,7 +13,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
         title: Text('開発/運営会社'),

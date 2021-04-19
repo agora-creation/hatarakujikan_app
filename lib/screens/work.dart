@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/helpers/dialog.dart';
-import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_work_area.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class WorkScreen extends StatefulWidget {
-  final UserModel user;
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
 
   WorkScreen({
-    @required this.user,
     @required this.userProvider,
     @required this.userWorkProvider,
   });
@@ -80,13 +77,13 @@ class _WorkScreenState extends State<WorkScreen> {
           ),
         ),
         CustomWorkArea(
-          topLeft: widget.user?.workId == '' && widget.user?.breaksId == ''
+          topLeft: widget.userProvider.user?.workId == '' &&
+                  widget.userProvider.user?.breaksId == ''
               ? TextButton(
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (_) => WorkStartDialog(
-                        user: widget.user,
                         userProvider: widget.userProvider,
                         userWorkProvider: widget.userWorkProvider,
                         longitude: _longitude,
@@ -120,15 +117,18 @@ class _WorkScreenState extends State<WorkScreen> {
                     padding: EdgeInsets.all(16.0),
                   ),
                 ),
-          topRight: widget.user?.workId != '' && widget.user?.breaksId == ''
+          topRight: widget.userProvider.user?.workId != '' &&
+                  widget.userProvider.user?.breaksId == ''
               ? TextButton(
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (_) => WorkEndDialog(
-                        user: widget.user,
+                        user: widget.userProvider.user,
                         userProvider: widget.userProvider,
                         userWorkProvider: widget.userWorkProvider,
+                        longitude: _longitude,
+                        latitude: _latitude,
                       ),
                     );
                   },
@@ -158,7 +158,8 @@ class _WorkScreenState extends State<WorkScreen> {
                     padding: EdgeInsets.all(16.0),
                   ),
                 ),
-          bottomLeft: widget.user?.workId != '' && widget.user?.breaksId == ''
+          bottomLeft: widget.userProvider.user?.workId != '' &&
+                  widget.userProvider.user?.breaksId == ''
               ? TextButton(
                   onPressed: () {},
                   child: Text(
@@ -187,7 +188,8 @@ class _WorkScreenState extends State<WorkScreen> {
                     padding: EdgeInsets.all(16.0),
                   ),
                 ),
-          bottomRight: widget.user?.workId != '' && widget.user?.breaksId != ''
+          bottomRight: widget.userProvider.user?.workId != '' &&
+                  widget.userProvider.user?.breaksId != ''
               ? TextButton(
                   onPressed: () {},
                   child: Text(

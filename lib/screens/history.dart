@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
-import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:hatarakujikan_app/screens/total.dart';
@@ -15,11 +15,11 @@ import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class HistoryScreen extends StatefulWidget {
-  final UserModel user;
+  final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
 
   HistoryScreen({
-    @required this.user,
+    @required this.userProvider,
     @required this.userWorkProvider,
   });
 
@@ -70,7 +70,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: widget.userWorkProvider.userWorkStream(
-              userId: widget.user?.id,
+              userId: widget.userProvider.user?.id,
               startAt: days.first,
               endAt: days.last,
             ),
@@ -97,8 +97,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     day: days[index],
                     works: _dayWorks,
                     onTap: () {
-                      nextScreen(
-                          context, HistoryDetailsScreen(day: days[index]));
+                      nextScreen(context,
+                          HistoryDetailsScreen(day: days[index], works: []));
                     },
                   );
                 },

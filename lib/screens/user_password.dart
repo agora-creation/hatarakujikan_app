@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
-import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
+import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
 
 class UserPasswordScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class UserPasswordScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
         title: Text('パスワード再設定'),

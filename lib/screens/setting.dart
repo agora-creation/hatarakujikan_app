@@ -17,7 +17,7 @@ class SettingScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
         leading: Container(),
