@@ -57,7 +57,6 @@ class CustomWorkButton extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFFEFFFA),
                             fontSize: 16.0,
-                            decoration: TextDecoration.lineThrough,
                           ),
                         ),
                         style: TextButton.styleFrom(
@@ -96,7 +95,6 @@ class CustomWorkButton extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFFEFFFA),
                             fontSize: 16.0,
-                            decoration: TextDecoration.lineThrough,
                           ),
                         ),
                         style: TextButton.styleFrom(
@@ -139,7 +137,6 @@ class CustomWorkButton extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFFEFFFA),
                             fontSize: 16.0,
-                            decoration: TextDecoration.lineThrough,
                           ),
                         ),
                         style: TextButton.styleFrom(
@@ -179,7 +176,6 @@ class CustomWorkButton extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFFEFFFA),
                             fontSize: 16.0,
-                            decoration: TextDecoration.lineThrough,
                           ),
                         ),
                         style: TextButton.styleFrom(
