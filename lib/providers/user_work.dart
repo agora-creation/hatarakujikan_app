@@ -17,17 +17,18 @@ class UserWorkProvider with ChangeNotifier {
         'id': id,
         'userId': user.id,
         'startedAt': DateTime.now(),
-        'startedLon': longitude,
         'startedLat': latitude,
+        'startedLon': longitude,
         'endedAt': DateTime.now(),
-        'endedLon': longitude,
         'endedLat': latitude,
+        'endedLon': longitude,
         'breaks': [],
         'createdAt': DateTime.now(),
       });
       _userService.update({
         'id': user.id,
-        'workId': id,
+        'workLv': 1,
+        'lastWorkId': id,
       });
       return true;
     } catch (e) {
@@ -40,15 +41,16 @@ class UserWorkProvider with ChangeNotifier {
       {UserModel user, double longitude, double latitude}) async {
     try {
       _userWorkService.update({
-        'id': user.workId,
+        'id': user.lastWorkId,
         'userId': user.id,
         'endedAt': DateTime.now(),
-        'endedLon': longitude,
         'endedLat': latitude,
+        'endedLon': longitude,
       });
       _userService.update({
         'id': user.id,
-        'workId': '',
+        'workLv': 0,
+        'lastWorkId': '',
       });
       return true;
     } catch (e) {

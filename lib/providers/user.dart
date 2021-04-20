@@ -79,12 +79,12 @@ class UserProvider with ChangeNotifier {
           .then((value) {
         _userService.create({
           'id': value.user.uid,
-          'workId': '',
-          'breaksId': '',
           'name': name.text.trim(),
           'email': email.text.trim(),
           'password': password.text.trim(),
-          'admin': false,
+          'workLv': 0,
+          'lastWorkId': '',
+          'lastBreaksId': '',
           'createdAt': DateTime.now(),
         });
       });

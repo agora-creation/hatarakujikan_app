@@ -5,7 +5,7 @@ ThemeData theme() {
     scaffoldBackgroundColor: Color(0xFFFEFFFA),
     fontFamily: 'NotoSansJP',
     appBarTheme: AppBarTheme(
-      color: Colors.white,
+      color: Color(0xFFFEFFFA),
       elevation: 5.0,
       centerTitle: false,
       brightness: Brightness.light,
@@ -52,14 +52,4 @@ const TextStyle kTitleTextStyle = TextStyle(
 const TextStyle kSubTitleTextStyle = TextStyle(
   color: Color(0xFF0097A7),
   fontSize: 16.0,
-);
-
-const TextStyle kDateTextStyle = TextStyle(
-  fontSize: 18.0,
-);
-
-const TextStyle kTimeTextStyle = TextStyle(
-  fontSize: 24.0,
-  fontWeight: FontWeight.bold,
-  letterSpacing: 4.0,
 );
