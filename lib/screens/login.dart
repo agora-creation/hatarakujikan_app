@@ -78,9 +78,7 @@ class LoginScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await userProvider.signIn()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('ログインに失敗しました')),
-                              );
+                              //ログインに失敗しました。
                               return;
                             }
                             userProvider.clearController();
@@ -95,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                               nextScreen(context, RegistrationScreen());
                             },
                             child: Text(
-                              '初めての方はココをタップ',
+                              '初めての方は登録から',
                               style: TextStyle(
                                 color: Colors.cyan.shade700,
                                 decoration: TextDecoration.underline,

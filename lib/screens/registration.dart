@@ -118,7 +118,7 @@ class RegistrationScreen extends StatelessWidget {
                               nextScreen(context, LoginScreen());
                             },
                             child: Text(
-                              '登録済みの方はココをタップ',
+                              '登録済みの方はログインから',
                               style: TextStyle(
                                 color: Colors.cyan.shade700,
                                 decoration: TextDecoration.underline,
