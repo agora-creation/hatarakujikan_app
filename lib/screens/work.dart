@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hatarakujikan_app/helpers/dialog.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
-import 'package:hatarakujikan_app/widgets/custom_work_button.dart';
+import 'package:hatarakujikan_app/screens/work_button.dart';
+import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class WorkScreen extends StatefulWidget {
@@ -21,23 +21,27 @@ class WorkScreen extends StatefulWidget {
 
 class _WorkScreenState extends State<WorkScreen> {
   GoogleMapController mapController;
-  double _longitude;
-  double _latitude;
+  List<double> locations;
 
   void _init() async {
     bool isGetLocation = await widget.userProvider.checkLocation();
     if (isGetLocation) {
-      List<String> _location = await widget.userProvider.getLocation();
-      if (_location != null) {
+      List<String> _locations = await widget.userProvider.getLocation();
+      if (_locations != null) {
         setState(() {
-          _longitude = double.parse(_location.first);
-          _latitude = double.parse(_location.last);
+          locations = [
+            double.parse(_locations.first),
+            double.parse(_locations.last),
+          ];
         });
       }
     } else {
       showDialog(
+        barrierDismissible: false,
         context: context,
-        builder: (_) => LocationDialog(),
+        builder: (_) => ErrorMessage(
+          message: '位置情報の取得に失敗しました。お使いのスマートフォンの設定から位置情報の取得を許可してください。',
+        ),
       );
     }
   }
@@ -61,11 +65,11 @@ class _WorkScreenState extends State<WorkScreen> {
         Expanded(
           child: Container(
             height: double.infinity,
-            child: _longitude != null && _latitude != null
+            child: locations != null
                 ? GoogleMap(
                     onMapCreated: _onMapCreated,
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(_latitude, _longitude),
+                      target: LatLng(locations.first, locations.last),
                       zoom: 17.0,
                     ),
                     compassEnabled: false,
@@ -76,11 +80,10 @@ class _WorkScreenState extends State<WorkScreen> {
                 : Loading(size: 32.0),
           ),
         ),
-        CustomWorkButton(
+        WorkButton(
           userProvider: widget.userProvider,
           userWorkProvider: widget.userWorkProvider,
-          latitude: _latitude,
-          longitude: _longitude,
+          locations: locations,
         ),
       ],
     );

@@ -189,10 +189,10 @@ class UserProvider with ChangeNotifier {
   Future<List<String>> getLocation() async {
     Location location = Location();
     LocationData _locationData = await location.getLocation();
-    List<String> _location = [
-      _locationData.longitude.toString(),
+    List<String> _locations = [
       _locationData.latitude.toString(),
+      _locationData.longitude.toString(),
     ];
-    return _location;
+    return _locations;
   }
 }

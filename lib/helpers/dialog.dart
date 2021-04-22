@@ -56,29 +56,3 @@ class WorkStartDialog extends StatelessWidget {
     );
   }
 }
-
-class LocationDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CustomDialog(
-      title: '位置情報エラー',
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('位置情報がうまく取得できませんでした。'),
-          Text('お使いのスマートフォンの設定から位置情報の取得を許可してください。'),
-          SizedBox(height: 16.0),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('閉じる', style: TextStyle(color: Colors.white)),
-              style: TextButton.styleFrom(backgroundColor: Colors.grey),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

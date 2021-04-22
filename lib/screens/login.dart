@@ -78,32 +78,15 @@ class LoginScreen extends StatelessWidget {
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
-                            showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (_) => ErrorMessage(
-                                message: 'エラー',
-                                buttons: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text('キャンセル',
-                                        style: TextStyle(color: Colors.white)),
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: Colors.grey),
-                                  ),
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text('はい',
-                                        style: TextStyle(color: Colors.white)),
-                                    style: TextButton.styleFrom(
-                                        backgroundColor: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            );
-                            return;
                             if (!await userProvider.signIn()) {
-                              //ログインに失敗しました。
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => ErrorMessage(
+                                  message:
+                                      'ログインに失敗しました。メールアドレスもしくはパスワードが間違っている可能性があります。',
+                                ),
+                              );
                               return;
                             }
                             userProvider.clearController();

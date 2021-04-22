@@ -6,6 +6,7 @@ import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
+import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
 import 'package:provider/provider.dart';
@@ -101,8 +102,12 @@ class RegistrationScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await userProvider.signUp()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('登録に失敗しました')),
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => ErrorMessage(
+                                  message: '登録に失敗しました。再度入力内容をご確認ください。',
+                                ),
                               );
                               return;
                             }

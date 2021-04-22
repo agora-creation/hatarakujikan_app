@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 
-class CustomWorkButton extends StatelessWidget {
+class WorkButton extends StatelessWidget {
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
-  final double latitude;
-  final double longitude;
+  final List<double> locations;
 
-  CustomWorkButton({
-    this.userProvider,
-    this.userWorkProvider,
-    this.latitude,
-    this.longitude,
+  WorkButton({
+    @required this.userProvider,
+    @required this.userWorkProvider,
+    @required this.locations,
   });
 
   @override
@@ -34,7 +32,13 @@ class CustomWorkButton extends StatelessWidget {
               Expanded(
                 child: userProvider.user?.workLv == 0
                     ? TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => WorkDialog(),
+                          );
+                        },
                         child: Text(
                           '出勤',
                           style: TextStyle(
@@ -186,6 +190,65 @@ class CustomWorkButton extends StatelessWidget {
                           padding: EdgeInsets.all(16.0),
                         ),
                       ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class WorkDialog extends StatefulWidget {
+  @override
+  _WorkDialogState createState() => _WorkDialogState();
+}
+
+class _WorkDialogState extends State<WorkDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.timer,
+                color: Colors.blue,
+                size: 40.0,
+              ),
+              SizedBox(width: 8.0),
+              Icon(
+                Icons.arrow_right_alt,
+                color: Colors.blue,
+                size: 40.0,
+              ),
+              SizedBox(width: 8.0),
+              Icon(
+                Icons.list_alt,
+                color: Colors.blue,
+                size: 40.0,
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          Text('出勤時間を記録します。よろしいですか？'),
+          SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('はい', style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(backgroundColor: Colors.blue),
               ),
             ],
           ),
