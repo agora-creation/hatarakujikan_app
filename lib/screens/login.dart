@@ -6,6 +6,7 @@ import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
+import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
@@ -77,6 +78,30 @@ class LoginScreen extends StatelessWidget {
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => ErrorMessage(
+                                message: 'エラー',
+                                buttons: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('キャンセル',
+                                        style: TextStyle(color: Colors.white)),
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: Colors.grey),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('はい',
+                                        style: TextStyle(color: Colors.white)),
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            );
+                            return;
                             if (!await userProvider.signIn()) {
                               //ログインに失敗しました。
                               return;
