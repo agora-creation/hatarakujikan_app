@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
+import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
@@ -59,14 +60,15 @@ class UserPasswordScreen extends StatelessWidget {
                     userProvider.changeLoading();
                     if (!await userProvider.updatePassword()) {
                       userProvider.changeLoading();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('変更に失敗しました')),
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (_) => ErrorMessage(
+                          message: '変更に失敗しました。',
+                        ),
                       );
                       return;
                     }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('変更に成功しました')),
-                    );
                     userProvider.clearController();
                     userProvider.reloadUserModel();
                     userProvider.changeLoading();

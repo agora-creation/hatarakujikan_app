@@ -36,16 +36,7 @@ class WorkStartDialog extends StatelessWidget {
                 style: TextButton.styleFrom(backgroundColor: Colors.grey),
               ),
               TextButton(
-                onPressed: () async {
-                  if (!await userWorkProvider.createWorkStart(
-                      user: userProvider.user,
-                      longitude: longitude,
-                      latitude: latitude)) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
+                onPressed: () async {},
                 child: Text('はい', style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(backgroundColor: Colors.blue),
               ),

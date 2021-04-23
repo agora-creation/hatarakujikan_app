@@ -9,19 +9,18 @@ class UserWorkProvider with ChangeNotifier {
   UserService _userService = UserService();
   UserWorkService _userWorkService = UserWorkService();
 
-  Future<bool> createWorkStart(
-      {UserModel user, double longitude, double latitude}) async {
+  Future<bool> workStart({UserModel user, List<double> locations}) async {
     try {
       String id = _userWorkService.newId(userId: user.id);
       _userWorkService.create({
         'id': id,
         'userId': user.id,
         'startedAt': DateTime.now(),
-        'startedLat': latitude,
-        'startedLon': longitude,
+        'startedLat': locations.first,
+        'startedLon': locations.last,
         'endedAt': DateTime.now(),
-        'endedLat': latitude,
-        'endedLon': longitude,
+        'endedLat': locations.first,
+        'endedLon': locations.first,
         'breaks': [],
         'createdAt': DateTime.now(),
       });
@@ -37,21 +36,32 @@ class UserWorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateWorkEnd(
-      {UserModel user, double longitude, double latitude}) async {
+  Future<bool> workEnd({UserModel user, List<double> locations}) async {
     try {
       _userWorkService.update({
         'id': user.lastWorkId,
         'userId': user.id,
         'endedAt': DateTime.now(),
-        'endedLat': latitude,
-        'endedLon': longitude,
+        'endedLat': locations.first,
+        'endedLon': locations.last,
       });
       _userService.update({
         'id': user.id,
         'workLv': 0,
         'lastWorkId': '',
       });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> breaksStart({UserModel user, List<double> locations}) async {
+    try {
+      List<Map> _breaks = [];
+      _breaks.add({});
+
       return true;
     } catch (e) {
       print(e.toString());
