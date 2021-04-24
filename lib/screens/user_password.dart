@@ -4,13 +4,21 @@ import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:provider/provider.dart';
 
-class UserPasswordScreen extends StatelessWidget {
+class UserPasswordScreen extends StatefulWidget {
+  final UserProvider userProvider;
+
+  UserPasswordScreen({@required this.userProvider});
+
+  @override
+  _UserPasswordScreenState createState() => _UserPasswordScreenState();
+}
+
+class _UserPasswordScreenState extends State<UserPasswordScreen> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFEFFFA),
@@ -18,36 +26,36 @@ class UserPasswordScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('パスワード再設定'),
       ),
-      body: userProvider.isLoading
+      body: _isLoading
           ? Loading(size: 32.0)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
                 SizedBox(height: 16.0),
                 CustomTextFormField(
-                  controller: userProvider.password,
-                  obscureText: userProvider.isHidden ? false : true,
+                  controller: widget.userProvider.password,
+                  obscureText: widget.userProvider.isHidden ? false : true,
                   textInputType: null,
                   maxLines: 1,
                   labelText: '新しいパスワード',
                   prefixIconData: Icons.lock,
-                  suffixIconData: userProvider.isHidden
+                  suffixIconData: widget.userProvider.isHidden
                       ? Icons.visibility
                       : Icons.visibility_off,
-                  onTap: () => userProvider.changeHidden(),
+                  onTap: () => widget.userProvider.changeHidden(),
                 ),
                 SizedBox(height: 16.0),
                 CustomTextFormField(
-                  controller: userProvider.rePassword,
-                  obscureText: userProvider.isReHidden ? false : true,
+                  controller: widget.userProvider.rePassword,
+                  obscureText: widget.userProvider.isReHidden ? false : true,
                   textInputType: null,
                   maxLines: 1,
                   labelText: '新しいパスワードの再入力',
                   prefixIconData: Icons.lock_outline,
-                  suffixIconData: userProvider.isReHidden
+                  suffixIconData: widget.userProvider.isReHidden
                       ? Icons.visibility
                       : Icons.visibility_off,
-                  onTap: () => userProvider.changeReHidden(),
+                  onTap: () => widget.userProvider.changeReHidden(),
                 ),
                 SizedBox(height: 24.0),
                 RoundBackgroundButton(
@@ -57,9 +65,9 @@ class UserPasswordScreen extends StatelessWidget {
                   labelFontSize: 16.0,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () async {
-                    userProvider.changeLoading();
-                    if (!await userProvider.updatePassword()) {
-                      userProvider.changeLoading();
+                    setState(() => _isLoading = true);
+                    if (!await widget.userProvider.updatePassword()) {
+                      setState(() => _isLoading = false);
                       showDialog(
                         barrierDismissible: false,
                         context: context,
@@ -69,9 +77,9 @@ class UserPasswordScreen extends StatelessWidget {
                       );
                       return;
                     }
-                    userProvider.clearController();
-                    userProvider.reloadUserModel();
-                    userProvider.changeLoading();
+                    widget.userProvider.clearController();
+                    widget.userProvider.reloadUserModel();
+                    setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
                 ),

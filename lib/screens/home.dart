@@ -37,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(userProvider.user?.name ?? ''),
         actions: [
           IconButton(
-            onPressed: () => overlayScreen(context, SettingScreen()),
+            onPressed: () {
+              overlayScreen(context, SettingScreen(userProvider: userProvider));
+            },
             icon: Icon(Icons.settings),
           ),
         ],

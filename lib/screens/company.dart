@@ -17,6 +17,14 @@ class _CompanyScreenState extends State<CompanyScreen> {
         elevation: 0.0,
         centerTitle: true,
         title: Text('開発/運営会社'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _controller.loadUrl('https://agora-c.com');
+            },
+            icon: Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: WebView(
         initialUrl: 'https://agora-c.com',

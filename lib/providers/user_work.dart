@@ -3,31 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:hatarakujikan_app/services/user_work.dart';
+import 'package:hatarakujikan_app/services/user_work_break.dart';
 import 'package:intl/intl.dart';
 
 class UserWorkProvider with ChangeNotifier {
   UserService _userService = UserService();
   UserWorkService _userWorkService = UserWorkService();
+  UserWorkBreakService _userWorkBreakService = UserWorkBreakService();
 
   Future<bool> workStart({UserModel user, List<double> locations}) async {
     try {
-      String id = _userWorkService.newId(userId: user.id);
+      String _id = _userWorkService.id(userId: user.id);
       _userWorkService.create({
-        'id': id,
+        'id': _id,
         'userId': user.id,
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
         'startedLon': locations.last,
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
-        'endedLon': locations.first,
-        'breaks': [],
+        'endedLon': locations.last,
         'createdAt': DateTime.now(),
       });
       _userService.update({
         'id': user.id,
         'workLv': 1,
-        'lastWorkId': id,
+        'lastWorkId': _id,
       });
       return true;
     } catch (e) {
@@ -57,11 +58,49 @@ class UserWorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> breaksStart({UserModel user, List<double> locations}) async {
+  Future<bool> breakStart({UserModel user, List<double> locations}) async {
     try {
-      List<Map> _breaks = [];
-      _breaks.add({});
+      String _id =
+          _userWorkBreakService.id(userId: user.id, workId: user.lastWorkId);
+      _userWorkBreakService.create({
+        'id': _id,
+        'userId': user.id,
+        'workId': user.lastWorkId,
+        'startedAt': DateTime.now(),
+        'startedLat': locations.first,
+        'startedLon': locations.last,
+        'endedAt': DateTime.now(),
+        'endedLat': locations.first,
+        'endedLon': locations.last,
+        'createdAt': DateTime.now(),
+      });
+      _userService.update({
+        'id': user.id,
+        'workLv': 2,
+        'lastBreakId': _id,
+      });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
 
+  Future<bool> breakEnd({UserModel user, List<double> locations}) async {
+    try {
+      _userWorkBreakService.update({
+        'id': user.lastBreakId,
+        'userId': user.id,
+        'workId': user.lastWorkId,
+        'endedAt': DateTime.now(),
+        'endedLat': locations.first,
+        'endedLon': locations.last,
+      });
+      _userService.update({
+        'id': user.id,
+        'workLv': 1,
+        'lastBreakId': '',
+      });
       return true;
     } catch (e) {
       print(e.toString());

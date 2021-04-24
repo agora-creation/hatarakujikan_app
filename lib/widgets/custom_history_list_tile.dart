@@ -75,7 +75,7 @@ class CustomHistoryListTile extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${_work.workTime()}',
+                                '${_work.diffTime()}',
                               ),
                             ],
                           ),

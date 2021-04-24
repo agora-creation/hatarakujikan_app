@@ -8,13 +8,21 @@ import 'package:hatarakujikan_app/screens/user_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:provider/provider.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
+  final UserProvider userProvider;
+
+  SettingScreen({@required this.userProvider});
+
+  @override
+  _SettingScreenState createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFEFFFA),
@@ -29,7 +37,7 @@ class SettingScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: userProvider.isLoading
+      body: _isLoading
           ? Loading(size: 32.0)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -41,18 +49,22 @@ class SettingScreen extends StatelessWidget {
                   iconData: Icons.person,
                   title: 'ユーザー情報変更',
                   onTap: () {
-                    userProvider.clearController();
-                    userProvider.name.text = userProvider.user.name;
-                    userProvider.email.text = userProvider.user.email;
-                    nextScreen(context, UserEmailScreen());
+                    widget.userProvider.clearController();
+                    widget.userProvider.name.text =
+                        widget.userProvider.user.name;
+                    widget.userProvider.email.text =
+                        widget.userProvider.user.email;
+                    nextScreen(context,
+                        UserEmailScreen(userProvider: widget.userProvider));
                   },
                 ),
                 CustomSettingListTile(
                   iconData: Icons.lock,
                   title: 'パスワード再設定',
                   onTap: () {
-                    userProvider.clearController();
-                    nextScreen(context, UserPasswordScreen());
+                    widget.userProvider.clearController();
+                    nextScreen(context,
+                        UserPasswordScreen(userProvider: widget.userProvider));
                   },
                 ),
                 SizedBox(height: 16.0),
@@ -72,9 +84,9 @@ class SettingScreen extends StatelessWidget {
                   labelFontSize: 16.0,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () {
-                    userProvider.changeLoading();
-                    userProvider.signOut();
-                    userProvider.changeLoading();
+                    setState(() => _isLoading = true);
+                    widget.userProvider.signOut();
+                    setState(() => _isLoading = false);
                     changeScreen(context, LoginScreen());
                   },
                 ),

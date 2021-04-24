@@ -4,13 +4,21 @@ import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:provider/provider.dart';
 
-class UserEmailScreen extends StatelessWidget {
+class UserEmailScreen extends StatefulWidget {
+  final UserProvider userProvider;
+
+  UserEmailScreen({@required this.userProvider});
+
+  @override
+  _UserEmailScreenState createState() => _UserEmailScreenState();
+}
+
+class _UserEmailScreenState extends State<UserEmailScreen> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFEFFFA),
@@ -18,14 +26,14 @@ class UserEmailScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('ユーザー情報変更'),
       ),
-      body: userProvider.isLoading
+      body: _isLoading
           ? Loading(size: 32.0)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
                 SizedBox(height: 16.0),
                 CustomTextFormField(
-                  controller: userProvider.name,
+                  controller: widget.userProvider.name,
                   obscureText: false,
                   textInputType: TextInputType.name,
                   maxLines: 1,
@@ -36,7 +44,7 @@ class UserEmailScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 CustomTextFormField(
-                  controller: userProvider.email,
+                  controller: widget.userProvider.email,
                   obscureText: false,
                   textInputType: TextInputType.emailAddress,
                   maxLines: 1,
@@ -53,9 +61,9 @@ class UserEmailScreen extends StatelessWidget {
                   labelFontSize: 16.0,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () async {
-                    userProvider.changeLoading();
-                    if (!await userProvider.updateEmail()) {
-                      userProvider.changeLoading();
+                    setState(() => _isLoading = true);
+                    if (!await widget.userProvider.updateEmail()) {
+                      setState(() => _isLoading = false);
                       showDialog(
                         barrierDismissible: false,
                         context: context,
@@ -65,9 +73,9 @@ class UserEmailScreen extends StatelessWidget {
                       );
                       return;
                     }
-                    userProvider.clearController();
-                    userProvider.reloadUserModel();
-                    userProvider.changeLoading();
+                    widget.userProvider.clearController();
+                    widget.userProvider.reloadUserModel();
+                    setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
                 ),

@@ -23,7 +23,6 @@ class UserProvider with ChangeNotifier {
   TextEditingController rePassword = TextEditingController();
   bool isHidden = false;
   bool isReHidden = false;
-  bool isLoading = false;
 
   UserProvider.initialize() : _auth = FirebaseAuth.instance {
     _auth.authStateChanges().listen(_onStateChanged);
@@ -36,11 +35,6 @@ class UserProvider with ChangeNotifier {
 
   void changeReHidden() {
     isReHidden = !isReHidden;
-    notifyListeners();
-  }
-
-  void changeLoading() {
-    isLoading = !isLoading;
     notifyListeners();
   }
 
@@ -84,7 +78,7 @@ class UserProvider with ChangeNotifier {
           'password': password.text.trim(),
           'workLv': 0,
           'lastWorkId': '',
-          'lastBreaksId': '',
+          'lastBreakId': '',
           'createdAt': DateTime.now(),
         });
       });

@@ -7,7 +7,7 @@ class UserModel {
   String _password;
   int _workLv;
   String _lastWorkId;
-  String _lastBreaksId;
+  String _lastBreakId;
   DateTime _createdAt;
 
   String get id => _id;
@@ -16,7 +16,7 @@ class UserModel {
   String get password => _password;
   int get workLv => _workLv;
   String get lastWorkId => _lastWorkId;
-  String get lastBreaksId => _lastBreaksId;
+  String get lastBreakId => _lastBreakId;
   DateTime get createdAt => _createdAt;
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -26,7 +26,7 @@ class UserModel {
     _password = snapshot.data()['password'];
     _workLv = snapshot.data()['workLv'] ?? 0;
     _lastWorkId = snapshot.data()['lastWorkId'] ?? '';
-    _lastBreaksId = snapshot.data()['lastBreaksId'] ?? '';
+    _lastBreakId = snapshot.data()['lastBreakId'] ?? '';
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 }
