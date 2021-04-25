@@ -111,8 +111,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     day: days[index],
                     works: _dayWorks,
                     onTap: () {
-                      nextScreen(context,
-                          HistoryDetailsScreen(day: days[index], works: []));
+                      nextScreen(
+                        context,
+                        HistoryDetailsScreen(
+                          day: days[index],
+                          dayWorks: _dayWorks,
+                        ),
+                      );
                     },
                   );
                 },
