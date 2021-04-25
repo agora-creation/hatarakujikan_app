@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
@@ -6,11 +5,10 @@ import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
-import 'package:hatarakujikan_app/screens/total.dart';
+import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_month_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_total_button.dart';
-import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -52,7 +50,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Column(
       children: [
         CustomMonthButton(
-          month: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+          month: '${DateFormat('yyyy年MM月分を表示する').format(selectMonth)}',
           onTap: () async {
             var selected = await showMonthPicker(
               context: context,
@@ -67,29 +65,45 @@ class _HistoryScreenState extends State<HistoryScreen> {
             });
           },
         ),
+        CustomHeadListTile(
+          children: [
+            Text(
+              '出勤時間',
+              style: TextStyle(color: Colors.black54, fontSize: 14.0),
+            ),
+            Text(
+              '退勤時間',
+              style: TextStyle(color: Colors.black54, fontSize: 14.0),
+            ),
+            Text(
+              '勤務時間',
+              style: TextStyle(color: Colors.black54, fontSize: 14.0),
+            ),
+          ],
+        ),
         Expanded(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: widget.userWorkProvider.userWorkStream(
+          child: FutureBuilder<List<UserWorkModel>>(
+            future: widget.userWorkProvider.selectList(
               userId: widget.userProvider.user?.id,
               startAt: days.first,
               endAt: days.last,
             ),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Loading(size: 32.0);
-              }
               List<UserWorkModel> works = [];
-              for (DocumentSnapshot data in snapshot.data.docs) {
-                works.add(UserWorkModel.fromSnapshot(data));
+              if (snapshot.connectionState == ConnectionState.done) {
+                works.clear();
+                works = snapshot.data;
+              } else {
+                works.clear();
               }
               return ListView.builder(
                 itemCount: days.length,
                 itemBuilder: (_, index) {
                   List<UserWorkModel> _dayWorks = [];
                   for (UserWorkModel _work in works) {
-                    String _started =
-                        DateFormat('yyyy-MM-dd').format(_work.startedAt);
-                    if (days[index] == DateTime.parse(_started)) {
+                    if (days[index] ==
+                        DateTime.parse(
+                            DateFormat('yyyy-MM-dd').format(_work.startedAt))) {
                       _dayWorks.add(_work);
                     }
                   }
@@ -108,9 +122,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
         CustomTotalButton(
           title: '合計時間を確認する',
-          onTap: () {
-            overlayScreen(context, TotalScreen(month: selectMonth));
-          },
+          onTap: () {},
         ),
       ],
     );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:hatarakujikan_app/services/user_work.dart';
 import 'package:hatarakujikan_app/services/user_work_break.dart';
@@ -124,5 +125,16 @@ class UserWorkProvider with ChangeNotifier {
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
     return _stream;
+  }
+
+  Future<List<UserWorkModel>> selectList(
+      {String userId, DateTime startAt, DateTime endAt}) async {
+    List<UserWorkModel> _works = [];
+    await _userWorkService
+        .selectList(userId: userId, startAt: startAt, endAt: endAt)
+        .then((value) {
+      _works = value;
+    });
+    return _works;
   }
 }

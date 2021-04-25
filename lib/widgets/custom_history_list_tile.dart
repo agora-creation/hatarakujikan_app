@@ -34,50 +34,26 @@ class CustomHistoryListTile extends StatelessWidget {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '出勤',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              Text(
-                                '${DateFormat('HH:mm').format(_work.startedAt)}',
-                              ),
-                            ],
+                          Text(
+                            '${DateFormat('HH:mm').format(_work.startedAt)}',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                            ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '退勤',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              Text(
-                                '${DateFormat('HH:mm').format(_work.endedAt)}',
-                              ),
-                            ],
+                          Text(
+                            '${DateFormat('HH:mm').format(_work.endedAt)}',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                            ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '勤務',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              Text(
-                                '${_work.diffTime()}',
-                              ),
-                            ],
+                          Text(
+                            '${_work.diffTime()}',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16.0,
+                            ),
                           ),
                         ],
                       ),

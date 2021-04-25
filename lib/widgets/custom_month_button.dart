@@ -28,10 +28,7 @@ class CustomMonthButton extends StatelessWidget {
             Icons.calendar_today,
             color: Colors.white,
           ),
-          title: Text(
-            month,
-            style: TextStyle(color: Colors.white),
-          ),
+          title: Text(month, style: TextStyle(color: Colors.white)),
         ),
       ),
     );

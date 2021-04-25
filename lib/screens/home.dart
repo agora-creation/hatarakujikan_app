@@ -4,6 +4,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
+import 'package:hatarakujikan_app/screens/notice.dart';
 import 'package:hatarakujikan_app/screens/setting.dart';
 import 'package:hatarakujikan_app/screens/work.dart';
 import 'package:provider/provider.dart';
@@ -37,9 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(userProvider.user?.name ?? ''),
         actions: [
           IconButton(
-            onPressed: () {
-              overlayScreen(context, SettingScreen(userProvider: userProvider));
-            },
+            onPressed: () => overlayScreen(context, NoticeScreen()),
+            icon: Icon(Icons.notifications),
+          ),
+          IconButton(
+            onPressed: () => overlayScreen(
+                context, SettingScreen(userProvider: userProvider)),
             icon: Icon(Icons.settings),
           ),
         ],

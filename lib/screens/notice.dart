@@ -6,10 +6,10 @@ class NoticeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFF5F5F5),
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        leading: Container(),
         title: Text('お知らせ'),
         actions: [
           IconButton(
