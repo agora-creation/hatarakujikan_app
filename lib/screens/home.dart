@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
         userWorkProvider: userWorkProvider,
       ),
+      Container(),
     ];
 
     return Scaffold(
@@ -67,6 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.list_alt),
               label: '打刻履歴',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group),
+              label: '会社登録',
             ),
           ],
         ),

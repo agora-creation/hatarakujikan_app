@@ -50,7 +50,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Column(
       children: [
         CustomMonthButton(
-          month: '${DateFormat('yyyy年MM月分を表示する').format(selectMonth)}',
+          month: '${DateFormat('yyyy年MM月分を表示').format(selectMonth)}',
           onTap: () async {
             var selected = await showMonthPicker(
               context: context,
@@ -126,7 +126,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
         ),
         CustomTotalButton(
-          title: '合計時間を確認する',
+          title: '合計時間を確認',
           onTap: () {},
         ),
       ],

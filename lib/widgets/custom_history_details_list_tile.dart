@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class CustomSettingListTile extends StatelessWidget {
-  final IconData iconData;
+class CustomHistoryDetailsListTile extends StatelessWidget {
+  final Icon icon;
   final String title;
+  final String time;
   final Function onTap;
 
-  CustomSettingListTile({
-    this.iconData,
+  CustomHistoryDetailsListTile({
+    this.icon,
     this.title,
+    this.time,
     this.onTap,
   });
 
@@ -17,9 +19,9 @@ class CustomSettingListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        leading: Icon(iconData),
+        leading: icon,
         title: Text(title),
-        trailing: Icon(Icons.chevron_right),
+        trailing: Text(time),
         onTap: onTap,
       ),
     );

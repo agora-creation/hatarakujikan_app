@@ -232,7 +232,7 @@ class WorkButton extends StatelessWidget {
   }
 }
 
-class WorkStartDialog extends StatefulWidget {
+class WorkStartDialog extends StatelessWidget {
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
   final List<double> locations;
@@ -244,38 +244,18 @@ class WorkStartDialog extends StatefulWidget {
   });
 
   @override
-  _WorkStartDialogState createState() => _WorkStartDialogState();
-}
-
-class _WorkStartDialogState extends State<WorkStartDialog> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.timer,
-                color: Colors.blue,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.arrow_right_alt,
-                color: Colors.blue,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.list_alt,
-                color: Colors.blue,
-                size: 40.0,
-              ),
-            ],
+          Center(
+            child: Icon(
+              Icons.run_circle,
+              color: Colors.blue,
+              size: 40.0,
+            ),
           ),
           SizedBox(height: 16.0),
           Text('出勤時間を記録します。よろしいですか？'),
@@ -290,13 +270,13 @@ class _WorkStartDialogState extends State<WorkStartDialog> {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await widget.userWorkProvider.workStart(
-                    user: widget.userProvider.user,
-                    locations: widget.locations,
+                  if (!await userWorkProvider.workStart(
+                    user: userProvider.user,
+                    locations: locations,
                   )) {
                     return;
                   }
-                  widget.userProvider.reloadUserModel();
+                  userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
@@ -310,7 +290,7 @@ class _WorkStartDialogState extends State<WorkStartDialog> {
   }
 }
 
-class WorkEndDialog extends StatefulWidget {
+class WorkEndDialog extends StatelessWidget {
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
   final List<double> locations;
@@ -322,38 +302,18 @@ class WorkEndDialog extends StatefulWidget {
   });
 
   @override
-  _WorkEndDialogState createState() => _WorkEndDialogState();
-}
-
-class _WorkEndDialogState extends State<WorkEndDialog> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.timer,
-                color: Colors.red,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.arrow_right_alt,
-                color: Colors.red,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.list_alt,
-                color: Colors.red,
-                size: 40.0,
-              ),
-            ],
+          Center(
+            child: Icon(
+              Icons.run_circle,
+              color: Colors.red,
+              size: 40.0,
+            ),
           ),
           SizedBox(height: 16.0),
           Text('退勤時間を記録します。よろしいですか？'),
@@ -368,13 +328,13 @@ class _WorkEndDialogState extends State<WorkEndDialog> {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await widget.userWorkProvider.workEnd(
-                    user: widget.userProvider.user,
-                    locations: widget.locations,
+                  if (!await userWorkProvider.workEnd(
+                    user: userProvider.user,
+                    locations: locations,
                   )) {
                     return;
                   }
-                  widget.userProvider.reloadUserModel();
+                  userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
@@ -388,7 +348,7 @@ class _WorkEndDialogState extends State<WorkEndDialog> {
   }
 }
 
-class BreakStartDialog extends StatefulWidget {
+class BreakStartDialog extends StatelessWidget {
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
   final List<double> locations;
@@ -400,38 +360,18 @@ class BreakStartDialog extends StatefulWidget {
   });
 
   @override
-  _BreakStartDialogState createState() => _BreakStartDialogState();
-}
-
-class _BreakStartDialogState extends State<BreakStartDialog> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.timer,
-                color: Colors.orange,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.arrow_right_alt,
-                color: Colors.orange,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.list_alt,
-                color: Colors.orange,
-                size: 40.0,
-              ),
-            ],
+          Center(
+            child: Icon(
+              Icons.run_circle,
+              color: Colors.orange,
+              size: 40.0,
+            ),
           ),
           SizedBox(height: 16.0),
           Text('休憩開始時間を記録します。よろしいですか？'),
@@ -446,13 +386,13 @@ class _BreakStartDialogState extends State<BreakStartDialog> {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await widget.userWorkProvider.breakStart(
-                    user: widget.userProvider.user,
-                    locations: widget.locations,
+                  if (!await userWorkProvider.breakStart(
+                    user: userProvider.user,
+                    locations: locations,
                   )) {
                     return;
                   }
-                  widget.userProvider.reloadUserModel();
+                  userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),
@@ -466,7 +406,7 @@ class _BreakStartDialogState extends State<BreakStartDialog> {
   }
 }
 
-class BreakEndDialog extends StatefulWidget {
+class BreakEndDialog extends StatelessWidget {
   final UserProvider userProvider;
   final UserWorkProvider userWorkProvider;
   final List<double> locations;
@@ -478,38 +418,18 @@ class BreakEndDialog extends StatefulWidget {
   });
 
   @override
-  _BreakEndDialogState createState() => _BreakEndDialogState();
-}
-
-class _BreakEndDialogState extends State<BreakEndDialog> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.timer,
-                color: Colors.orange,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.arrow_right_alt,
-                color: Colors.orange,
-                size: 40.0,
-              ),
-              SizedBox(width: 8.0),
-              Icon(
-                Icons.list_alt,
-                color: Colors.orange,
-                size: 40.0,
-              ),
-            ],
+          Center(
+            child: Icon(
+              Icons.run_circle_outlined,
+              color: Colors.orange,
+              size: 40.0,
+            ),
           ),
           SizedBox(height: 16.0),
           Text('休憩終了時間を記録します。よろしいですか？'),
@@ -524,13 +444,13 @@ class _BreakEndDialogState extends State<BreakEndDialog> {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await widget.userWorkProvider.breakEnd(
-                    user: widget.userProvider.user,
-                    locations: widget.locations,
+                  if (!await userWorkProvider.breakEnd(
+                    user: userProvider.user,
+                    locations: locations,
                   )) {
                     return;
                   }
-                  widget.userProvider.reloadUserModel();
+                  userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
                 child: Text('はい', style: TextStyle(color: Colors.white)),

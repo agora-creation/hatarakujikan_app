@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user_work.dart';
-import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:hatarakujikan_app/widgets/round_border_button.dart';
+import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
 import 'package:intl/intl.dart';
 
 class HistoryDetailsScreen extends StatelessWidget {
@@ -25,44 +24,89 @@ class HistoryDetailsScreen extends StatelessWidget {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
-          Text('出勤時間'),
-          Text('退勤時間'),
-          SizedBox(height: 16.0),
-          RoundBackgroundButton(
-            labelText: '打刻修正申請',
-            labelColor: Colors.white,
-            backgroundColor: Colors.blue,
-            labelFontSize: 16.0,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            onPressed: () {},
-          ),
+          Text('記録した時間'),
           SizedBox(height: 8.0),
-          RoundBorderButton(
-            labelText: '休暇申請',
-            labelColor: Colors.orange,
-            borderColor: Colors.orange,
-            labelFontSize: 16.0,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            onPressed: () {},
-          ),
-          SizedBox(height: 8.0),
-          RoundBorderButton(
-            labelText: '残業申請',
-            labelColor: Colors.red,
-            borderColor: Colors.red,
-            labelFontSize: 16.0,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            onPressed: () {},
-          ),
-          SizedBox(height: 8.0),
-          RoundBackgroundButton(
-            labelText: '削除申請',
-            labelColor: Colors.white,
-            backgroundColor: Colors.red,
-            labelFontSize: 16.0,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            onPressed: () {},
-          ),
+          Divider(height: 1.0, color: Colors.grey),
+          dayWorks.length > 0
+              ? ListView.builder(
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: dayWorks.length,
+                  itemBuilder: (_, index) {
+                    UserWorkModel _work = dayWorks[index];
+                    return Column(
+                      children: [
+                        CustomHistoryDetailsListTile(
+                          icon: Icon(Icons.run_circle, color: Colors.blue),
+                          title: '出勤時間',
+                          time:
+                              '${DateFormat('HH:mm').format(_work.startedAt)}',
+                          onTap: null,
+                        ),
+                        CustomHistoryDetailsListTile(
+                          icon: Icon(Icons.run_circle, color: Colors.orange),
+                          title: '休憩開始時間',
+                          time: '--:--',
+                          onTap: null,
+                        ),
+                        CustomHistoryDetailsListTile(
+                          icon: Icon(Icons.run_circle_outlined,
+                              color: Colors.orange),
+                          title: '休憩終了時間',
+                          time: '--:--',
+                          onTap: null,
+                        ),
+                        CustomHistoryDetailsListTile(
+                          icon: Icon(Icons.run_circle, color: Colors.red),
+                          title: '退勤時間',
+                          time: '${DateFormat('HH:mm').format(_work.endedAt)}',
+                          onTap: null,
+                        ),
+                        CustomHistoryDetailsListTile(
+                          icon: null,
+                          title: '勤務時間',
+                          time: '${_work.diffTime()}',
+                          onTap: null,
+                        ),
+                      ],
+                    );
+                  },
+                )
+              : Column(
+                  children: [
+                    CustomHistoryDetailsListTile(
+                      icon: Icon(Icons.run_circle, color: Colors.blue),
+                      title: '出勤時間',
+                      time: '--:--',
+                      onTap: null,
+                    ),
+                    CustomHistoryDetailsListTile(
+                      icon: Icon(Icons.run_circle, color: Colors.orange),
+                      title: '休憩開始時間',
+                      time: '--:--',
+                      onTap: null,
+                    ),
+                    CustomHistoryDetailsListTile(
+                      icon:
+                          Icon(Icons.run_circle_outlined, color: Colors.orange),
+                      title: '休憩終了時間',
+                      time: '--:--',
+                      onTap: null,
+                    ),
+                    CustomHistoryDetailsListTile(
+                      icon: Icon(Icons.run_circle, color: Colors.red),
+                      title: '退勤時間',
+                      time: '--:--',
+                      onTap: null,
+                    ),
+                    CustomHistoryDetailsListTile(
+                      icon: null,
+                      title: '勤務時間',
+                      time: '--:--',
+                      onTap: null,
+                    ),
+                  ],
+                ),
         ],
       ),
     );
