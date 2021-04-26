@@ -3,6 +3,7 @@ import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/screens/group.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
 import 'package:hatarakujikan_app/screens/notice.dart';
 import 'package:hatarakujikan_app/screens/setting.dart';
@@ -31,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userWorkProvider: userWorkProvider,
       ),
       Container(),
+      GroupScreen(),
     ];
 
     return Scaffold(
@@ -66,12 +68,16 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'ホーム',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt),
+              icon: Icon(Icons.history),
               label: '打刻履歴',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.group),
-              label: '会社登録',
+              icon: Icon(Icons.question_answer),
+              label: '各種申請',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: '会社/組織',
             ),
           ],
         ),

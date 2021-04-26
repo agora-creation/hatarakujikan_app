@@ -29,7 +29,7 @@ class _SettingScreenState extends State<SettingScreen> {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('設定'),
+        title: Text('各種設定'),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/screens/notice_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_notice_list_tile.dart';
 
 class NoticeScreen extends StatelessWidget {
@@ -24,7 +26,9 @@ class NoticeScreen extends StatelessWidget {
         physics: ScrollPhysics(),
         itemCount: 5,
         itemBuilder: (_, index) {
-          return CustomNoticeListTile();
+          return CustomNoticeListTile(
+            onTap: () => nextScreen(context, NoticeDetailsScreen()),
+          );
         },
       ),
     );
