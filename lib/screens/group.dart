@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/widgets/custom_total_button.dart';
+import 'package:hatarakujikan_app/screens/group_button.dart';
 
 class GroupScreen extends StatefulWidget {
   @override
@@ -13,13 +13,10 @@ class _GroupScreenState extends State<GroupScreen> {
       children: [
         Expanded(
           child: Center(
-            child: Text('会社/グループの登録がありません'),
+            child: Text('会社/組織に所属しておりません'),
           ),
         ),
-        CustomTotalButton(
-          title: '合計時間を確認',
-          onTap: () {},
-        ),
+        GroupButton(),
       ],
     );
   }

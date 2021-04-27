@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               label: '各種申請',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.business),
+              icon: Icon(Icons.store),
               label: '会社/組織',
             ),
           ],

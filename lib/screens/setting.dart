@@ -26,14 +26,14 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFFFEFFFA),
+        backgroundColor: Colors.grey,
         elevation: 0.0,
         centerTitle: true,
-        title: Text('各種設定'),
+        title: Text('各種設定', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-            icon: Icon(Icons.close),
+            icon: Icon(Icons.close, color: Colors.white),
           ),
         ],
       ),
@@ -42,6 +42,7 @@ class _SettingScreenState extends State<SettingScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
+                SizedBox(height: 16.0),
                 Text('ユーザー情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),

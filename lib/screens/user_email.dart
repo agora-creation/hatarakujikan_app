@@ -21,10 +21,14 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFEFFFA),
+        backgroundColor: Colors.grey,
         elevation: 0.0,
         centerTitle: true,
-        title: Text('ユーザー情報変更'),
+        title: Text('ユーザー情報変更', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.white),
+        ),
       ),
       body: _isLoading
           ? Loading(size: 32.0)
@@ -57,7 +61,7 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                 RoundBackgroundButton(
                   labelText: '変更を保存',
                   labelColor: Colors.white,
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Colors.blue,
                   labelFontSize: 16.0,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () async {
