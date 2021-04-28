@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/navigation.dart';
-import 'package:hatarakujikan_app/screens/group_create.dart';
 
 class GroupButton extends StatelessWidget {
+  final Function createOnPressed;
+  final Function inOnPressed;
+
+  GroupButton({
+    @required this.createOnPressed,
+    @required this.inOnPressed,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFFEFFFA),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black38,
-            blurRadius: 5.0,
-          ),
-        ],
-      ),
+      color: Color(0xFFFEFFFA),
       child: Row(
         children: [
           Expanded(
             child: TextButton(
-              onPressed: () => overlayScreen(context, GroupCreateScreen()),
+              onPressed: createOnPressed,
               child: Text(
                 '会社/組織を作る',
                 style: TextStyle(
@@ -36,10 +34,9 @@ class GroupButton extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 1.0),
           Expanded(
             child: TextButton(
-              onPressed: null,
+              onPressed: inOnPressed,
               child: Text(
                 '会社/組織に入る',
                 style: TextStyle(
@@ -50,6 +47,7 @@ class GroupButton extends StatelessWidget {
               style: TextButton.styleFrom(
                 backgroundColor: Color(0xFFFEFFFA),
                 shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.blue, width: 1),
                   borderRadius: BorderRadius.zero,
                 ),
                 padding: EdgeInsets.all(16.0),

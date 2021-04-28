@@ -35,15 +35,15 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       PageViewModel(
         image: Image.asset('assets/images/img3.jpg', width: 300.0, height: 300),
-        title: 'グループ管理',
+        title: '会社/組織管理',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('組織で利用する場合、グループ登録をすることで、様々な機能を使用することができます。'),
+            Text('会社/組織で利用する場合、会社/組織登録をすることで、様々な機能を使用することができます。'),
             Text('・記録の共有と修正'),
             Text('・各種申請'),
-            Text('・タブレット端末でのグループ利用'),
-            Text('・WEB管理画面によるグループ管理'),
+            Text('・タブレット端末(アプリ)での利用'),
+            Text('・WEB管理画面による管理'),
           ],
         ),
       ),

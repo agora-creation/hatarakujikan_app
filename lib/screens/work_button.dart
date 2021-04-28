@@ -16,15 +16,7 @@ class WorkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFFEFFFA),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black38,
-            blurRadius: 5.0,
-          ),
-        ],
-      ),
+      color: Color(0xFFFEFFFA),
       child: Column(
         children: [
           Row(
@@ -200,6 +192,7 @@ class WorkButton extends StatelessWidget {
                         ),
                         style: TextButton.styleFrom(
                           backgroundColor: Color(0xFFFEFFFA),
+                          side: BorderSide(color: Colors.orange, width: 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.zero,
                           ),

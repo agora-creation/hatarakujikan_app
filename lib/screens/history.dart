@@ -5,10 +5,9 @@ import 'package:hatarakujikan_app/models/user_work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
+import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
-import 'package:hatarakujikan_app/widgets/custom_month_button.dart';
-import 'package:hatarakujikan_app/widgets/custom_total_button.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -49,8 +48,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomMonthButton(
-          month: '${DateFormat('yyyy年MM月分を表示').format(selectMonth)}',
+        CustomExpandedButton(
+          buttonColor: Colors.blueGrey,
+          labelText: '会社/組織 所属なし',
+          labelColor: Colors.white,
+          leadingIcon: Icon(Icons.store, color: Colors.white),
+          trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
+          onTap: () {},
+        ),
+        CustomExpandedButton(
+          buttonColor: Colors.lightBlue,
+          labelText: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+          labelColor: Colors.white,
+          leadingIcon: Icon(Icons.today, color: Colors.white),
+          trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
           onTap: () async {
             var selected = await showMonthPicker(
               context: context,
@@ -65,22 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             });
           },
         ),
-        CustomHeadListTile(
-          children: [
-            Text(
-              '出勤時間',
-              style: TextStyle(color: Colors.black54, fontSize: 14.0),
-            ),
-            Text(
-              '退勤時間',
-              style: TextStyle(color: Colors.black54, fontSize: 14.0),
-            ),
-            Text(
-              '勤務時間',
-              style: TextStyle(color: Colors.black54, fontSize: 14.0),
-            ),
-          ],
-        ),
+        CustomHeadListTile(),
         Expanded(
           child: FutureBuilder<List<UserWorkModel>>(
             future: widget.userWorkProvider.selectList(
@@ -125,7 +121,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
             },
           ),
         ),
-
+        CustomExpandedButton(
+          buttonColor: Colors.green,
+          labelText: '${DateFormat('yyyy年MM月').format(selectMonth)}の集計',
+          labelColor: Colors.white,
+          leadingIcon: Icon(Icons.table_chart, color: Colors.white),
+          trailingIcon: Icon(Icons.arrow_drop_up, color: Colors.white),
+          onTap: () {},
+        ),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
 import 'package:hatarakujikan_app/screens/work_button.dart';
+import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 
@@ -62,6 +63,14 @@ class _WorkScreenState extends State<WorkScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        CustomExpandedButton(
+          buttonColor: Colors.blueGrey,
+          labelText: '会社/組織 所属なし',
+          labelColor: Colors.white,
+          leadingIcon: Icon(Icons.store, color: Colors.white),
+          trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
+          onTap: () {},
+        ),
         Expanded(
           child: Container(
             height: double.infinity,

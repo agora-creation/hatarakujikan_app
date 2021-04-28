@@ -3,6 +3,7 @@ import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/screens/apply.dart';
 import 'package:hatarakujikan_app/screens/group.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
 import 'package:hatarakujikan_app/screens/notice.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
         userWorkProvider: userWorkProvider,
       ),
-      Container(),
+      ApplyScreen(),
       GroupScreen(),
     ];
 

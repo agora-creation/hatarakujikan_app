@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomBottomButton extends StatelessWidget {
+class CustomExpandedButton extends StatelessWidget {
   final Color buttonColor;
   final String labelText;
   final Color labelColor;
@@ -8,7 +8,7 @@ class CustomBottomButton extends StatelessWidget {
   final Icon trailingIcon;
   final Function onTap;
 
-  CustomBottomButton({
+  CustomExpandedButton({
     this.buttonColor,
     this.labelText,
     this.labelColor,
@@ -20,15 +20,7 @@ class CustomBottomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: buttonColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black87,
-            blurRadius: 5.0,
-          ),
-        ],
-      ),
+      color: buttonColor,
       child: ListTile(
         leading: leadingIcon,
         title: Text(labelText, style: TextStyle(color: labelColor)),
