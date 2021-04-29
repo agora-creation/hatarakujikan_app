@@ -36,7 +36,7 @@ class UserWorkBreakModel {
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 
-  String diffTime() {
+  String diff() {
     Duration _diff = _endedAt.difference(_startedAt);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(_diff.inMinutes.remainder(60));

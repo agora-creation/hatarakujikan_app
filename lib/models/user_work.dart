@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserWorkModel {
   String _id;
+  String _groupId;
   String _userId;
   DateTime _startedAt;
   double _startedLat;
@@ -12,6 +13,7 @@ class UserWorkModel {
   DateTime _createdAt;
 
   String get id => _id;
+  String get groupId => _groupId;
   String get userId => _userId;
   DateTime get startedAt => _startedAt;
   double get startedLat => _startedLat;
@@ -23,6 +25,7 @@ class UserWorkModel {
 
   UserWorkModel.fromSnapshot(DocumentSnapshot snapshot) {
     _id = snapshot.data()['id'];
+    _groupId = snapshot.data()['groupId'];
     _userId = snapshot.data()['userId'];
     _startedAt = snapshot.data()['startedAt'].toDate();
     _startedLat = snapshot.data()['startedLat'];
@@ -33,7 +36,7 @@ class UserWorkModel {
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 
-  String diffTime() {
+  String diff() {
     Duration _diff = _endedAt.difference(_startedAt);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(_diff.inMinutes.remainder(60));
