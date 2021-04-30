@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hatarakujikan_app/models/groups.dart';
 
 class UserModel {
   String _id;
@@ -8,7 +9,7 @@ class UserModel {
   int _workLv;
   String _lastWorkId;
   String _lastBreakId;
-  List<String> groups;
+  List<GroupsModel> groups;
   DateTime _createdAt;
 
   String get id => _id;
@@ -28,14 +29,14 @@ class UserModel {
     _workLv = snapshot.data()['workLv'] ?? 0;
     _lastWorkId = snapshot.data()['lastWorkId'] ?? '';
     _lastBreakId = snapshot.data()['lastBreakId'] ?? '';
-    groups = _convertGroups(snapshot.data()['group']) ?? [];
+    groups = _convertGroups(snapshot.data()['groups']) ?? [];
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 
-  List<String> _convertGroups(List groups) {
-    List<String> converted = [];
-    for (String group in groups) {
-      converted.add(group);
+  List<GroupsModel> _convertGroups(List groups) {
+    List<GroupsModel> converted = [];
+    for (Map data in groups) {
+      converted.add(GroupsModel.fromMap(data));
     }
     return converted;
   }

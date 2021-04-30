@@ -8,6 +8,7 @@ class CompanyScreen extends StatefulWidget {
 
 class _CompanyScreenState extends State<CompanyScreen> {
   WebViewController _controller;
+  String _url = 'https://agora-c.com';
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +25,14 @@ class _CompanyScreenState extends State<CompanyScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              _controller.loadUrl('https://agora-c.com');
+              _controller.loadUrl(_url);
             },
             icon: Icon(Icons.refresh),
           ),
         ],
       ),
       body: WebView(
-        initialUrl: 'https://agora-c.com',
+        initialUrl: _url,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController controller) {
           _controller = controller;

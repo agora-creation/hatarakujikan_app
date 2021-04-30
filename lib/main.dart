@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/providers/user_notice.dart';
+import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/intro.dart';
 import 'package:hatarakujikan_app/screens/splash.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: UserProvider.initialize()),
-        ChangeNotifierProvider.value(value: UserWorkProvider()),
+        ChangeNotifierProvider.value(value: UserNoticeProvider()),
+        ChangeNotifierProvider.value(value: WorkProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

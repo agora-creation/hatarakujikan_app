@@ -1,52 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:intl/intl.dart';
 
-class UserWorkService {
-  String _collection = 'user';
-  String _subCollection = 'work';
+class WorkService {
+  String _collection = 'work';
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  String id({String userId}) {
-    String _id = _firebaseFirestore
-        .collection(_collection)
-        .doc(userId)
-        .collection(_subCollection)
-        .doc()
-        .id;
+  String id() {
+    String _id = _firebaseFirestore.collection(_collection).doc().id;
     return _id;
   }
 
   void create(Map<String, dynamic> values) {
-    _firebaseFirestore
-        .collection(_collection)
-        .doc(values['userId'])
-        .collection(_subCollection)
-        .doc(values['id'])
-        .set(values);
+    _firebaseFirestore.collection(_collection).doc(values['id']).set(values);
   }
 
   void update(Map<String, dynamic> values) {
-    _firebaseFirestore
-        .collection(_collection)
-        .doc(values['userId'])
-        .collection(_subCollection)
-        .doc(values['id'])
-        .update(values);
+    _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
   void delete(Map<String, dynamic> values) {
-    _firebaseFirestore
-        .collection(_collection)
-        .doc(values['userId'])
-        .collection(_subCollection)
-        .doc(values['id'])
-        .delete();
+    _firebaseFirestore.collection(_collection).doc(values['id']).delete();
   }
 
-  Future<List<UserWorkModel>> selectList(
+  Future<List<WorkModel>> selectList(
       {String userId, DateTime startAt, DateTime endAt}) async {
-    List<UserWorkModel> _works = [];
+    List<WorkModel> _works = [];
     Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
             '${DateFormat('yyyy-MM-dd').format(startAt)} 00:00:00.000')
         .millisecondsSinceEpoch);
@@ -55,13 +34,11 @@ class UserWorkService {
             .millisecondsSinceEpoch);
     QuerySnapshot snapshot = await _firebaseFirestore
         .collection(_collection)
-        .doc(userId)
-        .collection(_subCollection)
         .where('userId', isEqualTo: userId)
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).get();
     for (DocumentSnapshot _work in snapshot.docs) {
-      _works.add(UserWorkModel.fromSnapshot(_work));
+      _works.add(WorkModel.fromSnapshot(_work));
     }
     return _works;
   }

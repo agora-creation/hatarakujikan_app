@@ -79,6 +79,7 @@ class UserProvider with ChangeNotifier {
           'workLv': 0,
           'lastWorkId': '',
           'lastBreakId': '',
+          'groups': [],
           'createdAt': DateTime.now(),
         });
       });

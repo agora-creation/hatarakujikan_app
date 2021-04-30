@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/work_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
@@ -9,11 +9,11 @@ import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class WorkScreen extends StatefulWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
 
   WorkScreen({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
   });
 
   @override
@@ -91,7 +91,7 @@ class _WorkScreenState extends State<WorkScreen> {
         ),
         WorkButton(
           userProvider: widget.userProvider,
-          userWorkProvider: widget.userWorkProvider,
+          workProvider: widget.workProvider,
           locations: locations,
         ),
       ],

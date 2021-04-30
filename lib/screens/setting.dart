@@ -8,12 +8,9 @@ import 'package:hatarakujikan_app/screens/user_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
+import 'package:provider/provider.dart';
 
 class SettingScreen extends StatefulWidget {
-  final UserProvider userProvider;
-
-  SettingScreen({@required this.userProvider});
-
   @override
   _SettingScreenState createState() => _SettingScreenState();
 }
@@ -23,6 +20,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -50,22 +49,20 @@ class _SettingScreenState extends State<SettingScreen> {
                   iconData: Icons.person,
                   title: 'ユーザー情報変更',
                   onTap: () {
-                    widget.userProvider.clearController();
-                    widget.userProvider.name.text =
-                        widget.userProvider.user.name;
-                    widget.userProvider.email.text =
-                        widget.userProvider.user.email;
-                    nextScreen(context,
-                        UserEmailScreen(userProvider: widget.userProvider));
+                    userProvider.clearController();
+                    userProvider.name.text = userProvider.user.name;
+                    userProvider.email.text = userProvider.user.email;
+                    nextScreen(
+                        context, UserEmailScreen(userProvider: userProvider));
                   },
                 ),
                 CustomSettingListTile(
                   iconData: Icons.lock,
                   title: 'パスワード再設定',
                   onTap: () {
-                    widget.userProvider.clearController();
+                    userProvider.clearController();
                     nextScreen(context,
-                        UserPasswordScreen(userProvider: widget.userProvider));
+                        UserPasswordScreen(userProvider: userProvider));
                   },
                 ),
                 SizedBox(height: 16.0),
@@ -86,7 +83,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () {
                     setState(() => _isLoading = true);
-                    widget.userProvider.signOut();
+                    userProvider.signOut();
                     setState(() => _isLoading = false);
                     changeScreen(context, LoginScreen());
                   },

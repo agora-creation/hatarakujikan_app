@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/models/user_notice.dart';
+import 'package:hatarakujikan_app/providers/user_notice.dart';
+import 'package:intl/intl.dart';
 
 class NoticeDetailsScreen extends StatefulWidget {
+  final UserNoticeModel notice;
+  final UserNoticeProvider userNoticeProvider;
+
+  NoticeDetailsScreen({
+    @required this.notice,
+    @required this.userNoticeProvider,
+  });
+
   @override
   _NoticeDetailsScreenState createState() => _NoticeDetailsScreenState();
 }
 
 class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.notice.read) {
+      widget.userNoticeProvider.updateRead(notice: widget.notice);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,19 +42,20 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
           Text(
-            '新しいメッセージがあります',
+            widget.notice.title,
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 8.0),
-          Text('メッセージ内容はここに表示されます。PUSH通知はONを推奨します。'),
+          Text(widget.notice.message),
           SizedBox(height: 8.0),
           Divider(),
           Align(
             alignment: Alignment.bottomRight,
-            child: Text('2021/03/21 00:00 (システム管理者)'),
+            child: Text(
+                '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)} (システム管理者)'),
           ),
         ],
       ),

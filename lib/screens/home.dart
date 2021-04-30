@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/apply.dart';
 import 'package:hatarakujikan_app/screens/group.dart';
 import 'package:hatarakujikan_app/screens/history.dart';
@@ -22,15 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    final userWorkProvider = Provider.of<UserWorkProvider>(context);
+    final workProvider = Provider.of<WorkProvider>(context);
     final List<Widget> _tabs = [
       WorkScreen(
         userProvider: userProvider,
-        userWorkProvider: userWorkProvider,
+        workProvider: workProvider,
       ),
       HistoryScreen(
         userProvider: userProvider,
-        userWorkProvider: userWorkProvider,
+        workProvider: workProvider,
       ),
       ApplyScreen(),
       GroupScreen(),
@@ -46,8 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.notifications),
           ),
           IconButton(
-            onPressed: () => overlayScreen(
-                context, SettingScreen(userProvider: userProvider)),
+            onPressed: () => overlayScreen(context, SettingScreen()),
             icon: Icon(Icons.settings),
           ),
         ],

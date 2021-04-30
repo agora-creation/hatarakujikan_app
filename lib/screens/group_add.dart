@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 
-class GroupCreateScreen extends StatelessWidget {
+class GroupAddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

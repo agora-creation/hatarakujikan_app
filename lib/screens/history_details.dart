@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
 import 'package:intl/intl.dart';
 
 class HistoryDetailsScreen extends StatelessWidget {
   final DateTime day;
-  final List<UserWorkModel> dayWorks;
+  final List<WorkModel> dayWorks;
 
   HistoryDetailsScreen({
     @required this.day,
@@ -33,7 +33,7 @@ class HistoryDetailsScreen extends StatelessWidget {
                   physics: ScrollPhysics(),
                   itemCount: dayWorks.length,
                   itemBuilder: (_, index) {
-                    UserWorkModel _work = dayWorks[index];
+                    WorkModel _work = dayWorks[index];
                     return Column(
                       children: [
                         CustomHistoryDetailsListTile(
@@ -65,7 +65,7 @@ class HistoryDetailsScreen extends StatelessWidget {
                         CustomHistoryDetailsListTile(
                           icon: null,
                           title: '勤務時間',
-                          time: '${_work.diffTime()}',
+                          time: '${_work.diff()}',
                           onTap: null,
                         ),
                       ],

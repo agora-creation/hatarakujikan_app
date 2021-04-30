@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
-import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/providers/work.dart';
+import 'package:hatarakujikan_app/screens/history_button.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
@@ -13,11 +14,11 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class HistoryScreen extends StatefulWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
 
   HistoryScreen({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
   });
 
   @override
@@ -56,13 +57,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
           trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
           onTap: () {},
         ),
-        CustomExpandedButton(
-          buttonColor: Colors.lightBlue,
-          labelText: '${DateFormat('yyyy年MM月').format(selectMonth)}',
-          labelColor: Colors.white,
-          leadingIcon: Icon(Icons.today, color: Colors.white),
-          trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
-          onTap: () async {
+        HistoryButton(
+          selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+          monthOnPressed: () async {
             var selected = await showMonthPicker(
               context: context,
               initialDate: selectMonth,
@@ -75,17 +72,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
               _generateDays(selectMonth);
             });
           },
+          totalOnPressed: () {},
         ),
         CustomHeadListTile(),
         Expanded(
-          child: FutureBuilder<List<UserWorkModel>>(
-            future: widget.userWorkProvider.selectList(
+          child: FutureBuilder<List<WorkModel>>(
+            future: widget.workProvider.selectList(
               userId: widget.userProvider.user?.id,
               startAt: days.first,
               endAt: days.last,
             ),
             builder: (context, snapshot) {
-              List<UserWorkModel> works = [];
+              List<WorkModel> works = [];
               if (snapshot.connectionState == ConnectionState.done) {
                 works.clear();
                 works = snapshot.data;
@@ -95,8 +93,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
               return ListView.builder(
                 itemCount: days.length,
                 itemBuilder: (_, index) {
-                  List<UserWorkModel> _dayWorks = [];
-                  for (UserWorkModel _work in works) {
+                  List<WorkModel> _dayWorks = [];
+                  for (WorkModel _work in works) {
                     if (days[index] ==
                         DateTime.parse(
                             DateFormat('yyyy-MM-dd').format(_work.startedAt))) {
@@ -120,14 +118,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
               );
             },
           ),
-        ),
-        CustomExpandedButton(
-          buttonColor: Colors.green,
-          labelText: '${DateFormat('yyyy年MM月').format(selectMonth)}の集計',
-          labelColor: Colors.white,
-          leadingIcon: Icon(Icons.table_chart, color: Colors.white),
-          trailingIcon: Icon(Icons.arrow_drop_up, color: Colors.white),
-          onTap: () {},
         ),
       ],
     );

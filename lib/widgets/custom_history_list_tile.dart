@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
-import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:intl/intl.dart';
 
 class CustomHistoryListTile extends StatelessWidget {
   final DateTime day;
-  final List<UserWorkModel> works;
+  final List<WorkModel> works;
   final Function onTap;
 
   CustomHistoryListTile({
@@ -27,7 +27,7 @@ class CustomHistoryListTile extends StatelessWidget {
                 separatorBuilder: (_, index) => Divider(height: 0.0),
                 itemCount: works.length,
                 itemBuilder: (_, index) {
-                  UserWorkModel _work = works[index];
+                  WorkModel _work = works[index];
                   return ListTile(
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,7 +47,7 @@ class CustomHistoryListTile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${_work.diffTime()}',
+                          '${_work.diff()}',
                           style: TextStyle(
                             color: Colors.black54,
                             fontSize: 16.0,

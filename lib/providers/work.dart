@@ -1,22 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user.dart';
-import 'package:hatarakujikan_app/models/user_work.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/services/user.dart';
-import 'package:hatarakujikan_app/services/user_work.dart';
-import 'package:hatarakujikan_app/services/user_work_break.dart';
-import 'package:intl/intl.dart';
+import 'package:hatarakujikan_app/services/work.dart';
+import 'package:hatarakujikan_app/services/work_break.dart';
 
-class UserWorkProvider with ChangeNotifier {
+class WorkProvider with ChangeNotifier {
   UserService _userService = UserService();
-  UserWorkService _userWorkService = UserWorkService();
-  UserWorkBreakService _userWorkBreakService = UserWorkBreakService();
+  WorkService _workService = WorkService();
+  WorkBreakService _workBreakService = WorkBreakService();
 
   Future<bool> workStart({UserModel user, List<double> locations}) async {
     try {
-      String _id = _userWorkService.id(userId: user.id);
-      _userWorkService.create({
+      String _id = _workService.id();
+      _workService.create({
         'id': _id,
+        'groupId': 'NO-DATA',
         'userId': user.id,
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
@@ -40,9 +39,8 @@ class UserWorkProvider with ChangeNotifier {
 
   Future<bool> workEnd({UserModel user, List<double> locations}) async {
     try {
-      _userWorkService.update({
+      _workService.update({
         'id': user.lastWorkId,
-        'userId': user.id,
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
@@ -61,11 +59,9 @@ class UserWorkProvider with ChangeNotifier {
 
   Future<bool> breakStart({UserModel user, List<double> locations}) async {
     try {
-      String _id =
-          _userWorkBreakService.id(userId: user.id, workId: user.lastWorkId);
-      _userWorkBreakService.create({
+      String _id = _workBreakService.id(workId: user.lastWorkId);
+      _workBreakService.create({
         'id': _id,
-        'userId': user.id,
         'workId': user.lastWorkId,
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
@@ -89,9 +85,8 @@ class UserWorkProvider with ChangeNotifier {
 
   Future<bool> breakEnd({UserModel user, List<double> locations}) async {
     try {
-      _userWorkBreakService.update({
+      _workBreakService.update({
         'id': user.lastBreakId,
-        'userId': user.id,
         'workId': user.lastWorkId,
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
@@ -109,28 +104,10 @@ class UserWorkProvider with ChangeNotifier {
     }
   }
 
-  Stream<QuerySnapshot> userWorkStream(
-      {String userId, DateTime startAt, DateTime endAt}) {
-    Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(startAt)} 00:00:00.000')
-        .millisecondsSinceEpoch);
-    Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(
-        DateTime.parse('${DateFormat('yyyy-MM-dd').format(endAt)} 23:59:59.999')
-            .millisecondsSinceEpoch);
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
-        .collection('user')
-        .doc(userId)
-        .collection('work')
-        .where('userId', isEqualTo: userId)
-        .orderBy('startedAt', descending: false)
-        .startAt([_startAt]).endAt([_endAt]).snapshots();
-    return _stream;
-  }
-
-  Future<List<UserWorkModel>> selectList(
+  Future<List<WorkModel>> selectList(
       {String userId, DateTime startAt, DateTime endAt}) async {
-    List<UserWorkModel> _works = [];
-    await _userWorkService
+    List<WorkModel> _works = [];
+    await _workService
         .selectList(userId: userId, startAt: startAt, endAt: endAt)
         .then((value) {
       _works = value;

@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hatarakujikan_app/models/user_work_break.dart';
+import 'package:hatarakujikan_app/models/work_break.dart';
 
-class UserWorkBreakService {
-  String _collection = 'user';
-  String _subCollection = 'work';
-  String _subSubCollection = 'break';
+class WorkBreakService {
+  String _collection = 'work';
+  String _subCollection = 'break';
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  String id({String userId, String workId}) {
+  String id({String workId}) {
     String _id = _firebaseFirestore
         .collection(_collection)
-        .doc(userId)
-        .collection(_subCollection)
         .doc(workId)
-        .collection(_subSubCollection)
+        .collection(_subCollection)
         .doc()
         .id;
     return _id;
@@ -22,10 +19,8 @@ class UserWorkBreakService {
   void create(Map<String, dynamic> values) {
     _firebaseFirestore
         .collection(_collection)
-        .doc(values['userId'])
-        .collection(_subCollection)
         .doc(values['workId'])
-        .collection(_subSubCollection)
+        .collection(_subCollection)
         .doc(values['id'])
         .set(values);
   }
@@ -33,10 +28,8 @@ class UserWorkBreakService {
   void update(Map<String, dynamic> values) {
     _firebaseFirestore
         .collection(_collection)
-        .doc(values['userId'])
-        .collection(_subCollection)
         .doc(values['workId'])
-        .collection(_subSubCollection)
+        .collection(_subCollection)
         .doc(values['id'])
         .update(values);
   }
@@ -44,28 +37,22 @@ class UserWorkBreakService {
   void delete(Map<String, dynamic> values) {
     _firebaseFirestore
         .collection(_collection)
-        .doc(values['userId'])
-        .collection(_subCollection)
         .doc(values['workId'])
-        .collection(_subSubCollection)
+        .collection(_subCollection)
         .doc(values['id'])
         .delete();
   }
 
-  Future<List<UserWorkBreakModel>> selectList(
-      {String userId, String workId}) async {
-    List<UserWorkBreakModel> _breaks = [];
+  Future<List<WorkBreakModel>> selectList({String workId}) async {
+    List<WorkBreakModel> _breaks = [];
     QuerySnapshot snapshot = await _firebaseFirestore
         .collection(_collection)
-        .doc(userId)
-        .collection(_subCollection)
         .doc(workId)
-        .collection(_subSubCollection)
-        .where('workId', isEqualTo: workId)
+        .collection(_subCollection)
         .orderBy('startedAt', descending: false)
         .get();
     for (DocumentSnapshot _break in snapshot.docs) {
-      _breaks.add(UserWorkBreakModel.fromSnapshot(_break));
+      _breaks.add(WorkBreakModel.fromSnapshot(_break));
     }
     return _breaks;
   }

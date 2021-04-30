@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/providers/user_work.dart';
+import 'package:hatarakujikan_app/providers/work.dart';
 
 class WorkButton extends StatelessWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
   final List<double> locations;
 
   WorkButton({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
     @required this.locations,
   });
 
@@ -30,7 +30,7 @@ class WorkButton extends StatelessWidget {
                             context: context,
                             builder: (_) => WorkStartDialog(
                               userProvider: userProvider,
-                              userWorkProvider: userWorkProvider,
+                              workProvider: workProvider,
                               locations: locations,
                             ),
                           );
@@ -78,7 +78,7 @@ class WorkButton extends StatelessWidget {
                             context: context,
                             builder: (_) => WorkEndDialog(
                               userProvider: userProvider,
-                              userWorkProvider: userWorkProvider,
+                              workProvider: workProvider,
                               locations: locations,
                             ),
                           );
@@ -130,7 +130,7 @@ class WorkButton extends StatelessWidget {
                             context: context,
                             builder: (_) => BreakStartDialog(
                               userProvider: userProvider,
-                              userWorkProvider: userWorkProvider,
+                              workProvider: workProvider,
                               locations: locations,
                             ),
                           );
@@ -178,7 +178,7 @@ class WorkButton extends StatelessWidget {
                             context: context,
                             builder: (_) => BreakEndDialog(
                               userProvider: userProvider,
-                              userWorkProvider: userWorkProvider,
+                              workProvider: workProvider,
                               locations: locations,
                             ),
                           );
@@ -227,12 +227,12 @@ class WorkButton extends StatelessWidget {
 
 class WorkStartDialog extends StatelessWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
   final List<double> locations;
 
   WorkStartDialog({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
     @required this.locations,
   });
 
@@ -263,7 +263,7 @@ class WorkStartDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.workStart(
+                  if (!await workProvider.workStart(
                     user: userProvider.user,
                     locations: locations,
                   )) {
@@ -285,12 +285,12 @@ class WorkStartDialog extends StatelessWidget {
 
 class WorkEndDialog extends StatelessWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
   final List<double> locations;
 
   WorkEndDialog({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
     @required this.locations,
   });
 
@@ -321,7 +321,7 @@ class WorkEndDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.workEnd(
+                  if (!await workProvider.workEnd(
                     user: userProvider.user,
                     locations: locations,
                   )) {
@@ -343,12 +343,12 @@ class WorkEndDialog extends StatelessWidget {
 
 class BreakStartDialog extends StatelessWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
   final List<double> locations;
 
   BreakStartDialog({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
     @required this.locations,
   });
 
@@ -379,7 +379,7 @@ class BreakStartDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.breakStart(
+                  if (!await workProvider.breakStart(
                     user: userProvider.user,
                     locations: locations,
                   )) {
@@ -401,12 +401,12 @@ class BreakStartDialog extends StatelessWidget {
 
 class BreakEndDialog extends StatelessWidget {
   final UserProvider userProvider;
-  final UserWorkProvider userWorkProvider;
+  final WorkProvider workProvider;
   final List<double> locations;
 
   BreakEndDialog({
     @required this.userProvider,
-    @required this.userWorkProvider,
+    @required this.workProvider,
     @required this.locations,
   });
 
@@ -437,7 +437,7 @@ class BreakEndDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  if (!await userWorkProvider.breakEnd(
+                  if (!await workProvider.breakEnd(
                     user: userProvider.user,
                     locations: locations,
                   )) {

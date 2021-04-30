@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserWorkModel {
+class WorkBreakModel {
   String _id;
-  String _groupId;
-  String _userId;
+  String _workId;
   DateTime _startedAt;
   double _startedLat;
   double _startedLon;
@@ -13,8 +12,7 @@ class UserWorkModel {
   DateTime _createdAt;
 
   String get id => _id;
-  String get groupId => _groupId;
-  String get userId => _userId;
+  String get workId => _workId;
   DateTime get startedAt => _startedAt;
   double get startedLat => _startedLat;
   double get startedLon => _startedLon;
@@ -23,10 +21,9 @@ class UserWorkModel {
   double get endedLon => _endedLon;
   DateTime get createdAt => _createdAt;
 
-  UserWorkModel.fromSnapshot(DocumentSnapshot snapshot) {
+  WorkBreakModel.fromSnapshot(DocumentSnapshot snapshot) {
     _id = snapshot.data()['id'];
-    _groupId = snapshot.data()['groupId'];
-    _userId = snapshot.data()['userId'];
+    _workId = snapshot.data()['workId'];
     _startedAt = snapshot.data()['startedAt'].toDate();
     _startedLat = snapshot.data()['startedLat'];
     _startedLon = snapshot.data()['startedLon'];

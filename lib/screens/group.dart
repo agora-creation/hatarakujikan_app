@@ -2,8 +2,8 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/screens/group_add.dart';
 import 'package:hatarakujikan_app/screens/group_button.dart';
-import 'package:hatarakujikan_app/screens/group_create.dart';
 
 class GroupScreen extends StatefulWidget {
   @override
@@ -43,7 +43,7 @@ class _GroupScreenState extends State<GroupScreen> {
           ),
         ),
         GroupButton(
-          createOnPressed: () => overlayScreen(context, GroupCreateScreen()),
+          createOnPressed: () => overlayScreen(context, GroupAddScreen()),
           inOnPressed: _scan,
         ),
       ],
