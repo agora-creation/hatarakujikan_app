@@ -65,7 +65,7 @@ class HistoryDetailsScreen extends StatelessWidget {
                         CustomHistoryDetailsListTile(
                           icon: null,
                           title: '勤務時間',
-                          time: '${_work.diff()}',
+                          time: '${_work.workTime}',
                           onTap: null,
                         ),
                       ],
@@ -107,6 +107,10 @@ class HistoryDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+          SizedBox(height: 16.0),
+          Text('記録した場所'),
+          SizedBox(height: 8.0),
+          Divider(height: 1.0, color: Colors.grey),
         ],
       ),
     );

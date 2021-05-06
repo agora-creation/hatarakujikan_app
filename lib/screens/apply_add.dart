@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 
 class ApplyAddScreen extends StatelessWidget {
   @override
@@ -21,6 +22,21 @@ class ApplyAddScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
           SizedBox(height: 16.0),
+          CustomSettingListTile(
+            iconData: Icons.run_circle,
+            title: '記録修正申請',
+            onTap: () {},
+          ),
+          CustomSettingListTile(
+            iconData: Icons.run_circle_outlined,
+            title: '休暇申請',
+            onTap: () {},
+          ),
+          CustomSettingListTile(
+            iconData: Icons.run_circle_outlined,
+            title: '残業申請',
+            onTap: () {},
+          ),
         ],
       ),
     );

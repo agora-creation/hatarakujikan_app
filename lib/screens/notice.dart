@@ -46,11 +46,12 @@ class NoticeScreen extends StatelessWidget {
                 return CustomNoticeListTile(
                   notice: _notice,
                   onTap: () => nextScreen(
-                      context,
-                      NoticeDetailsScreen(
-                        notice: _notice,
-                        userNoticeProvider: userNoticeProvider,
-                      )),
+                    context,
+                    NoticeDetailsScreen(
+                      notice: _notice,
+                      userNoticeProvider: userNoticeProvider,
+                    ),
+                  ),
                 );
               },
             );

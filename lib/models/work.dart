@@ -11,6 +11,7 @@ class WorkModel {
   double _endedLat;
   double _endedLon;
   DateTime _createdAt;
+  String workTime = '00:00';
 
   String get id => _id;
   String get groupId => _groupId;

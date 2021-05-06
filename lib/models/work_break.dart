@@ -10,6 +10,7 @@ class WorkBreakModel {
   double _endedLat;
   double _endedLon;
   DateTime _createdAt;
+  String breakTime = '';
 
   String get id => _id;
   String get workId => _workId;

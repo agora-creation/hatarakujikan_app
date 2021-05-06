@@ -19,7 +19,13 @@ class _ApplyScreenState extends State<ApplyScreen> {
           labelColor: Colors.white,
           leadingIcon: Icon(Icons.store, color: Colors.white),
           trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
-          onTap: () {},
+          onTap: () {
+            showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (_) => GroupsDialog(),
+            );
+          },
         ),
         Expanded(
           child: Center(
@@ -35,6 +41,45 @@ class _ApplyScreenState extends State<ApplyScreen> {
           onTap: () => overlayScreen(context, ApplyAddScreen()),
         ),
       ],
+    );
+  }
+}
+
+class GroupsDialog extends StatefulWidget {
+  @override
+  _GroupsDialogState createState() => _GroupsDialogState();
+}
+
+class _GroupsDialogState extends State<GroupsDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        '会社/組織 切替',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('はい', style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

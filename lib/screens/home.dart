@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
+import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/apply.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final groupProvider = Provider.of<GroupProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final workProvider = Provider.of<WorkProvider>(context);
     final List<Widget> _tabs = [
@@ -33,7 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
         workProvider: workProvider,
       ),
       ApplyScreen(),
-      GroupScreen(),
+      GroupScreen(
+        groupProvider: groupProvider,
+        userProvider: userProvider,
+      ),
     ];
 
     return Scaffold(
@@ -69,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.history),
-              label: '打刻履歴',
+              label: '勤務履歴',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.question_answer),

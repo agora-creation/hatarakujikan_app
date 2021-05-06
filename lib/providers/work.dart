@@ -15,7 +15,7 @@ class WorkProvider with ChangeNotifier {
       String _id = _workService.id();
       _workService.create({
         'id': _id,
-        'groupId': 'NO-DATA',
+        'groupId': '',
         'userId': user.id,
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
