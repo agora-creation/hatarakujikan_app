@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/work_button.dart';
@@ -22,7 +23,7 @@ class WorkScreen extends StatefulWidget {
 class _WorkScreenState extends State<WorkScreen> {
   GoogleMapController mapController;
   List<double> locations;
-  String mapError = '';
+  String error = '';
 
   void _init() async {
     bool isGetLocation = await widget.userProvider.checkLocation();
@@ -37,10 +38,10 @@ class _WorkScreenState extends State<WorkScreen> {
         });
       }
       if (locations == null) {
-        mapError = '位置情報の取得に失敗しました';
+        error = '位置情報の取得に失敗しました';
       }
     } else {
-      mapError = '位置情報の取得に失敗しました';
+      error = '位置情報の取得に失敗しました';
     }
   }
 
@@ -70,7 +71,9 @@ class _WorkScreenState extends State<WorkScreen> {
             showDialog(
               barrierDismissible: false,
               context: context,
-              builder: (_) => GroupsDialog(),
+              builder: (_) => GroupsDialog(
+                groups: widget.userProvider.groups,
+              ),
             );
           },
         ),
@@ -92,7 +95,7 @@ class _WorkScreenState extends State<WorkScreen> {
                 : Loading(size: 32.0),
           ),
         ),
-        mapError != ''
+        error != ''
             ? CustomExpandedButton(
                 buttonColor: Colors.redAccent,
                 labelText: '位置情報の取得に失敗しました',
@@ -113,11 +116,17 @@ class _WorkScreenState extends State<WorkScreen> {
 }
 
 class GroupsDialog extends StatefulWidget {
+  final List<GroupModel> groups;
+
+  GroupsDialog({@required this.groups});
+
   @override
   _GroupsDialogState createState() => _GroupsDialogState();
 }
 
 class _GroupsDialogState extends State<GroupsDialog> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -129,6 +138,12 @@ class _GroupsDialogState extends State<GroupsDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Container(
+            height: 250.0,
+            child: Scrollbar(
+              isAlwaysShown: true,
+            ),
+          ),
           SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

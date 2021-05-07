@@ -55,23 +55,35 @@ class _GroupAddScreenState extends State<GroupAddScreen> {
                   suffixIconData: null,
                   onTap: null,
                 ),
-                SizedBox(height: 16.0),
-                Text(
-                  '※会社/組織作成の際、あなたのアカウントが管理者に設定されます。',
-                  style: TextStyle(color: Colors.red),
-                ),
-                SizedBox(height: 8.0),
                 Container(
-                  decoration: kTopBottomBorderDecoration,
+                  decoration: kBottomBorderDecoration,
                   child: ListTile(
-                    title: Text('管理者'),
+                    title: Text(
+                      '管理者名',
+                      style: TextStyle(color: Colors.black54),
+                    ),
                     trailing: Text(widget.userProvider.user?.name ?? ''),
                   ),
                 ),
+                Container(
+                  decoration: kBottomBorderDecoration,
+                  child: ListTile(
+                    title: Text(
+                      '管理者メールアドレス',
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                    trailing: Text(widget.userProvider.user?.email ?? ''),
+                  ),
+                ),
                 SizedBox(height: 8.0),
-                Text('管理者は以下の利用権限があたえられます。あなたのメールアドレスとパスワードでご利用できます。'),
-                Text('・タブレット端末での利用開始'),
-                Text('・WEB管理画面の利用開始'),
+                Text(
+                  '会社/組織作成時、あなたのアカウントが管理者に自動設定されます。後で変更もできます。',
+                  style: TextStyle(color: Colors.red),
+                ),
+                Text('管理者には以下の利用権限が与えられています。'),
+                Text('・タブレット端末(別アプリ)での利用'),
+                Text('・WEB管理画面による「会社/組織」管理'),
+                Text('あなたの「メールアドレス」と「パスワード」でご利用できます。'),
                 SizedBox(height: 24.0),
                 RoundBackgroundButton(
                   labelText: '作成する',

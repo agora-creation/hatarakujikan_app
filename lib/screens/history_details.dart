@@ -20,6 +20,10 @@ class HistoryDetailsScreen extends StatelessWidget {
         elevation: 0.0,
         centerTitle: true,
         title: Text('${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(day)}'),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

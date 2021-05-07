@@ -13,47 +13,54 @@ class _IntroScreenState extends State<IntroScreen> {
   List<PageViewModel> _getPages() {
     return [
       PageViewModel(
-        image: Image.asset('assets/images/img1.jpg', width: 300.0, height: 300),
-        title: 'ようこそ！はたらくじかんへ',
+        image:
+            Image.asset('assets/images/step1.png', width: 300.0, height: 300),
+        title: 'ようこそ！「はたらくじかん」へ',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('このアプリでは、あなたの働いた時間を記録・確認することができます。'),
-          ],
-        ),
-      ),
-      PageViewModel(
-        image: Image.asset('assets/images/img2.jpg', width: 300.0, height: 300),
-        title: '勤務時間の記録',
-        bodyWidget: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('出勤するとき、または退勤するときにこのアプリで時間を記録をすることができます。'),
-            Text('GPSによる記録を利用することで、出勤場所や退勤場所を確認することができます。'),
-          ],
-        ),
-      ),
-      PageViewModel(
-        image: Image.asset('assets/images/img3.jpg', width: 300.0, height: 300),
-        title: '会社/組織管理',
-        bodyWidget: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('会社/組織で利用する場合、会社/組織登録をすることで、様々な機能を使用することができます。'),
-            Text('・記録の共有と修正'),
+            Text('このアプリでは、勤務に関する様々なことをあなたのスマートフォンを使ってできるようになります。'),
+            Text('・出退勤の記録と確認'),
             Text('・各種申請'),
-            Text('・タブレット端末(アプリ)での利用'),
-            Text('・WEB管理画面による管理'),
+            Text('・勤務に関する通知　など'),
           ],
         ),
       ),
       PageViewModel(
-        image: Image.asset('assets/images/img1.jpg', width: 300.0, height: 300),
-        title: '個人登録をする',
+        image:
+            Image.asset('assets/images/step2.png', width: 300.0, height: 300),
+        title: '出退勤時のセキュリティ',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('アプリの個人利用は無料です。'),
+            Text('出退勤時の記録は、場所を問わずどこでもできます。'),
+            Text('あなたのスマートフォンのGPS機能を使うことによって、出退勤時の場所も記録することができます。'),
+            Text('また、出退勤の可能な場所(範囲)も制限することができます。'),
+          ],
+        ),
+      ),
+      PageViewModel(
+        image:
+            Image.asset('assets/images/step3.png', width: 300.0, height: 300),
+        title: '「会社/組織」へ所属',
+        bodyWidget: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('あなたのアカウントを「会社/組織」に所属させることで、記録の共有などができるようになります。'),
+            Text('また、管理者になることで、他のサービスも利用が可能になります。'),
+            Text('・タブレット端末(別アプリ)での利用'),
+            Text('・WEB管理画面による「会社/組織」管理　など'),
+          ],
+        ),
+      ),
+      PageViewModel(
+        image:
+            Image.asset('assets/images/step4.png', width: 300.0, height: 300),
+        title: 'ようこそ！「はたらくじかん」へ',
+        bodyWidget: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('まずはアカウント登録から。'),
           ],
         ),
         footer: RoundBackgroundButton(

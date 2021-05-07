@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/navigation.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
-import 'package:hatarakujikan_app/models/groups.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/group_add.dart';
 import 'package:hatarakujikan_app/screens/group_button.dart';
+import 'package:hatarakujikan_app/screens/group_details.dart';
 import 'package:hatarakujikan_app/screens/group_qr.dart';
+import 'package:hatarakujikan_app/widgets/custom_group_list_tile.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class GroupScreen extends StatefulWidget {
+class GroupScreen extends StatelessWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
 
@@ -19,35 +20,26 @@ class GroupScreen extends StatefulWidget {
   });
 
   @override
-  _GroupScreenState createState() => _GroupScreenState();
-}
-
-class _GroupScreenState extends State<GroupScreen> {
-  GroupsModel selected;
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: widget.userProvider.user.groups.length > 0
+          child: userProvider.groups.length > 0
               ? ListView.builder(
                   padding:
                       EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  itemCount: widget.userProvider.user.groups.length,
+                  itemCount: userProvider.groups.length,
                   itemBuilder: (_, index) {
-                    GroupsModel _groups =
-                        widget.userProvider.user.groups[index];
-                    return Container(
-                      decoration: kBottomBorderDecoration,
-                      child: RadioListTile(
-                        title: Text('アゴラクリエーション'),
-                        subtitle: Text('既定'),
-                        value: _groups,
-                        groupValue: selected,
-                        activeColor: Colors.blue,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        onChanged: (value) {},
+                    GroupModel _group = userProvider.groups[index];
+                    return CustomGroupListTile(
+                      group: _group,
+                      onTap: () => nextScreen(
+                        context,
+                        GroupDetailsScreen(
+                          groupProvider: groupProvider,
+                          userProvider: userProvider,
+                          group: _group,
+                        ),
                       ),
                     );
                   },
@@ -58,13 +50,19 @@ class _GroupScreenState extends State<GroupScreen> {
           createOnPressed: () => overlayScreen(
             context,
             GroupAddScreen(
-              groupProvider: widget.groupProvider,
-              userProvider: widget.userProvider,
+              groupProvider: groupProvider,
+              userProvider: userProvider,
             ),
           ),
           inOnPressed: () async {
             if (await Permission.camera.request().isGranted) {
-              overlayScreen(context, GroupQRScreen());
+              overlayScreen(
+                context,
+                GroupQRScreen(
+                  groupProvider: groupProvider,
+                  userProvider: userProvider,
+                ),
+              );
             } else {
               showDialog(
                 barrierDismissible: false,

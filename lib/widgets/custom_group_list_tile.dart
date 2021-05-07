@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
+import 'package:hatarakujikan_app/models/group.dart';
+
+class CustomGroupListTile extends StatelessWidget {
+  final GroupModel group;
+  final Function onTap;
+
+  CustomGroupListTile({
+    this.group,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: kBottomBorderDecoration,
+      child: ListTile(
+        title: Text(group.name),
+        subtitle: group.fixed ? Text('既定に設定中') : null,
+        trailing: Icon(Icons.chevron_right),
+        onTap: onTap,
+      ),
+    );
+  }
+}

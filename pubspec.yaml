@@ -27,6 +27,7 @@ dependencies:
   common_utils: ^2.0.2
   location: ^4.1.1
   google_maps_flutter: ^2.0.3
+  qr_flutter: ^4.0.0
   qr_code_scanner: ^0.4.0
   permission_handler: ^7.1.0
   flutter_launcher_icons: ^0.9.0

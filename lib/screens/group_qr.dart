@@ -2,10 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/providers/group.dart';
+import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/group_qr_view.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class GroupQRScreen extends StatefulWidget {
+  final GroupProvider groupProvider;
+  final UserProvider userProvider;
+
+  GroupQRScreen({
+    @required this.groupProvider,
+    @required this.userProvider,
+  });
+
   @override
   _GroupQRScreenState createState() => _GroupQRScreenState();
 }
@@ -49,7 +59,12 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GroupQRViewScreen(type: type, data: data),
+          builder: (context) => GroupQRViewScreen(
+            groupProvider: widget.groupProvider,
+            userProvider: widget.userProvider,
+            type: type,
+            data: data,
+          ),
         ),
       ).then((value) {
         _qrController?.resumeCamera();

@@ -24,8 +24,7 @@ class CustomNoticeListTile extends StatelessWidget {
                 style: TextStyle(color: Colors.red),
               ),
         title: Text(notice.title),
-        subtitle: Text(
-            '${DateFormat('yyyy/MM/dd').format(notice.createdAt)} (システム管理者)'),
+        subtitle: Text('${DateFormat('yyyy/MM/dd').format(notice.createdAt)}'),
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),

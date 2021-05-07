@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/services/group.dart';
 import 'package:hatarakujikan_app/services/user.dart';
 import 'package:location/location.dart';
 
@@ -11,11 +13,14 @@ class UserProvider with ChangeNotifier {
   FirebaseAuth _auth;
   User _fUser;
   UserService _userService = UserService();
+  GroupService _groupService = GroupService();
   UserModel _user;
+  List<GroupModel> _groups;
 
   Status get status => _status;
   User get fUser => _fUser;
   UserModel get user => _user;
+  List<GroupModel> get groups => _groups;
 
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -146,6 +151,7 @@ class UserProvider with ChangeNotifier {
 
   Future reloadUserModel() async {
     _user = await _userService.select(userId: _fUser.uid);
+    _groups = await _groupService.selectList(groups: _user.groups);
     notifyListeners();
   }
 
@@ -156,6 +162,7 @@ class UserProvider with ChangeNotifier {
       _fUser = firebaseUser;
       _status = Status.Authenticated;
       _user = await _userService.select(userId: _fUser.uid);
+      _groups = await _groupService.selectList(groups: _user.groups);
     }
     notifyListeners();
   }

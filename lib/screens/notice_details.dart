@@ -55,7 +55,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-                '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)} (システム管理者)'),
+                '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}'),
           ),
         ],
       ),
