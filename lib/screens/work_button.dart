@@ -6,11 +6,13 @@ class WorkButton extends StatelessWidget {
   final UserProvider userProvider;
   final WorkProvider workProvider;
   final List<double> locations;
+  final bool workError;
 
   WorkButton({
     @required this.userProvider,
     @required this.workProvider,
     @required this.locations,
+    @required this.workError,
   });
 
   @override
@@ -22,7 +24,7 @@ class WorkButton extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: locations != null && userProvider.user?.workLv == 0
+                child: !workError && userProvider.user?.workLv == 0
                     ? TextButton(
                         onPressed: () {
                           showDialog(
@@ -70,7 +72,7 @@ class WorkButton extends StatelessWidget {
               ),
               SizedBox(width: 1.0),
               Expanded(
-                child: locations != null && userProvider.user?.workLv == 1
+                child: !workError && userProvider.user?.workLv == 1
                     ? TextButton(
                         onPressed: () {
                           showDialog(
@@ -122,7 +124,7 @@ class WorkButton extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: locations != null && userProvider.user?.workLv == 1
+                child: !workError && userProvider.user?.workLv == 1
                     ? TextButton(
                         onPressed: () {
                           showDialog(
@@ -170,7 +172,7 @@ class WorkButton extends StatelessWidget {
               ),
               SizedBox(width: 1.0),
               Expanded(
-                child: locations != null && userProvider.user?.workLv == 2
+                child: !workError && userProvider.user?.workLv == 2
                     ? TextButton(
                         onPressed: () {
                           showDialog(
@@ -265,6 +267,7 @@ class WorkStartDialog extends StatelessWidget {
                 onPressed: () async {
                   if (!await workProvider.workStart(
                     user: userProvider.user,
+                    group: userProvider.group,
                     locations: locations,
                   )) {
                     return;

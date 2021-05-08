@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/group.dart';
+import 'package:hatarakujikan_app/models/groups.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/group.dart';
 import 'package:hatarakujikan_app/services/user.dart';
@@ -16,11 +17,13 @@ class UserProvider with ChangeNotifier {
   GroupService _groupService = GroupService();
   UserModel _user;
   List<GroupModel> _groups;
+  GroupModel _group;
 
   Status get status => _status;
   User get fUser => _fUser;
   UserModel get user => _user;
   List<GroupModel> get groups => _groups;
+  GroupModel get group => _group;
 
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -152,6 +155,16 @@ class UserProvider with ChangeNotifier {
   Future reloadUserModel() async {
     _user = await _userService.select(userId: _fUser.uid);
     _groups = await _groupService.selectList(groups: _user.groups);
+    if (_user.groups.length > 0) {
+      String _groupId = '';
+      for (GroupsModel _groupsModel in _user.groups) {
+        if (_groupsModel.fixed == true) {
+          _groupId = _groupsModel.groupId;
+        }
+      }
+      var contain = _groups.where((e) => e.id == _groupId);
+      _group = contain.first;
+    }
     notifyListeners();
   }
 
@@ -163,6 +176,16 @@ class UserProvider with ChangeNotifier {
       _status = Status.Authenticated;
       _user = await _userService.select(userId: _fUser.uid);
       _groups = await _groupService.selectList(groups: _user.groups);
+      if (_user.groups.length > 0) {
+        String _groupId = '';
+        for (GroupsModel _groupsModel in _user.groups) {
+          if (_groupsModel.fixed == true) {
+            _groupId = _groupsModel.groupId;
+          }
+        }
+        var contain = _groups.where((e) => e.id == _groupId);
+        _group = contain.first;
+      }
     }
     notifyListeners();
   }
@@ -196,5 +219,10 @@ class UserProvider with ChangeNotifier {
       _locationData.longitude.toString(),
     ];
     return _locations;
+  }
+
+  void changeGroup(GroupModel groupModel) {
+    _group = groupModel;
+    notifyListeners();
   }
 }

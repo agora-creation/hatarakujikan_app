@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/services/user.dart';
@@ -10,12 +11,13 @@ class WorkProvider with ChangeNotifier {
   WorkService _workService = WorkService();
   WorkBreakService _workBreakService = WorkBreakService();
 
-  Future<bool> workStart({UserModel user, List<double> locations}) async {
+  Future<bool> workStart(
+      {UserModel user, GroupModel group, List<double> locations}) async {
     try {
       String _id = _workService.id();
       _workService.create({
         'id': _id,
-        'groupId': '',
+        'groupId': group.id,
         'userId': user.id,
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
