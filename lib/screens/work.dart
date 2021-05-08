@@ -125,8 +125,6 @@ class GroupsDialog extends StatefulWidget {
 }
 
 class _GroupsDialogState extends State<GroupsDialog> {
-  final ScrollController _scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -138,12 +136,6 @@ class _GroupsDialogState extends State<GroupsDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 250.0,
-            child: Scrollbar(
-              isAlwaysShown: true,
-            ),
-          ),
           SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

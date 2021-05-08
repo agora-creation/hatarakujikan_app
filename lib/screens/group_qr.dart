@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/group_qr_view.dart';
@@ -48,11 +49,22 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
           SnackBar(content: Text('QRコードがありません')),
         );
       }
-      _nextScreen(describeEnum(scanData.format), scanData.code);
+      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code)) {
+        _nextScreen(groupId: scanData.code);
+      }
     });
   }
 
-  Future<void> _nextScreen(String type, String data) async {
+  Future<void> _nextScreen({String groupId}) async {
+    GroupModel _group;
+    await widget.groupProvider.select(groupId: groupId).then((value) {
+      _group = value;
+    });
+    if (_group == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('該当する会社/組織がありません')),
+      );
+    }
     if (!_isQRScanned) {
       _qrController?.pauseCamera();
       _isQRScanned = true;
@@ -62,13 +74,13 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
           builder: (context) => GroupQRViewScreen(
             groupProvider: widget.groupProvider,
             userProvider: widget.userProvider,
-            type: type,
-            data: data,
+            group: _group,
           ),
         ),
       ).then((value) {
         _qrController?.resumeCamera();
         _isQRScanned = false;
+        _group = null;
       });
     }
   }

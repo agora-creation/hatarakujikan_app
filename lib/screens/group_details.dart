@@ -91,7 +91,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: () async {
                           setState(() => _isLoading = true);
-                          if (!await widget.groupProvider.updateFixed(
+                          if (!await widget.groupProvider.updateGroupFixed(
                               user: widget.userProvider.user,
                               groupId: widget.group.id)) {
                             setState(() => _isLoading = false);
@@ -116,7 +116,25 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   borderColor: Colors.red,
                   labelFontSize: 16.0,
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  onPressed: () {},
+                  onPressed: () async {
+                    setState(() => _isLoading = true);
+                    if (!await widget.groupProvider.updateGroupsExit(
+                        user: widget.userProvider.user,
+                        groupId: widget.group.id)) {
+                      setState(() => _isLoading = false);
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (_) => ErrorMessage(
+                          message: '退職に失敗しました。',
+                        ),
+                      );
+                      return;
+                    }
+                    widget.userProvider.reloadUserModel();
+                    setState(() => _isLoading = false);
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),

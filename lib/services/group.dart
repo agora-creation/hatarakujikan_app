@@ -23,24 +23,39 @@ class GroupService {
     _firebaseFirestore.collection(_collection).doc(values['id']).delete();
   }
 
+  Future<GroupModel> select({String groupId}) async {
+    GroupModel _group;
+    await _firebaseFirestore
+        .collection(_collection)
+        .doc(groupId)
+        .get()
+        .then((value) {
+      _group = GroupModel.fromSnapshot(value);
+    });
+    return _group;
+  }
+
   Future<List<GroupModel>> selectList({List<GroupsModel> groups}) async {
     List<GroupModel> _groups = [];
     List<String> _whereIn = [];
     for (GroupsModel groupsModel in groups) {
       _whereIn.add(groupsModel.groupId);
     }
-    QuerySnapshot snapshot = await _firebaseFirestore
-        .collection(_collection)
-        .where('id', whereIn: _whereIn)
-        .orderBy('createdAt', descending: true)
-        .get();
-    for (DocumentSnapshot _group in snapshot.docs) {
-      _groups.add(GroupModel.fromSnapshot(_group));
-    }
-    for (GroupModel groupModel in _groups) {
-      for (GroupsModel groupsModel in groups) {
-        if (groupModel.id == groupsModel.groupId && groupsModel.fixed == true) {
-          groupModel.fixed = true;
+    if (_whereIn.length > 0) {
+      QuerySnapshot snapshot = await _firebaseFirestore
+          .collection(_collection)
+          .where('id', whereIn: _whereIn)
+          .orderBy('createdAt', descending: true)
+          .get();
+      for (DocumentSnapshot _group in snapshot.docs) {
+        _groups.add(GroupModel.fromSnapshot(_group));
+      }
+      for (GroupModel groupModel in _groups) {
+        for (GroupsModel groupsModel in groups) {
+          if (groupModel.id == groupsModel.groupId &&
+              groupsModel.fixed == true) {
+            groupModel.fixed = true;
+          }
         }
       }
     }

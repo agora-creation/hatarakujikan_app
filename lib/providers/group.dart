@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/groups.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/group.dart';
@@ -11,6 +12,8 @@ class GroupProvider with ChangeNotifier {
   TextEditingController name = TextEditingController();
 
   Future<bool> create({UserModel user}) async {
+    if (name.text == null) return false;
+    if (user == null) return false;
     try {
       String _id = _groupService.id();
       _groupService.create({
@@ -39,7 +42,8 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateFixed({UserModel user, String groupId}) async {
+  Future<bool> updateGroupFixed({UserModel user, String groupId}) async {
+    if (user == null) return false;
     try {
       List<Map> _groups = [];
       for (GroupsModel groups in user?.groups) {
@@ -61,6 +65,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future<bool> updateGroupIn({UserModel user, String groupId}) async {
+    if (user == null) return false;
     try {
       List<Map> _groups = [];
       for (GroupsModel groups in user?.groups) {
@@ -83,11 +88,19 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future<bool> updateGroupsExit({UserModel user, String groupId}) async {
+    if (user == null) return false;
     try {
       user.groups.removeWhere((e) => e.groupId == groupId);
       List<Map> _groups = [];
+      int _i = 0;
       for (GroupsModel groups in user?.groups) {
+        if (_i == 0) {
+          groups.fixed = true;
+        } else {
+          groups.fixed = false;
+        }
         _groups.add(groups.toMap());
+        _i++;
       }
       _userService.update({
         'id': user.id,
@@ -102,5 +115,13 @@ class GroupProvider with ChangeNotifier {
 
   void clearController() {
     name.text = '';
+  }
+
+  Future<GroupModel> select({String groupId}) async {
+    GroupModel _group;
+    await _groupService.select(groupId: groupId).then((value) {
+      _group = value;
+    });
+    return _group;
   }
 }
