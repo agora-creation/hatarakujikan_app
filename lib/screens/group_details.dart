@@ -110,31 +110,46 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         },
                       ),
                 SizedBox(height: 8.0),
-                RoundBorderButton(
-                  labelText: '退職する',
-                  labelColor: Colors.red,
-                  borderColor: Colors.red,
-                  labelFontSize: 16.0,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  onPressed: () async {
-                    setState(() => _isLoading = true);
-                    if (!await widget.groupProvider.updateGroupsExit(
-                        user: widget.userProvider.user,
-                        groupId: widget.group.id)) {
-                      setState(() => _isLoading = false);
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) => ErrorMessage(
-                          message: '退職に失敗しました。',
-                        ),
-                      );
-                      return;
-                    }
-                    widget.userProvider.reloadUserModel();
-                    setState(() => _isLoading = false);
-                    Navigator.pop(context);
-                  },
+                widget.userProvider.user?.id != widget.group.adminUserId
+                    ? RoundBorderButton(
+                        labelText: '退職する',
+                        labelColor: Colors.red,
+                        borderColor: Colors.red,
+                        labelFontSize: 16.0,
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        onPressed: () async {
+                          setState(() => _isLoading = true);
+                          if (!await widget.groupProvider.updateGroupsExit(
+                              user: widget.userProvider.user,
+                              groupId: widget.group.id)) {
+                            setState(() => _isLoading = false);
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => ErrorMessage(
+                                message: '退職に失敗しました。',
+                              ),
+                            );
+                            return;
+                          }
+                          widget.userProvider.reloadUserModel();
+                          setState(() => _isLoading = false);
+                          Navigator.pop(context);
+                        },
+                      )
+                    : RoundBackgroundButton(
+                        labelText: '退職する',
+                        labelColor: Colors.white,
+                        backgroundColor: Colors.grey,
+                        labelFontSize: 16.0,
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        onPressed: null,
+                      ),
+                Center(
+                  child: Text(
+                    '※管理者は退職できません',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
               ],
             ),

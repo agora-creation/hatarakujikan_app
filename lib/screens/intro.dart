@@ -14,7 +14,7 @@ class _IntroScreenState extends State<IntroScreen> {
     return [
       PageViewModel(
         image:
-            Image.asset('assets/images/step1.png', width: 300.0, height: 300),
+            Image.asset('assets/images/step1.png', width: 250.0, height: 250.0),
         title: 'ようこそ！「はたらくじかん」へ',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       PageViewModel(
         image:
-            Image.asset('assets/images/step2.png', width: 300.0, height: 300),
+            Image.asset('assets/images/step2.png', width: 250.0, height: 250.0),
         title: '出退勤時のセキュリティ',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       PageViewModel(
         image:
-            Image.asset('assets/images/step3.png', width: 300.0, height: 300),
+            Image.asset('assets/images/step3.png', width: 250.0, height: 250.0),
         title: '「会社/組織」へ所属',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       PageViewModel(
         image:
-            Image.asset('assets/images/step4.png', width: 300.0, height: 300),
+            Image.asset('assets/images/step4.png', width: 250.0, height: 250.0),
         title: 'ようこそ！「はたらくじかん」へ',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

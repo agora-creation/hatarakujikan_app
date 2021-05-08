@@ -21,13 +21,13 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('ユーザー情報変更', style: TextStyle(color: Colors.white)),
+        title: Text('ユーザー情報変更'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.white),
+          icon: Icon(Icons.chevron_left, size: 32.0),
         ),
       ),
       body: _isLoading

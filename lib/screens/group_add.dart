@@ -77,7 +77,7 @@ class _GroupAddScreenState extends State<GroupAddScreen> {
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  '会社/組織作成時、あなたのアカウントが管理者に自動設定されます。後で変更もできます。',
+                  '※会社/組織作成時、あなたのアカウントが管理者に自動設定されます。後で変更もできます。',
                   style: TextStyle(color: Colors.red),
                 ),
                 Text('管理者には以下の利用権限が与えられています。'),

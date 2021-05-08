@@ -25,6 +25,7 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
   QRViewController _qrController;
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   bool _isQRScanned = false;
+  GroupModel _group;
 
   @override
   void reassemble() {
@@ -56,32 +57,26 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
   }
 
   Future<void> _nextScreen({String groupId}) async {
-    GroupModel _group;
-    await widget.groupProvider.select(groupId: groupId).then((value) {
-      _group = value;
-    });
-    if (_group == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('該当する会社/組織がありません')),
-      );
-    }
-    if (!_isQRScanned) {
-      _qrController?.pauseCamera();
-      _isQRScanned = true;
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GroupQRViewScreen(
-            groupProvider: widget.groupProvider,
-            userProvider: widget.userProvider,
-            group: _group,
+    _group = await widget.groupProvider.select(groupId: groupId);
+    if (_group != null) {
+      if (!_isQRScanned) {
+        _qrController?.pauseCamera();
+        _isQRScanned = true;
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GroupQRViewScreen(
+              groupProvider: widget.groupProvider,
+              userProvider: widget.userProvider,
+              group: _group,
+            ),
           ),
-        ),
-      ).then((value) {
-        _qrController?.resumeCamera();
-        _isQRScanned = false;
-        _group = null;
-      });
+        ).then((value) {
+          _qrController?.resumeCamera();
+          _isQRScanned = false;
+          _group = null;
+        });
+      }
     }
   }
 

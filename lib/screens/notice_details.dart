@@ -29,13 +29,13 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('お知らせの詳細', style: TextStyle(color: Colors.white)),
+        title: Text('お知らせの詳細'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.white),
+          icon: Icon(Icons.chevron_left, size: 32.0),
         ),
       ),
       body: ListView(

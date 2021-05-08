@@ -21,13 +21,13 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('パスワード再設定', style: TextStyle(color: Colors.white)),
+        title: Text('パスワード再設定'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.white),
+          icon: Icon(Icons.chevron_left, size: 32.0),
         ),
       ),
       body: _isLoading

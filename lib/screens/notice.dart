@@ -16,14 +16,14 @@ class NoticeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('お知らせ', style: TextStyle(color: Colors.white)),
+        title: Text('お知らせ'),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-            icon: Icon(Icons.close, color: Colors.white),
+            icon: Icon(Icons.close),
           ),
         ],
       ),

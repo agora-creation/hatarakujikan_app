@@ -31,6 +31,8 @@ class GroupService {
         .get()
         .then((value) {
       _group = GroupModel.fromSnapshot(value);
+    }).catchError((e) {
+      _group = null;
     });
     return _group;
   }

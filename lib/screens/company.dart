@@ -14,13 +14,13 @@ class _CompanyScreenState extends State<CompanyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('開発/運営会社', style: TextStyle(color: Colors.white)),
+        title: Text('開発/運営会社'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.white),
+          icon: Icon(Icons.chevron_left, size: 32.0),
         ),
         actions: [
           IconButton(
