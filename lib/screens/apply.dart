@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/screens/apply_add.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 

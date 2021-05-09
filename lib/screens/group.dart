@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';

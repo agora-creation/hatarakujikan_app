@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hatarakujikan_app/models/breaks.dart';
 
 class WorkModel {
   String _id;
@@ -10,6 +11,7 @@ class WorkModel {
   DateTime _endedAt;
   double _endedLat;
   double _endedLon;
+  List<BreaksModel> breaks;
   DateTime _createdAt;
   String workTime = '00:00';
 
@@ -34,7 +36,16 @@ class WorkModel {
     _endedAt = snapshot.data()['endedAt'].toDate();
     _endedLat = snapshot.data()['endedLat'];
     _endedLon = snapshot.data()['endedLon'];
+    breaks = _convertBreaks(snapshot.data()['breaks']) ?? [];
     _createdAt = snapshot.data()['createdAt'].toDate();
+  }
+
+  List<BreaksModel> _convertBreaks(List breaks) {
+    List<BreaksModel> converted = [];
+    for (Map data in breaks) {
+      converted.add(BreaksModel.fromMap(data));
+    }
+    return converted;
   }
 
   String diff() {

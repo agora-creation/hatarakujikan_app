@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:introduction_screen/introduction_screen.dart';

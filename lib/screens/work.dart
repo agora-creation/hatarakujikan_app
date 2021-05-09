@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hatarakujikan_app/helpers/navigation.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
@@ -40,16 +40,16 @@ class _WorkScreenState extends State<WorkScreen> {
         });
         if (widget.userProvider.group == null) {
           workError = true;
-          workErrorText = '会社/組織に所属していません';
+          workErrorText = '会社/組織に所属していません。';
         }
       }
       if (locations == null) {
         workError = true;
-        workErrorText = '位置情報の取得に失敗しました';
+        workErrorText = '位置情報の取得に失敗しました。';
       }
     } else {
       workError = true;
-      workErrorText = '位置情報の取得に失敗しました';
+      workErrorText = '位置情報の取得に失敗しました。';
     }
   }
 
@@ -99,13 +99,12 @@ class _WorkScreenState extends State<WorkScreen> {
           ),
         ),
         workError
-            ? CustomExpandedButton(
-                buttonColor: Colors.redAccent,
-                labelText: workErrorText,
-                labelColor: Colors.white,
-                leadingIcon: Icon(Icons.error, color: Colors.white),
-                trailingIcon: null,
-                onTap: null,
+            ? ListTile(
+                tileColor: Colors.redAccent,
+                title: Text(
+                  workErrorText,
+                  style: TextStyle(color: Colors.white, fontSize: 14.0),
+                ),
               )
             : Container(),
         WorkButton(
