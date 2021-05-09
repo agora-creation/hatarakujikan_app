@@ -13,7 +13,6 @@ class WorkModel {
   double _endedLon;
   List<BreaksModel> breaks;
   DateTime _createdAt;
-  String workTime = '00:00';
 
   String get id => _id;
   String get groupId => _groupId;
@@ -48,7 +47,7 @@ class WorkModel {
     return converted;
   }
 
-  String diff() {
+  String workTime() {
     Duration _diff = _endedAt.difference(_startedAt);
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitMinutes = twoDigits(_diff.inMinutes.remainder(60));

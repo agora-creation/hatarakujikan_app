@@ -40,16 +40,16 @@ class _WorkScreenState extends State<WorkScreen> {
         });
         if (widget.userProvider.group == null) {
           workError = true;
-          workErrorText = '会社/組織に所属していません。';
+          workErrorText = '会社/組織に所属していません';
         }
       }
       if (locations == null) {
         workError = true;
-        workErrorText = '位置情報の取得に失敗しました。';
+        workErrorText = '位置情報の取得に失敗しました';
       }
     } else {
       workError = true;
-      workErrorText = '位置情報の取得に失敗しました。';
+      workErrorText = '位置情報の取得に失敗しました';
     }
   }
 
@@ -95,7 +95,7 @@ class _WorkScreenState extends State<WorkScreen> {
                     tiltGesturesEnabled: false,
                     myLocationEnabled: true,
                   )
-                : Loading(size: 32.0),
+                : Loading(size: 32.0, color: Colors.cyan),
           ),
         ),
         workError

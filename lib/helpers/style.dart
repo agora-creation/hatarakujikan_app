@@ -44,12 +44,12 @@ const BoxDecoration kBottomBorderDecoration = BoxDecoration(
 );
 
 const TextStyle kTitleTextStyle = TextStyle(
-  color: Color(0xFF0097A7),
+  color: Colors.white,
   fontSize: 32.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle kSubTitleTextStyle = TextStyle(
-  color: Color(0xFF0097A7),
+  color: Colors.white,
   fontSize: 16.0,
 );

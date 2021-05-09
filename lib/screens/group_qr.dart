@@ -69,6 +69,7 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
               groupProvider: widget.groupProvider,
               userProvider: widget.userProvider,
               group: _group,
+              qrController: _qrController,
             ),
           ),
         ).then((value) {

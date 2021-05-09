@@ -12,12 +12,4 @@ class UserNoticeProvider with ChangeNotifier {
       'read': true,
     });
   }
-
-  Future<List<UserNoticeModel>> selectList({String userId}) async {
-    List<UserNoticeModel> _notices = [];
-    await _userNoticeService.selectList(userId: userId).then((value) {
-      _notices = value;
-    });
-    return _notices;
-  }
 }

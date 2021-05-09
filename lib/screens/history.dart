@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
@@ -10,6 +11,7 @@ import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -48,6 +50,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
+            '${DateFormat('yyyy-MM-dd').format(days.first)} 00:00:00.000')
+        .millisecondsSinceEpoch);
+    Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
+            '${DateFormat('yyyy-MM-dd').format(days.last)} 23:59:59.999')
+        .millisecondsSinceEpoch);
+    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('work')
+        .where('groupId', isEqualTo: widget.userProvider.group?.id)
+        .where('userId', isEqualTo: widget.userProvider.user?.id)
+        .orderBy('startedAt', descending: false)
+        .startAt([_startAt]).endAt([_endAt]).snapshots();
+    List<WorkModel> works = [];
+
     return Column(
       children: [
         widget.userProvider.group != null
@@ -82,20 +98,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
         CustomHeadListTile(),
         Expanded(
-          child: FutureBuilder<List<WorkModel>>(
-            future: widget.workProvider.selectList(
-              groupId: widget.userProvider.group?.id,
-              userId: widget.userProvider.user?.id,
-              startAt: days.first,
-              endAt: days.last,
-            ),
+          child: StreamBuilder<QuerySnapshot>(
+            stream: _stream,
             builder: (context, snapshot) {
-              List<WorkModel> works = [];
-              if (snapshot.connectionState == ConnectionState.done) {
-                works.clear();
-                works = snapshot.data;
-              } else {
-                works.clear();
+              if (!snapshot.hasData) {
+                return Loading(size: 32.0, color: Colors.cyan);
+              }
+              works.clear();
+              for (DocumentSnapshot work in snapshot.data.docs) {
+                works.add(WorkModel.fromSnapshot(work));
               }
               return ListView.builder(
                 itemCount: days.length,
@@ -111,20 +122,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   return CustomHistoryListTile(
                     day: days[index],
                     works: _dayWorks,
-                    trailing: widget.userProvider.group != null
-                        ? Icon(Icons.chevron_right)
-                        : null,
-                    onTap: widget.userProvider.group != null
-                        ? () {
-                            nextScreen(
-                              context,
-                              HistoryDetailsScreen(
-                                day: days[index],
-                                dayWorks: _dayWorks,
-                              ),
-                            );
-                          }
-                        : null,
+                    onTap: () {
+                      nextScreen(
+                        context,
+                        HistoryDetailsScreen(
+                          day: days[index],
+                          dayWorks: _dayWorks,
+                        ),
+                      );
+                    },
                   );
                 },
               );

@@ -40,8 +40,13 @@ class WorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> workEnd({UserModel user, List<double> locations}) async {
+  Future<bool> workEnd(
+      {GroupModel group, UserModel user, List<double> locations}) async {
     try {
+      WorkModel _work = await _workService.select(workId: user.lastWorkId);
+      if (_work.groupId != group.id) {
+        return false;
+      }
       _workService.update({
         'id': user.lastWorkId,
         'endedAt': DateTime.now(),
@@ -60,9 +65,13 @@ class WorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> breakStart({UserModel user, List<double> locations}) async {
+  Future<bool> breakStart(
+      {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
+      if (_work.groupId != group.id) {
+        return false;
+      }
       List<Map> _breaks = [];
       for (BreaksModel breaks in _work?.breaks) {
         _breaks.add(breaks.toMap());
@@ -93,9 +102,13 @@ class WorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> breakEnd({UserModel user, List<double> locations}) async {
+  Future<bool> breakEnd(
+      {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
+      if (_work.groupId != group.id) {
+        return false;
+      }
       List<Map> _breaks = [];
       for (BreaksModel breaks in _work?.breaks) {
         if (breaks.id == user?.lastBreakId) {
@@ -119,17 +132,5 @@ class WorkProvider with ChangeNotifier {
       print(e.toString());
       return false;
     }
-  }
-
-  Future<List<WorkModel>> selectList(
-      {String groupId, String userId, DateTime startAt, DateTime endAt}) async {
-    List<WorkModel> _works = [];
-    await _workService
-        .selectList(
-            groupId: groupId, userId: userId, startAt: startAt, endAt: endAt)
-        .then((value) {
-      _works = value;
-    });
-    return _works;
   }
 }

@@ -3,14 +3,18 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
   final double size;
+  final Color color;
 
-  Loading({this.size});
+  Loading({
+    this.size,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SpinKitDualRing(
-        color: Colors.cyan.shade700,
+        color: color,
         size: size,
       ),
     );

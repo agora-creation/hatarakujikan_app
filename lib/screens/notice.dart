@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
@@ -5,6 +6,7 @@ import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/screens/notice_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_notice_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
 class NoticeScreen extends StatelessWidget {
@@ -12,6 +14,13 @@ class NoticeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
+    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('user')
+        .doc(userProvider.user?.id)
+        .collection('notice')
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+    List<UserNoticeModel> notices = [];
 
     return Scaffold(
       appBar: AppBar(
@@ -27,15 +36,15 @@ class NoticeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder<List<UserNoticeModel>>(
-        future: userNoticeProvider.selectList(userId: userProvider.user?.id),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _stream,
         builder: (context, snapshot) {
-          List<UserNoticeModel> notices = [];
-          if (snapshot.connectionState == ConnectionState.done) {
-            notices.clear();
-            notices = snapshot.data;
-          } else {
-            notices.clear();
+          if (!snapshot.hasData) {
+            return Loading(size: 32.0, color: Colors.cyan);
+          }
+          notices.clear();
+          for (DocumentSnapshot notice in snapshot.data.docs) {
+            notices.add(UserNoticeModel.fromSnapshot(notice));
           }
           if (notices.length > 0) {
             return ListView.builder(

@@ -7,17 +7,19 @@ import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class GroupQRViewScreen extends StatefulWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
   final GroupModel group;
+  final QRViewController qrController;
 
-  GroupQRViewScreen({
-    @required this.groupProvider,
-    @required this.userProvider,
-    @required this.group,
-  });
+  GroupQRViewScreen(
+      {@required this.groupProvider,
+      @required this.userProvider,
+      @required this.group,
+      @required this.qrController});
 
   @override
   _GroupQRViewScreenState createState() => _GroupQRViewScreenState();
@@ -43,7 +45,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
         ),
       ),
       body: _isLoading
-          ? Loading(size: 32.0)
+          ? Loading(size: 32.0, color: Colors.cyan)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
@@ -91,6 +93,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                             return;
                           }
                           widget.userProvider.reloadUserModel();
+                          widget.qrController?.resumeCamera();
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                           Navigator.of(context, rootNavigator: true).pop();

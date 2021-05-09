@@ -31,11 +31,4 @@ class BreaksModel {
         'endedLat': endedLat,
         'endedLon': endedLon,
       };
-
-  String diff() {
-    Duration _diff = endedAt.difference(_startedAt);
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String twoDigitMinutes = twoDigits(_diff.inMinutes.remainder(60));
-    return '${twoDigits(_diff.inHours)}:$twoDigitMinutes';
-  }
 }

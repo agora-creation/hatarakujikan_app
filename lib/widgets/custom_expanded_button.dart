@@ -23,7 +23,11 @@ class CustomExpandedButton extends StatelessWidget {
       color: buttonColor,
       child: ListTile(
         leading: leadingIcon,
-        title: Text(labelText, style: TextStyle(color: labelColor)),
+        title: Text(
+          labelText,
+          style: TextStyle(color: labelColor),
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: trailingIcon,
         onTap: onTap,
       ),

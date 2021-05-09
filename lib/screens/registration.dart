@@ -8,7 +8,7 @@ import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
-import 'package:hatarakujikan_app/widgets/round_border_button.dart';
+import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -23,15 +23,32 @@ class RegistrationScreen extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Container(
             height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF4DD0E1),
+                  Color(0xFF00BCD4),
+                ],
+              ),
+            ),
             child: userProvider.status == Status.Authenticating
-                ? Loading(size: 32.0)
+                ? Loading(size: 32.0, color: Colors.white)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
+                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Center(
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: 100.0,
+                            height: 100.0,
+                          ),
+                        ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -94,10 +111,10 @@ class RegistrationScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 24.0),
-                        RoundBorderButton(
+                        RoundBackgroundButton(
                           labelText: '登録',
                           labelColor: Colors.blue,
-                          borderColor: Colors.blue,
+                          backgroundColor: Colors.white,
                           labelFontSize: 16.0,
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
@@ -125,7 +142,7 @@ class RegistrationScreen extends StatelessWidget {
                             child: Text(
                               '登録済みの方はログインから',
                               style: TextStyle(
-                                color: Colors.cyan.shade700,
+                                color: Colors.white,
                                 decoration: TextDecoration.underline,
                               ),
                             ),
