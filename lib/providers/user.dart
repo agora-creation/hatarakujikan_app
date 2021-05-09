@@ -155,6 +155,7 @@ class UserProvider with ChangeNotifier {
   Future reloadUserModel() async {
     _user = await _userService.select(userId: _fUser.uid);
     _groups = await _groupService.selectList(groups: _user.groups);
+    _group = null;
     if (_user.groups.length > 0) {
       String _groupId = '';
       for (GroupsModel _groupsModel in _user.groups) {
@@ -176,6 +177,7 @@ class UserProvider with ChangeNotifier {
       _status = Status.Authenticated;
       _user = await _userService.select(userId: _fUser.uid);
       _groups = await _groupService.selectList(groups: _user.groups);
+      _group = null;
       if (_user.groups.length > 0) {
         String _groupId = '';
         for (GroupsModel _groupsModel in _user.groups) {

@@ -4,6 +4,7 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
+import 'package:hatarakujikan_app/screens/group_select.dart';
 import 'package:hatarakujikan_app/screens/history_button.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
@@ -49,20 +50,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomExpandedButton(
-          buttonColor: Colors.blueGrey,
-          labelText: '会社/組織 所属なし',
-          labelColor: Colors.white,
-          leadingIcon: Icon(Icons.store, color: Colors.white),
-          trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
-          onTap: () {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (_) => GroupsDialog(),
-            );
-          },
-        ),
+        widget.userProvider.group != null
+            ? CustomExpandedButton(
+                buttonColor: Colors.blueGrey,
+                labelText: widget.userProvider.group?.name,
+                labelColor: Colors.white,
+                leadingIcon: Icon(Icons.store, color: Colors.white),
+                trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                onTap: () => overlayScreen(
+                  context,
+                  GroupSelect(userProvider: widget.userProvider),
+                ),
+              )
+            : Container(),
         HistoryButton(
           selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
           monthOnPressed: () async {
@@ -84,6 +84,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         Expanded(
           child: FutureBuilder<List<WorkModel>>(
             future: widget.workProvider.selectList(
+              groupId: widget.userProvider.group?.id,
               userId: widget.userProvider.user?.id,
               startAt: days.first,
               endAt: days.last,
@@ -110,15 +111,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   return CustomHistoryListTile(
                     day: days[index],
                     works: _dayWorks,
-                    onTap: () {
-                      nextScreen(
-                        context,
-                        HistoryDetailsScreen(
-                          day: days[index],
-                          dayWorks: _dayWorks,
-                        ),
-                      );
-                    },
+                    trailing: widget.userProvider.group != null
+                        ? Icon(Icons.chevron_right)
+                        : null,
+                    onTap: widget.userProvider.group != null
+                        ? () {
+                            nextScreen(
+                              context,
+                              HistoryDetailsScreen(
+                                day: days[index],
+                                dayWorks: _dayWorks,
+                              ),
+                            );
+                          }
+                        : null,
                   );
                 },
               );
@@ -126,45 +132,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class GroupsDialog extends StatefulWidget {
-  @override
-  _GroupsDialogState createState() => _GroupsDialogState();
-}
-
-class _GroupsDialogState extends State<GroupsDialog> {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        '会社/組織 切替',
-        style: TextStyle(fontSize: 18.0),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

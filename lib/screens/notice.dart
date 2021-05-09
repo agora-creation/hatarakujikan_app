@@ -48,8 +48,8 @@ class NoticeScreen extends StatelessWidget {
                   onTap: () => nextScreen(
                     context,
                     NoticeDetailsScreen(
-                      notice: _notice,
                       userNoticeProvider: userNoticeProvider,
+                      notice: _notice,
                     ),
                   ),
                 );

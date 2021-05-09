@@ -4,12 +4,12 @@ import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:intl/intl.dart';
 
 class NoticeDetailsScreen extends StatefulWidget {
-  final UserNoticeModel notice;
   final UserNoticeProvider userNoticeProvider;
+  final UserNoticeModel notice;
 
   NoticeDetailsScreen({
-    @required this.notice,
     @required this.userNoticeProvider,
+    @required this.notice,
   });
 
   @override
@@ -55,7 +55,8 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-                '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}'),
+              '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}',
+            ),
           ),
         ],
       ),

@@ -12,7 +12,7 @@ class WorkProvider with ChangeNotifier {
   WorkService _workService = WorkService();
 
   Future<bool> workStart(
-      {UserModel user, GroupModel group, List<double> locations}) async {
+      {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       String _id = _workService.id();
       _workService.create({
@@ -60,11 +60,11 @@ class WorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> breakStart(
-      {UserModel user, WorkModel work, List<double> locations}) async {
+  Future<bool> breakStart({UserModel user, List<double> locations}) async {
     try {
+      WorkModel _work = await _workService.select(workId: user.lastWorkId);
       List<Map> _breaks = [];
-      for (BreaksModel breaks in work?.breaks) {
+      for (BreaksModel breaks in _work?.breaks) {
         _breaks.add(breaks.toMap());
       }
       String _id = randomString(24);
@@ -93,11 +93,11 @@ class WorkProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> breakEnd(
-      {UserModel user, WorkModel work, List<double> locations}) async {
+  Future<bool> breakEnd({UserModel user, List<double> locations}) async {
     try {
+      WorkModel _work = await _workService.select(workId: user.lastWorkId);
       List<Map> _breaks = [];
-      for (BreaksModel breaks in work?.breaks) {
+      for (BreaksModel breaks in _work?.breaks) {
         if (breaks.id == user?.lastBreakId) {
           breaks.endedAt = DateTime.now();
           breaks.endedLat = locations.first;
@@ -122,10 +122,11 @@ class WorkProvider with ChangeNotifier {
   }
 
   Future<List<WorkModel>> selectList(
-      {String userId, DateTime startAt, DateTime endAt}) async {
+      {String groupId, String userId, DateTime startAt, DateTime endAt}) async {
     List<WorkModel> _works = [];
     await _workService
-        .selectList(userId: userId, startAt: startAt, endAt: endAt)
+        .selectList(
+            groupId: groupId, userId: userId, startAt: startAt, endAt: endAt)
         .then((value) {
       _works = value;
     });

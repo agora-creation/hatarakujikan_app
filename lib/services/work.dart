@@ -23,8 +23,14 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).delete();
   }
 
+  Future<WorkModel> select({String workId}) async {
+    DocumentSnapshot snapshot =
+        await _firebaseFirestore.collection(_collection).doc(workId).get();
+    return WorkModel.fromSnapshot(snapshot);
+  }
+
   Future<List<WorkModel>> selectList(
-      {String userId, DateTime startAt, DateTime endAt}) async {
+      {String groupId, String userId, DateTime startAt, DateTime endAt}) async {
     List<WorkModel> _works = [];
     Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
             '${DateFormat('yyyy-MM-dd').format(startAt)} 00:00:00.000')
@@ -34,6 +40,7 @@ class WorkService {
             .millisecondsSinceEpoch);
     QuerySnapshot snapshot = await _firebaseFirestore
         .collection(_collection)
+        .where('groupId', isEqualTo: groupId)
         .where('userId', isEqualTo: userId)
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).get();

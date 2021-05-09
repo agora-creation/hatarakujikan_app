@@ -6,11 +6,13 @@ import 'package:intl/intl.dart';
 class CustomHistoryListTile extends StatelessWidget {
   final DateTime day;
   final List<WorkModel> works;
+  final Widget trailing;
   final Function onTap;
 
   CustomHistoryListTile({
     this.day,
     this.works,
+    this.trailing,
     this.onTap,
   });
 
@@ -59,7 +61,7 @@ class CustomHistoryListTile extends StatelessWidget {
                 },
               )
             : Container(),
-        trailing: Icon(Icons.chevron_right),
+        trailing: trailing,
         onTap: onTap,
       ),
     );

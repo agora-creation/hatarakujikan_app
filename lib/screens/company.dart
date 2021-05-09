@@ -8,7 +8,7 @@ class CompanyScreen extends StatefulWidget {
 
 class _CompanyScreenState extends State<CompanyScreen> {
   WebViewController _controller;
-  String _url = 'https://agora-c.com';
+  String _url = 'https://agora-c.com/';
 
   @override
   Widget build(BuildContext context) {
