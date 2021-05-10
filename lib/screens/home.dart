@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
         workProvider: workProvider,
       ),
-      ApplyScreen(),
+      ApplyScreen(
+        userProvider: userProvider,
+      ),
       GroupScreen(
         groupProvider: groupProvider,
         userProvider: userProvider,

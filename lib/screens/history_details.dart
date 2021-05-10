@@ -109,7 +109,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
               myLocationButtonEnabled: false,
             ),
           ),
-          SizedBox(height: 24.0),
+          SizedBox(height: 16.0),
           RoundBackgroundButton(
             labelText: '記録修正申請',
             labelColor: Colors.white,
@@ -118,6 +118,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
             padding: EdgeInsets.symmetric(vertical: 16.0),
             onPressed: () {},
           ),
+          SizedBox(height: 40.0),
         ],
       ),
     );

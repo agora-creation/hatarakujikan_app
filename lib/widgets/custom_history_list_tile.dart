@@ -39,27 +39,47 @@ class CustomHistoryListTile extends StatelessWidget {
                             fontSize: 16.0,
                           ),
                         ),
-                        Text(
-                          '${DateFormat('HH:mm').format(_work.endedAt)}',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        Text(
-                          '${_work.workTime()}',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16.0,
-                          ),
-                        ),
+                        _work.startedAt != _work.endedAt
+                            ? Text(
+                                '${DateFormat('HH:mm').format(_work.endedAt)}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16.0,
+                                ),
+                              )
+                            : Text(
+                                '---:---',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                        _work.startedAt != _work.endedAt
+                            ? Text(
+                                '${_work.workTime()}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16.0,
+                                ),
+                              )
+                            : Text(
+                                '---:---',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16.0,
+                                ),
+                              ),
                       ],
                     ),
-                    trailing: Icon(Icons.chevron_right),
-                    onTap: () => nextScreen(
-                      context,
-                      HistoryDetailsScreen(work: _work),
-                    ),
+                    trailing: _work.startedAt != _work.endedAt
+                        ? Icon(Icons.chevron_right)
+                        : Icon(Icons.chevron_right, color: Colors.transparent),
+                    onTap: _work.startedAt != _work.endedAt
+                        ? () => nextScreen(
+                              context,
+                              HistoryDetailsScreen(work: _work),
+                            )
+                        : null,
                   );
                 },
               )
