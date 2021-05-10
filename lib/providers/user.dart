@@ -164,6 +164,8 @@ class UserProvider with ChangeNotifier {
       }
       var contain = _groups.where((e) => e.id == _groupId);
       _group = contain.first;
+    } else {
+      _group = null;
     }
     notifyListeners();
   }
@@ -185,6 +187,8 @@ class UserProvider with ChangeNotifier {
         }
         var contain = _groups.where((e) => e.id == _groupId);
         _group = contain.first;
+      } else {
+        _group = null;
       }
     }
     notifyListeners();

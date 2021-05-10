@@ -7,7 +7,6 @@ import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
 import 'package:hatarakujikan_app/screens/history_button.dart';
-import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
@@ -64,10 +63,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
         .startAt([_startAt]).endAt([_endAt]).snapshots();
     List<WorkModel> works = [];
 
-    return Column(
-      children: [
-        widget.userProvider.group != null
-            ? CustomExpandedButton(
+    return widget.userProvider.group != null
+        ? Column(
+            children: [
+              CustomExpandedButton(
                 buttonColor: Colors.blueGrey,
                 labelText: widget.userProvider.group?.name,
                 labelColor: Colors.white,
@@ -77,67 +76,58 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   context,
                   GroupSelect(userProvider: widget.userProvider),
                 ),
-              )
-            : Container(),
-        HistoryButton(
-          selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
-          monthOnPressed: () async {
-            var selected = await showMonthPicker(
-              context: context,
-              initialDate: selectMonth,
-              firstDate: DateTime(DateTime.now().year - 1),
-              lastDate: DateTime(DateTime.now().year + 1),
-            );
-            if (selected == null) return;
-            setState(() {
-              selectMonth = selected;
-              _generateDays(selectMonth);
-            });
-          },
-          totalOnPressed: () {},
-        ),
-        CustomHeadListTile(),
-        Expanded(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: _stream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Loading(size: 32.0, color: Colors.cyan);
-              }
-              works.clear();
-              for (DocumentSnapshot work in snapshot.data.docs) {
-                works.add(WorkModel.fromSnapshot(work));
-              }
-              return ListView.builder(
-                itemCount: days.length,
-                itemBuilder: (_, index) {
-                  List<WorkModel> _dayWorks = [];
-                  for (WorkModel _work in works) {
-                    if (days[index] ==
-                        DateTime.parse(
-                            DateFormat('yyyy-MM-dd').format(_work.startedAt))) {
-                      _dayWorks.add(_work);
-                    }
-                  }
-                  return CustomHistoryListTile(
-                    day: days[index],
-                    works: _dayWorks,
-                    onTap: () {
-                      nextScreen(
-                        context,
-                        HistoryDetailsScreen(
-                          day: days[index],
-                          dayWorks: _dayWorks,
-                        ),
-                      );
-                    },
+              ),
+              HistoryButton(
+                selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+                monthOnPressed: () async {
+                  var selected = await showMonthPicker(
+                    context: context,
+                    initialDate: selectMonth,
+                    firstDate: DateTime(DateTime.now().year - 1),
+                    lastDate: DateTime(DateTime.now().year + 1),
                   );
+                  if (selected == null) return;
+                  setState(() {
+                    selectMonth = selected;
+                    _generateDays(selectMonth);
+                  });
                 },
-              );
-            },
-          ),
-        ),
-      ],
-    );
+                totalOnPressed: () {},
+              ),
+              CustomHeadListTile(),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Loading(size: 32.0, color: Colors.cyan);
+                    }
+                    works.clear();
+                    for (DocumentSnapshot work in snapshot.data.docs) {
+                      works.add(WorkModel.fromSnapshot(work));
+                    }
+                    return ListView.builder(
+                      itemCount: days.length,
+                      itemBuilder: (_, index) {
+                        List<WorkModel> _dayWorks = [];
+                        for (WorkModel _work in works) {
+                          if (days[index] ==
+                              DateTime.parse(DateFormat('yyyy-MM-dd')
+                                  .format(_work.startedAt))) {
+                            _dayWorks.add(_work);
+                          }
+                        }
+                        return CustomHistoryListTile(
+                          day: days[index],
+                          works: _dayWorks,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          )
+        : Center(child: Text('会社/組織に所属していません'));
   }
 }

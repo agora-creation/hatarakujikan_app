@@ -23,7 +23,10 @@ class CustomNoticeListTile extends StatelessWidget {
                 '未読',
                 style: TextStyle(color: Colors.red),
               ),
-        title: Text(notice.title),
+        title: Text(
+          notice.title,
+          overflow: TextOverflow.ellipsis,
+        ),
         subtitle: Text('${DateFormat('yyyy/MM/dd').format(notice.createdAt)}'),
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,

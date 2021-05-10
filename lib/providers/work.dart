@@ -76,7 +76,7 @@ class WorkProvider with ChangeNotifier {
       for (BreaksModel breaks in _work?.breaks) {
         _breaks.add(breaks.toMap());
       }
-      String _id = randomString(24);
+      String _id = randomString(20);
       _breaks.add({
         'id': _id,
         'startedAt': DateTime.now(),

@@ -266,8 +266,8 @@ class WorkStartDialog extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   if (!await workProvider.workStart(
-                    user: userProvider.user,
                     group: userProvider.group,
+                    user: userProvider.user,
                     locations: locations,
                   )) {
                     return;
@@ -325,6 +325,7 @@ class WorkEndDialog extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   if (!await workProvider.workEnd(
+                    group: userProvider.group,
                     user: userProvider.user,
                     locations: locations,
                   )) {
@@ -383,6 +384,7 @@ class BreakStartDialog extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   if (!await workProvider.breakStart(
+                    group: userProvider.group,
                     user: userProvider.user,
                     locations: locations,
                   )) {
@@ -441,6 +443,7 @@ class BreakEndDialog extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   if (!await workProvider.breakEnd(
+                    group: userProvider.group,
                     user: userProvider.user,
                     locations: locations,
                   )) {

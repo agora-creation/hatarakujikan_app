@@ -48,9 +48,23 @@ class WorkModel {
   }
 
   String workTime() {
-    Duration _diff = _endedAt.difference(_startedAt);
+    String _result = '00:00';
     String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String twoDigitMinutes = twoDigits(_diff.inMinutes.remainder(60));
-    return '${twoDigits(_diff.inHours)}:$twoDigitMinutes';
+    // 出勤時間と退勤時間の差を求める
+    Duration _diff = _endedAt.difference(_startedAt);
+    String _minutes = twoDigits(_diff.inMinutes.remainder(60));
+    String _workTime = '${twoDigits(_diff.inHours)}:$_minutes';
+    // 休憩の合計時間を求める
+    if (breaks.length > 0) {
+      String _breaksTime = '00:00';
+      for (BreaksModel _break in breaks) {
+        _breaksTime = _break.breakTime();
+      }
+    } else {
+      String _breaksTime = '00:00';
+    }
+    // 勤務時間と休憩の合計時間の差を求める
+    _result = _workTime;
+    return _result;
   }
 }

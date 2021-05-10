@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/work.dart';
+import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:intl/intl.dart';
 
 class CustomHistoryListTile extends StatelessWidget {
   final DateTime day;
   final List<WorkModel> works;
-  final Function onTap;
 
   CustomHistoryListTile({
     this.day,
     this.works,
-    this.onTap,
   });
 
   @override
@@ -55,12 +55,15 @@ class CustomHistoryListTile extends StatelessWidget {
                         ),
                       ],
                     ),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () => nextScreen(
+                      context,
+                      HistoryDetailsScreen(work: _work),
+                    ),
                   );
                 },
               )
             : Container(),
-        trailing: Icon(Icons.chevron_right),
-        onTap: onTap,
       ),
     );
   }

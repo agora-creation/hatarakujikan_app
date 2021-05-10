@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
@@ -40,15 +41,43 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
       ),
     ];
+    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+        .collection('user')
+        .doc(userProvider.user?.id)
+        .collection('notice')
+        .where('read', isEqualTo: false)
+        .snapshots();
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(userProvider.user?.name ?? ''),
         actions: [
-          IconButton(
-            onPressed: () => overlayScreen(context, NoticeScreen()),
-            icon: Icon(Icons.notifications),
+          StreamBuilder<QuerySnapshot>(
+            stream: _stream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.notifications_off_outlined),
+                );
+              }
+              List<DocumentSnapshot> docs = snapshot.data.docs;
+              if (docs.length == 0) {
+                return IconButton(
+                  onPressed: () => overlayScreen(context, NoticeScreen()),
+                  icon: Icon(Icons.notifications_none),
+                );
+              } else {
+                return IconButton(
+                  onPressed: () => overlayScreen(context, NoticeScreen()),
+                  icon: Icon(
+                    Icons.notification_important_sharp,
+                    color: Colors.red,
+                  ),
+                );
+              }
+            },
           ),
           IconButton(
             onPressed: () => overlayScreen(context, SettingScreen()),
