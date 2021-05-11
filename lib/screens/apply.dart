@@ -32,7 +32,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
               ),
               Expanded(
                 child: Center(
-                  child: Text('申請はありませんでした'),
+                  child: Text('申請はありません'),
                 ),
               ),
             ],

@@ -7,6 +7,7 @@ import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
 import 'package:hatarakujikan_app/screens/history_button.dart';
+import 'package:hatarakujikan_app/screens/history_total.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
@@ -92,7 +93,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     _generateDays(selectMonth);
                   });
                 },
-                totalOnPressed: () {},
+                totalOnPressed: () => overlayScreen(
+                  context,
+                  HistoryTotal(
+                    userProvider: widget.userProvider,
+                    workProvider: widget.workProvider,
+                    days: days,
+                  ),
+                ),
               ),
               CustomHeadListTile(),
               Expanded(

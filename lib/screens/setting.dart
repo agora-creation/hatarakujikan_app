@@ -65,7 +65,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         UserPasswordScreen(userProvider: userProvider));
                   },
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 24.0),
                 Text('アプリ情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),

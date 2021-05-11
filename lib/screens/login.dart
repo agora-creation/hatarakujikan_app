@@ -66,6 +66,7 @@ class LoginScreen extends StatelessWidget {
                               textInputType: TextInputType.emailAddress,
                               maxLines: 1,
                               labelText: 'メールアドレス',
+                              labelColor: Colors.white,
                               prefixIconData: Icons.email,
                               suffixIconData: null,
                               onTap: null,
@@ -77,6 +78,7 @@ class LoginScreen extends StatelessWidget {
                               textInputType: null,
                               maxLines: 1,
                               labelText: 'パスワード',
+                              labelColor: Colors.white,
                               prefixIconData: Icons.lock,
                               suffixIconData: userProvider.isHidden
                                   ? Icons.visibility

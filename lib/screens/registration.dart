@@ -66,6 +66,7 @@ class RegistrationScreen extends StatelessWidget {
                               textInputType: TextInputType.name,
                               maxLines: 1,
                               labelText: 'お名前',
+                              labelColor: Colors.white,
                               prefixIconData: Icons.person_outline,
                               suffixIconData: null,
                               onTap: null,
@@ -77,6 +78,7 @@ class RegistrationScreen extends StatelessWidget {
                               textInputType: TextInputType.emailAddress,
                               maxLines: 1,
                               labelText: 'メールアドレス',
+                              labelColor: Colors.white,
                               prefixIconData: Icons.email_outlined,
                               suffixIconData: null,
                               onTap: null,
@@ -88,6 +90,7 @@ class RegistrationScreen extends StatelessWidget {
                               textInputType: null,
                               maxLines: 1,
                               labelText: 'パスワード',
+                              labelColor: Colors.white,
                               prefixIconData: Icons.lock_outline,
                               suffixIconData: userProvider.isHidden
                                   ? Icons.visibility
@@ -102,6 +105,7 @@ class RegistrationScreen extends StatelessWidget {
                               textInputType: null,
                               maxLines: 1,
                               labelText: 'パスワードの再入力',
+                              labelColor: Colors.white,
                               prefixIconData: Icons.lock_outline,
                               suffixIconData: userProvider.isReHidden
                                   ? Icons.visibility

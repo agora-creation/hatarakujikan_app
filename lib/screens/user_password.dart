@@ -42,6 +42,7 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                   textInputType: null,
                   maxLines: 1,
                   labelText: '新しいパスワード',
+                  labelColor: Colors.black54,
                   prefixIconData: Icons.lock,
                   suffixIconData: widget.userProvider.isHidden
                       ? Icons.visibility
@@ -55,6 +56,7 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                   textInputType: null,
                   maxLines: 1,
                   labelText: '新しいパスワードの再入力',
+                  labelColor: Colors.black54,
                   prefixIconData: Icons.lock_outline,
                   suffixIconData: widget.userProvider.isReHidden
                       ? Icons.visibility

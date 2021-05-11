@@ -6,6 +6,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType textInputType;
   final int maxLines;
   final String labelText;
+  final Color labelColor;
   final IconData prefixIconData;
   final IconData suffixIconData;
   final Function onTap;
@@ -16,6 +17,7 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputType,
     this.maxLines,
     this.labelText,
+    this.labelColor,
     this.prefixIconData,
     this.suffixIconData,
     this.onTap,
@@ -29,23 +31,23 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: textInputType,
       maxLines: maxLines,
       style: TextStyle(
-        color: Colors.black54,
+        color: labelColor,
         fontSize: 14.0,
       ),
-      cursorColor: Colors.black54,
+      cursorColor: labelColor,
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: Icon(
           prefixIconData,
           size: 18.0,
-          color: Colors.black54,
+          color: labelColor,
         ),
         suffixIcon: GestureDetector(
           onTap: onTap,
           child: Icon(
             suffixIconData,
             size: 18.0,
-            color: Colors.black54,
+            color: labelColor,
           ),
         ),
         filled: true,
@@ -55,10 +57,10 @@ class CustomTextFormField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: Colors.black54),
+          borderSide: BorderSide(color: labelColor),
         ),
-        labelStyle: TextStyle(color: Colors.black54),
-        focusColor: Colors.black54,
+        labelStyle: TextStyle(color: labelColor),
+        focusColor: labelColor,
       ),
     );
   }

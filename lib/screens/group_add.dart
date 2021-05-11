@@ -51,6 +51,7 @@ class _GroupAddScreenState extends State<GroupAddScreen> {
                   textInputType: TextInputType.name,
                   maxLines: 1,
                   labelText: '会社/組織名',
+                  labelColor: Colors.black54,
                   prefixIconData: Icons.store,
                   suffixIconData: null,
                   onTap: null,
@@ -63,16 +64,6 @@ class _GroupAddScreenState extends State<GroupAddScreen> {
                       style: TextStyle(color: Colors.black54),
                     ),
                     trailing: Text(widget.userProvider.user?.name ?? ''),
-                  ),
-                ),
-                Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    title: Text(
-                      '管理者メールアドレス',
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                    trailing: Text(widget.userProvider.user?.email ?? ''),
                   ),
                 ),
                 SizedBox(height: 8.0),
