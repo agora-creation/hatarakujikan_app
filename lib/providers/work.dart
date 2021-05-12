@@ -133,4 +133,16 @@ class WorkProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<List<WorkModel>> selectList(
+      {String groupId, String userId, DateTime startAt, DateTime endAt}) async {
+    List<WorkModel> _works = [];
+    await _workService
+        .selectList(
+            groupId: groupId, userId: userId, startAt: startAt, endAt: endAt)
+        .then((value) {
+      _works = value;
+    });
+    return _works;
+  }
 }

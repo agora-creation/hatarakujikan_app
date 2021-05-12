@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
@@ -20,6 +22,36 @@ class HistoryTotal extends StatefulWidget {
 }
 
 class _HistoryTotalState extends State<HistoryTotal> {
+  int workCount = 0;
+  String workTime = '';
+
+  void _init() async {
+    await widget.workProvider
+        .selectList(
+            groupId: widget.userProvider.group?.id,
+            userId: widget.userProvider.user?.id,
+            startAt: widget.days.first,
+            endAt: widget.days.last)
+        .then((value) {
+      int _workCount = 0;
+      String _workTime = '00:00';
+      for (WorkModel _work in value) {
+        _workCount++;
+        _workTime = addTime(_workTime, _work.workTime());
+      }
+      setState(() {
+        workCount = _workCount;
+        workTime = _workTime;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +88,12 @@ class _HistoryTotalState extends State<HistoryTotal> {
           CustomHistoryDetailsListTile(
             icon: null,
             title: '勤務日数',
-            time: '0 日',
+            time: '$workCount 日',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
             title: '勤務時間',
-            time: '00:00',
+            time: '$workTime',
           ),
           CustomHistoryDetailsListTile(
             icon: null,

@@ -14,15 +14,15 @@ class _IntroScreenState extends State<IntroScreen> {
     return [
       PageViewModel(
         image: Image.asset(
-          'assets/images/step1.png',
+          'assets/images/logo.png',
           width: 200.0,
           height: 200.0,
         ),
-        title: 'ようこそ！「はたらくじかん」へ',
+        title: 'はじめに',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('このアプリでは、勤務に関する様々なことをあなたのスマートフォンを使ってできるようになります。'),
+            Text('このアプリでは、勤務に関する様々なことがあなたのスマートフォンでできるようになります。'),
             Text('・出退勤の記録と確認'),
             Text('・各種申請'),
             Text('・勤務に関する通知　など'),
@@ -64,19 +64,19 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       PageViewModel(
         image: Image.asset(
-          'assets/images/step4.png',
+          'assets/images/logo.png',
           width: 200.0,
           height: 200.0,
         ),
-        title: 'ようこそ！「はたらくじかん」へ',
+        title: 'アカウント登録',
         bodyWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('まずはアカウント登録から。'),
+            Text('はじめにアカウント登録にて、あなたの情報を教えて下さい。'),
           ],
         ),
         footer: RoundBackgroundButton(
-          labelText: 'はじめる',
+          labelText: '登録する',
           labelColor: Colors.white,
           backgroundColor: Colors.blue,
           labelFontSize: 16.0,
@@ -99,6 +99,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF00BCD4),
       body: IntroductionScreen(
         showSkipButton: true,
         skip: Text('スキップ'),
