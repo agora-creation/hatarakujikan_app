@@ -14,7 +14,7 @@ class _IntroScreenState extends State<IntroScreen> {
     return [
       PageViewModel(
         image: Image.asset(
-          'assets/images/logo.png',
+          'assets/images/step1.png',
           width: 200.0,
           height: 200.0,
         ),
@@ -64,7 +64,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       PageViewModel(
         image: Image.asset(
-          'assets/images/logo.png',
+          'assets/images/step1.png',
           width: 200.0,
           height: 200.0,
         ),
@@ -99,7 +99,6 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF00BCD4),
       body: IntroductionScreen(
         showSkipButton: true,
         skip: Text('スキップ'),

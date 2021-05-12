@@ -33,14 +33,14 @@ class _HistoryTotalState extends State<HistoryTotal> {
             startAt: widget.days.first,
             endAt: widget.days.last)
         .then((value) {
-      int _workCount = 0;
+      Map _count = {};
       String _workTime = '00:00';
       for (WorkModel _work in value) {
-        _workCount++;
+        _count['${DateFormat('yyyy-MM-dd').format(_work.startedAt)}'] = '';
         _workTime = addTime(_workTime, _work.workTime());
       }
       setState(() {
-        workCount = _workCount;
+        workCount = _count.length;
         workTime = _workTime;
       });
     });
@@ -61,7 +61,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '集計',
+          '${DateFormat('yyyy年MM月').format(widget.days.first)}の集計',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -77,13 +77,8 @@ class _HistoryTotalState extends State<HistoryTotal> {
           SizedBox(height: 16.0),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '対象会社/組織',
+            title: '会社/組織',
             time: widget.userProvider.group?.name,
-          ),
-          CustomHistoryDetailsListTile(
-            icon: null,
-            title: '対象年月',
-            time: '${DateFormat('yyyy年MM月').format(widget.days.first)}',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
