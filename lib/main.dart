@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           const Locale('ja'),
         ],
         locale: const Locale('ja'),
-        title: 'はたらくじかん',
+        title: 'はたらくじかんforスマートフォン',
         theme: theme(),
         home: SplashController(),
       ),

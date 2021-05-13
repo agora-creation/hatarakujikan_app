@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
    <application
        android:name=".Application"
-        android:label="はたらくじかん"
+        android:label="はたらくじかんforスマートフォン"
         android:icon="@mipmap/launcher_icon">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
