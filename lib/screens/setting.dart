@@ -3,6 +3,7 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/company.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
+import 'package:hatarakujikan_app/screens/push_permissions.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
 import 'package:hatarakujikan_app/screens/user_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
@@ -64,6 +65,11 @@ class _SettingScreenState extends State<SettingScreen> {
                     nextScreen(context,
                         UserPasswordScreen(userProvider: userProvider));
                   },
+                ),
+                CustomSettingListTile(
+                  iconData: Icons.notifications,
+                  title: 'PUSH通知の許可',
+                  onTap: () => nextScreen(context, PushPermissionsScreen()),
                 ),
                 SizedBox(height: 24.0),
                 Text('アプリ情報'),
