@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/screens/company.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/push_permissions.dart';
@@ -22,6 +23,7 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +56,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     userProvider.name.text = userProvider.user.name;
                     userProvider.email.text = userProvider.user.email;
                     nextScreen(
-                        context, UserEmailScreen(userProvider: userProvider));
+                      context,
+                      UserEmailScreen(userProvider: userProvider),
+                    );
                   },
                 ),
                 CustomSettingListTile(
@@ -62,14 +66,24 @@ class _SettingScreenState extends State<SettingScreen> {
                   title: 'パスワード再設定',
                   onTap: () {
                     userProvider.clearController();
-                    nextScreen(context,
-                        UserPasswordScreen(userProvider: userProvider));
+                    nextScreen(
+                      context,
+                      UserPasswordScreen(userProvider: userProvider),
+                    );
                   },
                 ),
                 CustomSettingListTile(
                   iconData: Icons.notifications,
                   title: 'PUSH通知の許可',
-                  onTap: () => nextScreen(context, PushPermissionsScreen()),
+                  onTap: () {
+                    userNoticeProvider.requestPermissions();
+                    nextScreen(
+                      context,
+                      PushPermissionsScreen(
+                        userNoticeProvider: userNoticeProvider,
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: 24.0),
                 Text('アプリ情報'),

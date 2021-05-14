@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: GroupProvider()),
         ChangeNotifierProvider.value(value: UserProvider.initialize()),
-        ChangeNotifierProvider.value(value: UserNoticeProvider()),
+        ChangeNotifierProvider.value(
+            value: UserNoticeProvider()..requestPermissions()),
         ChangeNotifierProvider.value(value: WorkProvider()),
       ],
       child: MaterialApp(
@@ -85,6 +86,28 @@ class _SplashControllerState extends State<SplashController> {
         .getInitialMessage()
         .then((RemoteMessage message) {
       if (message != null) {}
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notification = message.notification;
+      final android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channel.description,
+              icon: 'launch_background',
+            ),
+          ),
+        );
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
     });
   }
 

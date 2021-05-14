@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/groups.dart';
@@ -49,13 +50,21 @@ class UserProvider with ChangeNotifier {
   Future<bool> signIn() async {
     if (email.text == null) return false;
     if (password.text == null) return false;
+    String _token = await setToken();
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      await _auth.signInWithEmailAndPassword(
+      await _auth
+          .signInWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
-      );
+      )
+          .then((value) {
+        _userService.update({
+          'id': value.user.uid,
+          'token': _token,
+        });
+      });
       return true;
     } catch (e) {
       _status = Status.Unauthenticated;
@@ -70,6 +79,7 @@ class UserProvider with ChangeNotifier {
     if (email.text == null) return false;
     if (password.text == null) return false;
     if (password.text != rePassword.text) return false;
+    String _token = await setToken();
     try {
       _status = Status.Authenticating;
       notifyListeners();
@@ -88,6 +98,7 @@ class UserProvider with ChangeNotifier {
           'lastWorkId': '',
           'lastBreakId': '',
           'groups': [],
+          'token': _token,
           'createdAt': DateTime.now(),
         });
       });
@@ -192,6 +203,19 @@ class UserProvider with ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  Future<String> setToken() async {
+    String _token = '';
+    Stream<String> _tokenStream;
+    await FirebaseMessaging.instance.getToken().then((value) {
+      _token = value;
+    });
+    _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+    _tokenStream.listen((value) {
+      _token = value;
+    });
+    return _token;
   }
 
   Future<bool> checkLocation() async {

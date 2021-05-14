@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:hatarakujikan_app/services/user_notice.dart';
@@ -11,5 +12,15 @@ class UserNoticeProvider with ChangeNotifier {
       'userId': notice.userId,
       'read': true,
     });
+  }
+
+  Future<NotificationSettings> requestPermissions() async {
+    NotificationSettings _settings =
+        await FirebaseMessaging.instance.requestPermission(
+      announcement: true,
+      carPlay: true,
+      criticalAlert: true,
+    );
+    return _settings;
   }
 }
