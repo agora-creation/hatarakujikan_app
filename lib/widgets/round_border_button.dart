@@ -27,13 +27,13 @@ class RoundBorderButton extends StatelessWidget {
           labelText,
           style: TextStyle(
             color: labelColor,
-            fontSize: labelFontSize,
+            fontSize: 16.0,
           ),
         ),
         style: TextButton.styleFrom(
           side: BorderSide(color: borderColor, width: 1),
           shape: StadiumBorder(),
-          padding: padding,
+          padding: EdgeInsets.symmetric(vertical: 16.0),
         ),
       ),
     );

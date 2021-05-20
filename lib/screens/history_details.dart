@@ -114,8 +114,6 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
             labelText: '記録修正申請',
             labelColor: Colors.white,
             backgroundColor: Colors.blue,
-            labelFontSize: 16.0,
-            padding: EdgeInsets.symmetric(vertical: 16.0),
             onPressed: () {},
           ),
           SizedBox(height: 40.0),

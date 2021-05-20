@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 
 class ErrorMessage extends StatelessWidget {
   final String message;
@@ -25,15 +26,15 @@ class ErrorMessage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                labelText: 'キャンセル',
+                backgroundColor: Colors.grey,
               ),
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                labelText: 'はい',
+                backgroundColor: Colors.blue,
               ),
             ],
           ),

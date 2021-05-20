@@ -68,8 +68,6 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                   labelText: '変更を保存',
                   labelColor: Colors.white,
                   backgroundColor: Colors.blue,
-                  labelFontSize: 16.0,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.userProvider.updatePassword()) {

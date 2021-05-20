@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void nextScreen(BuildContext context, Widget widget) {
   Navigator.push(
@@ -44,6 +45,21 @@ String randomString(int length) {
     },
   );
   return new String.fromCharCodes(codeUnits);
+}
+
+Future<String> getPrefs() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  return _prefs.getString('groupId') ?? '';
+}
+
+Future<void> setPrefs(String value) async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.setString('groupId', value);
+}
+
+Future<void> removePrefs() async {
+  SharedPreferences _prefs = await SharedPreferences.getInstance();
+  _prefs.remove('groupId');
 }
 
 String addTime(String left, String right) {

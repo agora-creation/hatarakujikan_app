@@ -15,11 +15,12 @@ class GroupQRViewScreen extends StatefulWidget {
   final GroupModel group;
   final QRViewController qrController;
 
-  GroupQRViewScreen(
-      {@required this.groupProvider,
-      @required this.userProvider,
-      @required this.group,
-      @required this.qrController});
+  GroupQRViewScreen({
+    @required this.groupProvider,
+    @required this.userProvider,
+    @required this.group,
+    @required this.qrController,
+  });
 
   @override
   _GroupQRViewScreenState createState() => _GroupQRViewScreenState();
@@ -30,8 +31,8 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var contain = widget.userProvider.user.groups
-        .where((e) => e.groupId == widget.group.id);
+    var contain =
+        widget.userProvider.user.groups.where((e) => e == widget.group.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -75,11 +76,9 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                         labelText: 'この会社/組織に所属する',
                         labelColor: Colors.white,
                         backgroundColor: Colors.blue,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: () async {
                           setState(() => _isLoading = true);
-                          if (!await widget.groupProvider.updateGroupIn(
+                          if (!await widget.groupProvider.updateIn(
                               user: widget.userProvider.user,
                               groupId: widget.group?.id)) {
                             setState(() => _isLoading = false);
@@ -103,8 +102,6 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                         labelText: '既に所属済み',
                         labelColor: Colors.white,
                         backgroundColor: Colors.grey,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: null,
                       ),
                 SizedBox(height: 8.0),

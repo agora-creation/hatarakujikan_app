@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
-import 'package:hatarakujikan_app/models/groups.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/group.dart';
 import 'package:hatarakujikan_app/services/user.dart';
@@ -17,7 +17,7 @@ class UserProvider with ChangeNotifier {
   UserService _userService = UserService();
   GroupService _groupService = GroupService();
   UserModel _user;
-  List<GroupModel> _groups;
+  List<GroupModel> _groups = [];
   GroupModel _group;
 
   Status get status => _status;
@@ -152,6 +152,7 @@ class UserProvider with ChangeNotifier {
     _auth.signOut();
     _status = Status.Unauthenticated;
     _user = null;
+    await removePrefs();
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
@@ -166,15 +167,16 @@ class UserProvider with ChangeNotifier {
   Future reloadUserModel() async {
     _user = await _userService.select(userId: _fUser.uid);
     _groups = await _groupService.selectList(groups: _user.groups);
-    if (_user.groups.length > 0) {
-      String _groupId = '';
-      for (GroupsModel _groupsModel in _user.groups) {
-        if (_groupsModel.fixed == true) {
-          _groupId = _groupsModel.groupId;
-        }
+    if (_groups.length > 0) {
+      String _groupId = await getPrefs();
+      if (_groupId == '') {
+        await setPrefs(_user.groups.first);
+        var contain = _groups.where((e) => e.id == _user.groups.first);
+        _group = contain.first;
+      } else {
+        var contain = _groups.where((e) => e.id == _groupId);
+        _group = contain.first;
       }
-      var contain = _groups.where((e) => e.id == _groupId);
-      _group = contain.first;
     } else {
       _group = null;
     }
@@ -189,15 +191,16 @@ class UserProvider with ChangeNotifier {
       _status = Status.Authenticated;
       _user = await _userService.select(userId: _fUser.uid);
       _groups = await _groupService.selectList(groups: _user.groups);
-      if (_user.groups.length > 0) {
-        String _groupId = '';
-        for (GroupsModel _groupsModel in _user.groups) {
-          if (_groupsModel.fixed == true) {
-            _groupId = _groupsModel.groupId;
-          }
+      if (_groups.length > 0) {
+        String _groupId = await getPrefs();
+        if (_groupId == '') {
+          await setPrefs(_user.groups.first);
+          var contain = _groups.where((e) => e.id == _user.groups.first);
+          _group = contain.first;
+        } else {
+          var contain = _groups.where((e) => e.id == _groupId);
+          _group = contain.first;
         }
-        var contain = _groups.where((e) => e.id == _groupId);
-        _group = contain.first;
       } else {
         _group = null;
       }

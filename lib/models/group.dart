@@ -5,7 +5,6 @@ class GroupModel {
   String _name;
   String _adminUserId;
   DateTime _createdAt;
-  bool fixed = false;
 
   String get id => _id;
   String get name => _name;

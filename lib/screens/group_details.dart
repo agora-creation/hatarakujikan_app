@@ -13,11 +13,13 @@ class GroupDetailsScreen extends StatefulWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
   final GroupModel group;
+  final String prefsGroupId;
 
   GroupDetailsScreen({
     @required this.groupProvider,
     @required this.userProvider,
     @required this.group,
+    @required this.prefsGroupId,
   });
 
   @override
@@ -74,13 +76,11 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 16.0),
-                widget.group.fixed
+                widget.prefsGroupId == widget.group.id
                     ? RoundBackgroundButton(
                         labelText: '既定に設定中',
                         labelColor: Colors.white,
                         backgroundColor: Colors.grey,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: null,
                       )
                     : RoundBorderButton(
@@ -91,9 +91,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: () async {
                           setState(() => _isLoading = true);
-                          if (!await widget.groupProvider.updateGroupFixed(
-                              user: widget.userProvider.user,
-                              groupId: widget.group.id)) {
+                          if (!await widget.groupProvider
+                              .updatePrefs(groupId: widget.group.id)) {
                             setState(() => _isLoading = false);
                             showDialog(
                               barrierDismissible: false,
@@ -119,7 +118,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: () async {
                           setState(() => _isLoading = true);
-                          if (!await widget.groupProvider.updateGroupsExit(
+                          if (!await widget.groupProvider.updateExit(
                               user: widget.userProvider.user,
                               groupId: widget.group.id)) {
                             setState(() => _isLoading = false);
@@ -141,8 +140,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         labelText: '退職する',
                         labelColor: Colors.white,
                         backgroundColor: Colors.grey,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: null,
                       ),
                 Center(

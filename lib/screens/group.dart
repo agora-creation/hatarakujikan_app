@@ -13,10 +13,12 @@ import 'package:permission_handler/permission_handler.dart';
 class GroupScreen extends StatelessWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
+  final String prefsGroupId;
 
   GroupScreen({
     @required this.groupProvider,
     @required this.userProvider,
+    @required this.prefsGroupId,
   });
 
   @override
@@ -33,12 +35,14 @@ class GroupScreen extends StatelessWidget {
                     GroupModel _group = userProvider.groups[index];
                     return CustomGroupListTile(
                       group: _group,
+                      fixed: _group.id == prefsGroupId,
                       onTap: () => nextScreen(
                         context,
                         GroupDetailsScreen(
                           groupProvider: groupProvider,
                           userProvider: userProvider,
                           group: _group,
+                          prefsGroupId: prefsGroupId,
                         ),
                       ),
                     );

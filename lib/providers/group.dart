@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
-import 'package:hatarakujikan_app/models/groups.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/services/group.dart';
 import 'package:hatarakujikan_app/services/user.dart';
@@ -22,19 +22,16 @@ class GroupProvider with ChangeNotifier {
         'adminUserId': user.id,
         'createdAt': DateTime.now(),
       });
-      List<Map> _groups = [];
-      for (GroupsModel groups in user?.groups) {
-        groups.fixed = false;
-        _groups.add(groups.toMap());
+      List<String> _groups = [];
+      for (String _groupId in user?.groups) {
+        _groups.add(_groupId);
       }
-      _groups.add({
-        'groupId': _id,
-        'fixed': true,
-      });
+      _groups.add(_id);
       _userService.update({
         'id': user.id,
         'groups': _groups,
       });
+      await setPrefs(_id);
       return true;
     } catch (e) {
       print(e.toString());
@@ -42,21 +39,9 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateGroupFixed({UserModel user, String groupId}) async {
-    if (user == null) return false;
+  Future<bool> updatePrefs({String groupId}) async {
     try {
-      List<Map> _groups = [];
-      for (GroupsModel groups in user?.groups) {
-        groups.fixed = false;
-        if (groups.groupId == groupId) {
-          groups.fixed = true;
-        }
-        _groups.add(groups.toMap());
-      }
-      _userService.update({
-        'id': user.id,
-        'groups': _groups,
-      });
+      await setPrefs(groupId);
       return true;
     } catch (e) {
       print(e.toString());
@@ -64,22 +49,19 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateGroupIn({UserModel user, String groupId}) async {
+  Future<bool> updateIn({UserModel user, String groupId}) async {
     if (user == null) return false;
     try {
-      List<Map> _groups = [];
-      for (GroupsModel groups in user?.groups) {
-        groups.fixed = false;
-        _groups.add(groups.toMap());
+      List<String> _groups = [];
+      for (String _groupId in user?.groups) {
+        _groups.add(_groupId);
       }
-      _groups.add({
-        'groupId': groupId,
-        'fixed': true,
-      });
+      _groups.add(groupId);
       _userService.update({
         'id': user.id,
         'groups': _groups,
       });
+      await setPrefs(groupId);
       return true;
     } catch (e) {
       print(e.toString());
@@ -87,25 +69,19 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateGroupsExit({UserModel user, String groupId}) async {
+  Future<bool> updateExit({UserModel user, String groupId}) async {
     if (user == null) return false;
     try {
-      user.groups.removeWhere((e) => e.groupId == groupId);
-      List<Map> _groups = [];
-      int _i = 0;
-      for (GroupsModel groups in user?.groups) {
-        if (_i == 0) {
-          groups.fixed = true;
-        } else {
-          groups.fixed = false;
-        }
-        _groups.add(groups.toMap());
-        _i++;
+      user.groups.removeWhere((e) => e == groupId);
+      List<String> _groups = [];
+      for (String _groupId in user?.groups) {
+        _groups.add(_groupId);
       }
       _userService.update({
         'id': user.id,
         'groups': _groups,
       });
+      await setPrefs(_groups.first);
       return true;
     } catch (e) {
       print(e.toString());

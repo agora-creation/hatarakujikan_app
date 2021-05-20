@@ -79,8 +79,6 @@ class _IntroScreenState extends State<IntroScreen> {
           labelText: '登録する',
           labelColor: Colors.white,
           backgroundColor: Colors.blue,
-          labelFontSize: 16.0,
-          padding: EdgeInsets.symmetric(vertical: 16.0),
           onPressed: () => _complete(context),
         ),
       ),

@@ -179,8 +179,6 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         labelText: '許可する',
                         labelColor: Colors.white,
                         backgroundColor: Colors.blue,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: _init,
                       )
                     : Container(),

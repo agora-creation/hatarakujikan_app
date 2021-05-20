@@ -119,8 +119,6 @@ class RegistrationScreen extends StatelessWidget {
                           labelText: '登録',
                           labelColor: Colors.blue,
                           backgroundColor: Colors.white,
-                          labelFontSize: 16.0,
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await userProvider.signUp()) {
                               showDialog(
@@ -133,6 +131,7 @@ class RegistrationScreen extends StatelessWidget {
                               return;
                             }
                             userProvider.clearController();
+                            userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
                         ),

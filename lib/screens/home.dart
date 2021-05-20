@@ -19,7 +19,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String prefsGroupId = '';
   int _tabsIndex = 0;
+
+  void _init() async {
+    prefsGroupId = await getPrefs();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       GroupScreen(
         groupProvider: groupProvider,
         userProvider: userProvider,
+        prefsGroupId: prefsGroupId,
       ),
     ];
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance

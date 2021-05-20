@@ -94,8 +94,6 @@ class LoginScreen extends StatelessWidget {
                           labelText: 'ログイン',
                           labelColor: Colors.white,
                           backgroundColor: Colors.blue,
-                          labelFontSize: 16.0,
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
                           onPressed: () async {
                             if (!await userProvider.signIn()) {
                               showDialog(
@@ -109,6 +107,7 @@ class LoginScreen extends StatelessWidget {
                               return;
                             }
                             userProvider.clearController();
+                            userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
                         ),

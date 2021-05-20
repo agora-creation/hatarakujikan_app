@@ -4,10 +4,12 @@ import 'package:hatarakujikan_app/models/group.dart';
 
 class CustomGroupListTile extends StatelessWidget {
   final GroupModel group;
+  final bool fixed;
   final Function onTap;
 
   CustomGroupListTile({
     this.group,
+    this.fixed,
     this.onTap,
   });
 
@@ -17,7 +19,7 @@ class CustomGroupListTile extends StatelessWidget {
       decoration: kBottomBorderDecoration,
       child: ListTile(
         title: Text(group.name),
-        subtitle: group.fixed ? Text('既定に設定中') : null,
+        subtitle: fixed ? Text('既定に設定中') : null,
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),

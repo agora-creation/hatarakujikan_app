@@ -80,8 +80,6 @@ class _GroupAddScreenState extends State<GroupAddScreen> {
                   labelText: '作成する',
                   labelColor: Colors.white,
                   backgroundColor: Colors.blue,
-                  labelFontSize: 16.0,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.groupProvider
