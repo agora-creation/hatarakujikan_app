@@ -40,7 +40,7 @@ class _GroupAddScreenState extends State<GroupAddScreen> {
         ],
       ),
       body: _isLoading
-          ? Loading(size: 32.0, color: Colors.cyan)
+          ? Loading(color: Colors.cyan)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [

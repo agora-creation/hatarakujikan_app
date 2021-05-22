@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
+import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 
 class WorkButton extends StatelessWidget {
   final UserProvider userProvider;
@@ -258,12 +259,12 @@ class WorkStartDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                labelText: 'キャンセル',
+                backgroundColor: Colors.grey,
               ),
-              TextButton(
+              CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.workStart(
                     group: userProvider.group,
@@ -275,8 +276,8 @@ class WorkStartDialog extends StatelessWidget {
                   userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                labelText: 'はい',
+                backgroundColor: Colors.blue,
               ),
             ],
           ),
@@ -317,12 +318,12 @@ class WorkEndDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                labelText: 'キャンセル',
+                backgroundColor: Colors.grey,
               ),
-              TextButton(
+              CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.workEnd(
                     group: userProvider.group,
@@ -334,8 +335,8 @@ class WorkEndDialog extends StatelessWidget {
                   userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                labelText: 'はい',
+                backgroundColor: Colors.blue,
               ),
             ],
           ),
@@ -376,12 +377,12 @@ class BreakStartDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                labelText: 'キャンセル',
+                backgroundColor: Colors.grey,
               ),
-              TextButton(
+              CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.breakStart(
                     group: userProvider.group,
@@ -393,8 +394,8 @@ class BreakStartDialog extends StatelessWidget {
                   userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                labelText: 'はい',
+                backgroundColor: Colors.blue,
               ),
             ],
           ),
@@ -435,12 +436,12 @@ class BreakEndDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                labelText: 'キャンセル',
+                backgroundColor: Colors.grey,
               ),
-              TextButton(
+              CustomTextButton(
                 onPressed: () async {
                   if (!await workProvider.breakEnd(
                     group: userProvider.group,
@@ -452,8 +453,8 @@ class BreakEndDialog extends StatelessWidget {
                   userProvider.reloadUserModel();
                   Navigator.pop(context);
                 },
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+                labelText: 'はい',
+                backgroundColor: Colors.blue,
               ),
             ],
           ),

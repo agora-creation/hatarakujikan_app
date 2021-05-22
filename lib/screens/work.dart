@@ -95,7 +95,7 @@ class _WorkScreenState extends State<WorkScreen> {
                     tiltGesturesEnabled: false,
                     myLocationEnabled: true,
                   )
-                : Loading(size: 32.0, color: Colors.cyan),
+                : Loading(color: Colors.cyan),
           ),
         ),
         workError

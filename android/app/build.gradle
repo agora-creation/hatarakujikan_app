@@ -40,8 +40,10 @@ android {
         applicationId "com.agoracreation.hatarakujikan_app"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+//        versionCode flutterVersionCode.toInteger()
+        versionCode 2
+//        versionName flutterVersionName
+        versionName '2.0'
         multiDexEnabled true
     }
 

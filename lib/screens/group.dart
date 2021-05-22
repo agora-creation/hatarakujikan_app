@@ -8,6 +8,7 @@ import 'package:hatarakujikan_app/screens/group_button.dart';
 import 'package:hatarakujikan_app/screens/group_details.dart';
 import 'package:hatarakujikan_app/screens/group_qr.dart';
 import 'package:hatarakujikan_app/widgets/custom_group_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GroupScreen extends StatelessWidget {
@@ -98,17 +99,15 @@ class PermissionDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
+              CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('キャンセル', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.grey),
+                labelText: 'キャンセル',
+                backgroundColor: Colors.grey,
               ),
-              TextButton(
-                onPressed: () {
-                  openAppSettings();
-                },
-                child: Text('はい', style: TextStyle(color: Colors.white)),
-                style: TextButton.styleFrom(backgroundColor: Colors.blue),
+              CustomTextButton(
+                onPressed: () => openAppSettings(),
+                labelText: 'はい',
+                backgroundColor: Colors.blue,
               ),
             ],
           ),

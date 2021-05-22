@@ -40,7 +40,7 @@ class NoticeScreen extends StatelessWidget {
         stream: _stream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Loading(size: 32.0, color: Colors.cyan);
+            return Loading(color: Colors.cyan);
           }
           notices.clear();
           for (DocumentSnapshot notice in snapshot.data.docs) {

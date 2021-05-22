@@ -108,7 +108,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   stream: _stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Loading(size: 32.0, color: Colors.cyan);
+                      return Loading(color: Colors.cyan);
                     }
                     works.clear();
                     for (DocumentSnapshot work in snapshot.data.docs) {

@@ -4,16 +4,12 @@ class RoundBorderButton extends StatelessWidget {
   final String labelText;
   final Color labelColor;
   final Color borderColor;
-  final double labelFontSize;
-  final EdgeInsetsGeometry padding;
   final Function onPressed;
 
   RoundBorderButton({
     this.labelText,
     this.labelColor,
     this.borderColor,
-    this.labelFontSize,
-    this.padding,
     this.onPressed,
   });
 

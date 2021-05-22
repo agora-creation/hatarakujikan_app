@@ -46,7 +46,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
         ),
       ),
       body: _isLoading
-          ? Loading(size: 32.0, color: Colors.cyan)
+          ? Loading(color: Colors.cyan)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
@@ -109,8 +109,6 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                   labelText: 'もう一度読み取る',
                   labelColor: Colors.blue,
                   borderColor: Colors.blue,
-                  labelFontSize: 16.0,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],

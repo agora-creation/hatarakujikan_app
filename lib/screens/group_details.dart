@@ -43,7 +43,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         ),
       ),
       body: _isLoading
-          ? Loading(size: 32.0, color: Colors.cyan)
+          ? Loading(color: Colors.cyan)
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
@@ -87,8 +87,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         labelText: '既定に設定する',
                         labelColor: Colors.blue,
                         borderColor: Colors.blue,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider
@@ -114,8 +112,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         labelText: '退職する',
                         labelColor: Colors.red,
                         borderColor: Colors.red,
-                        labelFontSize: 16.0,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
