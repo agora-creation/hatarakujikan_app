@@ -41,9 +41,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
 //        versionCode flutterVersionCode.toInteger()
-        versionCode 3
+        versionCode 4
 //        versionName flutterVersionName
-        versionName '3.0'
+        versionName '4.0'
         multiDexEnabled true
     }
 

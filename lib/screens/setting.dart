@@ -7,6 +7,7 @@ import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/push_permissions.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
 import 'package:hatarakujikan_app/screens/user_password.dart';
+import 'package:hatarakujikan_app/screens/user_work_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
@@ -69,6 +70,19 @@ class _SettingScreenState extends State<SettingScreen> {
                     nextScreen(
                       context,
                       UserPasswordScreen(userProvider: userProvider),
+                    );
+                  },
+                ),
+                CustomSettingListTile(
+                  iconData: Icons.vpn_key,
+                  title: 'タブレット用の暗証番号',
+                  onTap: () {
+                    userProvider.clearController();
+                    userProvider.workPassword.text =
+                        userProvider.user.workPassword;
+                    nextScreen(
+                      context,
+                      UserWorkPasswordScreen(userProvider: userProvider),
                     );
                   },
                 ),

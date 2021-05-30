@@ -116,11 +116,11 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'ホーム',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.history),
+              icon: Icon(Icons.list),
               label: '勤務履歴',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.question_answer),
+              icon: Icon(Icons.list),
               label: '各種申請',
             ),
             BottomNavigationBarItem(

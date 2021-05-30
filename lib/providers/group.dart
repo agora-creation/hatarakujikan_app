@@ -20,6 +20,7 @@ class GroupProvider with ChangeNotifier {
         'id': _id,
         'name': name.text.trim(),
         'adminUserId': user.id,
+        'usersNum': 50,
         'createdAt': DateTime.now(),
       });
       List<String> _groups = [];
