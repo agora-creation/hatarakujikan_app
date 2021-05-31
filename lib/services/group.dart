@@ -5,23 +5,6 @@ class GroupService {
   String _collection = 'group';
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  String id() {
-    String _id = _firebaseFirestore.collection(_collection).doc().id;
-    return _id;
-  }
-
-  void create(Map<String, dynamic> values) {
-    _firebaseFirestore.collection(_collection).doc(values['id']).set(values);
-  }
-
-  void update(Map<String, dynamic> values) {
-    _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
-  }
-
-  void delete(Map<String, dynamic> values) {
-    _firebaseFirestore.collection(_collection).doc(values['id']).delete();
-  }
-
   Future<GroupModel> select({String groupId}) async {
     GroupModel _group;
     await _firebaseFirestore

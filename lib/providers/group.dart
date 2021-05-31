@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/user.dart';
@@ -10,35 +11,6 @@ class GroupProvider with ChangeNotifier {
   UserService _userService = UserService();
 
   TextEditingController name = TextEditingController();
-
-  Future<bool> create({UserModel user}) async {
-    if (name.text == null) return false;
-    if (user == null) return false;
-    try {
-      String _id = _groupService.id();
-      _groupService.create({
-        'id': _id,
-        'name': name.text.trim(),
-        'adminUserId': user.id,
-        'usersNum': 50,
-        'createdAt': DateTime.now(),
-      });
-      List<String> _groups = [];
-      for (String _groupId in user?.groups) {
-        _groups.add(_groupId);
-      }
-      _groups.add(_id);
-      _userService.update({
-        'id': user.id,
-        'groups': _groups,
-      });
-      await setPrefs(_id);
-      return true;
-    } catch (e) {
-      print(e.toString());
-      return false;
-    }
-  }
 
   Future<bool> updatePrefs({String groupId}) async {
     try {
@@ -87,6 +59,20 @@ class GroupProvider with ChangeNotifier {
     } catch (e) {
       print(e.toString());
       return false;
+    }
+  }
+
+  void sendMail({UserModel user, int usersNum}) async {
+    final Email email = Email(
+      body: 'はたらくじかんメール本文',
+      subject: 'はたらくじかんメール件名',
+      recipients: ['info@agora-c.com'],
+      isHTML: false,
+    );
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (e) {
+      print(e.toString());
     }
   }
 

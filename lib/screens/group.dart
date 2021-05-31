@@ -3,10 +3,9 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/screens/group_add.dart';
-import 'package:hatarakujikan_app/screens/group_button.dart';
 import 'package:hatarakujikan_app/screens/group_details.dart';
 import 'package:hatarakujikan_app/screens/group_qr.dart';
+import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_group_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -51,15 +50,13 @@ class GroupScreen extends StatelessWidget {
                 )
               : Center(child: Text('会社/組織に所属しておりません')),
         ),
-        GroupButton(
-          createOnPressed: () => overlayScreen(
-            context,
-            GroupAddScreen(
-              groupProvider: groupProvider,
-              userProvider: userProvider,
-            ),
-          ),
-          inOnPressed: () async {
+        CustomExpandedButton(
+          buttonColor: Colors.blue,
+          labelText: '会社/組織に入る(QRコード)',
+          labelColor: Colors.white,
+          leadingIcon: Icon(Icons.qr_code_scanner, color: Colors.white),
+          trailingIcon: null,
+          onTap: () async {
             if (await Permission.camera.request().isGranted) {
               overlayScreen(
                 context,

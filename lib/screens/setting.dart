@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/screens/company.dart';
+import 'package:hatarakujikan_app/screens/group_create.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/push_permissions.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
@@ -23,6 +25,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final groupProvider = Provider.of<GroupProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
 
@@ -95,6 +98,24 @@ class _SettingScreenState extends State<SettingScreen> {
                       context,
                       PushPermissionsScreen(
                         userNoticeProvider: userNoticeProvider,
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 24.0),
+                Text('会社/組織情報'),
+                SizedBox(height: 8.0),
+                Divider(height: 1.0, color: Colors.grey),
+                CustomSettingListTile(
+                  iconData: Icons.store,
+                  title: '会社/組織の作成申請',
+                  onTap: () {
+                    groupProvider.clearController();
+                    nextScreen(
+                      context,
+                      GroupCreateScreen(
+                        groupProvider: groupProvider,
+                        userProvider: userProvider,
                       ),
                     );
                   },
