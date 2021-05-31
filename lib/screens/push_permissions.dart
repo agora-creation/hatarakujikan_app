@@ -182,6 +182,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         onPressed: _init,
                       )
                     : Container(),
+                SizedBox(height: 40.0),
               ],
             ),
     );

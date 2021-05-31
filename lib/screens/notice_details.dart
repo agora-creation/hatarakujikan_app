@@ -58,6 +58,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
               '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}',
             ),
           ),
+          SizedBox(height: 40.0),
         ],
       ),
     );

@@ -87,6 +87,7 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                     Navigator.pop(context);
                   },
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

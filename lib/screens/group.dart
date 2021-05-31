@@ -28,8 +28,10 @@ class GroupScreen extends StatelessWidget {
         Expanded(
           child: userProvider.groups.length > 0
               ? ListView.builder(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 16.0,
+                  ),
                   itemCount: userProvider.groups.length,
                   itemBuilder: (_, index) {
                     GroupModel _group = userProvider.groups[index];

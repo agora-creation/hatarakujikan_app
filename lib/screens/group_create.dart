@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
+import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 
@@ -49,7 +49,7 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
                 CustomTextFormField(
                   controller: widget.groupProvider.name,
                   obscureText: false,
-                  textInputType: TextInputType.number,
+                  textInputType: TextInputType.name,
                   maxLines: 1,
                   labelText: '会社/組織名',
                   labelColor: Colors.black54,
@@ -72,25 +72,28 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 16.0),
-                Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    title: Text('申請者名'),
-                    trailing: Text(widget.userProvider.user?.name ?? ''),
-                  ),
-                ),
                 SizedBox(height: 24.0),
                 RoundBackgroundButton(
                   labelText: '作成申請する',
                   labelColor: Colors.white,
                   backgroundColor: Colors.blue,
-                  onPressed: () {
-                    widget.groupProvider.sendMail(
-                      user: widget.userProvider.user,
-                      usersNum: _numSelected,
-                    );
+                  onPressed: () async {
+                    setState(() => _isLoading = true);
+                    if (!await widget.groupProvider.sendMail(
+                        user: widget.userProvider.user,
+                        usersNum: _numSelected)) {
+                      setState(() => _isLoading = false);
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (_) => ErrorMessage(
+                          message: '申請に失敗しました。',
+                        ),
+                      );
+                      return;
+                    }
                     widget.groupProvider.clearController();
+                    setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
                 ),

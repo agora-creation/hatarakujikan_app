@@ -16,10 +16,7 @@ class GroupSelect extends StatelessWidget {
         backgroundColor: Colors.blueGrey,
         elevation: 0.0,
         centerTitle: true,
-        title: Text(
-          '会社/組織の切替',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Text('会社/組織の切替', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),

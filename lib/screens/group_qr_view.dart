@@ -111,6 +111,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                   borderColor: Colors.blue,
                   onPressed: () => Navigator.pop(context),
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

@@ -73,6 +73,7 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
                     Navigator.pop(context);
                   },
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

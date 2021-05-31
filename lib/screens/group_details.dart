@@ -144,6 +144,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

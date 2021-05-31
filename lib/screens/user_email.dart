@@ -83,6 +83,7 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                     Navigator.pop(context);
                   },
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

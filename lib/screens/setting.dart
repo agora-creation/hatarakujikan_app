@@ -141,6 +141,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     changeScreen(context, LoginScreen());
                   },
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

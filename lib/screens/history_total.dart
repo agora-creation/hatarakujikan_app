@@ -105,6 +105,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
             title: '深夜時間',
             time: '00:00',
           ),
+          SizedBox(height: 40.0),
         ],
       ),
     );

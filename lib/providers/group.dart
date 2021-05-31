@@ -62,17 +62,26 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  void sendMail({UserModel user, int usersNum}) async {
-    final Email email = Email(
-      body: 'はたらくじかんメール本文',
-      subject: 'はたらくじかんメール件名',
-      recipients: ['info@agora-c.com'],
-      isHTML: false,
-    );
+  Future<bool> sendMail({UserModel user, int usersNum}) async {
+    if (name.text == null) return false;
+    String body = 'はたらくじかんforスマートフォンから会社/組織の作成申請がありました。¥n';
+    body += '会社/組織名: ${name.text.trim()}¥n';
+    body += '従業員数: $usersNum人未満¥n';
+    body += '申請者名: ${user.name}¥n';
+    body += '申請者メールアドレス: ${user.email}¥n';
+    String subject = '【はたらくじかんforスマートフォン】会社/組織の作成申請';
     try {
+      final Email email = Email(
+        body: body,
+        subject: subject,
+        recipients: ['info@agora-c.com'],
+        isHTML: false,
+      );
       await FlutterEmailSender.send(email);
+      return true;
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
