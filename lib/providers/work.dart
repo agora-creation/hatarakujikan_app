@@ -26,6 +26,7 @@ class WorkProvider with ChangeNotifier {
         'endedLat': locations.first,
         'endedLon': locations.last,
         'breaks': [],
+        'deviceId': '',
         'createdAt': DateTime.now(),
       });
       _userService.update({
@@ -44,9 +45,7 @@ class WorkProvider with ChangeNotifier {
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
-      if (_work.groupId != group.id) {
-        return false;
-      }
+      if (_work.groupId != group.id) return false;
       _workService.update({
         'id': user.lastWorkId,
         'endedAt': DateTime.now(),
@@ -69,9 +68,7 @@ class WorkProvider with ChangeNotifier {
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
-      if (_work.groupId != group.id) {
-        return false;
-      }
+      if (_work.groupId != group.id) return false;
       List<Map> _breaks = [];
       for (BreaksModel breaks in _work?.breaks) {
         _breaks.add(breaks.toMap());
@@ -106,9 +103,7 @@ class WorkProvider with ChangeNotifier {
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
-      if (_work.groupId != group.id) {
-        return false;
-      }
+      if (_work.groupId != group.id) return false;
       List<Map> _breaks = [];
       for (BreaksModel breaks in _work?.breaks) {
         if (breaks.id == user?.lastBreakId) {

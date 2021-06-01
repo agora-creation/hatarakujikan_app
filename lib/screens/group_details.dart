@@ -78,15 +78,12 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 SizedBox(height: 16.0),
                 widget.groupId == widget.group.id
                     ? RoundBackgroundButton(
+                        onPressed: null,
                         labelText: '既定に設定中',
                         labelColor: Colors.white,
                         backgroundColor: Colors.grey,
-                        onPressed: null,
                       )
                     : RoundBorderButton(
-                        labelText: '既定に設定する',
-                        labelColor: Colors.blue,
-                        borderColor: Colors.blue,
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider
@@ -103,13 +100,13 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
+                        labelText: '既定に設定する',
+                        labelColor: Colors.blue,
+                        borderColor: Colors.blue,
                       ),
                 SizedBox(height: 8.0),
                 widget.userProvider.user?.id != widget.group.adminUserId
                     ? RoundBorderButton(
-                        labelText: '退職する',
-                        labelColor: Colors.red,
-                        borderColor: Colors.red,
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
@@ -127,12 +124,15 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
+                        labelText: '退職する',
+                        labelColor: Colors.red,
+                        borderColor: Colors.red,
                       )
                     : RoundBackgroundButton(
+                        onPressed: null,
                         labelText: '退職する',
                         labelColor: Colors.white,
                         backgroundColor: Colors.grey,
-                        onPressed: null,
                       ),
                 Center(
                   child: Text(

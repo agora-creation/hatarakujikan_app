@@ -52,8 +52,6 @@ class _SettingScreenState extends State<SettingScreen> {
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
                 CustomSettingListTile(
-                  iconData: Icons.person,
-                  title: 'ユーザー情報変更',
                   onTap: () {
                     userProvider.clearController();
                     userProvider.name.text = userProvider.user.name;
@@ -63,10 +61,10 @@ class _SettingScreenState extends State<SettingScreen> {
                       UserEmailScreen(userProvider: userProvider),
                     );
                   },
+                  iconData: Icons.person,
+                  title: 'ユーザー情報変更',
                 ),
                 CustomSettingListTile(
-                  iconData: Icons.lock,
-                  title: 'パスワード再設定',
                   onTap: () {
                     userProvider.clearController();
                     nextScreen(
@@ -74,10 +72,10 @@ class _SettingScreenState extends State<SettingScreen> {
                       UserPasswordScreen(userProvider: userProvider),
                     );
                   },
+                  iconData: Icons.lock,
+                  title: 'パスワード再設定',
                 ),
                 CustomSettingListTile(
-                  iconData: Icons.vpn_key,
-                  title: 'タブレット用の暗証番号',
                   onTap: () {
                     userProvider.clearController();
                     userProvider.workPassword.text =
@@ -87,10 +85,10 @@ class _SettingScreenState extends State<SettingScreen> {
                       UserWorkPasswordScreen(userProvider: userProvider),
                     );
                   },
+                  iconData: Icons.vpn_key,
+                  title: 'タブレット用の暗証番号',
                 ),
                 CustomSettingListTile(
-                  iconData: Icons.notifications,
-                  title: 'PUSH通知の許可',
                   onTap: () {
                     userNoticeProvider.requestPermissions();
                     nextScreen(
@@ -100,14 +98,14 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     );
                   },
+                  iconData: Icons.notifications,
+                  title: 'PUSH通知の許可',
                 ),
                 SizedBox(height: 16.0),
                 Text('会社/組織情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
                 CustomSettingListTile(
-                  iconData: Icons.store,
-                  title: '会社/組織の作成申請',
                   onTap: () {
                     groupProvider.clearController();
                     nextScreen(
@@ -118,15 +116,17 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     );
                   },
+                  iconData: Icons.store,
+                  title: '会社/組織の作成申請',
                 ),
                 SizedBox(height: 16.0),
                 Text('アプリ情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
                 CustomSettingListTile(
+                  onTap: () => nextScreen(context, CompanyScreen()),
                   iconData: Icons.business_outlined,
                   title: '開発/運営会社',
-                  onTap: () => nextScreen(context, CompanyScreen()),
                 ),
                 SizedBox(height: 16.0),
                 RoundBorderButton(

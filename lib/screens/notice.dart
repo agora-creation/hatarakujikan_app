@@ -53,7 +53,6 @@ class NoticeScreen extends StatelessWidget {
               itemBuilder: (_, index) {
                 UserNoticeModel _notice = notices[index];
                 return CustomNoticeListTile(
-                  notice: _notice,
                   onTap: () => nextScreen(
                     context,
                     NoticeDetailsScreen(
@@ -61,6 +60,7 @@ class NoticeScreen extends StatelessWidget {
                       notice: _notice,
                     ),
                   ),
+                  notice: _notice,
                 );
               },
             );

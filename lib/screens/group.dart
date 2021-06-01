@@ -36,8 +36,6 @@ class GroupScreen extends StatelessWidget {
                   itemBuilder: (_, index) {
                     GroupModel _group = userProvider.groups[index];
                     return CustomGroupListTile(
-                      group: _group,
-                      fixed: _group.id == groupId,
                       onTap: () => nextScreen(
                         context,
                         GroupDetailsScreen(
@@ -47,17 +45,14 @@ class GroupScreen extends StatelessWidget {
                           groupId: groupId,
                         ),
                       ),
+                      group: _group,
+                      fixed: _group.id == groupId,
                     );
                   },
                 )
               : Center(child: Text('会社/組織に所属しておりません')),
         ),
         CustomExpandedButton(
-          buttonColor: Colors.blue,
-          labelText: '会社/組織に入る(QRコード)',
-          labelColor: Colors.white,
-          leadingIcon: Icon(Icons.qr_code_scanner, color: Colors.white),
-          trailingIcon: null,
           onTap: () async {
             if (await Permission.camera.request().isGranted) {
               overlayScreen(
@@ -75,6 +70,11 @@ class GroupScreen extends StatelessWidget {
               );
             }
           },
+          buttonColor: Colors.blue,
+          labelText: '会社/組織に入る(QRコード)',
+          labelColor: Colors.white,
+          leadingIcon: Icon(Icons.qr_code_scanner, color: Colors.white),
+          trailingIcon: null,
         ),
       ],
     );

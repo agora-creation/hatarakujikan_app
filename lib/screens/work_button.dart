@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
+import 'package:hatarakujikan_app/screens/break_end_qr.dart';
+import 'package:hatarakujikan_app/screens/break_start_qr.dart';
+import 'package:hatarakujikan_app/screens/work_end_qr.dart';
+import 'package:hatarakujikan_app/screens/work_start_qr.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_work_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class WorkButton extends StatelessWidget {
   final UserProvider userProvider;
@@ -28,16 +34,23 @@ class WorkButton extends StatelessWidget {
               Expanded(
                 child: !workError && userProvider.user?.workLv == 0
                     ? CustomWorkButton(
-                        onPressed: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => WorkStartDialog(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
+                        onPressed: () async {
+                          if (await Permission.camera.request().isGranted) {
+                            overlayScreen(
+                              context,
+                              WorkStartQRScreen(
+                                userProvider: userProvider,
+                                workProvider: workProvider,
+                                locations: locations,
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => PermissionDialog(),
+                            );
+                          }
                         },
                         labelText: '出勤',
                         labelColor: Color(0xFFFEFFFA),
@@ -56,16 +69,23 @@ class WorkButton extends StatelessWidget {
               Expanded(
                 child: !workError && userProvider.user?.workLv == 1
                     ? CustomWorkButton(
-                        onPressed: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => WorkEndDialog(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
+                        onPressed: () async {
+                          if (await Permission.camera.request().isGranted) {
+                            overlayScreen(
+                              context,
+                              WorkEndQRScreen(
+                                userProvider: userProvider,
+                                workProvider: workProvider,
+                                locations: locations,
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => PermissionDialog(),
+                            );
+                          }
                         },
                         labelText: '退勤',
                         labelColor: Color(0xFFFEFFFA),
@@ -88,16 +108,23 @@ class WorkButton extends StatelessWidget {
               Expanded(
                 child: !workError && userProvider.user?.workLv == 1
                     ? CustomWorkButton(
-                        onPressed: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => BreakStartDialog(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
+                        onPressed: () async {
+                          if (await Permission.camera.request().isGranted) {
+                            overlayScreen(
+                              context,
+                              BreakStartQRScreen(
+                                userProvider: userProvider,
+                                workProvider: workProvider,
+                                locations: locations,
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => PermissionDialog(),
+                            );
+                          }
                         },
                         labelText: '休憩開始',
                         labelColor: Color(0xFFFEFFFA),
@@ -116,16 +143,23 @@ class WorkButton extends StatelessWidget {
               Expanded(
                 child: !workError && userProvider.user?.workLv == 2
                     ? CustomWorkButton(
-                        onPressed: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => BreakEndDialog(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
+                        onPressed: () async {
+                          if (await Permission.camera.request().isGranted) {
+                            overlayScreen(
+                              context,
+                              BreakEndQRScreen(
+                                userProvider: userProvider,
+                                workProvider: workProvider,
+                                locations: locations,
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => PermissionDialog(),
+                            );
+                          }
                         },
                         labelText: '休憩終了',
                         labelColor: Colors.orange,
@@ -148,92 +182,19 @@ class WorkButton extends StatelessWidget {
   }
 }
 
-class WorkStartDialog extends StatelessWidget {
-  final UserProvider userProvider;
-  final WorkProvider workProvider;
-  final List<double> locations;
-
-  WorkStartDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
-  });
-
+class PermissionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Icon(
-              Icons.run_circle,
-              color: Colors.blue,
-              size: 40.0,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text('出勤時間を記録します。よろしいですか？'),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomTextButton(
-                onPressed: () => Navigator.pop(context),
-                labelText: 'キャンセル',
-                backgroundColor: Colors.grey,
-              ),
-              CustomTextButton(
-                onPressed: () async {
-                  if (!await workProvider.workStart(
-                    group: userProvider.group,
-                    user: userProvider.user,
-                    locations: locations,
-                  )) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
-                labelText: 'はい',
-                backgroundColor: Colors.blue,
-              ),
-            ],
-          ),
-        ],
+      title: Text(
+        'カメラを許可してください',
+        style: TextStyle(fontSize: 18.0),
       ),
-    );
-  }
-}
-
-class WorkEndDialog extends StatelessWidget {
-  final UserProvider userProvider;
-  final WorkProvider workProvider;
-  final List<double> locations;
-
-  WorkEndDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Icon(
-              Icons.run_circle,
-              color: Colors.red,
-              size: 40.0,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text('退勤時間を記録します。よろしいですか？'),
+          Text('QRコードを読み取る為にカメラを利用します'),
           SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -244,135 +205,7 @@ class WorkEndDialog extends StatelessWidget {
                 backgroundColor: Colors.grey,
               ),
               CustomTextButton(
-                onPressed: () async {
-                  if (!await workProvider.workEnd(
-                    group: userProvider.group,
-                    user: userProvider.user,
-                    locations: locations,
-                  )) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
-                labelText: 'はい',
-                backgroundColor: Colors.blue,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BreakStartDialog extends StatelessWidget {
-  final UserProvider userProvider;
-  final WorkProvider workProvider;
-  final List<double> locations;
-
-  BreakStartDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Icon(
-              Icons.run_circle,
-              color: Colors.orange,
-              size: 40.0,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text('休憩開始時間を記録します。よろしいですか？'),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomTextButton(
-                onPressed: () => Navigator.pop(context),
-                labelText: 'キャンセル',
-                backgroundColor: Colors.grey,
-              ),
-              CustomTextButton(
-                onPressed: () async {
-                  if (!await workProvider.breakStart(
-                    group: userProvider.group,
-                    user: userProvider.user,
-                    locations: locations,
-                  )) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
-                labelText: 'はい',
-                backgroundColor: Colors.blue,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BreakEndDialog extends StatelessWidget {
-  final UserProvider userProvider;
-  final WorkProvider workProvider;
-  final List<double> locations;
-
-  BreakEndDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Icon(
-              Icons.run_circle_outlined,
-              color: Colors.orange,
-              size: 40.0,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text('休憩終了時間を記録します。よろしいですか？'),
-          SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomTextButton(
-                onPressed: () => Navigator.pop(context),
-                labelText: 'キャンセル',
-                backgroundColor: Colors.grey,
-              ),
-              CustomTextButton(
-                onPressed: () async {
-                  if (!await workProvider.breakEnd(
-                    group: userProvider.group,
-                    user: userProvider.user,
-                    locations: locations,
-                  )) {
-                    return;
-                  }
-                  userProvider.reloadUserModel();
-                  Navigator.pop(context);
-                },
+                onPressed: () => openAppSettings(),
                 labelText: 'はい',
                 backgroundColor: Colors.blue,
               ),

@@ -73,9 +73,6 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                 SizedBox(height: 16.0),
                 contain.isEmpty
                     ? RoundBackgroundButton(
-                        labelText: 'この会社/組織に所属する',
-                        labelColor: Colors.white,
-                        backgroundColor: Colors.blue,
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateIn(
@@ -95,19 +92,22 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                           Navigator.pop(context);
                           Navigator.of(context, rootNavigator: true).pop();
                         },
+                        labelText: 'この会社/組織に所属する',
+                        labelColor: Colors.white,
+                        backgroundColor: Colors.blue,
                       )
                     : RoundBackgroundButton(
+                        onPressed: null,
                         labelText: '既に所属済み',
                         labelColor: Colors.white,
                         backgroundColor: Colors.grey,
-                        onPressed: null,
                       ),
                 SizedBox(height: 8.0),
                 RoundBorderButton(
+                  onPressed: () => Navigator.pop(context),
                   labelText: 'もう一度読み取る',
                   labelColor: Colors.blue,
                   borderColor: Colors.blue,
-                  onPressed: () => Navigator.pop(context),
                 ),
                 SizedBox(height: 40.0),
               ],

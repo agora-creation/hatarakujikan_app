@@ -70,11 +70,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ? Column(
             children: [
               CustomExpandedButton(
-                buttonColor: Colors.blueGrey,
-                labelText: widget.userProvider.group?.name,
-                labelColor: Colors.white,
-                leadingIcon: Icon(Icons.store, color: Colors.white),
-                trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
                 onTap: () => overlayScreen(
                   context,
                   GroupSelect(
@@ -82,9 +77,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     groupId: widget.groupId,
                   ),
                 ),
+                buttonColor: Colors.blueGrey,
+                labelText: widget.userProvider.group?.name,
+                labelColor: Colors.white,
+                leadingIcon: Icon(Icons.store, color: Colors.white),
+                trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
               ),
               HistoryButton(
-                selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
                 monthOnPressed: () async {
                   var selected = await showMonthPicker(
                     context: context,
@@ -106,6 +105,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     days: days,
                   ),
                 ),
+                selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
               ),
               CustomHeadListTile(),
               Expanded(

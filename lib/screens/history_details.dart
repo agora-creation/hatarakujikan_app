@@ -19,9 +19,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
   GoogleMapController mapController;
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      mapController = controller;
-    });
+    setState(() => mapController = controller);
   }
 
   @override
@@ -111,10 +109,10 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           ),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
+            onPressed: () {},
             labelText: '記録修正申請',
             labelColor: Colors.white,
             backgroundColor: Colors.blue,
-            onPressed: () {},
           ),
           SizedBox(height: 40.0),
         ],
