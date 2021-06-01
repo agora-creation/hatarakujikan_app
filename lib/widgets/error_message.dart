@@ -4,7 +4,7 @@ import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 class ErrorMessage extends StatelessWidget {
   final String message;
 
-  ErrorMessage({this.message});
+  ErrorMessage(this.message);
 
   @override
   Widget build(BuildContext context) {

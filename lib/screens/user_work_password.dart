@@ -35,9 +35,6 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                SizedBox(height: 16.0),
-                Text('タブレットアプリ内でこのユーザーにログインするときに必要な暗証番号です。数字8桁以内でご入力ください。'),
-                SizedBox(height: 8.0),
                 CustomTextFormField(
                   controller: widget.userProvider.workPassword,
                   obscureText: false,
@@ -49,11 +46,10 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
                   suffixIconData: null,
                   onTap: null,
                 ),
-                SizedBox(height: 24.0),
+                SizedBox(height: 8.0),
+                Text('※タブレットアプリ内で、このユーザーにログインするときに必要な暗証番号です。数字8桁以内でご入力ください。'),
+                SizedBox(height: 16.0),
                 RoundBackgroundButton(
-                  labelText: '変更を保存',
-                  labelColor: Colors.white,
-                  backgroundColor: Colors.blue,
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.userProvider.updateWorkPassword()) {
@@ -61,9 +57,7 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
                       showDialog(
                         barrierDismissible: false,
                         context: context,
-                        builder: (_) => ErrorMessage(
-                          message: '変更に失敗しました。',
-                        ),
+                        builder: (_) => ErrorMessage('変更に失敗しました。'),
                       );
                       return;
                     }
@@ -72,6 +66,9 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
+                  labelText: '変更を保存',
+                  labelColor: Colors.white,
+                  backgroundColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),
               ],

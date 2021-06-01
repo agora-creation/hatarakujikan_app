@@ -19,11 +19,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String prefsGroupId = '';
+  String _groupId = '';
   int _tabsIndex = 0;
 
   void _init() async {
-    prefsGroupId = await getPrefs();
+    _groupId = await getPrefs();
   }
 
   @override
@@ -41,18 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
       WorkScreen(
         userProvider: userProvider,
         workProvider: workProvider,
+        groupId: _groupId,
       ),
       HistoryScreen(
         userProvider: userProvider,
         workProvider: workProvider,
+        groupId: _groupId,
       ),
       ApplyScreen(
         userProvider: userProvider,
+        groupId: _groupId,
       ),
       GroupScreen(
         groupProvider: groupProvider,
         userProvider: userProvider,
-        prefsGroupId: prefsGroupId,
+        groupId: _groupId,
       ),
     ];
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
@@ -65,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(userProvider.user?.name ?? ''),
+        title: Text('${userProvider.user?.name}'),
         actions: [
           StreamBuilder<QuerySnapshot>(
             stream: _stream,
@@ -116,11 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'ホーム',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.history),
               label: '勤務履歴',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.question_answer),
               label: '各種申請',
             ),
             BottomNavigationBarItem(

@@ -48,7 +48,6 @@ class _SettingScreenState extends State<SettingScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                SizedBox(height: 16.0),
                 Text('ユーザー情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
@@ -102,7 +101,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     );
                   },
                 ),
-                SizedBox(height: 24.0),
+                SizedBox(height: 16.0),
                 Text('会社/組織情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
@@ -120,7 +119,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     );
                   },
                 ),
-                SizedBox(height: 24.0),
+                SizedBox(height: 16.0),
                 Text('アプリ情報'),
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
@@ -129,17 +128,17 @@ class _SettingScreenState extends State<SettingScreen> {
                   title: '開発/運営会社',
                   onTap: () => nextScreen(context, CompanyScreen()),
                 ),
-                SizedBox(height: 24.0),
+                SizedBox(height: 16.0),
                 RoundBorderButton(
-                  labelText: 'ログアウト',
-                  labelColor: Colors.blue,
-                  borderColor: Colors.blue,
                   onPressed: () {
                     setState(() => _isLoading = true);
                     userProvider.signOut();
                     setState(() => _isLoading = false);
                     changeScreen(context, LoginScreen());
                   },
+                  labelText: 'ログアウト',
+                  labelColor: Colors.blue,
+                  borderColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),
               ],

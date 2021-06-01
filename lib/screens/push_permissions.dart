@@ -75,7 +75,6 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                SizedBox(height: 16.0),
                 Container(
                   decoration: kBottomBorderDecoration,
                   child: ListTile(
@@ -173,13 +172,13 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         ),
                       )
                     : Container(),
-                SizedBox(height: 24.0),
+                SizedBox(height: 16.0),
                 !_requested
                     ? RoundBackgroundButton(
+                        onPressed: _init,
                         labelText: '許可する',
                         labelColor: Colors.white,
                         backgroundColor: Colors.blue,
-                        onPressed: _init,
                       )
                     : Container(),
                 SizedBox(height: 40.0),

@@ -42,10 +42,6 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                SizedBox(height: 16.0),
-                Text('会社/組織アカウントを作成するための申請です。'),
-                Text('必要事項をご入力の上、「作成申請する」ボタンを押してください。'),
-                SizedBox(height: 8.0),
                 CustomTextFormField(
                   controller: widget.groupProvider.name,
                   obscureText: false,
@@ -57,7 +53,7 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
                   suffixIconData: null,
                   onTap: null,
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 8.0),
                 Text('従業員数'),
                 DropdownButton<int>(
                   isExpanded: true,
@@ -72,11 +68,9 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
                     );
                   }).toList(),
                 ),
-                SizedBox(height: 24.0),
+                Text('※会社/組織アカウントを作成するための申請です。この申請は運営会社に送信されます。'),
+                SizedBox(height: 16.0),
                 RoundBackgroundButton(
-                  labelText: '作成申請する',
-                  labelColor: Colors.white,
-                  backgroundColor: Colors.blue,
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.groupProvider.sendMail(
@@ -86,9 +80,7 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
                       showDialog(
                         barrierDismissible: false,
                         context: context,
-                        builder: (_) => ErrorMessage(
-                          message: '申請に失敗しました。',
-                        ),
+                        builder: (_) => ErrorMessage('申請に失敗しました。'),
                       );
                       return;
                     }
@@ -96,7 +88,11 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
+                  labelText: '作成申請する',
+                  labelColor: Colors.white,
+                  backgroundColor: Colors.blue,
                 ),
+                SizedBox(height: 40.0),
               ],
             ),
     );

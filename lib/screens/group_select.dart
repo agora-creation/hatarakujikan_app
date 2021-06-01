@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/widgets/custom_group_list_tile.dart';
 
 class GroupSelect extends StatelessWidget {
   final UserProvider userProvider;
+  final String groupId;
 
-  GroupSelect({@required this.userProvider});
+  GroupSelect({
+    @required this.userProvider,
+    @required this.groupId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +33,13 @@ class GroupSelect extends StatelessWidget {
         itemCount: userProvider.groups.length,
         itemBuilder: (_, index) {
           GroupModel _group = userProvider.groups[index];
-          return Container(
-            decoration: kBottomBorderDecoration,
-            child: RadioListTile(
-              title: Text('${_group.name}'),
-              value: _group,
-              groupValue: userProvider.group,
-              activeColor: Colors.blue,
-              onChanged: (value) {
-                userProvider.changeGroup(value);
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-            ),
+          return CustomGroupListTile(
+            onTap: () {
+              userProvider.changeGroup(_group);
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            group: _group,
+            fixed: _group.id == groupId,
           );
         },
       ),

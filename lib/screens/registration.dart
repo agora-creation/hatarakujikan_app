@@ -5,6 +5,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
+import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
@@ -37,8 +38,10 @@ class RegistrationScreen extends StatelessWidget {
                 ? Loading(color: Colors.white)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 40.0,
+                      vertical: 80.0,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -71,7 +74,7 @@ class RegistrationScreen extends StatelessWidget {
                               suffixIconData: null,
                               onTap: null,
                             ),
-                            SizedBox(height: 16.0),
+                            SizedBox(height: 8.0),
                             CustomTextFormField(
                               controller: userProvider.email,
                               obscureText: false,
@@ -83,7 +86,7 @@ class RegistrationScreen extends StatelessWidget {
                               suffixIconData: null,
                               onTap: null,
                             ),
-                            SizedBox(height: 16.0),
+                            SizedBox(height: 8.0),
                             CustomTextFormField(
                               controller: userProvider.password,
                               obscureText: userProvider.isHidden ? false : true,
@@ -97,7 +100,7 @@ class RegistrationScreen extends StatelessWidget {
                                   : Icons.visibility_off,
                               onTap: () => userProvider.changeHidden(),
                             ),
-                            SizedBox(height: 16.0),
+                            SizedBox(height: 8.0),
                             CustomTextFormField(
                               controller: userProvider.rePassword,
                               obscureText:
@@ -114,19 +117,15 @@ class RegistrationScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 24.0),
+                        SizedBox(height: 16.0),
                         RoundBackgroundButton(
-                          labelText: '登録',
-                          labelColor: Colors.blue,
-                          backgroundColor: Colors.white,
                           onPressed: () async {
                             if (!await userProvider.signUp()) {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (_) => ErrorMessage(
-                                  message: '登録に失敗しました。再度入力内容をご確認ください。',
-                                ),
+                                builder: (_) =>
+                                    ErrorMessage('登録に失敗しました。再度入力内容をご確認ください。'),
                               );
                               return;
                             }
@@ -134,21 +133,19 @@ class RegistrationScreen extends StatelessWidget {
                             userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
+                          labelText: '登録',
+                          labelColor: Colors.blue,
+                          backgroundColor: Colors.white,
                         ),
-                        SizedBox(height: 32.0),
+                        SizedBox(height: 24.0),
                         Center(
-                          child: GestureDetector(
+                          child: CustomLinkButton(
                             onTap: () {
                               userProvider.clearController();
                               nextScreen(context, LoginScreen());
                             },
-                            child: Text(
-                              '登録済みの方はログインから',
-                              style: TextStyle(
-                                color: Colors.white,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
+                            labelText: '登録済みの方はログインから',
+                            labelColor: Colors.white,
                           ),
                         ),
                       ],

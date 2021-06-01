@@ -85,9 +85,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                             showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (_) => ErrorMessage(
-                                message: '所属に失敗しました。',
-                              ),
+                              builder: (_) => ErrorMessage('所属に失敗しました。'),
                             );
                             return;
                           }

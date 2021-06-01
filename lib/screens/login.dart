@@ -5,6 +5,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
+import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
@@ -37,8 +38,10 @@ class LoginScreen extends StatelessWidget {
                 ? Loading(color: Colors.white)
                 : SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 40.0,
+                      vertical: 80.0,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -71,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                               suffixIconData: null,
                               onTap: null,
                             ),
-                            SizedBox(height: 16.0),
+                            SizedBox(height: 8.0),
                             CustomTextFormField(
                               controller: userProvider.password,
                               obscureText: userProvider.isHidden ? false : true,
@@ -89,20 +92,15 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 24.0),
+                        SizedBox(height: 16.0),
                         RoundBackgroundButton(
-                          labelText: 'ログイン',
-                          labelColor: Colors.white,
-                          backgroundColor: Colors.blue,
                           onPressed: () async {
                             if (!await userProvider.signIn()) {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (_) => ErrorMessage(
-                                  message:
-                                      'ログインに失敗しました。メールアドレスもしくはパスワードが間違っている可能性があります。',
-                                ),
+                                    'ログインに失敗しました。メールアドレスもしくはパスワードが間違っている可能性があります。'),
                               );
                               return;
                             }
@@ -110,21 +108,19 @@ class LoginScreen extends StatelessWidget {
                             userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
+                          labelText: 'ログイン',
+                          labelColor: Colors.white,
+                          backgroundColor: Colors.blue,
                         ),
-                        SizedBox(height: 32.0),
+                        SizedBox(height: 24.0),
                         Center(
-                          child: GestureDetector(
+                          child: CustomLinkButton(
                             onTap: () {
                               userProvider.clearController();
                               nextScreen(context, RegistrationScreen());
                             },
-                            child: Text(
-                              '初めての方は登録から',
-                              style: TextStyle(
-                                color: Colors.white,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
+                            labelText: '初めての方は登録から',
+                            labelColor: Colors.white,
                           ),
                         ),
                       ],

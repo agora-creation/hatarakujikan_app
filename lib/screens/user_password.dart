@@ -35,7 +35,6 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                SizedBox(height: 16.0),
                 CustomTextFormField(
                   controller: widget.userProvider.password,
                   obscureText: widget.userProvider.isHidden ? false : true,
@@ -49,7 +48,7 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                       : Icons.visibility_off,
                   onTap: () => widget.userProvider.changeHidden(),
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 8.0),
                 CustomTextFormField(
                   controller: widget.userProvider.rePassword,
                   obscureText: widget.userProvider.isReHidden ? false : true,
@@ -63,11 +62,8 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                       : Icons.visibility_off,
                   onTap: () => widget.userProvider.changeReHidden(),
                 ),
-                SizedBox(height: 24.0),
+                SizedBox(height: 16.0),
                 RoundBackgroundButton(
-                  labelText: '変更を保存',
-                  labelColor: Colors.white,
-                  backgroundColor: Colors.blue,
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.userProvider.updatePassword()) {
@@ -75,9 +71,7 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                       showDialog(
                         barrierDismissible: false,
                         context: context,
-                        builder: (_) => ErrorMessage(
-                          message: '変更に失敗しました。',
-                        ),
+                        builder: (_) => ErrorMessage('変更に失敗しました。'),
                       );
                       return;
                     }
@@ -86,6 +80,9 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
+                  labelText: '変更を保存',
+                  labelColor: Colors.white,
+                  backgroundColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),
               ],

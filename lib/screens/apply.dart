@@ -6,8 +6,12 @@ import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 
 class ApplyScreen extends StatefulWidget {
   final UserProvider userProvider;
+  final String groupId;
 
-  ApplyScreen({@required this.userProvider});
+  ApplyScreen({
+    @required this.userProvider,
+    @required this.groupId,
+  });
 
   @override
   _ApplyScreenState createState() => _ApplyScreenState();
@@ -27,7 +31,10 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
                 onTap: () => overlayScreen(
                   context,
-                  GroupSelect(userProvider: widget.userProvider),
+                  GroupSelect(
+                    userProvider: widget.userProvider,
+                    groupId: widget.groupId,
+                  ),
                 ),
               ),
               Expanded(

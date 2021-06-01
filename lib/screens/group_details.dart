@@ -13,13 +13,13 @@ class GroupDetailsScreen extends StatefulWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
   final GroupModel group;
-  final String prefsGroupId;
+  final String groupId;
 
   GroupDetailsScreen({
     @required this.groupProvider,
     @required this.userProvider,
     @required this.group,
-    @required this.prefsGroupId,
+    @required this.groupId,
   });
 
   @override
@@ -76,7 +76,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 16.0),
-                widget.prefsGroupId == widget.group.id
+                widget.groupId == widget.group.id
                     ? RoundBackgroundButton(
                         labelText: '既定に設定中',
                         labelColor: Colors.white,
@@ -95,9 +95,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (_) => ErrorMessage(
-                                message: '設定に失敗しました。',
-                              ),
+                              builder: (_) => ErrorMessage('設定に失敗しました。'),
                             );
                             return;
                           }
@@ -121,9 +119,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (_) => ErrorMessage(
-                                message: '退職に失敗しました。',
-                              ),
+                              builder: (_) => ErrorMessage('退職に失敗しました。'),
                             );
                             return;
                           }
