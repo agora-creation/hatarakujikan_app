@@ -69,13 +69,13 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
               groupProvider: widget.groupProvider,
               userProvider: widget.userProvider,
               group: _group,
-              qrController: _qrController,
             ),
           ),
         ).then((value) {
-          _qrController?.resumeCamera();
+          _qrController?.dispose();
           _isQRScanned = false;
           _group = null;
+          Navigator.of(context, rootNavigator: true).pop();
         });
       }
     }

@@ -18,12 +18,10 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 class HistoryScreen extends StatefulWidget {
   final UserProvider userProvider;
   final WorkProvider workProvider;
-  final String groupId;
 
   HistoryScreen({
     @required this.userProvider,
     @required this.workProvider,
-    @required this.groupId,
   });
 
   @override
@@ -72,10 +70,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               CustomExpandedButton(
                 onTap: () => overlayScreen(
                   context,
-                  GroupSelect(
-                    userProvider: widget.userProvider,
-                    groupId: widget.groupId,
-                  ),
+                  GroupSelect(userProvider: widget.userProvider),
                 ),
                 buttonColor: Colors.blueGrey,
                 labelText: widget.userProvider.group?.name,

@@ -11,7 +11,7 @@ class WorkProvider with ChangeNotifier {
   UserService _userService = UserService();
   WorkService _workService = WorkService();
 
-  Future<bool> workStart(
+  Future<void> workStart(
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       String _id = _workService.id();
@@ -34,14 +34,12 @@ class WorkProvider with ChangeNotifier {
         'workLv': 1,
         'lastWorkId': _id,
       });
-      return true;
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 
-  Future<bool> workEnd(
+  Future<void> workEnd(
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
@@ -57,14 +55,12 @@ class WorkProvider with ChangeNotifier {
         'workLv': 0,
         'lastWorkId': '',
       });
-      return true;
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 
-  Future<bool> breakStart(
+  Future<void> breakStart(
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
@@ -92,14 +88,12 @@ class WorkProvider with ChangeNotifier {
         'workLv': 2,
         'lastBreakId': _id,
       });
-      return true;
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 
-  Future<bool> breakEnd(
+  Future<void> breakEnd(
       {GroupModel group, UserModel user, List<double> locations}) async {
     try {
       WorkModel _work = await _workService.select(workId: user.lastWorkId);
@@ -122,10 +116,8 @@ class WorkProvider with ChangeNotifier {
         'workLv': 1,
         'lastBreakId': '',
       });
-      return true;
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 

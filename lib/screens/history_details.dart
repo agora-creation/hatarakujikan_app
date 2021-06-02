@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/models/work.dart';
+import 'package:hatarakujikan_app/screens/apply_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:intl/intl.dart';
@@ -109,10 +111,10 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           ),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
-            onPressed: () {},
+            onPressed: () => overlayScreen(context, ApplyWorkScreen()),
             labelText: '記録修正申請',
             labelColor: Colors.white,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.lightBlue,
           ),
           SizedBox(height: 40.0),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
@@ -13,13 +14,11 @@ class GroupDetailsScreen extends StatefulWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
   final GroupModel group;
-  final String groupId;
 
   GroupDetailsScreen({
     @required this.groupProvider,
     @required this.userProvider,
     @required this.group,
-    @required this.groupId,
   });
 
   @override
@@ -28,6 +27,18 @@ class GroupDetailsScreen extends StatefulWidget {
 
 class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   bool _isLoading = false;
+  String prefsGroupId = '';
+
+  void _init() async {
+    String _prefs = await getPrefs();
+    setState(() => prefsGroupId = _prefs);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +87,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 16.0),
-                widget.groupId == widget.group.id
+                prefsGroupId == widget.group.id
                     ? RoundBackgroundButton(
                         onPressed: null,
                         labelText: '既定に設定中',

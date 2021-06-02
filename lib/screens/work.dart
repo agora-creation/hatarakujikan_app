@@ -11,12 +11,10 @@ import 'package:hatarakujikan_app/widgets/loading.dart';
 class WorkScreen extends StatefulWidget {
   final UserProvider userProvider;
   final WorkProvider workProvider;
-  final String groupId;
 
   WorkScreen({
     @required this.userProvider,
     @required this.workProvider,
-    @required this.groupId,
   });
 
   @override
@@ -73,10 +71,7 @@ class _WorkScreenState extends State<WorkScreen> {
             ? CustomExpandedButton(
                 onTap: () => overlayScreen(
                   context,
-                  GroupSelect(
-                    userProvider: widget.userProvider,
-                    groupId: widget.groupId,
-                  ),
+                  GroupSelect(userProvider: widget.userProvider),
                 ),
                 buttonColor: Colors.blueGrey,
                 labelText: widget.userProvider.group?.name,

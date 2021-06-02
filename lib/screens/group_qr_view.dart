@@ -7,19 +7,16 @@ import 'package:hatarakujikan_app/widgets/error_message.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class GroupQRViewScreen extends StatefulWidget {
   final GroupProvider groupProvider;
   final UserProvider userProvider;
   final GroupModel group;
-  final QRViewController qrController;
 
   GroupQRViewScreen({
     @required this.groupProvider,
     @required this.userProvider,
     @required this.group,
-    @required this.qrController,
   });
 
   @override
@@ -87,10 +84,8 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                             return;
                           }
                           widget.userProvider.reloadUserModel();
-                          widget.qrController?.resumeCamera();
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
-                          Navigator.of(context, rootNavigator: true).pop();
                         },
                         labelText: 'この会社/組織に所属する',
                         labelColor: Colors.white,

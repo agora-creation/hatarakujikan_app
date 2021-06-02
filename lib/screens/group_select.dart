@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/widgets/custom_group_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/custom_group_select_list_tile.dart';
 
 class GroupSelect extends StatelessWidget {
   final UserProvider userProvider;
-  final String groupId;
 
-  GroupSelect({
-    @required this.userProvider,
-    @required this.groupId,
-  });
+  GroupSelect({@required this.userProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +29,13 @@ class GroupSelect extends StatelessWidget {
         itemCount: userProvider.groups.length,
         itemBuilder: (_, index) {
           GroupModel _group = userProvider.groups[index];
-          return CustomGroupListTile(
+          return CustomGroupSelectListTile(
             onTap: () {
               userProvider.changeGroup(_group);
               Navigator.of(context, rootNavigator: true).pop();
             },
             group: _group,
-            fixed: _group.id == groupId,
+            selected: _group.id == userProvider.group?.id,
           );
         },
       ),

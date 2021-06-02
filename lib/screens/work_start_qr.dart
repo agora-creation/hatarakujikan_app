@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -50,26 +51,25 @@ class _WorkStartQRScreenState extends State<WorkStartQRScreen> {
       if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code)) {
         if (widget.userProvider.group?.id == scanData.code) {
           _nextAction();
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('QRコードが一致しません')),
-          );
         }
       }
     });
   }
 
   Future<void> _nextAction() async {
-    if (!await widget.workProvider.workStart(
-      group: widget.userProvider.group,
-      user: widget.userProvider.user,
-      locations: widget.locations,
-    )) {
-      return;
-    }
-    _qrController?.resumeCamera();
-    widget.userProvider.reloadUserModel();
-    Navigator.of(context, rootNavigator: true).pop();
+    _qrController?.pauseCamera();
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => WorkStartDialog(
+        userProvider: widget.userProvider,
+        workProvider: widget.workProvider,
+        locations: widget.locations,
+      ),
+    ).then((value) {
+      _qrController?.dispose();
+      Navigator.of(context, rootNavigator: true).pop();
+    });
   }
 
   @override
