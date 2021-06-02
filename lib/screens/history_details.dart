@@ -113,8 +113,8 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           RoundBackgroundButton(
             onPressed: () => overlayScreen(context, ApplyWorkScreen()),
             labelText: '記録修正申請',
-            labelColor: Colors.white,
-            backgroundColor: Colors.lightBlue,
+            labelColor: Colors.black54,
+            backgroundColor: Colors.blue.shade100,
           ),
           SizedBox(height: 40.0),
         ],

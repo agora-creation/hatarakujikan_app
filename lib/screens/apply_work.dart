@@ -8,10 +8,10 @@ class ApplyWorkScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.blue.shade100,
         elevation: 0.0,
         centerTitle: true,
-        title: Text('記録修正申請', style: TextStyle(color: Colors.white)),
+        title: Text('記録修正申請', style: TextStyle(color: Colors.black54)),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
