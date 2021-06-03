@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +18,6 @@ class NoticeDetailsScreen extends StatefulWidget {
 }
 
 class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
-  String _ymd = 'yyyy/MM/dd HH:mm';
-
   @override
   void initState() {
     super.initState();
@@ -57,7 +56,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-              '${DateFormat(_ymd).format(widget.notice.createdAt)}',
+              '${DateFormat(formatYMDHM).format(widget.notice.createdAt)}',
             ),
           ),
           SizedBox(height: 40.0),

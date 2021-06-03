@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
@@ -22,8 +23,6 @@ class HistoryTotal extends StatefulWidget {
 }
 
 class _HistoryTotalState extends State<HistoryTotal> {
-  String _ymd = 'yyyy-MM-dd';
-  String _ym = 'yyyy年MM月';
   int workCount = 0;
   String workTime = '';
 
@@ -38,7 +37,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
       Map _count = {};
       String _workTime = '00:00';
       for (WorkModel _work in value) {
-        _count['${DateFormat(_ymd).format(_work.startedAt)}'] = '';
+        _count['${DateFormat(formatY_M_D).format(_work.startedAt)}'] = '';
         _workTime = addTime(_workTime, _work.workTime());
       }
       setState(() {
@@ -63,7 +62,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat(_ym).format(widget.days.first)}の集計',
+          '${DateFormat(formatYM).format(widget.days.first)}の集計',
           style: TextStyle(color: Colors.white),
         ),
         actions: [

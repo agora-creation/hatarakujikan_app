@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
@@ -50,13 +51,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String _ym = 'yyyy年MM月';
-    Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(
-        DateTime.parse('${DateFormat(_ymd).format(days.first)} 00:00:00.000')
-            .millisecondsSinceEpoch);
-    Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(
-        DateTime.parse('${DateFormat(_ymd).format(days.last)} 23:59:59.999')
-            .millisecondsSinceEpoch);
+    Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
+            '${DateFormat(formatY_M_D).format(days.first)} 00:00:00.000')
+        .millisecondsSinceEpoch);
+    Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
+            '${DateFormat(formatY_M_D).format(days.last)} 23:59:59.999')
+        .millisecondsSinceEpoch);
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('work')
         .where('groupId', isEqualTo: widget.userProvider.group?.id)
@@ -101,7 +101,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     days: days,
                   ),
                 ),
-                selectMonth: '${DateFormat(_ym).format(selectMonth)}',
+                selectMonth: '${DateFormat(formatYM).format(selectMonth)}',
               ),
               CustomHeadListTile(),
               Expanded(
@@ -121,8 +121,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in works) {
                           if (days[index] ==
-                              DateTime.parse(
-                                  DateFormat(_ymd).format(_work.startedAt))) {
+                              DateTime.parse(DateFormat(formatY_M_D)
+                                  .format(_work.startedAt))) {
                             _dayWorks.add(_work);
                           }
                         }

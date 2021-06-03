@@ -74,11 +74,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                       lastDate: DateTime.now().add(Duration(days: 365)),
                     );
                     if (_selected != null) {
-                      String _date =
-                          '${DateFormat(formatY_M_D).format(_selected)}';
-                      String _time =
-                          '${DateFormat(formatHM).format(work.startedAt)}:00.000';
-                      DateTime _dateTime = DateTime.parse('$_date $_time');
+                      DateTime _dateTime = DateTime.parse('${DateFormat(formatY_M_D).format(_selected)} ${DateFormat(formatHM).format(work.startedAt)}:00.000');
                       print(_dateTime);
                     }
                   },

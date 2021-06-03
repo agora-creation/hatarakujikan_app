@@ -17,7 +17,7 @@ class CustomTimeButton extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
