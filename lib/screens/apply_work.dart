@@ -74,12 +74,12 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                       lastDate: DateTime.now().add(Duration(days: 365)),
                     );
                     if (_selected != null) {
-                      DateTime _dateTime = DateTime.parse('${DateFormat(formatY_M_D).format(_selected)} ${DateFormat(formatHM).format(work.startedAt)}:00.000');
-                      print(_dateTime);
+                      DateTime _dateTime = DateTime.parse(
+                          '${DateFormat(formatY_M_D).format(_selected)} ${DateFormat(formatHM).format(work.startedAt)}:00.000');
+                      setState(() => work.startedAt = _dateTime);
                     }
                   },
-                  labelText:
-                      '${DateFormat(formatYMD).format(widget.work.startedAt)}',
+                  labelText: '${DateFormat(formatYMD).format(work.startedAt)}',
                 ),
               ),
               SizedBox(width: 4.0),
@@ -87,28 +87,33 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 2,
                 child: CustomTimeButton(
                   onTap: () async {
-                    final TimeOfDay result = await showTimePicker(
+                    final int _hour =
+                        int.parse(DateFormat('H').format(work.startedAt));
+                    final int _minute =
+                        int.parse(DateFormat('m').format(work.startedAt));
+                    final TimeOfDay _selected = await showTimePicker(
                       context: context,
-                      initialTime: TimeOfDay.now(),
+                      initialTime: TimeOfDay(hour: _hour, minute: _minute),
                     );
-                    if (result != null) {
-                      print(result.format(context));
+                    if (_selected != null) {
+                      DateTime _dateTime = DateTime.parse(
+                          '${DateFormat(formatY_M_D).format(work.startedAt)} ${_selected.format(context)}:00.000');
+                      setState(() => work.startedAt = _dateTime);
                     }
                   },
-                  labelText:
-                      '${DateFormat(formatHM).format(widget.work.startedAt)}',
+                  labelText: '${DateFormat(formatHM).format(work.startedAt)}',
                 ),
               ),
             ],
           ),
           SizedBox(height: 8.0),
-          widget.work.breaks.length > 0
+          work.breaks.length > 0
               ? ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: widget.work.breaks.length,
+                  itemCount: work.breaks.length,
                   itemBuilder: (_, index) {
-                    BreaksModel _breaks = widget.work.breaks[index];
+                    BreaksModel _breaks = work.breaks[index];
                     return Column(
                       children: [
                         CustomIconLabel(
@@ -121,7 +126,23 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                             Expanded(
                               flex: 3,
                               child: CustomDateButton(
-                                onTap: () {},
+                                onTap: () async {
+                                  final DateTime _selected =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: _breaks.startedAt,
+                                    firstDate: DateTime.now()
+                                        .subtract(Duration(days: 365)),
+                                    lastDate:
+                                        DateTime.now().add(Duration(days: 365)),
+                                  );
+                                  if (_selected != null) {
+                                    DateTime _dateTime = DateTime.parse(
+                                        '${DateFormat(formatY_M_D).format(_selected)} ${DateFormat(formatHM).format(_breaks.startedAt)}:00.000');
+                                    setState(
+                                        () => _breaks.startedAt = _dateTime);
+                                  }
+                                },
                                 labelText:
                                     '${DateFormat(formatYMD).format(_breaks.startedAt)}',
                               ),
@@ -130,7 +151,24 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                             Expanded(
                               flex: 2,
                               child: CustomTimeButton(
-                                onTap: () {},
+                                onTap: () async {
+                                  final int _hour = int.parse(DateFormat('H')
+                                      .format(_breaks.startedAt));
+                                  final int _minute = int.parse(DateFormat('m')
+                                      .format(_breaks.startedAt));
+                                  final TimeOfDay _selected =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime:
+                                        TimeOfDay(hour: _hour, minute: _minute),
+                                  );
+                                  if (_selected != null) {
+                                    DateTime _dateTime = DateTime.parse(
+                                        '${DateFormat(formatY_M_D).format(_breaks.startedAt)} ${_selected.format(context)}:00.000');
+                                    setState(
+                                        () => _breaks.startedAt = _dateTime);
+                                  }
+                                },
                                 labelText:
                                     '${DateFormat(formatHM).format(_breaks.startedAt)}',
                               ),
@@ -149,7 +187,22 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                             Expanded(
                               flex: 3,
                               child: CustomDateButton(
-                                onTap: () {},
+                                onTap: () async {
+                                  final DateTime _selected =
+                                      await showDatePicker(
+                                    context: context,
+                                    initialDate: _breaks.endedAt,
+                                    firstDate: DateTime.now()
+                                        .subtract(Duration(days: 365)),
+                                    lastDate:
+                                        DateTime.now().add(Duration(days: 365)),
+                                  );
+                                  if (_selected != null) {
+                                    DateTime _dateTime = DateTime.parse(
+                                        '${DateFormat(formatY_M_D).format(_selected)} ${DateFormat(formatHM).format(_breaks.endedAt)}:00.000');
+                                    setState(() => _breaks.endedAt = _dateTime);
+                                  }
+                                },
                                 labelText:
                                     '${DateFormat(formatYMD).format(_breaks.endedAt)}',
                               ),
@@ -158,7 +211,23 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                             Expanded(
                               flex: 2,
                               child: CustomTimeButton(
-                                onTap: () {},
+                                onTap: () async {
+                                  final int _hour = int.parse(
+                                      DateFormat('H').format(_breaks.endedAt));
+                                  final int _minute = int.parse(
+                                      DateFormat('m').format(_breaks.endedAt));
+                                  final TimeOfDay _selected =
+                                      await showTimePicker(
+                                    context: context,
+                                    initialTime:
+                                        TimeOfDay(hour: _hour, minute: _minute),
+                                  );
+                                  if (_selected != null) {
+                                    DateTime _dateTime = DateTime.parse(
+                                        '${DateFormat(formatY_M_D).format(_breaks.endedAt)} ${_selected.format(context)}:00.000');
+                                    setState(() => _breaks.endedAt = _dateTime);
+                                  }
+                                },
                                 labelText:
                                     '${DateFormat(formatHM).format(_breaks.endedAt)}',
                               ),
@@ -181,18 +250,42 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
               Expanded(
                 flex: 3,
                 child: CustomDateButton(
-                  onTap: () {},
-                  labelText:
-                      '${DateFormat(formatYMD).format(widget.work.endedAt)}',
+                  onTap: () async {
+                    final DateTime _selected = await showDatePicker(
+                      context: context,
+                      initialDate: work.endedAt,
+                      firstDate: DateTime.now().subtract(Duration(days: 365)),
+                      lastDate: DateTime.now().add(Duration(days: 365)),
+                    );
+                    if (_selected != null) {
+                      DateTime _dateTime = DateTime.parse(
+                          '${DateFormat(formatY_M_D).format(_selected)} ${DateFormat(formatHM).format(work.endedAt)}:00.000');
+                      setState(() => work.endedAt = _dateTime);
+                    }
+                  },
+                  labelText: '${DateFormat(formatYMD).format(work.endedAt)}',
                 ),
               ),
               SizedBox(width: 4.0),
               Expanded(
                 flex: 2,
                 child: CustomTimeButton(
-                  onTap: () {},
-                  labelText:
-                      '${DateFormat(formatHM).format(widget.work.endedAt)}',
+                  onTap: () async {
+                    final int _hour =
+                        int.parse(DateFormat('H').format(work.endedAt));
+                    final int _minute =
+                        int.parse(DateFormat('m').format(work.endedAt));
+                    final TimeOfDay _selected = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay(hour: _hour, minute: _minute),
+                    );
+                    if (_selected != null) {
+                      DateTime _dateTime = DateTime.parse(
+                          '${DateFormat(formatY_M_D).format(work.endedAt)} ${_selected.format(context)}:00.000');
+                      setState(() => work.endedAt = _dateTime);
+                    }
+                  },
+                  labelText: '${DateFormat(formatHM).format(work.endedAt)}',
                 ),
               ),
             ],
@@ -200,7 +293,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
           SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () async {
-              if (!await applyWorkProvider.create(work: widget.work)) {
+              if (!await applyWorkProvider.create(work: work)) {
                 showDialog(
                   barrierDismissible: false,
                   context: context,
