@@ -50,12 +50,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(days.first)} 00:00:00.000')
-        .millisecondsSinceEpoch);
-    Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(days.last)} 23:59:59.999')
-        .millisecondsSinceEpoch);
+    String _ym = 'yyyy年MM月';
+    Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(
+        DateTime.parse('${DateFormat(_ymd).format(days.first)} 00:00:00.000')
+            .millisecondsSinceEpoch);
+    Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(
+        DateTime.parse('${DateFormat(_ymd).format(days.last)} 23:59:59.999')
+            .millisecondsSinceEpoch);
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('work')
         .where('groupId', isEqualTo: widget.userProvider.group?.id)
@@ -100,7 +101,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     days: days,
                   ),
                 ),
-                selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+                selectMonth: '${DateFormat(_ym).format(selectMonth)}',
               ),
               CustomHeadListTile(),
               Expanded(
@@ -120,8 +121,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in works) {
                           if (days[index] ==
-                              DateTime.parse(DateFormat('yyyy-MM-dd')
-                                  .format(_work.startedAt))) {
+                              DateTime.parse(
+                                  DateFormat(_ymd).format(_work.startedAt))) {
                             _dayWorks.add(_work);
                           }
                         }

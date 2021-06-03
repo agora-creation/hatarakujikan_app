@@ -22,6 +22,8 @@ class HistoryTotal extends StatefulWidget {
 }
 
 class _HistoryTotalState extends State<HistoryTotal> {
+  String _ymd = 'yyyy-MM-dd';
+  String _ym = 'yyyy年MM月';
   int workCount = 0;
   String workTime = '';
 
@@ -36,7 +38,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
       Map _count = {};
       String _workTime = '00:00';
       for (WorkModel _work in value) {
-        _count['${DateFormat('yyyy-MM-dd').format(_work.startedAt)}'] = '';
+        _count['${DateFormat(_ymd).format(_work.startedAt)}'] = '';
         _workTime = addTime(_workTime, _work.workTime());
       }
       setState(() {
@@ -61,7 +63,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat('yyyy年MM月').format(widget.days.first)}の集計',
+          '${DateFormat(_ym).format(widget.days.first)}の集計',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -74,7 +76,6 @@ class _HistoryTotalState extends State<HistoryTotal> {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
-          SizedBox(height: 16.0),
           CustomHistoryDetailsListTile(
             icon: null,
             title: '会社/組織',

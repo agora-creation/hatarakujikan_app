@@ -17,6 +17,8 @@ class NoticeDetailsScreen extends StatefulWidget {
 }
 
 class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
+  String _ymd = 'yyyy/MM/dd HH:mm';
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +57,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-              '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}',
+              '${DateFormat(_ymd).format(widget.notice.createdAt)}',
             ),
           ),
           SizedBox(height: 40.0),

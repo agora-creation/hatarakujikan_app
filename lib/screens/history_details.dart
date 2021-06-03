@@ -18,6 +18,8 @@ class HistoryDetailsScreen extends StatefulWidget {
 }
 
 class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
+  String _ymd = 'yyyy年MM月dd日 (E)';
+  String _hm = 'HH:mm';
   GoogleMapController mapController;
 
   void _onMapCreated(GoogleMapController controller) {
@@ -32,7 +34,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(widget.work.startedAt)}',
+          '${DateFormat(_ymd, 'ja').format(widget.work.startedAt)}',
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -42,14 +44,13 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
-          SizedBox(height: 16.0),
           Text('記録した時間'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
           CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.blue),
             title: '出勤時間',
-            time: '${DateFormat('HH:mm').format(widget.work.startedAt)}',
+            time: '${DateFormat(_hm).format(widget.work.startedAt)}',
           ),
           widget.work.breaks.length > 0
               ? ListView.builder(
@@ -63,15 +64,13 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
                         CustomHistoryDetailsListTile(
                           icon: Icon(Icons.run_circle, color: Colors.orange),
                           title: '休憩開始時間',
-                          time:
-                              '${DateFormat('HH:mm').format(_breaks.startedAt)}',
+                          time: '${DateFormat(_hm).format(_breaks.startedAt)}',
                         ),
                         CustomHistoryDetailsListTile(
                           icon: Icon(Icons.run_circle_outlined,
                               color: Colors.orange),
                           title: '休憩終了時間',
-                          time:
-                              '${DateFormat('HH:mm').format(_breaks.endedAt)}',
+                          time: '${DateFormat(_hm).format(_breaks.endedAt)}',
                         ),
                       ],
                     );
@@ -81,7 +80,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.red),
             title: '退勤時間',
-            time: '${DateFormat('HH:mm').format(widget.work.endedAt)}',
+            time: '${DateFormat(_hm).format(widget.work.endedAt)}',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
@@ -111,7 +110,10 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           ),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
-            onPressed: () => overlayScreen(context, ApplyWorkScreen()),
+            onPressed: () => overlayScreen(
+              context,
+              ApplyWorkScreen(work: widget.work),
+            ),
             labelText: '記録修正申請',
             labelColor: Colors.black54,
             backgroundColor: Colors.blue.shade100,

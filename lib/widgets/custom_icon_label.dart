@@ -16,12 +16,10 @@ class CustomIconLabel extends StatelessWidget {
         Row(
           children: [
             icon,
-            SizedBox(width: 8.0),
+            SizedBox(width: 4.0),
             Text(labelText),
           ],
         ),
-        SizedBox(height: 8.0),
-        Divider(height: 1.0, color: Colors.grey),
       ],
     );
   }

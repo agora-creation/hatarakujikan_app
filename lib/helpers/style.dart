@@ -53,3 +53,7 @@ const TextStyle kSubTitleTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
+
+const String formatYMD = 'yyyy/MM/dd';
+const String formatY_M_D = 'yyyy-MM-dd';
+const String formatHM = 'HH:mm';

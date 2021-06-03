@@ -25,7 +25,6 @@ dependencies:
   introduction_screen: ^2.1.0
   webview_flutter: ^2.0.2
   month_picker_dialog: ^0.4.0
-  flutter_datetime_picker: ^1.4.0
   common_utils: ^2.0.2
   location: ^4.1.1
   google_maps_flutter: ^2.0.3

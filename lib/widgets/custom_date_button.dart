@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomDatetimeButton extends StatelessWidget {
+class CustomDateButton extends StatelessWidget {
   final String labelText;
   final Function onTap;
 
-  CustomDatetimeButton({
+  CustomDateButton({
     this.labelText,
     this.onTap,
   });
@@ -14,13 +14,18 @@ class CustomDatetimeButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: ListTile(
-          title: Text(labelText),
-          trailing: Icon(Icons.arrow_drop_down),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(Icons.today, color: Colors.black54),
+            Text(labelText, style: TextStyle(color: Colors.black87)),
+            Icon(Icons.arrow_drop_down, color: Colors.black54),
+          ],
         ),
       ),
     );
