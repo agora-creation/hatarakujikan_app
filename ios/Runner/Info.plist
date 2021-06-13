@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>What to use bluetooth.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This permission is required to use voice analysis.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Needed for Pedometer.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>This app requires access to play music.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Advertisement would like to use bluetooth.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -32,16 +22,26 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>This app requires access to play music.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>What to use bluetooth.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Advertisement would like to use bluetooth.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Needs Calendar Permission</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
+	<string>このアプリでは会社/組織のQRコードを読み取る為、カメラへのアクセスが必要です。</string>
 	<key>NSContactsUsageDescription</key>
 	<string>${PRODUCT_NAME} contact use</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is required for this app</string>
+	<string>このアプリには勤務場所を記録する為、位置情報が必要です。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is required for this app</string>
+	<string>このアプリには勤務場所を記録する為、位置情報が必要です。</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Needed for Pedometer.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This permission is required to use voice analysis.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
