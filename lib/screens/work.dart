@@ -73,11 +73,11 @@ class _WorkScreenState extends State<WorkScreen> {
                   context,
                   GroupSelect(userProvider: widget.userProvider),
                 ),
-                buttonColor: Colors.blueGrey,
-                labelText: widget.userProvider.group?.name,
-                labelColor: Colors.white,
-                leadingIcon: Icon(Icons.store, color: Colors.white),
-                trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                backgroundColor: Colors.blueGrey,
+                label: widget.userProvider.group?.name ?? '',
+                color: Colors.white,
+                leading: Icon(Icons.store, color: Colors.white),
+                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
               )
             : Container(),
         Expanded(

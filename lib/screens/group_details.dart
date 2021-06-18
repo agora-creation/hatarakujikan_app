@@ -4,7 +4,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
@@ -47,7 +47,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text(widget.group.name),
+        title: Text(widget.group?.name ?? ''),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
@@ -65,7 +65,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       'ID',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group.id),
+                    trailing: Text(widget.group?.id ?? ''),
                   ),
                 ),
                 Container(
@@ -75,35 +75,36 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group.name),
+                    trailing: Text(widget.group?.name ?? ''),
                   ),
                 ),
                 SizedBox(height: 16.0),
                 Center(
                   child: QrImage(
-                    data: '${widget.group.id}',
+                    data: widget.group?.id ?? '',
                     version: QrVersions.auto,
                     size: 200.0,
                   ),
                 ),
                 SizedBox(height: 16.0),
-                prefsGroupId == widget.group.id
+                prefsGroupId == widget.group?.id
                     ? RoundBackgroundButton(
                         onPressed: null,
-                        labelText: '既定に設定中',
-                        labelColor: Colors.white,
+                        label: '既定に設定中',
+                        color: Colors.white,
                         backgroundColor: Colors.grey,
                       )
                     : RoundBorderButton(
                         onPressed: () async {
                           setState(() => _isLoading = true);
-                          if (!await widget.groupProvider
-                              .updatePrefs(groupId: widget.group.id)) {
+                          if (!await widget.groupProvider.updatePrefs(
+                            groupId: widget.group.id,
+                          )) {
                             setState(() => _isLoading = false);
                             showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (_) => ErrorMessage('設定に失敗しました。'),
+                              builder: (_) => ErrorDialog('設定に失敗しました。'),
                             );
                             return;
                           }
@@ -111,23 +112,24 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
-                        labelText: '既定に設定する',
-                        labelColor: Colors.blue,
+                        label: '既定に設定する',
+                        color: Colors.blue,
                         borderColor: Colors.blue,
                       ),
                 SizedBox(height: 8.0),
-                widget.userProvider.user?.id != widget.group.adminUserId
+                widget.userProvider.user?.id != widget.group?.adminUserId
                     ? RoundBorderButton(
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
-                              user: widget.userProvider.user,
-                              groupId: widget.group.id)) {
+                            user: widget.userProvider.user,
+                            groupId: widget.group?.id,
+                          )) {
                             setState(() => _isLoading = false);
                             showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (_) => ErrorMessage('退職に失敗しました。'),
+                              builder: (_) => ErrorDialog('退職に失敗しました。'),
                             );
                             return;
                           }
@@ -135,19 +137,19 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
-                        labelText: '退職する',
-                        labelColor: Colors.red,
+                        label: '退職する',
+                        color: Colors.red,
                         borderColor: Colors.red,
                       )
                     : RoundBackgroundButton(
                         onPressed: null,
-                        labelText: '退職する',
-                        labelColor: Colors.white,
+                        label: '退職する',
+                        color: Colors.white,
                         backgroundColor: Colors.grey,
                       ),
                 Center(
                   child: Text(
-                    '※管理者は退職できません',
+                    '※管理者アカウントは退職できません。',
                     style: TextStyle(color: Colors.red),
                   ),
                 ),

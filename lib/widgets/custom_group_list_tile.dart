@@ -18,7 +18,7 @@ class CustomGroupListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        title: Text(group.name),
+        title: Text(group?.name),
         subtitle: fixed ? Text('既定に設定中') : null,
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,

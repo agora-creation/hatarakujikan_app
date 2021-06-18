@@ -7,7 +7,7 @@ import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
 import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
@@ -68,10 +68,10 @@ class LoginScreen extends StatelessWidget {
                               obscureText: false,
                               textInputType: TextInputType.emailAddress,
                               maxLines: 1,
-                              labelText: 'メールアドレス',
-                              labelColor: Colors.white,
-                              prefixIconData: Icons.email,
-                              suffixIconData: null,
+                              label: 'メールアドレス',
+                              color: Colors.white,
+                              prefix: Icons.email,
+                              suffix: null,
                               onTap: null,
                             ),
                             SizedBox(height: 8.0),
@@ -80,15 +80,13 @@ class LoginScreen extends StatelessWidget {
                               obscureText: userProvider.isHidden ? false : true,
                               textInputType: null,
                               maxLines: 1,
-                              labelText: 'パスワード',
-                              labelColor: Colors.white,
-                              prefixIconData: Icons.lock,
-                              suffixIconData: userProvider.isHidden
+                              label: 'パスワード',
+                              color: Colors.white,
+                              prefix: Icons.lock,
+                              suffix: userProvider.isHidden
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              onTap: () {
-                                userProvider.changeHidden();
-                              },
+                              onTap: () => userProvider.changeHidden(),
                             ),
                           ],
                         ),
@@ -99,8 +97,7 @@ class LoginScreen extends StatelessWidget {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (_) => ErrorMessage(
-                                    'ログインに失敗しました。メールアドレスもしくはパスワードが間違っている可能性があります。'),
+                                builder: (_) => ErrorDialog('ログインに失敗しました。'),
                               );
                               return;
                             }
@@ -108,8 +105,8 @@ class LoginScreen extends StatelessWidget {
                             userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
-                          labelText: 'ログイン',
-                          labelColor: Colors.white,
+                          label: 'ログイン',
+                          color: Colors.white,
                           backgroundColor: Colors.blue,
                         ),
                         SizedBox(height: 24.0),
@@ -119,8 +116,8 @@ class LoginScreen extends StatelessWidget {
                               userProvider.clearController();
                               nextScreen(context, RegistrationScreen());
                             },
-                            labelText: '初めての方は登録から',
-                            labelColor: Colors.white,
+                            label: '初めての方は登録から',
+                            color: Colors.white,
                           ),
                         ),
                       ],

@@ -3,12 +3,12 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 
 class CustomSettingListTile extends StatelessWidget {
   final IconData iconData;
-  final String title;
+  final String label;
   final Function onTap;
 
   CustomSettingListTile({
     this.iconData,
-    this.title,
+    this.label,
     this.onTap,
   });
 
@@ -18,7 +18,7 @@ class CustomSettingListTile extends StatelessWidget {
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: Icon(iconData),
-        title: Text(title),
+        title: Text(label),
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
-  final String labelText;
-  final Color backgroundColor;
+  final String label;
+  final Color color;
   final Function onPressed;
 
   CustomTextButton({
-    this.labelText,
-    this.backgroundColor,
+    this.label,
+    this.color,
     this.onPressed,
   });
 
@@ -16,11 +16,11 @@ class CustomTextButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        labelText,
+        label,
         style: TextStyle(color: Colors.white),
       ),
       style: TextButton.styleFrom(
-        backgroundColor: backgroundColor,
+        backgroundColor: color,
         padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
       ),
     );

@@ -13,10 +13,6 @@ class ApplyWorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).set(values);
   }
 
-  void update(Map<String, dynamic> values) {
-    _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
-  }
-
   void delete(Map<String, dynamic> values) {
     _firebaseFirestore.collection(_collection).doc(values['id']).delete();
   }

@@ -13,13 +13,11 @@ class WorkModel {
   double endedLat;
   double endedLon;
   List<BreaksModel> breaks;
-  String _deviceId;
   DateTime _createdAt;
 
   String get id => _id;
   String get groupId => _groupId;
   String get userId => _userId;
-  String get deviceId => _deviceId;
   DateTime get createdAt => _createdAt;
 
   WorkModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -27,13 +25,12 @@ class WorkModel {
     _groupId = snapshot.data()['groupId'];
     _userId = snapshot.data()['userId'];
     startedAt = snapshot.data()['startedAt'].toDate();
-    startedLat = snapshot.data()['startedLat'];
-    startedLon = snapshot.data()['startedLon'];
+    startedLat = snapshot.data()['startedLat'].toDouble();
+    startedLon = snapshot.data()['startedLon'].toDouble();
     endedAt = snapshot.data()['endedAt'].toDate();
-    endedLat = snapshot.data()['endedLat'];
-    endedLon = snapshot.data()['endedLon'];
+    endedLat = snapshot.data()['endedLat'].toDouble();
+    endedLon = snapshot.data()['endedLon'].toDouble();
     breaks = _convertBreaks(snapshot.data()['breaks']) ?? [];
-    _deviceId = snapshot.data()['deviceId'];
     _createdAt = snapshot.data()['createdAt'].toDate();
   }
 
@@ -43,6 +40,16 @@ class WorkModel {
       converted.add(BreaksModel.fromMap(data));
     }
     return converted;
+  }
+
+  String breakTime() {
+    String _result = '00:00';
+    if (breaks.length > 0) {
+      for (BreaksModel _break in breaks) {
+        _result = addTime(_result, _break.breakTime());
+      }
+    }
+    return _result;
   }
 
   String workTime() {

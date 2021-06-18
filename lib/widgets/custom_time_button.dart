@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomTimeButton extends StatelessWidget {
-  final String labelText;
+  final String label;
   final Function onTap;
 
   CustomTimeButton({
-    this.labelText,
+    this.label,
     this.onTap,
   });
 
@@ -23,7 +23,7 @@ class CustomTimeButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Icon(Icons.access_time, color: Colors.black54),
-            Text(labelText, style: TextStyle(color: Colors.black87)),
+            Text(label, style: TextStyle(color: Colors.black87)),
             Icon(Icons.arrow_drop_down, color: Colors.black54),
           ],
         ),

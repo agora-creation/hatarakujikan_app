@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 
@@ -40,10 +40,10 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                   obscureText: widget.userProvider.isHidden ? false : true,
                   textInputType: null,
                   maxLines: 1,
-                  labelText: '新しいパスワード',
-                  labelColor: Colors.black54,
-                  prefixIconData: Icons.lock,
-                  suffixIconData: widget.userProvider.isHidden
+                  label: '新しいパスワード',
+                  color: Colors.black54,
+                  prefix: Icons.lock,
+                  suffix: widget.userProvider.isHidden
                       ? Icons.visibility
                       : Icons.visibility_off,
                   onTap: () => widget.userProvider.changeHidden(),
@@ -54,10 +54,10 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                   obscureText: widget.userProvider.isReHidden ? false : true,
                   textInputType: null,
                   maxLines: 1,
-                  labelText: '新しいパスワードの再入力',
-                  labelColor: Colors.black54,
-                  prefixIconData: Icons.lock_outline,
-                  suffixIconData: widget.userProvider.isReHidden
+                  label: '新しいパスワードの再入力',
+                  color: Colors.black54,
+                  prefix: Icons.lock_outline,
+                  suffix: widget.userProvider.isReHidden
                       ? Icons.visibility
                       : Icons.visibility_off,
                   onTap: () => widget.userProvider.changeReHidden(),
@@ -71,7 +71,7 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                       showDialog(
                         barrierDismissible: false,
                         context: context,
-                        builder: (_) => ErrorMessage('変更に失敗しました。'),
+                        builder: (_) => ErrorDialog('変更に失敗しました。'),
                       );
                       return;
                     }
@@ -80,8 +80,8 @@ class _UserPasswordScreenState extends State<UserPasswordScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
-                  labelText: '変更を保存',
-                  labelColor: Colors.white,
+                  label: '変更を保存',
+                  color: Colors.white,
                   backgroundColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
@@ -52,10 +51,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat(formatY_M_D).format(days.first)} 00:00:00.000')
+            '${DateFormat('yyyy-MM-dd').format(days.first)} 00:00:00.000')
         .millisecondsSinceEpoch);
     Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat(formatY_M_D).format(days.last)} 23:59:59.999')
+            '${DateFormat('yyyy-MM-dd').format(days.last)} 23:59:59.999')
         .millisecondsSinceEpoch);
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('work')
@@ -73,11 +72,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   context,
                   GroupSelect(userProvider: widget.userProvider),
                 ),
-                buttonColor: Colors.blueGrey,
-                labelText: widget.userProvider.group?.name,
-                labelColor: Colors.white,
-                leadingIcon: Icon(Icons.store, color: Colors.white),
-                trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                backgroundColor: Colors.blueGrey,
+                label: widget.userProvider.group?.name ?? '',
+                color: Colors.white,
+                leading: Icon(Icons.store, color: Colors.white),
+                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
               ),
               HistoryButton(
                 monthOnPressed: () async {
@@ -101,7 +100,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     days: days,
                   ),
                 ),
-                selectMonth: '${DateFormat(formatYM).format(selectMonth)}',
+                selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
               ),
               CustomHeadListTile(),
               Expanded(
@@ -120,13 +119,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       itemBuilder: (_, index) {
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in works) {
-                          if (days[index] ==
-                              DateTime.parse(DateFormat(formatY_M_D)
-                                  .format(_work.startedAt))) {
+                          DateTime _tmp = DateTime.parse(
+                            DateFormat('yyyy-MM-dd').format(_work.startedAt),
+                          );
+                          if (days[index] == _tmp) {
                             _dayWorks.add(_work);
                           }
                         }
                         return CustomHistoryListTile(
+                          user: widget.userProvider.user,
                           day: days[index],
                           works: _dayWorks,
                         );

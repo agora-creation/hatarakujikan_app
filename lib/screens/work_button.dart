@@ -35,7 +35,7 @@ class WorkButton extends StatelessWidget {
                 child: !workError && userProvider.user?.workLv == 0
                     ? CustomWorkButton(
                         onPressed: () async {
-                          if (userProvider.group?.workSecurity == true) {
+                          if (userProvider.group?.qrSecurity == true) {
                             if (await Permission.camera.request().isGranted) {
                               overlayScreen(
                                 context,
@@ -64,15 +64,15 @@ class WorkButton extends StatelessWidget {
                             );
                           }
                         },
-                        labelText: '出勤',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '出勤',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.blue,
                         borderColor: null,
                       )
                     : CustomWorkButton(
                         onPressed: null,
-                        labelText: '出勤',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '出勤',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.grey,
                         borderColor: null,
                       ),
@@ -82,7 +82,7 @@ class WorkButton extends StatelessWidget {
                 child: !workError && userProvider.user?.workLv == 1
                     ? CustomWorkButton(
                         onPressed: () async {
-                          if (userProvider.group?.workSecurity == true) {
+                          if (userProvider.group?.qrSecurity == true) {
                             if (await Permission.camera.request().isGranted) {
                               overlayScreen(
                                 context,
@@ -111,15 +111,15 @@ class WorkButton extends StatelessWidget {
                             );
                           }
                         },
-                        labelText: '退勤',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '退勤',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.red,
                         borderColor: null,
                       )
                     : CustomWorkButton(
                         onPressed: null,
-                        labelText: '退勤',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '退勤',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.grey,
                         borderColor: null,
                       ),
@@ -133,7 +133,7 @@ class WorkButton extends StatelessWidget {
                 child: !workError && userProvider.user?.workLv == 1
                     ? CustomWorkButton(
                         onPressed: () async {
-                          if (userProvider.group?.workSecurity == true) {
+                          if (userProvider.group?.qrSecurity == true) {
                             if (await Permission.camera.request().isGranted) {
                               overlayScreen(
                                 context,
@@ -162,15 +162,15 @@ class WorkButton extends StatelessWidget {
                             );
                           }
                         },
-                        labelText: '休憩開始',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '休憩開始',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.orange,
                         borderColor: null,
                       )
                     : CustomWorkButton(
                         onPressed: null,
-                        labelText: '休憩開始',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '休憩開始',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.grey,
                         borderColor: null,
                       ),
@@ -180,7 +180,7 @@ class WorkButton extends StatelessWidget {
                 child: !workError && userProvider.user?.workLv == 2
                     ? CustomWorkButton(
                         onPressed: () async {
-                          if (userProvider.group?.workSecurity == true) {
+                          if (userProvider.group?.qrSecurity == true) {
                             if (await Permission.camera.request().isGranted) {
                               overlayScreen(
                                 context,
@@ -209,15 +209,15 @@ class WorkButton extends StatelessWidget {
                             );
                           }
                         },
-                        labelText: '休憩終了',
-                        labelColor: Colors.orange,
+                        label: '休憩終了',
+                        color: Colors.orange,
                         backgroundColor: Color(0xFFFEFFFA),
                         borderColor: Colors.orange,
                       )
                     : CustomWorkButton(
                         onPressed: null,
-                        labelText: '休憩終了',
-                        labelColor: Color(0xFFFEFFFA),
+                        label: '休憩終了',
+                        color: Color(0xFFFEFFFA),
                         backgroundColor: Colors.grey,
                         borderColor: null,
                       ),

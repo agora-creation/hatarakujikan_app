@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 
@@ -40,10 +40,10 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                   obscureText: false,
                   textInputType: TextInputType.name,
                   maxLines: 1,
-                  labelText: 'お名前',
-                  labelColor: Colors.black54,
-                  prefixIconData: Icons.person,
-                  suffixIconData: null,
+                  label: 'お名前',
+                  color: Colors.black54,
+                  prefix: Icons.person,
+                  suffix: null,
                   onTap: null,
                 ),
                 SizedBox(height: 8.0),
@@ -52,10 +52,10 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                   obscureText: false,
                   textInputType: TextInputType.emailAddress,
                   maxLines: 1,
-                  labelText: 'メールアドレス',
-                  labelColor: Colors.black54,
-                  prefixIconData: Icons.email,
-                  suffixIconData: null,
+                  label: 'メールアドレス',
+                  color: Colors.black54,
+                  prefix: Icons.email,
+                  suffix: null,
                   onTap: null,
                 ),
                 SizedBox(height: 16.0),
@@ -67,7 +67,7 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                       showDialog(
                         barrierDismissible: false,
                         context: context,
-                        builder: (_) => ErrorMessage('変更に失敗しました。'),
+                        builder: (_) => ErrorDialog('変更に失敗しました。'),
                       );
                       return;
                     }
@@ -76,8 +76,8 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
-                  labelText: '変更を保存',
-                  labelColor: Colors.white,
+                  label: '変更を保存',
+                  color: Colors.white,
                   backgroundColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),

@@ -35,7 +35,7 @@ class GroupSelect extends StatelessWidget {
               Navigator.of(context, rootNavigator: true).pop();
             },
             group: _group,
-            selected: _group.id == userProvider.group?.id,
+            selected: _group?.id == userProvider.group?.id,
           );
         },
       ),

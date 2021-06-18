@@ -8,8 +8,8 @@ class UserNoticeProvider with ChangeNotifier {
 
   void updateRead({UserNoticeModel notice}) {
     _userNoticeService.update({
-      'id': notice.id,
-      'userId': notice.userId,
+      'id': notice?.id,
+      'userId': notice?.userId,
       'read': true,
     });
   }

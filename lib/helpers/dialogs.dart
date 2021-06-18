@@ -24,13 +24,13 @@ class PermissionDialog extends StatelessWidget {
             children: [
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                labelText: 'キャンセル',
-                backgroundColor: Colors.grey,
+                label: 'キャンセル',
+                color: Colors.grey,
               ),
               CustomTextButton(
                 onPressed: () => openAppSettings(),
-                labelText: 'はい',
-                backgroundColor: Colors.blue,
+                label: 'はい',
+                color: Colors.blue,
               ),
             ],
           ),
@@ -60,9 +60,10 @@ class _WorkStartDialogState extends State<WorkStartDialog> {
     await Future.delayed(Duration(seconds: 2));
     await widget.workProvider
         .workStart(
-            group: widget.userProvider.group,
-            user: widget.userProvider.user,
-            locations: widget.locations)
+      group: widget.userProvider.group,
+      user: widget.userProvider.user,
+      locations: widget.locations,
+    )
         .then((value) {
       widget.userProvider.reloadUserModel();
       Navigator.pop(context);
@@ -111,9 +112,10 @@ class _WorkEndDialogState extends State<WorkEndDialog> {
     await Future.delayed(Duration(seconds: 2));
     await widget.workProvider
         .workEnd(
-            group: widget.userProvider.group,
-            user: widget.userProvider.user,
-            locations: widget.locations)
+      group: widget.userProvider.group,
+      user: widget.userProvider.user,
+      locations: widget.locations,
+    )
         .then((value) {
       widget.userProvider.reloadUserModel();
       Navigator.pop(context);
@@ -162,9 +164,10 @@ class _BreakStartDialogState extends State<BreakStartDialog> {
     await Future.delayed(Duration(seconds: 2));
     await widget.workProvider
         .breakStart(
-            group: widget.userProvider.group,
-            user: widget.userProvider.user,
-            locations: widget.locations)
+      group: widget.userProvider.group,
+      user: widget.userProvider.user,
+      locations: widget.locations,
+    )
         .then((value) {
       widget.userProvider.reloadUserModel();
       Navigator.pop(context);
@@ -213,9 +216,10 @@ class _BreakEndDialogState extends State<BreakEndDialog> {
     await Future.delayed(Duration(seconds: 2));
     await widget.workProvider
         .breakEnd(
-            group: widget.userProvider.group,
-            user: widget.userProvider.user,
-            locations: widget.locations)
+      group: widget.userProvider.group,
+      user: widget.userProvider.user,
+      locations: widget.locations,
+    )
         .then((value) {
       widget.userProvider.reloadUserModel();
       Navigator.pop(context);

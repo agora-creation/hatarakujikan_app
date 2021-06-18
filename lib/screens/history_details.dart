@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
+import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/screens/apply_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
@@ -11,8 +11,12 @@ import 'package:intl/intl.dart';
 
 class HistoryDetailsScreen extends StatefulWidget {
   final WorkModel work;
+  final UserModel user;
 
-  HistoryDetailsScreen({@required this.work});
+  HistoryDetailsScreen({
+    @required this.work,
+    @required this.user,
+  });
 
   @override
   _HistoryDetailsScreenState createState() => _HistoryDetailsScreenState();
@@ -33,7 +37,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat(formatYMDE, 'ja').format(widget.work.startedAt)}',
+          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(widget.work.startedAt)}',
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -48,8 +52,8 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           Divider(height: 1.0, color: Colors.grey),
           CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.blue),
-            title: '出勤時間',
-            time: '${DateFormat(formatHM).format(widget.work.startedAt)}',
+            label: '出勤時間',
+            time: '${DateFormat('HH:mm').format(widget.work.startedAt)}',
           ),
           widget.work.breaks.length > 0
               ? ListView.builder(
@@ -62,16 +66,18 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
                       children: [
                         CustomHistoryDetailsListTile(
                           icon: Icon(Icons.run_circle, color: Colors.orange),
-                          title: '休憩開始時間',
+                          label: '休憩開始時間',
                           time:
-                              '${DateFormat(formatHM).format(_breaks.startedAt)}',
+                              '${DateFormat('HH:mm').format(_breaks.startedAt)}',
                         ),
                         CustomHistoryDetailsListTile(
-                          icon: Icon(Icons.run_circle_outlined,
-                              color: Colors.orange),
-                          title: '休憩終了時間',
+                          icon: Icon(
+                            Icons.run_circle_outlined,
+                            color: Colors.orange,
+                          ),
+                          label: '休憩終了時間',
                           time:
-                              '${DateFormat(formatHM).format(_breaks.endedAt)}',
+                              '${DateFormat('HH:mm').format(_breaks.endedAt)}',
                         ),
                       ],
                     );
@@ -80,12 +86,12 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
               : Container(),
           CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.red),
-            title: '退勤時間',
-            time: '${DateFormat(formatHM).format(widget.work.endedAt)}',
+            label: '退勤時間',
+            time: '${DateFormat('HH:mm').format(widget.work.endedAt)}',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '勤務時間',
+            label: '勤務時間',
             time: '${widget.work.workTime()}',
           ),
           SizedBox(height: 16.0),
@@ -113,10 +119,10 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           RoundBackgroundButton(
             onPressed: () => overlayScreen(
               context,
-              ApplyWorkScreen(work: widget.work),
+              ApplyWorkScreen(work: widget.work, user: widget.user),
             ),
-            labelText: '記録修正申請',
-            labelColor: Colors.black54,
+            label: '記録修正申請',
+            color: Colors.black54,
             backgroundColor: Colors.blue.shade100,
           ),
           SizedBox(height: 40.0),

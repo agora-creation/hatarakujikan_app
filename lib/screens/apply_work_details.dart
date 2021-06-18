@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/providers/apply_work.dart';
@@ -35,11 +34,13 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
           SizedBox(height: 16.0),
           CustomApplyWorkListTile(
             label: '申請日時',
-            value: '${DateFormat(formatYMDHM).format(applyWork.createdAt)}',
+            value:
+                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.createdAt)}',
           ),
           CustomApplyWorkListTile(
             label: '出勤時間',
-            value: '${DateFormat(formatYMDHM).format(applyWork.startedAt)}',
+            value:
+                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.startedAt)}',
           ),
           applyWork.breaks.length > 0
               ? ListView.builder(
@@ -54,12 +55,12 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
                         CustomApplyWorkListTile(
                           label: '休憩開始時間',
                           value:
-                              '${DateFormat(formatYMDHM).format(_breaks.startedAt)}',
+                              '${DateFormat('yyyy/MM/dd HH:mm').format(_breaks.startedAt)}',
                         ),
                         CustomApplyWorkListTile(
                           label: '休憩終了時間',
                           value:
-                              '${DateFormat(formatYMDHM).format(_breaks.endedAt)}',
+                              '${DateFormat('yyyy/MM/dd HH:mm').format(_breaks.endedAt)}',
                         ),
                       ],
                     );
@@ -68,7 +69,8 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
               : Container(),
           CustomApplyWorkListTile(
             label: '退勤時間',
-            value: '${DateFormat(formatYMDHM).format(applyWork.endedAt)}',
+            value:
+                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.endedAt)}',
           ),
           SizedBox(height: 16.0),
           RoundBorderButton(
@@ -76,8 +78,8 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
               applyWorkProvider.delete(applyWork: applyWork);
               Navigator.pop(context);
             },
-            labelText: '申請を取り消す',
-            labelColor: Colors.red,
+            label: '申請を取り消す',
+            color: Colors.red,
             borderColor: Colors.red,
           ),
           SizedBox(height: 40.0),

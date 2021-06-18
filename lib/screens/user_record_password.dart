@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 
-class UserWorkPasswordScreen extends StatefulWidget {
+class UserRecordPasswordScreen extends StatefulWidget {
   final UserProvider userProvider;
 
-  UserWorkPasswordScreen({@required this.userProvider});
+  UserRecordPasswordScreen({@required this.userProvider});
 
   @override
-  _UserWorkPasswordScreenState createState() => _UserWorkPasswordScreenState();
+  _UserRecordPasswordScreenState createState() =>
+      _UserRecordPasswordScreenState();
 }
 
-class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
+class _UserRecordPasswordScreenState extends State<UserRecordPasswordScreen> {
   bool _isLoading = false;
 
   @override
@@ -24,7 +25,7 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('タブレット用の暗証番号'),
+        title: Text('タブレット用暗証番号'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0),
@@ -36,14 +37,14 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
                 CustomTextFormField(
-                  controller: widget.userProvider.workPassword,
+                  controller: widget.userProvider.recordPassword,
                   obscureText: false,
                   textInputType: TextInputType.number,
                   maxLines: 1,
-                  labelText: '暗証番号',
-                  labelColor: Colors.black54,
-                  prefixIconData: Icons.vpn_key,
-                  suffixIconData: null,
+                  label: '暗証番号',
+                  color: Colors.black54,
+                  prefix: Icons.vpn_key,
+                  suffix: null,
                   onTap: null,
                 ),
                 SizedBox(height: 8.0),
@@ -52,12 +53,12 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
                 RoundBackgroundButton(
                   onPressed: () async {
                     setState(() => _isLoading = true);
-                    if (!await widget.userProvider.updateWorkPassword()) {
+                    if (!await widget.userProvider.updateRecordPassword()) {
                       setState(() => _isLoading = false);
                       showDialog(
                         barrierDismissible: false,
                         context: context,
-                        builder: (_) => ErrorMessage('変更に失敗しました。'),
+                        builder: (_) => ErrorDialog('変更に失敗しました。'),
                       );
                       return;
                     }
@@ -66,8 +67,8 @@ class _UserWorkPasswordScreenState extends State<UserWorkPasswordScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
-                  labelText: '変更を保存',
-                  labelColor: Colors.white,
+                  label: '変更を保存',
+                  color: Colors.white,
                   backgroundColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),

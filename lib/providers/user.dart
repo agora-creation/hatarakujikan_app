@@ -30,7 +30,7 @@ class UserProvider with ChangeNotifier {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController rePassword = TextEditingController();
-  TextEditingController workPassword = TextEditingController();
+  TextEditingController recordPassword = TextEditingController();
   bool isHidden = false;
   bool isReHidden = false;
 
@@ -95,12 +95,13 @@ class UserProvider with ChangeNotifier {
           'name': name.text.trim(),
           'email': email.text.trim(),
           'password': password.text.trim(),
-          'workPassword': '',
+          'recordPassword': '',
           'workLv': 0,
           'lastWorkId': '',
           'lastBreakId': '',
           'groups': [],
           'token': _token,
+          'smartphone': false,
           'createdAt': DateTime.now(),
         });
       });
@@ -150,13 +151,13 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateWorkPassword() async {
-    if (workPassword.text == null) return false;
-    if (workPassword.text.length > 8) return false;
+  Future<bool> updateRecordPassword() async {
+    if (recordPassword.text == null) return false;
+    if (recordPassword.text.length > 8) return false;
     try {
       _userService.update({
         'id': _auth.currentUser.uid,
-        'workPassword': workPassword.text.trim(),
+        'recordPassword': recordPassword.text.trim(),
       });
       return true;
     } catch (e) {
@@ -179,7 +180,7 @@ class UserProvider with ChangeNotifier {
     email.text = '';
     password.text = '';
     rePassword.text = '';
-    workPassword.text = '';
+    recordPassword.text = '';
   }
 
   Future reloadUserModel() async {

@@ -3,7 +3,7 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
@@ -29,7 +29,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
   @override
   Widget build(BuildContext context) {
     var contain =
-        widget.userProvider.user.groups.where((e) => e == widget.group.id);
+        widget.userProvider.user.groups.where((e) => e == widget.group?.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +54,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                       'ID',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group?.id),
+                    trailing: Text(widget.group?.id ?? ''),
                   ),
                 ),
                 Container(
@@ -64,7 +64,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group?.name),
+                    trailing: Text(widget.group?.name ?? ''),
                   ),
                 ),
                 SizedBox(height: 16.0),
@@ -73,13 +73,14 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateIn(
-                              user: widget.userProvider.user,
-                              groupId: widget.group?.id)) {
+                            user: widget.userProvider.user,
+                            groupId: widget.group?.id,
+                          )) {
                             setState(() => _isLoading = false);
                             showDialog(
                               barrierDismissible: false,
                               context: context,
-                              builder: (_) => ErrorMessage('所属に失敗しました。'),
+                              builder: (_) => ErrorDialog('所属に失敗しました。'),
                             );
                             return;
                           }
@@ -87,21 +88,21 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
-                        labelText: 'この会社/組織に所属する',
-                        labelColor: Colors.white,
+                        label: 'この会社/組織に所属する',
+                        color: Colors.white,
                         backgroundColor: Colors.blue,
                       )
                     : RoundBackgroundButton(
                         onPressed: null,
-                        labelText: '既に所属済み',
-                        labelColor: Colors.white,
+                        label: '既に所属済み',
+                        color: Colors.white,
                         backgroundColor: Colors.grey,
                       ),
                 SizedBox(height: 8.0),
                 RoundBorderButton(
                   onPressed: () => Navigator.pop(context),
-                  labelText: 'もう一度読み取る',
-                  labelColor: Colors.blue,
+                  label: 'もう一度読み取る',
+                  color: Colors.blue,
                   borderColor: Colors.blue,
                 ),
                 SizedBox(height: 40.0),

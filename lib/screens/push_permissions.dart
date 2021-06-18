@@ -176,8 +176,8 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                 !_requested
                     ? RoundBackgroundButton(
                         onPressed: _init,
-                        labelText: '許可する',
-                        labelColor: Colors.white,
+                        label: '許可する',
+                        color: Colors.white,
                         backgroundColor: Colors.blue,
                       )
                     : Container(),

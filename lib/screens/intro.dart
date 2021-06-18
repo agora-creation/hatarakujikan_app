@@ -76,10 +76,10 @@ class _IntroScreenState extends State<IntroScreen> {
           ],
         ),
         footer: RoundBackgroundButton(
-          labelText: '登録する',
-          labelColor: Colors.white,
-          backgroundColor: Colors.blue,
           onPressed: () => _complete(context),
+          label: '登録する',
+          color: Colors.white,
+          backgroundColor: Colors.blue,
         ),
       ),
     ];

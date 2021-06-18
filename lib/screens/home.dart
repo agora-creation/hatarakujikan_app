@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('${userProvider.user?.name}'),
+        title: Text(userProvider.user?.name ?? ''),
         actions: [
           StreamBuilder<QuerySnapshot>(
             stream: _stream,

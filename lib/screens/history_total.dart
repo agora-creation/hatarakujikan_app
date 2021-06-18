@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
@@ -29,15 +28,16 @@ class _HistoryTotalState extends State<HistoryTotal> {
   void _init() async {
     await widget.workProvider
         .selectList(
-            groupId: widget.userProvider.group?.id,
-            userId: widget.userProvider.user?.id,
-            startAt: widget.days.first,
-            endAt: widget.days.last)
+      groupId: widget.userProvider.group?.id,
+      userId: widget.userProvider.user?.id,
+      startAt: widget.days.first,
+      endAt: widget.days.last,
+    )
         .then((value) {
       Map _count = {};
       String _workTime = '00:00';
       for (WorkModel _work in value) {
-        _count['${DateFormat(formatY_M_D).format(_work.startedAt)}'] = '';
+        _count['${DateFormat('yyyy-MM-dd').format(_work?.startedAt)}'] = '';
         _workTime = addTime(_workTime, _work.workTime());
       }
       setState(() {
@@ -62,7 +62,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat(formatYM).format(widget.days.first)}の集計',
+          '${DateFormat('yyyy年MM月').format(widget.days.first)}の集計',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -77,32 +77,32 @@ class _HistoryTotalState extends State<HistoryTotal> {
         children: [
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '会社/組織',
-            time: widget.userProvider.group?.name,
+            label: '会社/組織',
+            time: widget.userProvider.group?.name ?? '',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '勤務日数',
+            label: '勤務日数',
             time: '$workCount 日',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '勤務時間',
+            label: '勤務時間',
             time: '$workTime',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '法定内時間',
+            label: '法定内時間',
             time: '00:00',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '法定外時間',
+            label: '法定外時間',
             time: '00:00',
           ),
           CustomHistoryDetailsListTile(
             icon: null,
-            title: '深夜時間',
+            label: '深夜時間',
             time: '00:00',
           ),
           SizedBox(height: 40.0),

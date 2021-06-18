@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/apply_work_details.dart';
@@ -27,6 +26,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
         .collection('applyWork')
         .where('groupId', isEqualTo: widget.userProvider.group?.id)
         .where('userId', isEqualTo: widget.userProvider.user?.id)
+        .where('approval', isEqualTo: false)
         .orderBy('createdAt', descending: true)
         .snapshots();
     List<ApplyWorkModel> applyWorks = [];
@@ -35,11 +35,11 @@ class _ApplyScreenState extends State<ApplyScreen> {
         ? Column(
             children: [
               CustomExpandedButton(
-                buttonColor: Colors.blueGrey,
-                labelText: widget.userProvider.group?.name,
-                labelColor: Colors.white,
-                leadingIcon: Icon(Icons.store, color: Colors.white),
-                trailingIcon: Icon(Icons.arrow_drop_down, color: Colors.white),
+                backgroundColor: Colors.blueGrey,
+                label: widget.userProvider.group?.name,
+                color: Colors.white,
+                leading: Icon(Icons.store, color: Colors.white),
+                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
                 onTap: () => overlayScreen(
                   context,
                   GroupSelect(userProvider: widget.userProvider),
@@ -69,7 +69,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                             chipText: '記録修正申請',
                             chipColor: Colors.blue.shade100,
                             dateText:
-                                '${DateFormat(formatYMD).format(_applyWork.createdAt)}',
+                                '${DateFormat('yyyy/MM/dd').format(_applyWork.createdAt)}',
                           );
                         },
                       );

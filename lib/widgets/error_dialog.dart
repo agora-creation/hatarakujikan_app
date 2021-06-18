@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 
-class ErrorMessage extends StatelessWidget {
+class ErrorDialog extends StatelessWidget {
   final String message;
 
-  ErrorMessage(this.message);
+  ErrorDialog(this.message);
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,13 @@ class ErrorMessage extends StatelessWidget {
             children: [
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                labelText: 'キャンセル',
-                backgroundColor: Colors.grey,
+                label: 'キャンセル',
+                color: Colors.grey,
               ),
               CustomTextButton(
                 onPressed: () => Navigator.pop(context),
-                labelText: 'はい',
-                backgroundColor: Colors.blue,
+                label: 'はい',
+                color: Colors.blue,
               ),
             ],
           ),

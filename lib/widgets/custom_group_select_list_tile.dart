@@ -18,7 +18,7 @@ class CustomGroupSelectListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        title: Text(group.name),
+        title: Text(group?.name),
         subtitle: selected ? Text('選択中') : null,
         trailing: selected ? Icon(Icons.check, color: Colors.green) : null,
         onTap: onTap,

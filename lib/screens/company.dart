@@ -24,9 +24,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              _controller.loadUrl(_url);
-            },
+            onPressed: () => _controller.loadUrl(_url),
             icon: Icon(Icons.refresh),
           ),
         ],

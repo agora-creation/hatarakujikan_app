@@ -61,7 +61,7 @@ class _GroupScreenState extends State<GroupScreen> {
                         ),
                       ),
                       group: _group,
-                      fixed: _group.id == prefsGroupId,
+                      fixed: _group?.id == prefsGroupId,
                     );
                   },
                 )
@@ -85,11 +85,11 @@ class _GroupScreenState extends State<GroupScreen> {
               );
             }
           },
-          buttonColor: Colors.blue,
-          labelText: '会社/組織に入る(QRコード)',
-          labelColor: Colors.white,
-          leadingIcon: Icon(Icons.qr_code_scanner, color: Colors.white),
-          trailingIcon: null,
+          backgroundColor: Colors.blue,
+          label: '会社/組織に入る(QRコード)',
+          color: Colors.white,
+          leading: Icon(Icons.qr_code_scanner, color: Colors.white),
+          trailing: null,
         ),
       ],
     );

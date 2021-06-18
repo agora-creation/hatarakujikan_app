@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomIconLabel extends StatelessWidget {
   final Icon icon;
-  final String labelText;
+  final String label;
 
   CustomIconLabel({
     this.icon,
-    this.labelText,
+    this.label,
   });
 
   @override
@@ -17,7 +17,7 @@ class CustomIconLabel extends StatelessWidget {
           children: [
             icon,
             SizedBox(width: 4.0),
-            Text(labelText),
+            Text(label),
           ],
         ),
       ],

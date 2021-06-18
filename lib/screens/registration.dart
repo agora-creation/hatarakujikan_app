@@ -7,7 +7,7 @@ import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
-import 'package:hatarakujikan_app/widgets/error_message.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
@@ -68,10 +68,10 @@ class RegistrationScreen extends StatelessWidget {
                               obscureText: false,
                               textInputType: TextInputType.name,
                               maxLines: 1,
-                              labelText: 'お名前',
-                              labelColor: Colors.white,
-                              prefixIconData: Icons.person_outline,
-                              suffixIconData: null,
+                              label: 'お名前',
+                              color: Colors.white,
+                              prefix: Icons.person_outline,
+                              suffix: null,
                               onTap: null,
                             ),
                             SizedBox(height: 8.0),
@@ -80,10 +80,10 @@ class RegistrationScreen extends StatelessWidget {
                               obscureText: false,
                               textInputType: TextInputType.emailAddress,
                               maxLines: 1,
-                              labelText: 'メールアドレス',
-                              labelColor: Colors.white,
-                              prefixIconData: Icons.email_outlined,
-                              suffixIconData: null,
+                              label: 'メールアドレス',
+                              color: Colors.white,
+                              prefix: Icons.email_outlined,
+                              suffix: null,
                               onTap: null,
                             ),
                             SizedBox(height: 8.0),
@@ -92,10 +92,10 @@ class RegistrationScreen extends StatelessWidget {
                               obscureText: userProvider.isHidden ? false : true,
                               textInputType: null,
                               maxLines: 1,
-                              labelText: 'パスワード',
-                              labelColor: Colors.white,
-                              prefixIconData: Icons.lock_outline,
-                              suffixIconData: userProvider.isHidden
+                              label: 'パスワード',
+                              color: Colors.white,
+                              prefix: Icons.lock_outline,
+                              suffix: userProvider.isHidden
                                   ? Icons.visibility
                                   : Icons.visibility_off,
                               onTap: () => userProvider.changeHidden(),
@@ -107,10 +107,10 @@ class RegistrationScreen extends StatelessWidget {
                                   userProvider.isReHidden ? false : true,
                               textInputType: null,
                               maxLines: 1,
-                              labelText: 'パスワードの再入力',
-                              labelColor: Colors.white,
-                              prefixIconData: Icons.lock_outline,
-                              suffixIconData: userProvider.isReHidden
+                              label: 'パスワードの再入力',
+                              color: Colors.white,
+                              prefix: Icons.lock_outline,
+                              suffix: userProvider.isReHidden
                                   ? Icons.visibility
                                   : Icons.visibility_off,
                               onTap: () => userProvider.changeReHidden(),
@@ -124,8 +124,7 @@ class RegistrationScreen extends StatelessWidget {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (_) =>
-                                    ErrorMessage('登録に失敗しました。再度入力内容をご確認ください。'),
+                                builder: (_) => ErrorDialog('登録に失敗しました。'),
                               );
                               return;
                             }
@@ -133,8 +132,8 @@ class RegistrationScreen extends StatelessWidget {
                             userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
-                          labelText: '登録',
-                          labelColor: Colors.blue,
+                          label: '登録',
+                          color: Colors.blue,
                           backgroundColor: Colors.white,
                         ),
                         SizedBox(height: 24.0),
@@ -144,8 +143,8 @@ class RegistrationScreen extends StatelessWidget {
                               userProvider.clearController();
                               nextScreen(context, LoginScreen());
                             },
-                            labelText: '登録済みの方はログインから',
-                            labelColor: Colors.white,
+                            label: '登録済みの方はログインから',
+                            color: Colors.white,
                           ),
                         ),
                       ],

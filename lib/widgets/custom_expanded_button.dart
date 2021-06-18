@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 
 class CustomExpandedButton extends StatelessWidget {
-  final Color buttonColor;
-  final String labelText;
-  final Color labelColor;
-  final Icon leadingIcon;
-  final Icon trailingIcon;
+  final Color backgroundColor;
+  final String label;
+  final Color color;
+  final Icon leading;
+  final Icon trailing;
   final Function onTap;
 
   CustomExpandedButton({
-    this.buttonColor,
-    this.labelText,
-    this.labelColor,
-    this.leadingIcon,
-    this.trailingIcon,
+    this.backgroundColor,
+    this.label,
+    this.color,
+    this.leading,
+    this.trailing,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: buttonColor,
+      color: backgroundColor,
       child: ListTile(
-        leading: leadingIcon,
+        leading: leading,
         title: Text(
-          labelText,
-          style: TextStyle(color: labelColor),
+          label,
+          style: TextStyle(color: color),
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: trailingIcon,
+        trailing: trailing,
         onTap: onTap,
       ),
     );
