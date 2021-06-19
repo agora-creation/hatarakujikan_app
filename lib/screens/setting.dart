@@ -12,6 +12,7 @@ import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatefulWidget {
   @override
@@ -103,7 +104,18 @@ class _SettingScreenState extends State<SettingScreen> {
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
                 CustomSettingListTile(
-                  onTap: () {},
+                  onTap: () async {
+                    const url = 'https://www.agora-c.com/hatarakujikan/';
+                    if (await canLaunch(url)) {
+                      await launch(
+                        url,
+                        forceSafariVC: false,
+                        forceWebView: false,
+                      );
+                    } else {
+                      throw 'このURLにはアクセスできません';
+                    }
+                  },
                   iconData: Icons.store,
                   label: '会社/組織の作成申請',
                 ),

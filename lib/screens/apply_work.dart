@@ -5,6 +5,7 @@ import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/apply_work.dart';
 import 'package:hatarakujikan_app/widgets/custom_date_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_icon_label.dart';
+import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/custom_time_button.dart';
 import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
@@ -28,6 +29,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
   DateTime _firstDate = DateTime.now().subtract(Duration(days: 365));
   DateTime _lastDate = DateTime.now().add(Duration(days: 365));
   WorkModel work;
+  TextEditingController reason = TextEditingController();
 
   void _init() async {
     setState(() => work = widget.work);
@@ -324,12 +326,24 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
             ],
           ),
           SizedBox(height: 16.0),
+          CustomTextFormField(
+            controller: reason,
+            obscureText: false,
+            textInputType: TextInputType.multiline,
+            maxLines: null,
+            label: '事由',
+            color: Colors.black54,
+            prefix: Icons.short_text,
+            suffix: null,
+            onTap: null,
+          ),
+          SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () async {
               if (!await applyWorkProvider.create(
                 work: work,
                 user: widget.user,
-                reason: '',
+                reason: reason.text.trim(),
               )) {
                 showDialog(
                   barrierDismissible: false,

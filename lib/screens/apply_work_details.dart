@@ -72,6 +72,10 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
             value:
                 '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.endedAt)}',
           ),
+          CustomApplyWorkListTile(
+            label: '事由',
+            value: '${applyWork.reason}',
+          ),
           SizedBox(height: 16.0),
           RoundBorderButton(
             onPressed: () {
