@@ -33,7 +33,6 @@ class _HistoryTotalState extends State<HistoryTotal> {
 
   void _init() async {
     int legal = widget.group?.legal;
-    String legalText = '0${widget.group?.legal}:00';
     String nightStart = widget.group?.nightStart;
     String nightEnd = widget.group?.nightEnd;
     await widget.workProvider
@@ -51,62 +50,25 @@ class _HistoryTotalState extends State<HistoryTotal> {
       String _nightTime = '00:00';
       for (WorkModel _work in value) {
         if (_work?.startedAt != _work?.endedAt) {
-          print(_work?.startedAt);
-          print(_work?.endedAt);
-          print(_work?.workTime());
           // 勤務日数
           _count['${DateFormat('yyyy-MM-dd').format(_work?.startedAt)}'] = '';
           // 勤務時間
           _workTime = addTime(_workTime, _work?.workTime());
           // 法定内時間/法定外時間
-          List<String> _legalList = legalList(_work?.workTime(), legal);
+          List<String> _legalList = legalList(
+            workTime: _work?.workTime(),
+            legal: legal,
+          );
           _legalTime = addTime(_legalTime, _legalList.first);
           _nonLegalTime = addTime(_nonLegalTime, _legalList.last);
           // 深夜時間
-          DateTime _nightStartS = DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(_work?.startedAt)} $nightStart:00.000',
+          List<String> _nightList = nightList(
+            startedAt: _work?.startedAt,
+            endedAt: _work?.endedAt,
+            nightStart: nightStart,
+            nightEnd: nightEnd,
           );
-          DateTime _nightEndS = DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(_work?.startedAt)} $nightEnd:00.000',
-          );
-          DateTime _nightStartE = DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(_work?.endedAt)} $nightStart:00.000',
-          );
-          DateTime _nightEndE = DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(_work?.endedAt)} $nightEnd:00.000',
-          );
-          // 出勤時間が05:00〜22:00
-          if (_work.startedAt.millisecondsSinceEpoch >
-                  _nightStartS.millisecondsSinceEpoch &&
-              _work.startedAt.millisecondsSinceEpoch <
-                  _nightEndS.millisecondsSinceEpoch) {
-            // 退勤時間が05:00〜22:00
-            if (_work.endedAt.millisecondsSinceEpoch >
-                    _nightStartE.millisecondsSinceEpoch &&
-                _work.endedAt.millisecondsSinceEpoch <
-                    _nightEndE.millisecondsSinceEpoch) {
-            } else {
-              // 退勤時間が22:00〜05:00
-            }
-          } else {}
-
-          // DateTime _workDayStart;
-          // DateTime _workDayEnd;
-          // DateTime _workNightStart;
-          // DateTime _workNightEnd;
-          //退勤時間が05:00〜22:00
-          //退勤時間が22:00〜05:00
-          //出勤時間が22:00〜05:00
-          //退勤時間が05:00〜22:00
-          //退勤時間が22:00〜05:00
-          // String twoDigits(int n) => n.toString().padLeft(2, '0');
-          // Duration _dayDiff = _workDayEnd.difference(_workDayStart);
-          // String _dayMinutes = twoDigits(_dayDiff.inMinutes.remainder(60));
-          // String _workDayTime = '${twoDigits(_dayDiff.inHours)}:$_dayMinutes';
-          // Duration _nightDiff = _workNightEnd.difference(_workNightStart);
-          // String _nightMinutes = twoDigits(_nightDiff.inMinutes.remainder(60));
-          // String _workNightTime =
-          //     '${twoDigits(_nightDiff.inHours)}:$_nightMinutes';
+          _nightTime = addTime(_nightTime, _nightList.last);
         }
       }
       setState(() {
