@@ -53,7 +53,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.blue),
             label: '出勤時間',
-            time: '${DateFormat('HH:mm').format(widget.work.startedAt)}',
+            time: widget.work.startTime(),
           ),
           widget.work.breaks.length > 0
               ? ListView.builder(
@@ -67,8 +67,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
                         CustomHistoryDetailsListTile(
                           icon: Icon(Icons.run_circle, color: Colors.orange),
                           label: '休憩開始時間',
-                          time:
-                              '${DateFormat('HH:mm').format(_breaks.startedAt)}',
+                          time: _breaks.startTime(),
                         ),
                         CustomHistoryDetailsListTile(
                           icon: Icon(
@@ -76,8 +75,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
                             color: Colors.orange,
                           ),
                           label: '休憩終了時間',
-                          time:
-                              '${DateFormat('HH:mm').format(_breaks.endedAt)}',
+                          time: _breaks.endTime(),
                         ),
                       ],
                     );
@@ -87,7 +85,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.red),
             label: '退勤時間',
-            time: '${DateFormat('HH:mm').format(widget.work.endedAt)}',
+            time: widget.work.endTime(),
           ),
           CustomHistoryDetailsListTile(
             icon: null,
@@ -95,26 +93,31 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
             time: '${widget.work.workTime()}',
           ),
           SizedBox(height: 16.0),
-          Container(
-            height: 250.0,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black26),
-            ),
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(widget.work.startedLat, widget.work.startedLon),
-                zoom: 17.0,
-              ),
-              compassEnabled: false,
-              rotateGesturesEnabled: false,
-              scrollGesturesEnabled: false,
-              zoomControlsEnabled: false,
-              tiltGesturesEnabled: false,
-              myLocationEnabled: false,
-              myLocationButtonEnabled: false,
-            ),
-          ),
+          widget.work.startedLat != 0.0 || widget.work.startedLon != 0.0
+              ? Container(
+                  height: 250.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black26),
+                  ),
+                  child: GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        widget.work.startedLat,
+                        widget.work.startedLon,
+                      ),
+                      zoom: 17.0,
+                    ),
+                    compassEnabled: false,
+                    rotateGesturesEnabled: false,
+                    scrollGesturesEnabled: false,
+                    zoomControlsEnabled: false,
+                    tiltGesturesEnabled: false,
+                    myLocationEnabled: false,
+                    myLocationButtonEnabled: false,
+                  ),
+                )
+              : Container(),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () => overlayScreen(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
+import 'package:intl/intl.dart';
 
 class WorkModel {
   String _id;
@@ -40,6 +41,18 @@ class WorkModel {
       converted.add(BreaksModel.fromMap(data));
     }
     return converted;
+  }
+
+  String startTime() {
+    String _result = '00:00';
+    _result = '${DateFormat('HH:mm').format(startedAt)}';
+    return _result;
+  }
+
+  String endTime() {
+    String _result = '00:00';
+    _result = '${DateFormat('HH:mm').format(endedAt)}';
+    return _result;
   }
 
   String breakTime() {

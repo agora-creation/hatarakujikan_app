@@ -31,11 +31,10 @@ class CustomHistoryListTile extends StatelessWidget {
                 itemCount: works.length,
                 itemBuilder: (_, index) {
                   WorkModel _work = works[index];
-                  String _startTime =
-                      '${DateFormat('HH:mm').format(_work.startedAt)}';
+                  String _startTime = _work.startTime();
                   String _endTime = '---:---';
                   if (_work.startedAt != _work.endedAt) {
-                    _endTime = '${DateFormat('HH:mm').format(_work.endedAt)}';
+                    _endTime = _work.endTime();
                   }
                   String _workTime = '---:---';
                   if (_work.startedAt != _work.endedAt) {

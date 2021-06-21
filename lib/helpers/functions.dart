@@ -88,3 +88,24 @@ String subTime(String left, String right) {
     return '$_h:${twoDigits(_m)}';
   }
 }
+
+// 法定内時間/法定外時間
+List<String> legalList(String workTime, int legal) {
+  String _legal = '0$legal:00';
+  String _legalTime = '00:00';
+  String _nonLegalTime = '00:00';
+  List<String> _hm = workTime.split(':');
+  if (legal <= int.parse(_hm.first)) {
+    // 法定内時間
+    _legalTime = addTime(_legalTime, _legal);
+    // 法定外時間
+    String _tmp = subTime(workTime, _legal);
+    _nonLegalTime = addTime(_nonLegalTime, _tmp);
+  } else {
+    // 法定内時間
+    _legalTime = addTime(_legalTime, workTime);
+    // 法定外時間
+    _nonLegalTime = addTime(_nonLegalTime, '00:00');
+  }
+  return [_legalTime, _nonLegalTime];
+}

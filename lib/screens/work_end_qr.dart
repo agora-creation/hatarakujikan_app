@@ -24,6 +24,7 @@ class WorkEndQRScreen extends StatefulWidget {
 class _WorkEndQRScreenState extends State<WorkEndQRScreen> {
   QRViewController _qrController;
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
+  bool _isQRScanned = false;
 
   @override
   void reassemble() {
@@ -57,19 +58,23 @@ class _WorkEndQRScreenState extends State<WorkEndQRScreen> {
   }
 
   Future<void> _nextAction() async {
-    _qrController?.pauseCamera();
-    await showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (_) => WorkEndDialog(
-        userProvider: widget.userProvider,
-        workProvider: widget.workProvider,
-        locations: widget.locations,
-      ),
-    ).then((value) {
-      _qrController?.dispose();
-      Navigator.of(context, rootNavigator: true).pop();
-    });
+    if (_isQRScanned) {
+      _qrController?.pauseCamera();
+      _isQRScanned = true;
+      await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => WorkEndDialog(
+          userProvider: widget.userProvider,
+          workProvider: widget.workProvider,
+          locations: widget.locations,
+        ),
+      ).then((value) {
+        _qrController?.dispose();
+        _isQRScanned = false;
+        Navigator.of(context, rootNavigator: true).pop();
+      });
+    }
   }
 
   @override

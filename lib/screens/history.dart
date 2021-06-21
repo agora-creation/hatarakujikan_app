@@ -98,6 +98,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     userProvider: widget.userProvider,
                     workProvider: widget.workProvider,
                     days: days,
+                    group: widget.userProvider.group,
                   ),
                 ),
                 selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
