@@ -58,7 +58,7 @@ class _WorkEndQRScreenState extends State<WorkEndQRScreen> {
   }
 
   Future<void> _nextAction() async {
-    if (_isQRScanned) {
+    if (!_isQRScanned) {
       _qrController?.pauseCamera();
       _isQRScanned = true;
       await showDialog(
