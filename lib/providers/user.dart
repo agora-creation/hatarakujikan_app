@@ -100,8 +100,9 @@ class UserProvider with ChangeNotifier {
           'lastWorkId': '',
           'lastBreakId': '',
           'groups': [],
+          'position': '',
           'token': _token,
-          'smartphone': false,
+          'smartphone': true,
           'createdAt': DateTime.now(),
         });
       });
