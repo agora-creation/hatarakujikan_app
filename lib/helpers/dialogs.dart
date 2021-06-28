@@ -83,7 +83,7 @@ class _WorkStartDialogState extends State<WorkStartDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('出勤時間を記録中です。'),
+          Text('出勤時間を記録中です'),
           SizedBox(height: 16.0),
           Loading(color: Colors.cyan),
         ],
@@ -135,7 +135,7 @@ class _WorkEndDialogState extends State<WorkEndDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('退勤時間を記録中です。'),
+          Text('退勤時間を記録中です'),
           SizedBox(height: 16.0),
           Loading(color: Colors.cyan),
         ],
@@ -187,7 +187,7 @@ class _BreakStartDialogState extends State<BreakStartDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('休憩開始時間を記録中です。'),
+          Text('休憩開始時間を記録中です'),
           SizedBox(height: 16.0),
           Loading(color: Colors.cyan),
         ],
@@ -239,7 +239,7 @@ class _BreakEndDialogState extends State<BreakEndDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('休憩終了時間を記録中です。'),
+          Text('休憩終了時間を記録中です'),
           SizedBox(height: 16.0),
           Loading(color: Colors.cyan),
         ],

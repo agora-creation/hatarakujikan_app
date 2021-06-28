@@ -36,7 +36,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text('QRコード読み取り結果', style: TextStyle(color: Colors.blue)),
+        title: Text('QRコード読取結果', style: TextStyle(color: Colors.blue)),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.blue),

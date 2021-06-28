@@ -27,9 +27,11 @@ class WorkProvider with ChangeNotifier {
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
         'startedLon': locations.last,
+        'startedDev': '${user?.name}のスマートフォン',
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
+        'endedDev': '${user?.name}のスマートフォン',
         'breaks': [],
         'createdAt': DateTime.now(),
       });
@@ -58,6 +60,7 @@ class WorkProvider with ChangeNotifier {
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
+        'endedDev': '${user?.name}のスマートフォン',
       });
       _userService.update({
         'id': user?.id,
@@ -89,9 +92,11 @@ class WorkProvider with ChangeNotifier {
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
         'startedLon': locations.last,
+        'startedDev': '${user?.name}のスマートフォン',
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
+        'endedDev': '${user?.name}のスマートフォン',
       });
       _workService.update({
         'id': user?.lastWorkId,
@@ -123,6 +128,7 @@ class WorkProvider with ChangeNotifier {
           breaks?.endedAt = DateTime.now();
           breaks?.endedLat = locations.first;
           breaks?.endedLon = locations.last;
+          breaks?.endedDev = '${user?.name}のスマートフォン';
         }
         _breaks.add(breaks.toMap());
       }

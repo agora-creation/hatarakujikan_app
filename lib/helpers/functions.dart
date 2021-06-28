@@ -44,7 +44,7 @@ String randomString(int length) {
       return _randomChars.codeUnitAt(n);
     },
   );
-  return new String.fromCharCodes(codeUnits);
+  return String.fromCharCodes(codeUnits);
 }
 
 Future<String> getPrefs() async {
@@ -177,4 +177,29 @@ List<String> nightList({
   String _nightMinutes = twoDigits(_nightDiff.inMinutes.remainder(60));
   String _nightTime = '${twoDigits(_nightDiff.inHours)}:$_nightMinutes';
   return [_dayTime, _nightTime];
+}
+
+// 時間の切捨
+String roundDownTime(String time, int per) {
+  List<String> _timeList = time.split(':');
+  String _hour = _timeList.first;
+  String _minute = _timeList.last;
+  double _num = int.parse(_minute) / per;
+  int _minuteNew = _num.floor() * per;
+  return '$_hour:${_minuteNew.toString().padLeft(2, '0')}';
+}
+
+// 時間の切上
+String roundUpTime(String time, int per) {
+  List<String> _timeList = time.split(':');
+  String _hour = _timeList.first;
+  String _minute = _timeList.last;
+  double _num = int.parse(_minute) / per;
+  int _minuteNew = _num.ceil() * per;
+  if (_minuteNew == 60) {
+    int _h = int.parse(_hour) + 1;
+    _hour = _h.toString().padLeft(2, '0');
+    _minuteNew = 0;
+  }
+  return '$_hour:${_minuteNew.toString().padLeft(2, '0')}';
 }

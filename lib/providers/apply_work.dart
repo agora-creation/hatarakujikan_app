@@ -9,6 +9,8 @@ class ApplyWorkProvider with ChangeNotifier {
   ApplyWorkService _applyWorkService = ApplyWorkService();
 
   Future<bool> create({WorkModel work, UserModel user, String reason}) async {
+    if (work == null) return false;
+    if (user == null) return false;
     try {
       String _id = _applyWorkService.id();
       List<Map> _breaks = [];

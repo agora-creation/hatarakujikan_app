@@ -86,7 +86,7 @@ class _GroupScreenState extends State<GroupScreen> {
             }
           },
           backgroundColor: Colors.blue,
-          label: '会社/組織に入る(QRコード)',
+          label: '会社/組織に入る',
           color: Colors.white,
           leading: Icon(Icons.qr_code_scanner, color: Colors.white),
           trailing: null,
