@@ -15,6 +15,7 @@ class WorkProvider with ChangeNotifier {
     GroupModel group,
     UserModel user,
     List<double> locations,
+    String state,
   }) async {
     if (group == null) return false;
     if (user == null) return false;
@@ -33,11 +34,20 @@ class WorkProvider with ChangeNotifier {
         'endedLon': locations.last,
         'endedDev': '${user?.name}のスマートフォン',
         'breaks': [],
+        'state': state,
         'createdAt': DateTime.now(),
       });
+      int _workLv = 1;
+      if (state == '通常勤務') {
+        _workLv = 1;
+      } else if (state == '直行/直帰') {
+        _workLv = 2;
+      } else if (state == 'テレワーク') {
+        _workLv = 3;
+      }
       _userService.update({
         'id': user?.id,
-        'workLv': 1,
+        'workLv': _workLv,
         'lastWorkId': _id,
       });
     } catch (e) {
@@ -62,9 +72,10 @@ class WorkProvider with ChangeNotifier {
         'endedLon': locations.last,
         'endedDev': '${user?.name}のスマートフォン',
       });
+      int _workLv = 0;
       _userService.update({
         'id': user?.id,
-        'workLv': 0,
+        'workLv': _workLv,
         'lastWorkId': '',
       });
     } catch (e) {
@@ -102,9 +113,17 @@ class WorkProvider with ChangeNotifier {
         'id': user?.lastWorkId,
         'breaks': _breaks,
       });
+      int _workLv = 91;
+      if (_work?.state == '通常勤務') {
+        _workLv = 91;
+      } else if (_work?.state == '直行/直帰') {
+        _workLv = 92;
+      } else if (_work?.state == 'テレワーク') {
+        _workLv = 93;
+      }
       _userService.update({
         'id': user?.id,
-        'workLv': 2,
+        'workLv': _workLv,
         'lastBreakId': _id,
       });
     } catch (e) {
@@ -136,9 +155,17 @@ class WorkProvider with ChangeNotifier {
         'id': user?.lastWorkId,
         'breaks': _breaks,
       });
+      int _workLv = 1;
+      if (_work?.state == '通常勤務') {
+        _workLv = 1;
+      } else if (_work?.state == '直行/直帰') {
+        _workLv = 2;
+      } else if (_work?.state == 'テレワーク') {
+        _workLv = 3;
+      }
       _userService.update({
         'id': user?.id,
-        'workLv': 1,
+        'workLv': _workLv,
         'lastBreakId': '',
       });
     } catch (e) {

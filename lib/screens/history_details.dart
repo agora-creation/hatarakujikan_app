@@ -51,6 +51,11 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
           CustomHistoryDetailsListTile(
+            icon: null,
+            label: '勤務状況',
+            time: '${widget.work.state}',
+          ),
+          CustomHistoryDetailsListTile(
             icon: Icon(Icons.run_circle, color: Colors.blue),
             label: '出勤時間',
             time: widget.work.startTime(),

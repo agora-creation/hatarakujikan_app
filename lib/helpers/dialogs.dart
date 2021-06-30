@@ -44,11 +44,13 @@ class WorkStartDialog extends StatefulWidget {
   final UserProvider userProvider;
   final WorkProvider workProvider;
   final List<double> locations;
+  final String state;
 
   WorkStartDialog({
     @required this.userProvider,
     @required this.workProvider,
     @required this.locations,
+    @required this.state,
   });
 
   @override
@@ -63,6 +65,7 @@ class _WorkStartDialogState extends State<WorkStartDialog> {
       group: widget.userProvider.group,
       user: widget.userProvider.user,
       locations: widget.locations,
+      state: widget.state,
     )
         .then((value) {
       widget.userProvider.reloadUserModel();

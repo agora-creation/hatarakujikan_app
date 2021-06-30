@@ -68,6 +68,7 @@ class _WorkStartQRScreenState extends State<WorkStartQRScreen> {
           userProvider: widget.userProvider,
           workProvider: widget.workProvider,
           locations: widget.locations,
+          state: '通常勤務',
         ),
       ).then((value) {
         _qrController?.dispose();
