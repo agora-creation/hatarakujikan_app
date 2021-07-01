@@ -139,7 +139,7 @@ class UserProvider with ChangeNotifier {
     try {
       await _auth.currentUser
           .updatePassword(password.text.trim())
-          .then((value) {
+          .then((value) async {
         _userService.update({
           'id': _auth.currentUser.uid,
           'password': password.text.trim(),
