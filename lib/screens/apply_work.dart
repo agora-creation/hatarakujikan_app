@@ -66,7 +66,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
           SizedBox(height: 16.0),
           CustomIconLabel(
             icon: Icon(Icons.run_circle, color: Colors.blue),
-            label: '出勤時間',
+            label: '出勤日時',
           ),
           SizedBox(height: 4.0),
           Row(
@@ -111,7 +111,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                     if (_selected != null) {
                       String _date =
                           '${DateFormat('yyyy-MM-dd').format(work.startedAt)}';
-                      String _time = '${_selected.format(context)}:00.000';
+                      String _time =
+                          '${_selected.format(context).padLeft(5, '0')}:00.000';
                       DateTime _dateTime = DateTime.parse('$_date $_time');
                       setState(() => work.startedAt = _dateTime);
                     }
@@ -133,7 +134,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                       children: [
                         CustomIconLabel(
                           icon: Icon(Icons.run_circle, color: Colors.orange),
-                          label: '休憩開始時間',
+                          label: '休憩開始日時',
                         ),
                         SizedBox(height: 4.0),
                         Row(
@@ -183,7 +184,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                     String _date =
                                         '${DateFormat('yyyy-MM-dd').format(_breaks.startedAt)}';
                                     String _time =
-                                        '${_selected.format(context)}:00.000';
+                                        '${_selected.format(context).padLeft(5, '0')}:00.000';
                                     DateTime _dateTime =
                                         DateTime.parse('$_date $_time');
                                     setState(
@@ -202,7 +203,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                             Icons.run_circle_outlined,
                             color: Colors.orange,
                           ),
-                          label: '休憩終了時間',
+                          label: '休憩終了日時',
                         ),
                         SizedBox(height: 4.0),
                         Row(
@@ -251,7 +252,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                     String _date =
                                         '${DateFormat('yyyy-MM-dd').format(_breaks.endedAt)}';
                                     String _time =
-                                        '${_selected.format(context)}:00.000';
+                                        '${_selected.format(context).padLeft(5, '0')}:00.000';
                                     DateTime _dateTime =
                                         DateTime.parse('$_date $_time');
                                     setState(() => _breaks.endedAt = _dateTime);
@@ -271,7 +272,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
           SizedBox(height: 8.0),
           CustomIconLabel(
             icon: Icon(Icons.run_circle, color: Colors.red),
-            label: '退勤時間',
+            label: '退勤日時',
           ),
           SizedBox(height: 4.0),
           Row(
@@ -315,7 +316,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                     if (_selected != null) {
                       String _date =
                           '${DateFormat('yyyy-MM-dd').format(work.endedAt)}';
-                      String _time = '${_selected.format(context)}:00.000';
+                      String _time =
+                          '${_selected.format(context).padLeft(5, '0')}:00.000';
                       DateTime _dateTime = DateTime.parse('$_date $_time');
                       setState(() => work.endedAt = _dateTime);
                     }

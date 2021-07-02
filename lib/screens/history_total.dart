@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
-import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
 import 'package:intl/intl.dart';
 
 class HistoryTotal extends StatefulWidget {
@@ -109,35 +109,47 @@ class _HistoryTotalState extends State<HistoryTotal> {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
-          CustomHistoryDetailsListTile(
-            icon: null,
-            label: '会社/組織',
-            time: widget.userProvider.group?.name ?? '',
+          Container(
+            decoration: kBottomBorderDecoration,
+            child: ListTile(
+              title: Text('会社/組織'),
+              trailing: Text(widget.group?.name ?? ''),
+            ),
           ),
-          CustomHistoryDetailsListTile(
-            icon: null,
-            label: '勤務日数',
-            time: '$workCount 日',
+          Container(
+            decoration: kBottomBorderDecoration,
+            child: ListTile(
+              title: Text('総勤務日数'),
+              trailing: Text('$workCount 日'),
+            ),
           ),
-          CustomHistoryDetailsListTile(
-            icon: null,
-            label: '勤務時間',
-            time: workTime,
+          Container(
+            decoration: kBottomBorderDecoration,
+            child: ListTile(
+              title: Text('総勤務時間'),
+              trailing: Text(workTime),
+            ),
           ),
-          CustomHistoryDetailsListTile(
-            icon: null,
-            label: '法定内時間',
-            time: legalTime,
+          Container(
+            decoration: kBottomBorderDecoration,
+            child: ListTile(
+              title: Text('総法定内時間'),
+              trailing: Text(legalTime),
+            ),
           ),
-          CustomHistoryDetailsListTile(
-            icon: null,
-            label: '法定外時間',
-            time: nonLegalTime,
+          Container(
+            decoration: kBottomBorderDecoration,
+            child: ListTile(
+              title: Text('総法定外時間'),
+              trailing: Text(nonLegalTime),
+            ),
           ),
-          CustomHistoryDetailsListTile(
-            icon: null,
-            label: '深夜時間',
-            time: nightTime,
+          Container(
+            decoration: kBottomBorderDecoration,
+            child: ListTile(
+              title: Text('総深夜時間'),
+              trailing: Text(nightTime),
+            ),
           ),
           SizedBox(height: 40.0),
         ],

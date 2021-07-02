@@ -25,6 +25,16 @@ class HistoryDetailsScreen extends StatefulWidget {
 class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
   GoogleMapController mapController;
 
+  Set<Marker> _createMarker(double lat, double lon) {
+    final LatLng _position = LatLng(lat, lon);
+    return {
+      Marker(
+        markerId: MarkerId('marker'),
+        position: _position,
+      ),
+    };
+  }
+
   void _onMapCreated(GoogleMapController controller) {
     setState(() => mapController = controller);
   }
@@ -47,6 +57,8 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
       body: ListView(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
+          Text('記録した時間'),
+          SizedBox(height: 16.0),
           Text('記録した時間'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
@@ -106,6 +118,10 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
                   ),
                   child: GoogleMap(
                     onMapCreated: _onMapCreated,
+                    markers: _createMarker(
+                      widget.work.startedLat,
+                      widget.work.startedLon,
+                    ),
                     initialCameraPosition: CameraPosition(
                       target: LatLng(
                         widget.work.startedLat,

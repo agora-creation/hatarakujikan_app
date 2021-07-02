@@ -30,6 +30,8 @@ class UserProvider with ChangeNotifier {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController rePassword = TextEditingController();
+  TextEditingController newPassword = TextEditingController();
+  TextEditingController newRePassword = TextEditingController();
   TextEditingController recordPassword = TextEditingController();
   bool isHidden = false;
   bool isReHidden = false;
@@ -135,14 +137,20 @@ class UserProvider with ChangeNotifier {
 
   Future<bool> updatePassword() async {
     if (password.text == null) return false;
-    if (password.text != rePassword.text) return false;
+    if (newPassword.text == null) return false;
+    if (newPassword.text != newRePassword.text) return false;
     try {
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: _auth.currentUser.email,
+        password: password.text.trim(),
+      );
+      await _auth.signInWithCredential(credential);
       await _auth.currentUser
-          .updatePassword(password.text.trim())
-          .then((value) async {
+          .updatePassword(newPassword.text.trim())
+          .then((value) {
         _userService.update({
           'id': _auth.currentUser.uid,
-          'password': password.text.trim(),
+          'password': newPassword.text.trim(),
         });
       });
       return true;
@@ -181,6 +189,8 @@ class UserProvider with ChangeNotifier {
     email.text = '';
     password.text = '';
     rePassword.text = '';
+    newPassword.text = '';
+    newRePassword.text = '';
     recordPassword.text = '';
   }
 

@@ -51,16 +51,6 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                   decoration: kBottomBorderDecoration,
                   child: ListTile(
                     title: Text(
-                      'ID',
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                    trailing: Text(widget.group?.id ?? ''),
-                  ),
-                ),
-                Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    title: Text(
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
-import 'package:hatarakujikan_app/screens/company.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
 import 'package:hatarakujikan_app/screens/push_permissions.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
@@ -124,7 +123,18 @@ class _SettingScreenState extends State<SettingScreen> {
                 SizedBox(height: 8.0),
                 Divider(height: 1.0, color: Colors.grey),
                 CustomSettingListTile(
-                  onTap: () => nextScreen(context, CompanyScreen()),
+                  onTap: () async {
+                    const url = 'https://www.agora-c.com/';
+                    if (await canLaunch(url)) {
+                      await launch(
+                        url,
+                        forceSafariVC: false,
+                        forceWebView: false,
+                      );
+                    } else {
+                      throw 'このURLにはアクセスできません';
+                    }
+                  },
                   iconData: Icons.business_outlined,
                   label: '開発/運営会社',
                 ),

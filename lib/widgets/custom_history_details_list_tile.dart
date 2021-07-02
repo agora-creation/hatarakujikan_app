@@ -5,11 +5,13 @@ class CustomHistoryDetailsListTile extends StatelessWidget {
   final Icon icon;
   final String label;
   final String time;
+  final Function onTap;
 
   CustomHistoryDetailsListTile({
     this.icon,
     this.label,
     this.time,
+    this.onTap,
   });
 
   @override
@@ -20,6 +22,7 @@ class CustomHistoryDetailsListTile extends StatelessWidget {
         leading: icon,
         title: Text(label),
         trailing: Text(time),
+        onTap: onTap,
       ),
     );
   }
