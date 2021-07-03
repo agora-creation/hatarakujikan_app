@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/screens/apply_work.dart';
+import 'package:hatarakujikan_app/screens/history_location.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:intl/intl.dart';
 
-class HistoryDetailsScreen extends StatefulWidget {
+class HistoryDetailsScreen extends StatelessWidget {
   final WorkModel work;
   final UserModel user;
 
@@ -19,27 +19,6 @@ class HistoryDetailsScreen extends StatefulWidget {
   });
 
   @override
-  _HistoryDetailsScreenState createState() => _HistoryDetailsScreenState();
-}
-
-class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
-  GoogleMapController mapController;
-
-  Set<Marker> _createMarker(double lat, double lon) {
-    final LatLng _position = LatLng(lat, lon);
-    return {
-      Marker(
-        markerId: MarkerId('marker'),
-        position: _position,
-      ),
-    };
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() => mapController = controller);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +26,7 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(widget.work.startedAt)}',
+          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(work.startedAt)}',
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -58,92 +37,133 @@ class _HistoryDetailsScreenState extends State<HistoryDetailsScreen> {
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
           Text('記録した時間'),
-          SizedBox(height: 16.0),
-          Text('記録した時間'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
           CustomHistoryDetailsListTile(
+            onTap: null,
             icon: null,
             label: '勤務状況',
-            time: '${widget.work.state}',
+            subtitle: null,
+            time: '${work.state}',
           ),
-          CustomHistoryDetailsListTile(
-            icon: Icon(Icons.run_circle, color: Colors.blue),
-            label: '出勤時間',
-            time: widget.work.startTime(),
-          ),
-          widget.work.breaks.length > 0
+          work.startedLat != 0.0 || work.startedLon != 0.0
+              ? CustomHistoryDetailsListTile(
+                  onTap: () => nextScreen(
+                    context,
+                    HistoryLocationScreen(
+                      title: '出勤時間',
+                      dateTime: work.startedAt,
+                      lat: work.startedLat,
+                      lon: work.startedLon,
+                    ),
+                  ),
+                  icon: Icon(Icons.location_on),
+                  label: '出勤時間',
+                  subtitle: Text('位置情報を確認できます'),
+                  time: work.startTime(),
+                )
+              : CustomHistoryDetailsListTile(
+                  onTap: null,
+                  icon: Icon(Icons.location_off),
+                  label: '出勤時間',
+                  subtitle: null,
+                  time: work.startTime(),
+                ),
+          work.breaks.length > 0
               ? ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: widget.work.breaks.length,
+                  itemCount: work.breaks.length,
                   itemBuilder: (_, index) {
-                    BreaksModel _breaks = widget.work.breaks[index];
+                    BreaksModel _breaks = work.breaks[index];
                     return Column(
                       children: [
-                        CustomHistoryDetailsListTile(
-                          icon: Icon(Icons.run_circle, color: Colors.orange),
-                          label: '休憩開始時間',
-                          time: _breaks.startTime(),
-                        ),
-                        CustomHistoryDetailsListTile(
-                          icon: Icon(
-                            Icons.run_circle_outlined,
-                            color: Colors.orange,
-                          ),
-                          label: '休憩終了時間',
-                          time: _breaks.endTime(),
-                        ),
+                        _breaks.startedLat != 0.0 || _breaks.startedLon != 0.0
+                            ? CustomHistoryDetailsListTile(
+                                onTap: () => nextScreen(
+                                  context,
+                                  HistoryLocationScreen(
+                                    title: '休憩開始時間',
+                                    dateTime: _breaks.startedAt,
+                                    lat: _breaks.startedLat,
+                                    lon: _breaks.startedLon,
+                                  ),
+                                ),
+                                icon: Icon(Icons.location_on),
+                                label: '休憩開始時間',
+                                subtitle: Text('位置情報を確認できます'),
+                                time: _breaks.startTime(),
+                              )
+                            : CustomHistoryDetailsListTile(
+                                onTap: null,
+                                icon: Icon(Icons.location_off),
+                                label: '休憩開始時間',
+                                subtitle: null,
+                                time: _breaks.startTime(),
+                              ),
+                        _breaks.startedLat != 0.0 || _breaks.startedLon != 0.0
+                            ? CustomHistoryDetailsListTile(
+                                onTap: () => nextScreen(
+                                  context,
+                                  HistoryLocationScreen(
+                                    title: '休憩終了時間',
+                                    dateTime: _breaks.endedAt,
+                                    lat: _breaks.endedLat,
+                                    lon: _breaks.endedLon,
+                                  ),
+                                ),
+                                icon: Icon(Icons.location_on),
+                                label: '休憩終了時間',
+                                subtitle: Text('位置情報を確認できます'),
+                                time: _breaks.endTime(),
+                              )
+                            : CustomHistoryDetailsListTile(
+                                onTap: null,
+                                icon: Icon(Icons.location_off),
+                                label: '休憩終了時間',
+                                subtitle: null,
+                                time: _breaks.endTime(),
+                              ),
                       ],
                     );
                   },
                 )
               : Container(),
+          work.endedLat != 0.0 || work.endedLon != 0.0
+              ? CustomHistoryDetailsListTile(
+                  onTap: () => nextScreen(
+                    context,
+                    HistoryLocationScreen(
+                      title: '退勤時間',
+                      dateTime: work.endedAt,
+                      lat: work.endedLat,
+                      lon: work.endedLon,
+                    ),
+                  ),
+                  icon: Icon(Icons.location_on),
+                  label: '退勤時間',
+                  subtitle: Text('位置情報を確認できます'),
+                  time: work.endTime(),
+                )
+              : CustomHistoryDetailsListTile(
+                  onTap: null,
+                  icon: Icon(Icons.location_off),
+                  label: '退勤時間',
+                  subtitle: null,
+                  time: work.endTime(),
+                ),
           CustomHistoryDetailsListTile(
-            icon: Icon(Icons.run_circle, color: Colors.red),
-            label: '退勤時間',
-            time: widget.work.endTime(),
-          ),
-          CustomHistoryDetailsListTile(
+            onTap: null,
             icon: null,
             label: '勤務時間',
-            time: '${widget.work.workTime()}',
+            subtitle: null,
+            time: '${work.workTime()}',
           ),
-          SizedBox(height: 16.0),
-          widget.work.startedLat != 0.0 || widget.work.startedLon != 0.0
-              ? Container(
-                  height: 250.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black26),
-                  ),
-                  child: GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    markers: _createMarker(
-                      widget.work.startedLat,
-                      widget.work.startedLon,
-                    ),
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        widget.work.startedLat,
-                        widget.work.startedLon,
-                      ),
-                      zoom: 17.0,
-                    ),
-                    compassEnabled: false,
-                    rotateGesturesEnabled: false,
-                    scrollGesturesEnabled: false,
-                    zoomControlsEnabled: false,
-                    tiltGesturesEnabled: false,
-                    myLocationEnabled: false,
-                    myLocationButtonEnabled: false,
-                  ),
-                )
-              : Container(),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () => overlayScreen(
               context,
-              ApplyWorkScreen(work: widget.work, user: widget.user),
+              ApplyWorkScreen(work: work, user: user),
             ),
             label: '記録修正申請',
             color: Colors.black54,
