@@ -20,20 +20,20 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateIn({UserModel user, String groupId}) async {
+  Future<bool> updateIn({UserModel user, GroupModel group}) async {
     if (user == null) return false;
-    if (groupId == '') return false;
+    if (group == null) return false;
     try {
       List<String> _groups = [];
       for (String _groupId in user?.groups) {
         _groups.add(_groupId);
       }
-      _groups.add(groupId);
+      _groups.add(group?.id);
       _userService.update({
         'id': user?.id,
         'groups': _groups,
       });
-      await setPrefs(groupId);
+      await setPrefs(group?.id);
       return true;
     } catch (e) {
       print(e.toString());

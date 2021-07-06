@@ -40,35 +40,17 @@ class HistoryDetailsScreen extends StatelessWidget {
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
           CustomHistoryDetailsListTile(
-            onTap: null,
             icon: null,
             label: '勤務状況',
-            subtitle: null,
             time: '${work.state}',
           ),
-          work.startedLat != 0.0 || work.startedLon != 0.0
-              ? CustomHistoryDetailsListTile(
-                  onTap: () => nextScreen(
-                    context,
-                    HistoryLocationScreen(
-                      title: '出勤時間',
-                      dateTime: work.startedAt,
-                      lat: work.startedLat,
-                      lon: work.startedLon,
-                    ),
-                  ),
-                  icon: Icon(Icons.location_on),
-                  label: '出勤時間',
-                  subtitle: Text('位置情報を確認できます'),
-                  time: work.startTime(),
-                )
-              : CustomHistoryDetailsListTile(
-                  onTap: null,
-                  icon: Icon(Icons.location_off),
-                  label: '出勤時間',
-                  subtitle: null,
-                  time: work.startTime(),
-                ),
+          CustomHistoryDetailsListTile(
+            icon: work.startedLat != 0.0 || work.startedLon != 0.0
+                ? Icon(Icons.location_on)
+                : Icon(Icons.location_off),
+            label: '出勤時間',
+            time: work.startTime(),
+          ),
           work.breaks.length > 0
               ? ListView.builder(
                   shrinkWrap: true,
@@ -78,88 +60,50 @@ class HistoryDetailsScreen extends StatelessWidget {
                     BreaksModel _breaks = work.breaks[index];
                     return Column(
                       children: [
-                        _breaks.startedLat != 0.0 || _breaks.startedLon != 0.0
-                            ? CustomHistoryDetailsListTile(
-                                onTap: () => nextScreen(
-                                  context,
-                                  HistoryLocationScreen(
-                                    title: '休憩開始時間',
-                                    dateTime: _breaks.startedAt,
-                                    lat: _breaks.startedLat,
-                                    lon: _breaks.startedLon,
-                                  ),
-                                ),
-                                icon: Icon(Icons.location_on),
-                                label: '休憩開始時間',
-                                subtitle: Text('位置情報を確認できます'),
-                                time: _breaks.startTime(),
-                              )
-                            : CustomHistoryDetailsListTile(
-                                onTap: null,
-                                icon: Icon(Icons.location_off),
-                                label: '休憩開始時間',
-                                subtitle: null,
-                                time: _breaks.startTime(),
-                              ),
-                        _breaks.startedLat != 0.0 || _breaks.startedLon != 0.0
-                            ? CustomHistoryDetailsListTile(
-                                onTap: () => nextScreen(
-                                  context,
-                                  HistoryLocationScreen(
-                                    title: '休憩終了時間',
-                                    dateTime: _breaks.endedAt,
-                                    lat: _breaks.endedLat,
-                                    lon: _breaks.endedLon,
-                                  ),
-                                ),
-                                icon: Icon(Icons.location_on),
-                                label: '休憩終了時間',
-                                subtitle: Text('位置情報を確認できます'),
-                                time: _breaks.endTime(),
-                              )
-                            : CustomHistoryDetailsListTile(
-                                onTap: null,
-                                icon: Icon(Icons.location_off),
-                                label: '休憩終了時間',
-                                subtitle: null,
-                                time: _breaks.endTime(),
-                              ),
+                        CustomHistoryDetailsListTile(
+                          icon: _breaks.startedLat != 0.0 ||
+                                  _breaks.startedLon != 0.0
+                              ? Icon(Icons.location_on)
+                              : Icon(Icons.location_off),
+                          label: '休憩開始時間',
+                          time: _breaks.startTime(),
+                        ),
+                        CustomHistoryDetailsListTile(
+                          icon:
+                              _breaks.endedLat != 0.0 || _breaks.endedLon != 0.0
+                                  ? Icon(Icons.location_on)
+                                  : Icon(Icons.location_off),
+                          label: '休憩終了時間',
+                          time: _breaks.endTime(),
+                        ),
                       ],
                     );
                   },
                 )
               : Container(),
-          work.endedLat != 0.0 || work.endedLon != 0.0
-              ? CustomHistoryDetailsListTile(
-                  onTap: () => nextScreen(
-                    context,
-                    HistoryLocationScreen(
-                      title: '退勤時間',
-                      dateTime: work.endedAt,
-                      lat: work.endedLat,
-                      lon: work.endedLon,
-                    ),
-                  ),
-                  icon: Icon(Icons.location_on),
-                  label: '退勤時間',
-                  subtitle: Text('位置情報を確認できます'),
-                  time: work.endTime(),
-                )
-              : CustomHistoryDetailsListTile(
-                  onTap: null,
-                  icon: Icon(Icons.location_off),
-                  label: '退勤時間',
-                  subtitle: null,
-                  time: work.endTime(),
-                ),
           CustomHistoryDetailsListTile(
-            onTap: null,
+            icon: work.endedLat != 0.0 || work.endedLon != 0.0
+                ? Icon(Icons.location_on)
+                : Icon(Icons.location_off),
+            label: '退勤時間',
+            time: work.endTime(),
+          ),
+          CustomHistoryDetailsListTile(
             icon: null,
             label: '勤務時間',
-            subtitle: null,
-            time: '${work.workTime()}',
+            time: work.workTime(),
           ),
           SizedBox(height: 16.0),
+          RoundBackgroundButton(
+            onPressed: () => nextScreen(
+              context,
+              HistoryLocationScreen(work: work),
+            ),
+            label: '位置情報を確認',
+            color: Colors.black54,
+            backgroundColor: Colors.green.shade100,
+          ),
+          SizedBox(height: 8.0),
           RoundBackgroundButton(
             onPressed: () => overlayScreen(
               context,

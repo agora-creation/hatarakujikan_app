@@ -14,6 +14,13 @@ class UserNoticeProvider with ChangeNotifier {
     });
   }
 
+  void delete({UserNoticeModel notice}) {
+    _userNoticeService.delete({
+      'id': notice?.id,
+      'userId': notice?.userId,
+    });
+  }
+
   Future<NotificationSettings> requestPermissions() async {
     NotificationSettings _settings =
         await FirebaseMessaging.instance.requestPermission(

@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:intl/intl.dart';
 
 class HistoryLocationScreen extends StatefulWidget {
-  final String title;
-  final DateTime dateTime;
-  final double lat;
-  final double lon;
+  final WorkModel work;
 
-  HistoryLocationScreen({
-    @required this.title,
-    @required this.dateTime,
-    @required this.lat,
-    @required this.lon,
-  });
+  HistoryLocationScreen({@required this.work});
 
   @override
   _HistoryLocationScreenState createState() => _HistoryLocationScreenState();
@@ -21,19 +14,58 @@ class HistoryLocationScreen extends StatefulWidget {
 
 class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
   GoogleMapController mapController;
+  Set<Marker> markers = {};
 
-  Set<Marker> _createMarker(double lat, double lon) {
-    LatLng _position = LatLng(lat, lon);
-    return {
-      Marker(
-        markerId: MarkerId('marker'),
-        position: _position,
-        infoWindow: InfoWindow(
-          title: widget.title,
-          snippet: '${DateFormat('yyyy/MM/dd HH:mm').format(widget.dateTime)}',
+  void _init() async {
+    WorkModel _work = widget.work;
+    setState(() {
+      markers.add(Marker(
+        markerId: MarkerId('start_${_work.id}'),
+        position: LatLng(
+          _work.startedLat,
+          _work.startedLon,
         ),
-      ),
-    };
+        infoWindow: InfoWindow(
+          title: '出勤日時',
+          snippet: '${DateFormat('yyyy/MM/dd HH:mm').format(_work.startedAt)}',
+        ),
+      ));
+      _work.breaks.forEach((e) {
+        markers.add(Marker(
+          markerId: MarkerId('start_${e.id}'),
+          position: LatLng(
+            e.startedLat,
+            e.startedLon,
+          ),
+          infoWindow: InfoWindow(
+            title: '休憩開始日時',
+            snippet: '${DateFormat('yyyy/MM/dd HH:mm').format(e.startedAt)}',
+          ),
+        ));
+        markers.add(Marker(
+          markerId: MarkerId('end_${e.id}'),
+          position: LatLng(
+            e.endedLat,
+            e.endedLon,
+          ),
+          infoWindow: InfoWindow(
+            title: '休憩終了日時',
+            snippet: '${DateFormat('yyyy/MM/dd HH:mm').format(e.endedAt)}',
+          ),
+        ));
+      });
+      markers.add(Marker(
+        markerId: MarkerId('end_${_work.id}'),
+        position: LatLng(
+          _work.endedLat,
+          _work.endedLon,
+        ),
+        infoWindow: InfoWindow(
+          title: '退勤日時',
+          snippet: '${DateFormat('yyyy/MM/dd HH:mm').format(_work.endedAt)}',
+        ),
+      ));
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -41,13 +73,19 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFEFFFA),
+        backgroundColor: Colors.green.shade100,
         elevation: 0.0,
         centerTitle: true,
-        title: Text('記録した位置情報'),
+        title: Text('位置情報を確認'),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
@@ -57,9 +95,12 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
         height: double.infinity,
         child: GoogleMap(
           onMapCreated: _onMapCreated,
-          markers: _createMarker(widget.lat, widget.lon),
+          markers: markers,
           initialCameraPosition: CameraPosition(
-            target: LatLng(widget.lat, widget.lon),
+            target: LatLng(
+              widget.work.startedLat,
+              widget.work.startedLon,
+            ),
             zoom: 17.0,
           ),
           compassEnabled: false,

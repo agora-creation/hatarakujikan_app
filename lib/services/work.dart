@@ -19,10 +19,6 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  void delete(Map<String, dynamic> values) {
-    _firebaseFirestore.collection(_collection).doc(values['id']).delete();
-  }
-
   Future<WorkModel> select({String workId}) async {
     DocumentSnapshot snapshot =
         await _firebaseFirestore.collection(_collection).doc(workId).get();

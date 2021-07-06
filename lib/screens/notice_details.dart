@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
+import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:intl/intl.dart';
 
 class NoticeDetailsScreen extends StatefulWidget {
@@ -57,6 +58,16 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
             child: Text(
               '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}',
             ),
+          ),
+          SizedBox(height: 16.0),
+          RoundBackgroundButton(
+            onPressed: () {
+              widget.userNoticeProvider.delete(notice: widget.notice);
+              Navigator.pop(context);
+            },
+            label: 'このお知らせを削除する',
+            color: Colors.white,
+            backgroundColor: Colors.red,
           ),
           SizedBox(height: 40.0),
         ],

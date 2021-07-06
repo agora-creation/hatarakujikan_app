@@ -22,7 +22,13 @@ class CustomHistoryListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        leading: Text('${DateFormat('dd (E)', 'ja').format(day)}'),
+        leading: Text(
+          '${DateFormat('dd (E)', 'ja').format(day)}',
+          style: TextStyle(
+            color: Colors.black54,
+            fontSize: 15.0,
+          ),
+        ),
         title: works.length > 0
             ? ListView.separated(
                 shrinkWrap: true,
@@ -32,49 +38,53 @@ class CustomHistoryListTile extends StatelessWidget {
                 itemBuilder: (_, index) {
                   WorkModel _work = works[index];
                   String _startTime = _work.startTime();
-                  String _endTime = '---:---';
+                  String _endTime = '00:00';
+                  String _workTime = '00:00';
                   if (_work.startedAt != _work.endedAt) {
                     _endTime = _work.endTime();
+                    _workTime = _work.workTime();
                   }
-                  String _workTime = '---:---';
-                  if (_work.startedAt != _work.endedAt) {
-                    _workTime = '${_work.workTime()}';
-                  }
-
                   return ListTile(
                     title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Chip(
+                          backgroundColor: Colors.grey.shade300,
+                          label: Text(
+                            '${_work.state}',
+                            style: TextStyle(fontSize: 10.0),
+                          ),
+                        ),
                         Text(
                           _startTime,
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 16.0,
+                            fontSize: 15.0,
                           ),
                         ),
                         Text(
                           _endTime,
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 16.0,
+                            fontSize: 15.0,
                           ),
                         ),
                         Text(
                           _workTime,
                           style: TextStyle(
                             color: Colors.black54,
-                            fontSize: 16.0,
+                            fontSize: 15.0,
                           ),
                         ),
                       ],
                     ),
-                    trailing: _work.startedAt != _work.endedAt
-                        ? Icon(Icons.chevron_right)
-                        : Icon(Icons.chevron_right, color: Colors.transparent),
                     onTap: _work.startedAt != _work.endedAt
                         ? () => nextScreen(
                               context,
-                              HistoryDetailsScreen(work: _work, user: user),
+                              HistoryDetailsScreen(
+                                work: _work,
+                                user: user,
+                              ),
                             )
                         : null,
                   );

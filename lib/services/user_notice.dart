@@ -13,4 +13,13 @@ class UserNoticeService {
         .doc(values['id'])
         .update(values);
   }
+
+  void delete(Map<String, dynamic> values) {
+    _firebaseFirestore
+        .collection(_collection)
+        .doc(values['userId'])
+        .collection(_subCollection)
+        .doc(values['id'])
+        .delete();
+  }
 }

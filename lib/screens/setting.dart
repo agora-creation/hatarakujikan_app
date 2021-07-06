@@ -7,6 +7,7 @@ import 'package:hatarakujikan_app/screens/push_permissions.dart';
 import 'package:hatarakujikan_app/screens/user_email.dart';
 import 'package:hatarakujikan_app/screens/user_password.dart';
 import 'package:hatarakujikan_app/screens/user_record_password.dart';
+import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
@@ -149,6 +150,14 @@ class _SettingScreenState extends State<SettingScreen> {
                   label: 'ログアウト',
                   color: Colors.blue,
                   borderColor: Colors.blue,
+                ),
+                SizedBox(height: 24.0),
+                Center(
+                  child: CustomLinkButton(
+                    onTap: () {},
+                    label: 'このアカウントを削除する',
+                    color: Colors.red,
+                  ),
                 ),
                 SizedBox(height: 40.0),
               ],
