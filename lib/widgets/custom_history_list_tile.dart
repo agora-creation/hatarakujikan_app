@@ -3,6 +3,7 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
+import 'package:hatarakujikan_app/models/work_state.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:intl/intl.dart';
 
@@ -10,15 +11,26 @@ class CustomHistoryListTile extends StatelessWidget {
   final UserModel user;
   final DateTime day;
   final List<WorkModel> works;
+  final WorkStateModel workState;
 
   CustomHistoryListTile({
     this.user,
     this.day,
     this.works,
+    this.workState,
   });
 
   @override
   Widget build(BuildContext context) {
+    Color _chipColor = Colors.grey.shade300;
+    if (workState?.state == '欠勤') {
+      _chipColor = Colors.red.shade300;
+    } else if (workState?.state == '特別休暇') {
+      _chipColor = Colors.green.shade300;
+    } else if (workState?.state == '有給休暇') {
+      _chipColor = Colors.teal.shade300;
+    }
+
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
@@ -49,7 +61,7 @@ class CustomHistoryListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Chip(
-                          backgroundColor: Colors.grey.shade300,
+                          backgroundColor: _chipColor,
                           label: Text(
                             '${_work.state}',
                             style: TextStyle(fontSize: 10.0),
@@ -90,7 +102,44 @@ class CustomHistoryListTile extends StatelessWidget {
                   );
                 },
               )
-            : Container(),
+            : workState != null
+                ? ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Chip(
+                          backgroundColor: _chipColor,
+                          label: Text(
+                            '${workState.state}',
+                            style: TextStyle(fontSize: 10.0),
+                          ),
+                        ),
+                        Text(
+                          '00:00',
+                          style: TextStyle(
+                            color: Colors.transparent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                        Text(
+                          '00:00',
+                          style: TextStyle(
+                            color: Colors.transparent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                        Text(
+                          '00:00',
+                          style: TextStyle(
+                            color: Colors.transparent,
+                            fontSize: 15.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: null,
+                  )
+                : Container(),
       ),
     );
   }

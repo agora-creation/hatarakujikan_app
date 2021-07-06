@@ -20,9 +20,14 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateIn({UserModel user, GroupModel group}) async {
+  Future<bool> updateIn({
+    UserModel user,
+    GroupModel group,
+    int usersLen,
+  }) async {
     if (user == null) return false;
     if (group == null) return false;
+    if (group.usersNum < usersLen) return false;
     try {
       List<String> _groups = [];
       for (String _groupId in user?.groups) {

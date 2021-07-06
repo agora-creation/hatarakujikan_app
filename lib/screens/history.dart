@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/work.dart';
+import 'package:hatarakujikan_app/models/work_state.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
@@ -14,6 +15,7 @@ import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 
 class HistoryScreen extends StatefulWidget {
   final UserProvider userProvider;
@@ -56,13 +58,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
     Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
             '${DateFormat('yyyy-MM-dd').format(days.last)} 23:59:59.999')
         .millisecondsSinceEpoch);
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+    Stream<QuerySnapshot> _streamWork = FirebaseFirestore.instance
         .collection('work')
         .where('groupId', isEqualTo: widget.userProvider.group?.id)
         .where('userId', isEqualTo: widget.userProvider.user?.id)
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
     List<WorkModel> works = [];
+    Stream<QuerySnapshot> _streamWorkState = FirebaseFirestore.instance
+        .collection('workState')
+        .where('groupId', isEqualTo: widget.userProvider.group?.id)
+        .where('userId', isEqualTo: widget.userProvider.user?.id)
+        .orderBy('startedAt', descending: false)
+        .startAt([_startAt]).endAt([_endAt]).snapshots();
+    List<WorkStateModel> workStates = [];
 
     return widget.userProvider.group != null
         ? Column(
@@ -105,32 +114,45 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ),
               CustomHeadListTile(),
               Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: _stream,
+                child: StreamBuilder2<QuerySnapshot, QuerySnapshot>(
+                  streams: Tuple2(_streamWork, _streamWorkState),
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+                    if (!snapshot.item1.hasData || !snapshot.item2.hasData) {
                       return Loading(color: Colors.cyan);
                     }
                     works.clear();
-                    for (DocumentSnapshot work in snapshot.data.docs) {
+                    for (DocumentSnapshot work in snapshot.item1.data.docs) {
                       works.add(WorkModel.fromSnapshot(work));
+                    }
+                    workStates.clear();
+                    for (DocumentSnapshot workState
+                        in snapshot.item2.data.docs) {
+                      workStates.add(WorkStateModel.fromSnapshot(workState));
                     }
                     return ListView.builder(
                       itemCount: days.length,
                       itemBuilder: (_, index) {
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in works) {
-                          DateTime _tmp = DateTime.parse(
-                            DateFormat('yyyy-MM-dd').format(_work.startedAt),
-                          );
-                          if (days[index] == _tmp) {
+                          String _startedAt =
+                              '${DateFormat('yyyy-MM-dd').format(_work.startedAt)}';
+                          if (days[index] == DateTime.parse(_startedAt)) {
                             _dayWorks.add(_work);
+                          }
+                        }
+                        WorkStateModel _dayWorkState;
+                        for (WorkStateModel _workState in workStates) {
+                          String _startedAt =
+                              '${DateFormat('yyyy-MM-dd').format(_workState.startedAt)}';
+                          if (days[index] == DateTime.parse(_startedAt)) {
+                            _dayWorkState = _workState;
                           }
                         }
                         return CustomHistoryListTile(
                           user: widget.userProvider.user,
                           day: days[index],
                           works: _dayWorks,
+                          workState: _dayWorkState,
                         );
                       },
                     );
