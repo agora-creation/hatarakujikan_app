@@ -178,3 +178,26 @@ List<String> nightList({
   String _nightTime = '${twoDigits(_nightDiff.inHours)}:$_nightMinutes';
   return [_dayTime, _nightTime];
 }
+
+// エリアチェック
+bool areaCheck(
+  double areaLat,
+  double areaLon,
+  double areaRange,
+  List<double> locations,
+) {
+  // 1mあたりの度数に変換
+  double rate = areaRange * 0.00001;
+  double minLat = double.parse((areaLat - rate).toStringAsFixed(5));
+  double maxLat = double.parse((areaLat + rate).toStringAsFixed(5));
+  double minLon = double.parse((areaLon - rate).toStringAsFixed(5));
+  double maxLon = double.parse((areaLon + rate).toStringAsFixed(5));
+  if (locations.first > minLat &&
+      locations.first < maxLat &&
+      locations.last > minLon &&
+      locations.last < maxLon) {
+    return true;
+  } else {
+    return false;
+  }
+}

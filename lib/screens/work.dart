@@ -34,9 +34,20 @@ class _WorkScreenState extends State<WorkScreen> {
       if (_locations != null) {
         setState(() {
           locations = [
-            double.parse(_locations.first),
-            double.parse(_locations.last),
+            double.parse(_locations?.first ?? 0),
+            double.parse(_locations?.last ?? 0),
           ];
+          if (widget.userProvider.group?.areaSecurity == true) {
+            if (!areaCheck(
+              widget.userProvider.group?.areaLat,
+              widget.userProvider.group?.areaLon,
+              widget.userProvider.group?.areaRange,
+              locations,
+            )) {
+              workError = true;
+              workErrorText = '記録可能な範囲の外にいます';
+            }
+          }
         });
         if (widget.userProvider.group == null) {
           workError = true;
@@ -50,6 +61,29 @@ class _WorkScreenState extends State<WorkScreen> {
     } else {
       workError = true;
       workErrorText = '位置情報の取得に失敗しました';
+    }
+  }
+
+  Future<void> _future() async {
+    List<String> _locations = await widget.userProvider.getLocation();
+    if (_locations != null) {
+      setState(() {
+        locations = [
+          double.parse(_locations?.first ?? 0),
+          double.parse(_locations?.last ?? 0),
+        ];
+        if (widget.userProvider.group?.areaSecurity == true) {
+          if (!areaCheck(
+            widget.userProvider.group?.areaLat,
+            widget.userProvider.group?.areaLon,
+            widget.userProvider.group?.areaRange,
+            locations,
+          )) {
+            workError = true;
+            workErrorText = '記録可能な範囲の外にいます';
+          }
+        }
+      });
     }
   }
 
@@ -81,21 +115,43 @@ class _WorkScreenState extends State<WorkScreen> {
               )
             : Container(),
         Expanded(
-          child: Container(
-            height: double.infinity,
-            child: locations != null
-                ? GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(locations.first, locations.last),
-                      zoom: 17.0,
-                    ),
-                    compassEnabled: false,
-                    rotateGesturesEnabled: false,
-                    tiltGesturesEnabled: false,
-                    myLocationEnabled: true,
-                  )
-                : Loading(color: Colors.cyan),
+          child: FutureBuilder(
+            future: _future(),
+            builder: (context, snapshot) {
+              return Container(
+                height: double.infinity,
+                child: locations != null
+                    ? GoogleMap(
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            locations.first,
+                            locations.last,
+                          ),
+                          zoom: 17.0,
+                        ),
+                        circles: widget.userProvider.group != null
+                            ? Set.from([
+                                Circle(
+                                  circleId: CircleId('area'),
+                                  center: LatLng(
+                                    widget.userProvider.group?.areaLat,
+                                    widget.userProvider.group?.areaLon,
+                                  ),
+                                  radius: widget.userProvider.group?.areaRange,
+                                  fillColor: Colors.red.withOpacity(0.3),
+                                  strokeColor: Colors.transparent,
+                                ),
+                              ])
+                            : null,
+                        compassEnabled: false,
+                        rotateGesturesEnabled: false,
+                        tiltGesturesEnabled: false,
+                        myLocationEnabled: true,
+                      )
+                    : Loading(color: Colors.cyan),
+              );
+            },
           ),
         ),
         workError
