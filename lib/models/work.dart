@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
+import 'package:hatarakujikan_app/models/group.dart';
 import 'package:intl/intl.dart';
 
 class WorkModel {
@@ -72,10 +73,17 @@ class WorkModel {
 
   String workTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String _time = '00:00';
+    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
+    String _startedTime = '${startTime()}:00.000';
+    DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
+    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+    String _endedTime = '${endTime()}:00.000';
+    DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
     // 出勤時間と退勤時間の差を求める
-    Duration _diff = endedAt.difference(startedAt);
+    Duration _diff = _endedAt.difference(_startedAt);
     String _minutes = twoDigits(_diff.inMinutes.remainder(60));
-    String _workTime = '${twoDigits(_diff.inHours)}:$_minutes';
+    _time = '${twoDigits(_diff.inHours)}:$_minutes';
     // 休憩の合計時間を求める
     String _breaksTime = '00:00';
     if (breaks.length > 0) {
@@ -84,7 +92,71 @@ class WorkModel {
       }
     }
     // 勤務時間と休憩の合計時間の差を求める
-    _workTime = subTime(_workTime, _breaksTime);
-    return _workTime;
+    _time = subTime(_time, _breaksTime);
+    return _time;
+  }
+
+  //法定内時間/法定外時間
+  List<String> legalTime(GroupModel group) {
+    String _time = '00:00';
+    String _nonTime = '00:00';
+    List<String> _times = workTime().split(':');
+    if (group.legal <= int.parse(_times.first)) {
+      _time = addTime(_time, '0${group.legal}:00');
+      String _tmp = subTime(workTime(), '0${group.legal}:00');
+      _nonTime = addTime(_nonTime, _tmp);
+    } else {
+      _time = addTime(_time, workTime());
+      _nonTime = addTime(_nonTime, '00:00');
+    }
+    return [_time, _nonTime];
+  }
+
+  //日中時間/深夜時間
+  List<String> nightTime(GroupModel group) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String _dayTime = '00:00';
+    String _nightTime = '00:00';
+    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
+    String _startedTime = '${startTime()}:00.000';
+    DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
+    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+    String _endedTime = '${endTime()}:00.000';
+    DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
+    // ----------------------------------------
+    DateTime _dayS;
+    DateTime _dayE;
+    DateTime _nightS;
+    DateTime _nightE;
+    DateTime _baseSS =
+        DateTime.parse('$_startedDate ${group.nightStart}:00.000');
+    DateTime _baseSE = DateTime.parse('$_startedDate ${group.nightEnd}:00.000');
+    DateTime _baseEE = DateTime.parse('$_endedDate ${group.nightEnd}:00.000');
+    if (_startedAt.millisecondsSinceEpoch < _baseSS.millisecondsSinceEpoch &&
+        _startedAt.millisecondsSinceEpoch > _baseSE.millisecondsSinceEpoch) {
+      if (_endedAt.millisecondsSinceEpoch < _baseSE.millisecondsSinceEpoch &&
+          _endedAt.millisecondsSinceEpoch > _baseEE.millisecondsSinceEpoch) {
+        // 出勤時間[05:00〜22:00]退勤時間[05:00〜22:00]
+        _dayS = _startedAt;
+        _dayE = _endedAt;
+        _nightS = _baseEE;
+        _nightE = _baseEE;
+      } else {
+        // 出勤時間[05:00〜22:00]退勤時間[22:00〜05:00]
+        _dayS = _startedAt;
+        _dayE = _baseSE;
+        _nightS = _baseSE;
+        _nightE = _endedAt;
+      }
+    } else {
+      if (_endedAt.millisecondsSinceEpoch < _baseSE.millisecondsSinceEpoch &&
+          _endedAt.millisecondsSinceEpoch > _baseEE.millisecondsSinceEpoch) {
+        // 出勤時間[22:00〜05:00]退勤時間[05:00〜22:00]
+      } else {
+        // 出勤時間[22:00〜05:00]退勤時間[22:00〜05:00]
+      }
+    }
+
+    return [_dayTime, _nightTime];
   }
 }

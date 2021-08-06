@@ -49,9 +49,17 @@ class BreaksModel {
 
   String breakTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String _time = '00:00';
+    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
+    String _startedTime = '${startTime()}:00.000';
+    DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
+    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+    String _endedTime = '${endTime()}:00.000';
+    DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
     // 休憩開始時間と休憩終了時間の差を求める
-    Duration _diff = endedAt.difference(startedAt);
+    Duration _diff = _endedAt.difference(_startedAt);
     String _minutes = twoDigits(_diff.inMinutes.remainder(60));
-    return '${twoDigits(_diff.inHours)}:$_minutes';
+    _time = '${twoDigits(_diff.inHours)}:$_minutes';
+    return _time;
   }
 }
