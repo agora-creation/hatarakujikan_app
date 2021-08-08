@@ -32,9 +32,6 @@ class _HistoryTotalState extends State<HistoryTotal> {
   String nightTime = '00:00';
 
   void _init() async {
-    int legal = widget.group?.legal;
-    String nightStart = widget.group?.nightStart;
-    String nightEnd = widget.group?.nightEnd;
     await widget.workProvider
         .selectList(
       groupId: widget.userProvider.group?.id,
@@ -55,20 +52,12 @@ class _HistoryTotalState extends State<HistoryTotal> {
           // 勤務時間
           _workTime = addTime(_workTime, _work?.workTime());
           // 法定内時間/法定外時間
-          List<String> _legalList = legalList(
-            workTime: _work?.workTime(),
-            legal: legal,
-          );
-          _legalTime = addTime(_legalTime, _legalList.first);
-          _nonLegalTime = addTime(_nonLegalTime, _legalList.last);
+          List<String> _legalTimes = _work?.legalTime(widget.group);
+          _legalTime = addTime(_legalTime, _legalTimes.first);
+          _nonLegalTime = addTime(_nonLegalTime, _legalTimes.last);
           // 深夜時間
-          List<String> _nightList = nightList(
-            startedAt: _work?.startedAt,
-            endedAt: _work?.endedAt,
-            nightStart: nightStart,
-            nightEnd: nightEnd,
-          );
-          _nightTime = addTime(_nightTime, _nightList.last);
+          List<String> _nightTimes = _work?.nightTime(widget.group);
+          _nightTime = addTime(_nightTime, _nightTimes.last);
         }
       }
       setState(() {

@@ -14,17 +14,17 @@ class UserProvider with ChangeNotifier {
   Status _status = Status.Uninitialized;
   FirebaseAuth _auth;
   User _fUser;
-  UserService _userService = UserService();
   GroupService _groupService = GroupService();
-  UserModel _user;
+  UserService _userService = UserService();
   List<GroupModel> _groups = [];
   GroupModel _group;
+  UserModel _user;
 
   Status get status => _status;
   User get fUser => _fUser;
-  UserModel get user => _user;
   List<GroupModel> get groups => _groups;
   GroupModel get group => _group;
+  UserModel get user => _user;
 
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -282,7 +282,7 @@ class UserProvider with ChangeNotifier {
     return _locations;
   }
 
-  void changeGroup(GroupModel groupModel) {
+  void groupChange(GroupModel groupModel) {
     _group = groupModel;
     notifyListeners();
   }

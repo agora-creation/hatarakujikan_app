@@ -152,11 +152,33 @@ class WorkModel {
       if (_endedAt.millisecondsSinceEpoch < _baseSE.millisecondsSinceEpoch &&
           _endedAt.millisecondsSinceEpoch > _baseEE.millisecondsSinceEpoch) {
         // 出勤時間[22:00〜05:00]退勤時間[05:00〜22:00]
+        _nightS = _startedAt;
+        _nightE = _baseSE;
+        _dayS = _baseSE;
+        _dayE = _endedAt;
       } else {
         // 出勤時間[22:00〜05:00]退勤時間[22:00〜05:00]
+        _dayS = _baseSS;
+        _dayE = _baseSS;
+        _nightS = _startedAt;
+        _nightE = _endedAt;
       }
     }
-
+    // ----------------------------------------
+    if (_dayS.millisecondsSinceEpoch < _dayE.millisecondsSinceEpoch) {
+      Duration _dayDiff = _dayE.difference(_dayS);
+      String _dayMinutes = twoDigits(_dayDiff.inMinutes.remainder(60));
+      _dayTime = '${twoDigits(_dayDiff.inHours)}:$_dayMinutes';
+    } else {
+      _dayTime = '00:00';
+    }
+    if (_nightS.millisecondsSinceEpoch < _nightE.millisecondsSinceEpoch) {
+      Duration _nightDiff = _nightE.difference(_nightS);
+      String _nightMinutes = twoDigits(_nightDiff.inMinutes.remainder(60));
+      _nightTime = '${twoDigits(_nightDiff.inHours)}:$_nightMinutes';
+    } else {
+      _nightTime = '00:00';
+    }
     return [_dayTime, _nightTime];
   }
 }

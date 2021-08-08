@@ -8,7 +8,6 @@ import 'package:hatarakujikan_app/screens/group_select.dart';
 import 'package:hatarakujikan_app/widgets/custom_apply_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
-import 'package:intl/intl.dart';
 
 class ApplyScreen extends StatefulWidget {
   final UserProvider userProvider;
@@ -66,10 +65,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
                               context,
                               ApplyWorkDetailsScreen(applyWork: _applyWork),
                             ),
-                            chipText: '記録修正申請',
-                            chipColor: Colors.blue.shade100,
-                            dateText:
-                                '${DateFormat('yyyy/MM/dd').format(_applyWork.createdAt)}',
+                            state: '記録修正申請',
+                            dateTime: _applyWork.createdAt,
                           );
                         },
                       );

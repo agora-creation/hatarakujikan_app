@@ -64,13 +64,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
         .where('userId', isEqualTo: widget.userProvider.user?.id)
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
-    List<WorkModel> works = [];
     Stream<QuerySnapshot> _streamWorkState = FirebaseFirestore.instance
         .collection('workState')
         .where('groupId', isEqualTo: widget.userProvider.group?.id)
         .where('userId', isEqualTo: widget.userProvider.user?.id)
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
+    List<WorkModel> works = [];
     List<WorkStateModel> workStates = [];
 
     return widget.userProvider.group != null

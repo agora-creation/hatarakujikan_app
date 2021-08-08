@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
+import 'package:intl/intl.dart';
 
 class CustomApplyListTile extends StatelessWidget {
-  final String chipText;
-  final Color chipColor;
-  final String dateText;
+  final String state;
+  final DateTime dateTime;
   final Function onTap;
 
   CustomApplyListTile({
-    this.chipText,
-    this.chipColor,
-    this.dateText,
+    this.state,
+    this.dateTime,
     this.onTap,
   });
 
@@ -20,11 +19,8 @@ class CustomApplyListTile extends StatelessWidget {
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: Chip(
-          backgroundColor: chipColor,
-          label: Text(
-            chipText,
-            style: TextStyle(color: Colors.black87),
-          ),
+          backgroundColor: Colors.blue.shade100,
+          label: Text(state, style: TextStyle(color: Colors.black87)),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +33,7 @@ class CustomApplyListTile extends StatelessWidget {
               ),
             ),
             Text(
-              dateText,
+              '${DateFormat('yyyy/MM/dd').format(dateTime)}',
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 16.0,

@@ -24,8 +24,9 @@ class WorkScreen extends StatefulWidget {
 class _WorkScreenState extends State<WorkScreen> {
   GoogleMapController mapController;
   List<double> locations;
-  bool workError = false;
-  String workErrorText = '';
+  bool error = false;
+  String errorText = '';
+  bool locationError = false;
 
   void _init() async {
     bool isGetLocation = await widget.userProvider.checkLocation();
@@ -44,23 +45,22 @@ class _WorkScreenState extends State<WorkScreen> {
               widget.userProvider.group?.areaRange,
               locations,
             )) {
-              workError = true;
-              workErrorText = '記録可能な範囲の外にいます';
+              locationError = true;
             }
           }
         });
         if (widget.userProvider.group == null) {
-          workError = true;
-          workErrorText = '会社/組織に所属していません';
+          error = true;
+          errorText = '会社/組織に所属していません';
         }
       }
       if (locations == null) {
-        workError = true;
-        workErrorText = '位置情報の取得に失敗しました';
+        error = true;
+        errorText = '位置情報の取得に失敗しました';
       }
     } else {
-      workError = true;
-      workErrorText = '位置情報の取得に失敗しました';
+      error = true;
+      errorText = '位置情報の取得に失敗しました';
     }
   }
 
@@ -79,8 +79,7 @@ class _WorkScreenState extends State<WorkScreen> {
             widget.userProvider.group?.areaRange,
             locations,
           )) {
-            workError = true;
-            workErrorText = '記録可能な範囲の外にいます';
+            locationError = true;
           }
         }
       });
@@ -154,20 +153,29 @@ class _WorkScreenState extends State<WorkScreen> {
             },
           ),
         ),
-        workError
+        error
             ? ListTile(
                 tileColor: Colors.redAccent,
                 title: Text(
-                  workErrorText,
+                  errorText,
                   style: TextStyle(color: Colors.white, fontSize: 14.0),
                 ),
               )
-            : Container(),
+            : locationError
+                ? ListTile(
+                    tileColor: Colors.redAccent,
+                    title: Text(
+                      '記録可能な範囲外にいます',
+                      style: TextStyle(color: Colors.white, fontSize: 14.0),
+                    ),
+                  )
+                : Container(),
         WorkButton(
           userProvider: widget.userProvider,
           workProvider: widget.workProvider,
           locations: locations,
-          workError: workError,
+          error: error,
+          locationError: locationError,
         ),
       ],
     );

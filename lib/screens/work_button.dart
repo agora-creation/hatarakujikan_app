@@ -14,18 +14,20 @@ class WorkButton extends StatelessWidget {
   final UserProvider userProvider;
   final WorkProvider workProvider;
   final List<double> locations;
-  final bool workError;
+  final bool error;
+  final bool locationError;
 
   WorkButton({
     @required this.userProvider,
     @required this.workProvider,
     @required this.locations,
-    @required this.workError,
+    @required this.error,
+    @required this.locationError,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (!workError && userProvider.user?.workLv == 0) {
+    if (!error && userProvider.user?.workLv == 0) {
       // 未出勤
       return Container(
         color: Color(0xFFFEFFFA),
@@ -34,43 +36,51 @@ class WorkButton extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: CustomWorkButton(
-                    onPressed: () async {
-                      if (userProvider.group?.qrSecurity == true) {
-                        if (await Permission.camera.request().isGranted) {
-                          overlayScreen(
-                            context,
-                            WorkStartQRScreen(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
-                        } else {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => PermissionDialog(),
-                          );
-                        }
-                      } else {
-                        await showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => WorkStartDialog(
-                            userProvider: userProvider,
-                            workProvider: workProvider,
-                            locations: locations,
-                            state: '通常勤務',
-                          ),
-                        );
-                      }
-                    },
-                    label: '出勤',
-                    color: Color(0xFFFEFFFA),
-                    backgroundColor: Colors.blue,
-                    borderColor: null,
-                  ),
+                  child: locationError
+                      ? CustomWorkButton(
+                          onPressed: null,
+                          label: '出勤',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.grey,
+                          borderColor: null,
+                        )
+                      : CustomWorkButton(
+                          onPressed: () async {
+                            if (userProvider.group?.qrSecurity == true) {
+                              if (await Permission.camera.request().isGranted) {
+                                overlayScreen(
+                                  context,
+                                  WorkStartQRScreen(
+                                    userProvider: userProvider,
+                                    workProvider: workProvider,
+                                    locations: locations,
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) => PermissionDialog(),
+                                );
+                              }
+                            } else {
+                              await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => WorkStartDialog(
+                                  userProvider: userProvider,
+                                  workProvider: workProvider,
+                                  locations: locations,
+                                  state: '通常勤務',
+                                ),
+                              );
+                            }
+                          },
+                          label: '出勤',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.blue,
+                          borderColor: null,
+                        ),
                 ),
               ],
             ),
@@ -123,7 +133,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!workError && userProvider.user?.workLv == 1) {
+    } else if (!error && userProvider.user?.workLv == 1) {
       // 出勤中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -132,42 +142,50 @@ class WorkButton extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: CustomWorkButton(
-                    onPressed: () async {
-                      if (userProvider.group?.qrSecurity == true) {
-                        if (await Permission.camera.request().isGranted) {
-                          overlayScreen(
-                            context,
-                            WorkEndQRScreen(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
-                        } else {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => PermissionDialog(),
-                          );
-                        }
-                      } else {
-                        await showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => WorkEndDialog(
-                            userProvider: userProvider,
-                            workProvider: workProvider,
-                            locations: locations,
-                          ),
-                        );
-                      }
-                    },
-                    label: '退勤',
-                    color: Color(0xFFFEFFFA),
-                    backgroundColor: Colors.red,
-                    borderColor: null,
-                  ),
+                  child: locationError
+                      ? CustomWorkButton(
+                          onPressed: null,
+                          label: '退勤',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.grey,
+                          borderColor: null,
+                        )
+                      : CustomWorkButton(
+                          onPressed: () async {
+                            if (userProvider.group?.qrSecurity == true) {
+                              if (await Permission.camera.request().isGranted) {
+                                overlayScreen(
+                                  context,
+                                  WorkEndQRScreen(
+                                    userProvider: userProvider,
+                                    workProvider: workProvider,
+                                    locations: locations,
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) => PermissionDialog(),
+                                );
+                              }
+                            } else {
+                              await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => WorkEndDialog(
+                                  userProvider: userProvider,
+                                  workProvider: workProvider,
+                                  locations: locations,
+                                ),
+                              );
+                            }
+                          },
+                          label: '退勤',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.red,
+                          borderColor: null,
+                        ),
                 ),
               ],
             ),
@@ -175,42 +193,50 @@ class WorkButton extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: CustomWorkButton(
-                    onPressed: () async {
-                      if (userProvider.group?.qrSecurity == true) {
-                        if (await Permission.camera.request().isGranted) {
-                          overlayScreen(
-                            context,
-                            BreakStartQRScreen(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
-                        } else {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => PermissionDialog(),
-                          );
-                        }
-                      } else {
-                        await showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => BreakStartDialog(
-                            userProvider: userProvider,
-                            workProvider: workProvider,
-                            locations: locations,
-                          ),
-                        );
-                      }
-                    },
-                    label: '休憩開始',
-                    color: Color(0xFFFEFFFA),
-                    backgroundColor: Colors.orange,
-                    borderColor: null,
-                  ),
+                  child: locationError
+                      ? CustomWorkButton(
+                          onPressed: null,
+                          label: '休憩開始',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.grey,
+                          borderColor: null,
+                        )
+                      : CustomWorkButton(
+                          onPressed: () async {
+                            if (userProvider.group?.qrSecurity == true) {
+                              if (await Permission.camera.request().isGranted) {
+                                overlayScreen(
+                                  context,
+                                  BreakStartQRScreen(
+                                    userProvider: userProvider,
+                                    workProvider: workProvider,
+                                    locations: locations,
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) => PermissionDialog(),
+                                );
+                              }
+                            } else {
+                              await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => BreakStartDialog(
+                                  userProvider: userProvider,
+                                  workProvider: workProvider,
+                                  locations: locations,
+                                ),
+                              );
+                            }
+                          },
+                          label: '休憩開始',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.orange,
+                          borderColor: null,
+                        ),
                 ),
                 SizedBox(width: 1.0),
                 Expanded(
@@ -227,7 +253,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!workError && userProvider.user?.workLv == 2) {
+    } else if (!error && userProvider.user?.workLv == 2) {
       // 直行中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -293,7 +319,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!workError && userProvider.user?.workLv == 3) {
+    } else if (!error && userProvider.user?.workLv == 3) {
       // テレワーク中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -359,7 +385,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!workError && userProvider.user?.workLv == 91) {
+    } else if (!error && userProvider.user?.workLv == 91) {
       // 出勤休憩中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -392,49 +418,57 @@ class WorkButton extends StatelessWidget {
                 ),
                 SizedBox(width: 1.0),
                 Expanded(
-                  child: CustomWorkButton(
-                    onPressed: () async {
-                      if (userProvider.group?.qrSecurity == true) {
-                        if (await Permission.camera.request().isGranted) {
-                          overlayScreen(
-                            context,
-                            BreakEndQRScreen(
-                              userProvider: userProvider,
-                              workProvider: workProvider,
-                              locations: locations,
-                            ),
-                          );
-                        } else {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => PermissionDialog(),
-                          );
-                        }
-                      } else {
-                        await showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (_) => BreakEndDialog(
-                            userProvider: userProvider,
-                            workProvider: workProvider,
-                            locations: locations,
-                          ),
-                        );
-                      }
-                    },
-                    label: '休憩終了',
-                    color: Colors.orange,
-                    backgroundColor: Color(0xFFFEFFFA),
-                    borderColor: Colors.orange,
-                  ),
+                  child: locationError
+                      ? CustomWorkButton(
+                          onPressed: null,
+                          label: '休憩終了',
+                          color: Color(0xFFFEFFFA),
+                          backgroundColor: Colors.grey,
+                          borderColor: null,
+                        )
+                      : CustomWorkButton(
+                          onPressed: () async {
+                            if (userProvider.group?.qrSecurity == true) {
+                              if (await Permission.camera.request().isGranted) {
+                                overlayScreen(
+                                  context,
+                                  BreakEndQRScreen(
+                                    userProvider: userProvider,
+                                    workProvider: workProvider,
+                                    locations: locations,
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) => PermissionDialog(),
+                                );
+                              }
+                            } else {
+                              await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (_) => BreakEndDialog(
+                                  userProvider: userProvider,
+                                  workProvider: workProvider,
+                                  locations: locations,
+                                ),
+                              );
+                            }
+                          },
+                          label: '休憩終了',
+                          color: Colors.orange,
+                          backgroundColor: Color(0xFFFEFFFA),
+                          borderColor: Colors.orange,
+                        ),
                 ),
               ],
             ),
           ],
         ),
       );
-    } else if (!workError && userProvider.user?.workLv == 92) {
+    } else if (!error && userProvider.user?.workLv == 92) {
       // 直行休憩中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -490,7 +524,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!workError && userProvider.user?.workLv == 93) {
+    } else if (!error && userProvider.user?.workLv == 93) {
       // テレワーク休憩中
       return Container(
         color: Color(0xFFFEFFFA),
