@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/models/work_state.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -31,43 +31,37 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  DateTime selectMonth = DateTime.now();
+  DateTime month = DateTime.now();
   List<DateTime> days = [];
 
-  void _generateDays(DateTime month) async {
-    days.clear();
-    var _dateMap = DateMachineUtil.getMonthDate(selectMonth, 0);
-    DateTime _startAt = DateTime.parse('${_dateMap['start']}');
-    DateTime _endAt = DateTime.parse('${_dateMap['end']}');
-    for (int i = 0; i <= _endAt.difference(_startAt).inDays; i++) {
-      days.add(_startAt.add(Duration(days: i)));
-    }
+  void _init() async {
+    setState(() => days = generateDays(month));
   }
 
   @override
   void initState() {
     super.initState();
-    _generateDays(selectMonth);
+    _init();
   }
 
   @override
   Widget build(BuildContext context) {
     Timestamp _startAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(days.first)} 00:00:00.000')
-        .millisecondsSinceEpoch);
+      '${DateFormat('yyyy-MM-dd').format(days.first)} 00:00:00.000',
+    ).millisecondsSinceEpoch);
     Timestamp _endAt = Timestamp.fromMillisecondsSinceEpoch(DateTime.parse(
-            '${DateFormat('yyyy-MM-dd').format(days.last)} 23:59:59.999')
-        .millisecondsSinceEpoch);
+      '${DateFormat('yyyy-MM-dd').format(days.last)} 23:59:59.999',
+    ).millisecondsSinceEpoch);
     Stream<QuerySnapshot> _streamWork = FirebaseFirestore.instance
         .collection('work')
-        .where('groupId', isEqualTo: widget.userProvider.group?.id)
-        .where('userId', isEqualTo: widget.userProvider.user?.id)
+        .where('groupId', isEqualTo: widget.userProvider.group?.id ?? 'error')
+        .where('userId', isEqualTo: widget.userProvider.user?.id ?? 'error')
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
     Stream<QuerySnapshot> _streamWorkState = FirebaseFirestore.instance
         .collection('workState')
-        .where('groupId', isEqualTo: widget.userProvider.group?.id)
-        .where('userId', isEqualTo: widget.userProvider.user?.id)
+        .where('groupId', isEqualTo: widget.userProvider.group?.id ?? 'error')
+        .where('userId', isEqualTo: widget.userProvider.user?.id ?? 'error')
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
     List<WorkModel> works = [];
@@ -91,14 +85,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 monthOnPressed: () async {
                   var selected = await showMonthPicker(
                     context: context,
-                    initialDate: selectMonth,
-                    firstDate: DateTime(DateTime.now().year - 1),
-                    lastDate: DateTime(DateTime.now().year + 1),
+                    initialDate: month,
+                    firstDate: kMonthFirstDate,
+                    lastDate: kMonthLastDate,
                   );
                   if (selected == null) return;
                   setState(() {
-                    selectMonth = selected;
-                    _generateDays(selectMonth);
+                    month = selected;
+                    days = generateDays(month);
                   });
                 },
                 totalOnPressed: () => overlayScreen(
@@ -110,7 +104,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     group: widget.userProvider.group,
                   ),
                 ),
-                selectMonth: '${DateFormat('yyyy年MM月').format(selectMonth)}',
+                selectMonth: '${DateFormat('yyyy年MM月').format(month)}',
               ),
               CustomHeadListTile(),
               Expanded(
@@ -121,30 +115,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       return Loading(color: Colors.cyan);
                     }
                     works.clear();
-                    for (DocumentSnapshot work in snapshot.item1.data.docs) {
-                      works.add(WorkModel.fromSnapshot(work));
+                    for (DocumentSnapshot doc in snapshot.item1.data.docs) {
+                      works.add(WorkModel.fromSnapshot(doc));
                     }
                     workStates.clear();
-                    for (DocumentSnapshot workState
-                        in snapshot.item2.data.docs) {
-                      workStates.add(WorkStateModel.fromSnapshot(workState));
+                    for (DocumentSnapshot doc in snapshot.item2.data.docs) {
+                      workStates.add(WorkStateModel.fromSnapshot(doc));
                     }
                     return ListView.builder(
                       itemCount: days.length,
                       itemBuilder: (_, index) {
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in works) {
-                          String _startedAt =
+                          String _start =
                               '${DateFormat('yyyy-MM-dd').format(_work.startedAt)}';
-                          if (days[index] == DateTime.parse(_startedAt)) {
+                          if (days[index] == DateTime.parse(_start)) {
                             _dayWorks.add(_work);
                           }
                         }
                         WorkStateModel _dayWorkState;
                         for (WorkStateModel _workState in workStates) {
-                          String _startedAt =
+                          String _start =
                               '${DateFormat('yyyy-MM-dd').format(_workState.startedAt)}';
-                          if (days[index] == DateTime.parse(_startedAt)) {
+                          if (days[index] == DateTime.parse(_start)) {
                             _dayWorkState = _workState;
                           }
                         }

@@ -28,22 +28,24 @@ class WorkProvider with ChangeNotifier {
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
         'startedLon': locations.last,
-        'startedDev': '${user?.name}のスマートフォン',
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
-        'endedDev': '${user?.name}のスマートフォン',
         'breaks': [],
         'state': state,
         'createdAt': DateTime.now(),
       });
       int _workLv = 1;
-      if (state == '通常勤務') {
-        _workLv = 1;
-      } else if (state == '直行/直帰') {
-        _workLv = 2;
-      } else if (state == 'テレワーク') {
-        _workLv = 3;
+      switch (state) {
+        case '通常勤務':
+          _workLv = 1;
+          break;
+        case '直行/直帰':
+          _workLv = 2;
+          break;
+        case 'テレワーク':
+          _workLv = 3;
+          break;
       }
       _userService.update({
         'id': user?.id,
@@ -63,14 +65,13 @@ class WorkProvider with ChangeNotifier {
     if (group == null) return false;
     if (user == null) return false;
     try {
-      WorkModel _work = await _workService.select(workId: user?.lastWorkId);
+      WorkModel _work = await _workService.select(id: user?.lastWorkId);
       if (_work?.groupId != group?.id) return false;
       _workService.update({
         'id': user?.lastWorkId,
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
-        'endedDev': '${user?.name}のスマートフォン',
       });
       int _workLv = 0;
       _userService.update({
@@ -91,7 +92,7 @@ class WorkProvider with ChangeNotifier {
     if (group == null) return false;
     if (user == null) return false;
     try {
-      WorkModel _work = await _workService.select(workId: user?.lastWorkId);
+      WorkModel _work = await _workService.select(id: user?.lastWorkId);
       if (_work?.groupId != group?.id) return false;
       List<Map> _breaks = [];
       for (BreaksModel breaks in _work?.breaks) {
@@ -103,23 +104,25 @@ class WorkProvider with ChangeNotifier {
         'startedAt': DateTime.now(),
         'startedLat': locations.first,
         'startedLon': locations.last,
-        'startedDev': '${user?.name}のスマートフォン',
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
-        'endedDev': '${user?.name}のスマートフォン',
       });
       _workService.update({
         'id': user?.lastWorkId,
         'breaks': _breaks,
       });
       int _workLv = 91;
-      if (_work?.state == '通常勤務') {
-        _workLv = 91;
-      } else if (_work?.state == '直行/直帰') {
-        _workLv = 92;
-      } else if (_work?.state == 'テレワーク') {
-        _workLv = 93;
+      switch (_work?.state) {
+        case '通常勤務':
+          _workLv = 91;
+          break;
+        case '直行/直帰':
+          _workLv = 92;
+          break;
+        case 'テレワーク':
+          _workLv = 93;
+          break;
       }
       _userService.update({
         'id': user?.id,
@@ -139,7 +142,7 @@ class WorkProvider with ChangeNotifier {
     if (group == null) return false;
     if (user == null) return false;
     try {
-      WorkModel _work = await _workService.select(workId: user?.lastWorkId);
+      WorkModel _work = await _workService.select(id: user?.lastWorkId);
       if (_work?.groupId != group?.id) return false;
       List<Map> _breaks = [];
       for (BreaksModel breaks in _work?.breaks) {
@@ -147,7 +150,6 @@ class WorkProvider with ChangeNotifier {
           breaks?.endedAt = DateTime.now();
           breaks?.endedLat = locations.first;
           breaks?.endedLon = locations.last;
-          breaks?.endedDev = '${user?.name}のスマートフォン';
         }
         _breaks.add(breaks.toMap());
       }
@@ -156,12 +158,16 @@ class WorkProvider with ChangeNotifier {
         'breaks': _breaks,
       });
       int _workLv = 1;
-      if (_work?.state == '通常勤務') {
-        _workLv = 1;
-      } else if (_work?.state == '直行/直帰') {
-        _workLv = 2;
-      } else if (_work?.state == 'テレワーク') {
-        _workLv = 3;
+      switch (_work?.state) {
+        case '通常勤務':
+          _workLv = 1;
+          break;
+        case '直行/直帰':
+          _workLv = 2;
+          break;
+        case 'テレワーク':
+          _workLv = 3;
+          break;
       }
       _userService.update({
         'id': user?.id,

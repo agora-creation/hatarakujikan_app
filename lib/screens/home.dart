@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('user')
-        .doc(userProvider.user?.id)
+        .doc(userProvider.user?.id ?? 'error')
         .collection('notice')
         .where('read', isEqualTo: false)
         .snapshots();

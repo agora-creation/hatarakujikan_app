@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
@@ -26,8 +27,6 @@ class ApplyWorkScreen extends StatefulWidget {
 }
 
 class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
-  DateTime _firstDate = DateTime.now().subtract(Duration(days: 365));
-  DateTime _lastDate = DateTime.now().add(Duration(days: 365));
   WorkModel work;
   TextEditingController reason = TextEditingController();
 
@@ -78,8 +77,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                     DateTime _selected = await showDatePicker(
                       context: context,
                       initialDate: work.startedAt,
-                      firstDate: _firstDate,
-                      lastDate: _lastDate,
+                      firstDate: kDayFirstDate,
+                      lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
                       String _date =
@@ -146,8 +145,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                   DateTime _selected = await showDatePicker(
                                     context: context,
                                     initialDate: _breaks.startedAt,
-                                    firstDate: _firstDate,
-                                    lastDate: _lastDate,
+                                    firstDate: kDayFirstDate,
+                                    lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
                                     String _date =
@@ -215,8 +214,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                   DateTime _selected = await showDatePicker(
                                     context: context,
                                     initialDate: _breaks.endedAt,
-                                    firstDate: _firstDate,
-                                    lastDate: _lastDate,
+                                    firstDate: kDayFirstDate,
+                                    lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
                                     String _date =
@@ -284,8 +283,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                     DateTime _selected = await showDatePicker(
                       context: context,
                       initialDate: work.endedAt,
-                      firstDate: _firstDate,
-                      lastDate: _lastDate,
+                      firstDate: kDayFirstDate,
+                      lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
                       String _date =

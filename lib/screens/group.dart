@@ -27,7 +27,7 @@ class _GroupScreenState extends State<GroupScreen> {
   String prefsGroupId = '';
 
   void _init() async {
-    String _prefs = await getPrefs();
+    String _prefs = await getPrefs(key: 'groupId');
     setState(() => prefsGroupId = _prefs);
   }
 
@@ -44,10 +44,8 @@ class _GroupScreenState extends State<GroupScreen> {
         Expanded(
           child: widget.userProvider.groups.length > 0
               ? ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 16.0,
-                  ),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   itemCount: widget.userProvider.groups.length,
                   itemBuilder: (_, index) {
                     GroupModel _group = widget.userProvider.groups[index];

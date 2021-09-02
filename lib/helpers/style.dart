@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData theme() {
   return ThemeData(
@@ -8,12 +9,10 @@ ThemeData theme() {
       color: Color(0xFFFEFFFA),
       elevation: 5.0,
       centerTitle: false,
-      brightness: Brightness.light,
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          color: Colors.black54,
-          fontSize: 18.0,
-        ),
+      systemOverlayStyle: SystemUiOverlayStyle.light,
+      titleTextStyle: TextStyle(
+        color: Colors.black54,
+        fontSize: 18.0,
       ),
       iconTheme: IconThemeData(color: Colors.black54),
     ),
@@ -24,6 +23,17 @@ ThemeData theme() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 }
+
+const BoxDecoration kLoginDecoration = BoxDecoration(
+  gradient: LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFF4DD0E1),
+      Color(0xFF00BCD4),
+    ],
+  ),
+);
 
 const BoxDecoration kNavigationDecoration = BoxDecoration(
   boxShadow: [
@@ -53,3 +63,8 @@ const TextStyle kSubTitleTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
+
+DateTime kMonthFirstDate = DateTime(DateTime.now().year - 1);
+DateTime kMonthLastDate = DateTime(DateTime.now().year + 1);
+DateTime kDayFirstDate = DateTime.now().subtract(Duration(days: 365));
+DateTime kDayLastDate = DateTime.now().add(Duration(days: 365));

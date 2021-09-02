@@ -179,7 +179,7 @@ class UserProvider with ChangeNotifier {
     _auth.signOut();
     _status = Status.Unauthenticated;
     _user = null;
-    await removePrefs();
+    await removePrefs(key: 'groupId');
     notifyListeners();
     return Future.delayed(Duration.zero);
   }
@@ -195,13 +195,13 @@ class UserProvider with ChangeNotifier {
   }
 
   Future reloadUserModel() async {
-    _user = await _userService.select(userId: _fUser.uid);
-    _groups = await _groupService.selectList(groups: _user.groups);
+    _user = await _userService.select(id: _fUser.uid);
+    _groups = await _groupService.selectListUser(userId: _user.id);
     if (_groups.length > 0) {
-      String _groupId = await getPrefs();
+      String _groupId = await getPrefs(key: 'groupId');
       if (_groupId == '') {
-        await setPrefs(_user.groups.first);
-        var contain = _groups.where((e) => e.id == _user.groups.first);
+        await setPrefs(key: 'groupId', value: _groups.first.id);
+        var contain = _groups.where((e) => e.id == _groups.first.id);
         _group = contain.first;
       } else {
         var contain = _groups.where((e) => e.id == _groupId);
@@ -219,13 +219,13 @@ class UserProvider with ChangeNotifier {
     } else {
       _fUser = firebaseUser;
       _status = Status.Authenticated;
-      _user = await _userService.select(userId: _fUser.uid);
-      _groups = await _groupService.selectList(groups: _user.groups);
+      _user = await _userService.select(id: _fUser.uid);
+      _groups = await _groupService.selectListUser(userId: _user.id);
       if (_groups.length > 0) {
-        String _groupId = await getPrefs();
+        String _groupId = await getPrefs(key: 'groupId');
         if (_groupId == '') {
-          await setPrefs(_user.groups.first);
-          var contain = _groups.where((e) => e.id == _user.groups.first);
+          await setPrefs(key: 'groupId', value: _groups.first.id);
+          var contain = _groups.where((e) => e.id == _groups.first.id);
           _group = contain.first;
         } else {
           var contain = _groups.where((e) => e.id == _groupId);
@@ -285,13 +285,5 @@ class UserProvider with ChangeNotifier {
   void groupChange(GroupModel groupModel) {
     _group = groupModel;
     notifyListeners();
-  }
-
-  Future<List<UserModel>> selectList({String groupId}) async {
-    List<UserModel> _users = [];
-    await _userService.selectList(groupId: groupId).then((value) {
-      _users = value;
-    });
-    return _users;
   }
 }

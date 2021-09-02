@@ -13,24 +13,15 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<UserModel> select({String userId}) async {
-    DocumentSnapshot snapshot =
-        await _firebaseFirestore.collection(_collection).doc(userId).get();
-    return UserModel.fromSnapshot(snapshot);
-  }
-
-  Future<List<UserModel>> selectList({String groupId}) async {
-    List<UserModel> _users = [];
+  Future<UserModel> select({String id}) async {
+    UserModel _user;
     await _firebaseFirestore
         .collection(_collection)
-        .where('groups', arrayContains: groupId)
-        .orderBy('recordPassword', descending: false)
+        .doc(id)
         .get()
         .then((value) {
-      for (DocumentSnapshot _user in value.docs) {
-        _users.add(UserModel.fromSnapshot(_user));
-      }
+      _user = UserModel.fromSnapshot(value);
     });
-    return _users;
+    return _user;
   }
 }

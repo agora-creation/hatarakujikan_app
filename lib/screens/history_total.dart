@@ -52,11 +52,11 @@ class _HistoryTotalState extends State<HistoryTotal> {
           // 勤務時間
           _workTime = addTime(_workTime, _work?.workTime());
           // 法定内時間/法定外時間
-          List<String> _legalTimes = _work?.legalTime(widget.group);
+          List<String> _legalTimes = _work?.legalTimes(widget.group);
           _legalTime = addTime(_legalTime, _legalTimes.first);
           _nonLegalTime = addTime(_nonLegalTime, _legalTimes.last);
           // 深夜時間
-          List<String> _nightTimes = _work?.nightTime(widget.group);
+          List<String> _nightTimes = _work?.nightTimes(widget.group);
           _nightTime = addTime(_nightTime, _nightTimes.last);
         }
       }

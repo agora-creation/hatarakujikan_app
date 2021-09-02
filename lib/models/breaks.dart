@@ -1,3 +1,4 @@
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:intl/intl.dart';
 
 class BreaksModel {
@@ -5,11 +6,9 @@ class BreaksModel {
   DateTime startedAt;
   double startedLat;
   double startedLon;
-  String startedDev;
   DateTime endedAt;
   double endedLat;
   double endedLon;
-  String endedDev;
 
   String get id => _id;
 
@@ -18,11 +17,9 @@ class BreaksModel {
     startedAt = data['startedAt'].toDate();
     startedLat = data['startedLat'].toDouble();
     startedLon = data['startedLon'].toDouble();
-    startedDev = data['startedDev'] ?? '';
     endedAt = data['endedAt'].toDate();
     endedLat = data['endedLat'].toDouble();
     endedLon = data['endedLon'].toDouble();
-    endedDev = data['endedDev'] ?? '';
   }
 
   Map toMap() => {
@@ -30,11 +27,9 @@ class BreaksModel {
         'startedAt': startedAt,
         'startedLat': startedLat,
         'startedLon': startedLon,
-        'startedDev': startedDev,
         'endedAt': endedAt,
         'endedLat': endedLat,
         'endedLon': endedLon,
-        'endedDev': endedDev,
       };
 
   String startTime() {
@@ -48,7 +43,6 @@ class BreaksModel {
   }
 
   String breakTime() {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
     String _time = '00:00';
     String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
     String _startedTime = '${startTime()}:00.000';

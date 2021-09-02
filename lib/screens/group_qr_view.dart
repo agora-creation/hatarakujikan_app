@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
-import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/error_dialog.dart';
@@ -26,24 +25,12 @@ class GroupQRViewScreen extends StatefulWidget {
 
 class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
   bool _isLoading = false;
-  List<UserModel> _users = [];
-
-  void _init() async {
-    widget.userProvider.selectList(groupId: widget.group?.id).then((value) {
-      setState(() => _users = value);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
 
   @override
   Widget build(BuildContext context) {
-    var contain =
-        widget.userProvider.user.groups.where((e) => e == widget.group?.id);
+    var contain = widget.userProvider.user.groups.where(
+      (e) => e == widget.group?.id,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +66,6 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                           if (!await widget.groupProvider.updateIn(
                             user: widget.userProvider.user,
                             group: widget.group,
-                            usersLen: _users.length,
                           )) {
                             setState(() => _isLoading = false);
                             showDialog(

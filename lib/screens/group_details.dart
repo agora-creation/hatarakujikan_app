@@ -30,7 +30,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   String prefsGroupId = '';
 
   void _init() async {
-    String _prefs = await getPrefs();
+    String _prefs = await getPrefs(key: 'groupId');
     setState(() => prefsGroupId = _prefs);
   }
 
@@ -113,7 +113,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
                             user: widget.userProvider.user,
-                            groupId: widget.group?.id,
+                            group: widget.group,
                           )) {
                             setState(() => _isLoading = false);
                             showDialog(

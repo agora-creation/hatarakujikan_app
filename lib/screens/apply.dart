@@ -23,8 +23,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('applyWork')
-        .where('groupId', isEqualTo: widget.userProvider.group?.id)
-        .where('userId', isEqualTo: widget.userProvider.user?.id)
+        .where('groupId', isEqualTo: widget.userProvider.group?.id ?? 'error')
+        .where('userId', isEqualTo: widget.userProvider.user?.id ?? 'error')
         .where('approval', isEqualTo: false)
         .orderBy('createdAt', descending: true)
         .snapshots();
@@ -52,8 +52,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
                       return Loading(color: Colors.cyan);
                     }
                     applyWorks.clear();
-                    for (DocumentSnapshot applyWork in snapshot.data.docs) {
-                      applyWorks.add(ApplyWorkModel.fromSnapshot(applyWork));
+                    for (DocumentSnapshot doc in snapshot.data.docs) {
+                      applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
                     }
                     if (applyWorks.length > 0) {
                       return ListView.builder(

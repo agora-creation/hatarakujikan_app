@@ -5,11 +5,15 @@ class GroupService {
   String _collection = 'group';
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<GroupModel> select({String groupId}) async {
+  void update(Map<String, dynamic> values) {
+    _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
+  }
+
+  Future<GroupModel> select({String id}) async {
     GroupModel _group;
     await _firebaseFirestore
         .collection(_collection)
-        .doc(groupId)
+        .doc(id)
         .get()
         .then((value) {
       _group = GroupModel.fromSnapshot(value);
@@ -19,22 +23,18 @@ class GroupService {
     return _group;
   }
 
-  Future<List<GroupModel>> selectList({List<String> groups}) async {
+  Future<List<GroupModel>> selectListUser({String userId}) async {
     List<GroupModel> _groups = [];
-    List<String> _whereIn = [];
-    for (String _groupId in groups) {
-      _whereIn.add(_groupId);
-    }
-    if (_whereIn.length > 0) {
-      QuerySnapshot snapshot = await _firebaseFirestore
-          .collection(_collection)
-          .where('id', whereIn: _whereIn)
-          .orderBy('createdAt', descending: true)
-          .get();
-      for (DocumentSnapshot _group in snapshot.docs) {
+    await _firebaseFirestore
+        .collection(_collection)
+        .where('userIds', arrayContains: userId)
+        .orderBy('createdAt', descending: true)
+        .get()
+        .then((value) {
+      for (DocumentSnapshot _group in value.docs) {
         _groups.add(GroupModel.fromSnapshot(_group));
       }
-    }
+    });
     return _groups;
   }
 }

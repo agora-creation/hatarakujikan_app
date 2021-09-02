@@ -16,7 +16,7 @@ class NoticeScreen extends StatelessWidget {
     final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('user')
-        .doc(userProvider.user?.id)
+        .doc(userProvider.user?.id ?? 'error')
         .collection('notice')
         .orderBy('createdAt', descending: true)
         .snapshots();
@@ -43,8 +43,8 @@ class NoticeScreen extends StatelessWidget {
             return Loading(color: Colors.cyan);
           }
           notices.clear();
-          for (DocumentSnapshot notice in snapshot.data.docs) {
-            notices.add(UserNoticeModel.fromSnapshot(notice));
+          for (DocumentSnapshot doc in snapshot.data.docs) {
+            notices.add(UserNoticeModel.fromSnapshot(doc));
           }
           if (notices.length > 0) {
             return ListView.builder(
