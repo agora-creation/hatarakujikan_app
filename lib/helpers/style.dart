@@ -64,6 +64,16 @@ const TextStyle kSubTitleTextStyle = TextStyle(
   fontSize: 16.0,
 );
 
+const TextStyle kListDayTextStyle = TextStyle(
+  color: Colors.black54,
+  fontSize: 15.0,
+);
+
+const TextStyle kListDay2TextStyle = TextStyle(
+  color: Colors.transparent,
+  fontSize: 15.0,
+);
+
 DateTime kMonthFirstDate = DateTime(DateTime.now().year - 1);
 DateTime kMonthLastDate = DateTime(DateTime.now().year + 1);
 DateTime kDayFirstDate = DateTime.now().subtract(Duration(days: 365));

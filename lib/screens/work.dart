@@ -6,6 +6,7 @@ import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
 import 'package:hatarakujikan_app/screens/work_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
+import 'package:hatarakujikan_app/widgets/error_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class WorkScreen extends StatefulWidget {
@@ -154,21 +155,9 @@ class _WorkScreenState extends State<WorkScreen> {
           ),
         ),
         error
-            ? ListTile(
-                tileColor: Colors.redAccent,
-                title: Text(
-                  errorText,
-                  style: TextStyle(color: Colors.white, fontSize: 14.0),
-                ),
-              )
+            ? ErrorListTile(label: errorText)
             : locationError
-                ? ListTile(
-                    tileColor: Colors.redAccent,
-                    title: Text(
-                      '記録可能な範囲外にいます',
-                      style: TextStyle(color: Colors.white, fontSize: 14.0),
-                    ),
-                  )
+                ? ErrorListTile(label: '記録可能な範囲外にいます')
                 : Container(),
         WorkButton(
           userProvider: widget.userProvider,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class HistoryButton extends StatelessWidget {
-  final String selectMonth;
+  final String month;
   final Function monthOnPressed;
   final Function totalOnPressed;
 
   HistoryButton({
-    @required this.selectMonth,
+    @required this.month,
     @required this.monthOnPressed,
     @required this.totalOnPressed,
   });
@@ -22,7 +22,7 @@ class HistoryButton extends StatelessWidget {
               onPressed: monthOnPressed,
               icon: Icon(Icons.today, color: Color(0xFFFEFFFA)),
               label: Text(
-                selectMonth,
+                month,
                 style: TextStyle(
                   color: Color(0xFFFEFFFA),
                   fontSize: 16.0,

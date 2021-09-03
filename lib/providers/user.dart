@@ -101,8 +101,6 @@ class UserProvider with ChangeNotifier {
           'workLv': 0,
           'lastWorkId': '',
           'lastBreakId': '',
-          'groups': [],
-          'position': '',
           'token': _token,
           'smartphone': true,
           'createdAt': DateTime.now(),
@@ -175,8 +173,29 @@ class UserProvider with ChangeNotifier {
     }
   }
 
+  Future delete() async {
+    _userService.delete({'id': _auth.currentUser.uid});
+    if (_groups.length > 0) {
+      for (GroupModel _group in _groups) {
+        List<String> _userIds = [];
+        _userIds = _group.userIds;
+        _userIds.remove(_auth.currentUser.uid);
+        _groupService.update({
+          'id': _group.id,
+          'userIds': _userIds,
+        });
+      }
+    }
+    await _auth.currentUser.delete();
+    _status = Status.Unauthenticated;
+    _user = null;
+    await removePrefs(key: 'groupId');
+    notifyListeners();
+    return Future.delayed(Duration.zero);
+  }
+
   Future signOut() async {
-    _auth.signOut();
+    await _auth.signOut();
     _status = Status.Unauthenticated;
     _user = null;
     await removePrefs(key: 'groupId');

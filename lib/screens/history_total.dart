@@ -41,27 +41,26 @@ class _HistoryTotalState extends State<HistoryTotal> {
     )
         .then((value) {
       Map _count = {};
+      int _workCount = 0;
       String _workTime = '00:00';
       String _legalTime = '00:00';
       String _nonLegalTime = '00:00';
       String _nightTime = '00:00';
       for (WorkModel _work in value) {
         if (_work?.startedAt != _work?.endedAt) {
-          // 勤務日数
-          _count['${DateFormat('yyyy-MM-dd').format(_work?.startedAt)}'] = '';
-          // 勤務時間
+          String _key = '${DateFormat('yyyy-MM-dd').format(_work?.startedAt)}';
+          _count[_key] = '';
           _workTime = addTime(_workTime, _work?.workTime());
-          // 法定内時間/法定外時間
           List<String> _legalTimes = _work?.legalTimes(widget.group);
           _legalTime = addTime(_legalTime, _legalTimes.first);
           _nonLegalTime = addTime(_nonLegalTime, _legalTimes.last);
-          // 深夜時間
           List<String> _nightTimes = _work?.nightTimes(widget.group);
           _nightTime = addTime(_nightTime, _nightTimes.last);
         }
       }
+      _workCount = _count.length;
       setState(() {
-        workCount = _count.length;
+        workCount = _workCount;
         workTime = _workTime;
         legalTime = _legalTime;
         nonLegalTime = _nonLegalTime;

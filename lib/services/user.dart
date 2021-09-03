@@ -13,6 +13,10 @@ class UserService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
+  void delete(Map<String, dynamic> values) {
+    _firebaseFirestore.collection(_collection).doc(values['id']).delete();
+  }
+
   Future<UserModel> select({String id}) async {
     UserModel _user;
     await _firebaseFirestore
