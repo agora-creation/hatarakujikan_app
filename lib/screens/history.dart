@@ -104,7 +104,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     group: widget.userProvider.group,
                   ),
                 ),
-                selectMonth: '${DateFormat('yyyy年MM月').format(month)}',
+                month: '${DateFormat('yyyy年MM月').format(month)}',
               ),
               CustomHeadListTile(),
               Expanded(
@@ -125,27 +125,27 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     return ListView.builder(
                       itemCount: days.length,
                       itemBuilder: (_, index) {
-                        List<WorkModel> _dayWorks = [];
+                        List<WorkModel> dayWorks = [];
                         for (WorkModel _work in works) {
                           String _start =
                               '${DateFormat('yyyy-MM-dd').format(_work.startedAt)}';
                           if (days[index] == DateTime.parse(_start)) {
-                            _dayWorks.add(_work);
+                            dayWorks.add(_work);
                           }
                         }
-                        WorkStateModel _dayWorkState;
+                        WorkStateModel dayWorkState;
                         for (WorkStateModel _workState in workStates) {
                           String _start =
                               '${DateFormat('yyyy-MM-dd').format(_workState.startedAt)}';
                           if (days[index] == DateTime.parse(_start)) {
-                            _dayWorkState = _workState;
+                            dayWorkState = _workState;
                           }
                         }
                         return CustomHistoryListTile(
                           user: widget.userProvider.user,
                           day: days[index],
-                          works: _dayWorks,
-                          workState: _dayWorkState,
+                          dayWorks: dayWorks,
+                          dayWorkState: dayWorkState,
                         );
                       },
                     );

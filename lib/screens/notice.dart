@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
-import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/screens/notice_details.dart';
 import 'package:hatarakujikan_app/widgets/custom_notice_list_tile.dart';
@@ -10,13 +10,16 @@ import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
 class NoticeScreen extends StatelessWidget {
+  final UserModel user;
+
+  NoticeScreen({@required this.user});
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
     final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('user')
-        .doc(userProvider.user?.id ?? 'error')
+        .doc(user?.id ?? 'error')
         .collection('notice')
         .orderBy('createdAt', descending: true)
         .snapshots();

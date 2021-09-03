@@ -10,99 +10,91 @@ import 'package:intl/intl.dart';
 class CustomHistoryListTile extends StatelessWidget {
   final UserModel user;
   final DateTime day;
-  final List<WorkModel> works;
-  final WorkStateModel workState;
+  final List<WorkModel> dayWorks;
+  final WorkStateModel dayWorkState;
 
   CustomHistoryListTile({
     this.user,
     this.day,
-    this.works,
-    this.workState,
+    this.dayWorks,
+    this.dayWorkState,
   });
 
   @override
   Widget build(BuildContext context) {
     Color _chipColor = Colors.grey.shade300;
-    if (workState?.state == '欠勤') {
-      _chipColor = Colors.red.shade300;
-    } else if (workState?.state == '特別休暇') {
-      _chipColor = Colors.green.shade300;
-    } else if (workState?.state == '有給休暇') {
-      _chipColor = Colors.teal.shade300;
+    switch (dayWorkState?.state) {
+      case '欠勤':
+        _chipColor = Colors.red.shade300;
+        break;
+      case '特別休暇':
+        _chipColor = Colors.green.shade300;
+        break;
+      case '有給休暇':
+        _chipColor = Colors.teal.shade300;
+        break;
+      case '代休':
+        _chipColor = Colors.pink.shade300;
+        break;
     }
-
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: Text(
           '${DateFormat('dd (E)', 'ja').format(day)}',
-          style: TextStyle(
-            color: Colors.black54,
-            fontSize: 15.0,
-          ),
+          style: kListDayTextStyle,
         ),
-        title: works.length > 0
+        title: dayWorks.length > 0
             ? ListView.separated(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 separatorBuilder: (_, index) => Divider(height: 0.0),
-                itemCount: works.length,
+                itemCount: dayWorks.length,
                 itemBuilder: (_, index) {
-                  WorkModel _work = works[index];
-                  String _startTime = _work.startTime();
-                  String _endTime = '00:00';
-                  String _workTime = '00:00';
+                  WorkModel _work = dayWorks[index];
                   if (_work.startedAt != _work.endedAt) {
-                    _endTime = _work.endTime();
-                    _workTime = _work.workTime();
+                    String _startTime = _work.startTime();
+                    String _endTime = _work.endTime();
+                    String _workTime = _work.workTime();
+                    return ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Chip(
+                            backgroundColor: _chipColor,
+                            label: Text(
+                              '${_work.state}',
+                              style: TextStyle(fontSize: 10.0),
+                            ),
+                          ),
+                          Text(
+                            _startTime,
+                            style: kListDayTextStyle,
+                          ),
+                          Text(
+                            _endTime,
+                            style: kListDayTextStyle,
+                          ),
+                          Text(
+                            _workTime,
+                            style: kListDayTextStyle,
+                          ),
+                        ],
+                      ),
+                      onTap: () => nextScreen(
+                        context,
+                        HistoryDetailsScreen(
+                          work: _work,
+                          user: user,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
                   }
-                  return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Chip(
-                          backgroundColor: _chipColor,
-                          label: Text(
-                            '${_work.state}',
-                            style: TextStyle(fontSize: 10.0),
-                          ),
-                        ),
-                        Text(
-                          _startTime,
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        Text(
-                          _endTime,
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        Text(
-                          _workTime,
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: _work.startedAt != _work.endedAt
-                        ? () => nextScreen(
-                              context,
-                              HistoryDetailsScreen(
-                                work: _work,
-                                user: user,
-                              ),
-                            )
-                        : null,
-                  );
                 },
               )
-            : workState != null
+            : dayWorkState != null
                 ? ListTile(
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,30 +102,21 @@ class CustomHistoryListTile extends StatelessWidget {
                         Chip(
                           backgroundColor: _chipColor,
                           label: Text(
-                            '${workState.state}',
+                            '${dayWorkState.state}',
                             style: TextStyle(fontSize: 10.0),
                           ),
                         ),
                         Text(
                           '00:00',
-                          style: TextStyle(
-                            color: Colors.transparent,
-                            fontSize: 15.0,
-                          ),
+                          style: kListDay2TextStyle,
                         ),
                         Text(
                           '00:00',
-                          style: TextStyle(
-                            color: Colors.transparent,
-                            fontSize: 15.0,
-                          ),
+                          style: kListDay2TextStyle,
                         ),
                         Text(
                           '00:00',
-                          style: TextStyle(
-                            color: Colors.transparent,
-                            fontSize: 15.0,
-                          ),
+                          style: kListDay2TextStyle,
                         ),
                       ],
                     ),

@@ -27,7 +27,9 @@ class GroupProvider with ChangeNotifier {
     try {
       List<String> _userIds = [];
       _userIds = group.userIds;
-      _userIds.add(user.id);
+      if (!_userIds.contains(user.id)) {
+        _userIds.add(user.id);
+      }
       _groupService.update({
         'id': '',
         'userIds': _userIds,
@@ -50,7 +52,9 @@ class GroupProvider with ChangeNotifier {
     try {
       List<String> _userIds = [];
       _userIds = group.userIds;
-      _userIds.remove(user.id);
+      if (_userIds.contains(user.id)) {
+        _userIds.remove(user.id);
+      }
       _groupService.update({
         'id': group.id,
         'userIds': _userIds,
@@ -60,7 +64,6 @@ class GroupProvider with ChangeNotifier {
       } else {
         await removePrefs(key: 'groupId');
       }
-
       return true;
     } catch (e) {
       print(e.toString());

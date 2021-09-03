@@ -28,8 +28,8 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var contain = widget.userProvider.user.groups.where(
-      (e) => e == widget.group?.id,
+    var contain = widget.userProvider.groups.where(
+      (e) => e.id == widget.group?.id,
     );
 
     return Scaffold(
