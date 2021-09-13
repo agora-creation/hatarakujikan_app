@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
@@ -12,6 +13,7 @@ import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/home.dart';
 import 'package:hatarakujikan_app/screens/intro.dart';
 import 'package:hatarakujikan_app/screens/splash.dart';
+import 'package:new_version/new_version.dart';
 import 'package:provider/provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -82,9 +84,27 @@ class SplashController extends StatefulWidget {
 }
 
 class _SplashControllerState extends State<SplashController> {
+  void _checkVersion() async {
+    final newVersion = NewVersion(
+      iOSId: 'com.agoracreation.hatarakujikanApp',
+      androidId: 'com.agoracreation.hatarakujikan_app',
+    );
+    final status = await newVersion.getVersionStatus();
+    newVersion.showUpdateDialog(
+      context: context,
+      versionStatus: status,
+      dialogTitle: 'アップデートしてください',
+      dialogText:
+          'アプリのアップデートがあります：${status.localVersion}：${status.storeVersion}',
+      dismissAction: () => SystemNavigator.pop(),
+      updateButtonText: 'アップデートする',
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    _checkVersion();
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage message) {
