@@ -27,11 +27,11 @@ class GroupDetailsScreen extends StatefulWidget {
 
 class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   bool _isLoading = false;
-  String prefsGroupId = '';
+  String _prefsGroupId = '';
 
   void _init() async {
     String _prefs = await getPrefs(key: 'groupId');
-    setState(() => prefsGroupId = _prefs);
+    setState(() => _prefsGroupId = _prefs);
   }
 
   @override
@@ -77,7 +77,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 16.0),
-                prefsGroupId == widget.group?.id
+                _prefsGroupId == widget.group?.id
                     ? RoundBackgroundButton(
                         onPressed: null,
                         label: '既定に設定中',

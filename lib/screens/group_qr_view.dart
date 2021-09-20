@@ -64,8 +64,8 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateIn(
-                            user: widget.userProvider.user,
                             group: widget.group,
+                            user: widget.userProvider.user,
                           )) {
                             setState(() => _isLoading = false);
                             showDialog(

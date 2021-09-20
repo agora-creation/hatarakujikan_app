@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
+import 'package:hatarakujikan_app/models/group.dart';
+import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/apply_work_details.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
 import 'package:hatarakujikan_app/widgets/custom_apply_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
-import 'package:hatarakujikan_app/widgets/loading.dart';
 
 class ApplyScreen extends StatefulWidget {
   final UserProvider userProvider;
@@ -21,16 +22,18 @@ class ApplyScreen extends StatefulWidget {
 class _ApplyScreenState extends State<ApplyScreen> {
   @override
   Widget build(BuildContext context) {
+    GroupModel _group = widget.userProvider.group;
+    UserModel _user = widget.userProvider.user;
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('applyWork')
-        .where('groupId', isEqualTo: widget.userProvider.group?.id ?? 'error')
-        .where('userId', isEqualTo: widget.userProvider.user?.id ?? 'error')
+        .where('groupId', isEqualTo: _group?.id ?? 'error')
+        .where('userId', isEqualTo: _user?.id ?? 'error')
         .where('approval', isEqualTo: false)
         .orderBy('createdAt', descending: true)
         .snapshots();
-    List<ApplyWorkModel> applyWorks = [];
+    List<ApplyWorkModel> _applyWorks = [];
 
-    return widget.userProvider.group != null
+    return _group != null
         ? Column(
             children: [
               CustomExpandedButton(
@@ -48,18 +51,17 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: _stream,
                   builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Loading(color: Colors.cyan);
+                    _applyWorks.clear();
+                    if (snapshot.hasData) {
+                      for (DocumentSnapshot doc in snapshot.data.docs) {
+                        _applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
+                      }
                     }
-                    applyWorks.clear();
-                    for (DocumentSnapshot doc in snapshot.data.docs) {
-                      applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
-                    }
-                    if (applyWorks.length > 0) {
+                    if (_applyWorks.length > 0) {
                       return ListView.builder(
-                        itemCount: applyWorks.length,
+                        itemCount: _applyWorks.length,
                         itemBuilder: (_, index) {
-                          ApplyWorkModel _applyWork = applyWorks[index];
+                          ApplyWorkModel _applyWork = _applyWorks[index];
                           return CustomApplyListTile(
                             onTap: () => nextScreen(
                               context,

@@ -180,16 +180,16 @@ class WorkProvider with ChangeNotifier {
   }
 
   Future<List<WorkModel>> selectList({
-    String groupId,
-    String userId,
+    GroupModel group,
+    UserModel user,
     DateTime startAt,
     DateTime endAt,
   }) async {
     List<WorkModel> _works = [];
     await _workService
         .selectList(
-      groupId: groupId,
-      userId: userId,
+      groupId: group.id,
+      userId: user.id,
       startAt: startAt,
       endAt: endAt,
     )

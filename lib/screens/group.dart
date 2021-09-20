@@ -24,11 +24,11 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
-  String prefsGroupId = '';
+  String _prefsGroupId = '';
 
   void _init() async {
     String _prefs = await getPrefs(key: 'groupId');
-    setState(() => prefsGroupId = _prefs);
+    setState(() => _prefsGroupId = _prefs);
   }
 
   @override
@@ -39,16 +39,18 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<GroupModel> _groups = widget.userProvider.groups;
+
     return Column(
       children: [
         Expanded(
-          child: widget.userProvider.groups.length > 0
+          child: _groups.length > 0
               ? ListView.builder(
                   padding:
                       EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  itemCount: widget.userProvider.groups.length,
+                  itemCount: _groups.length,
                   itemBuilder: (_, index) {
-                    GroupModel _group = widget.userProvider.groups[index];
+                    GroupModel _group = _groups[index];
                     return CustomGroupListTile(
                       onTap: () => nextScreen(
                         context,
@@ -59,7 +61,7 @@ class _GroupScreenState extends State<GroupScreen> {
                         ),
                       ),
                       group: _group,
-                      fixed: _group?.id == prefsGroupId,
+                      fixed: _group?.id == _prefsGroupId,
                     );
                   },
                 )

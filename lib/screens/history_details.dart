@@ -10,12 +10,12 @@ import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:intl/intl.dart';
 
 class HistoryDetailsScreen extends StatelessWidget {
-  final WorkModel work;
   final UserModel user;
+  final WorkModel work;
 
   HistoryDetailsScreen({
-    @required this.work,
     @required this.user,
+    @required this.work,
   });
 
   @override

@@ -8,9 +8,13 @@ import 'package:hatarakujikan_app/services/apply_work.dart';
 class ApplyWorkProvider with ChangeNotifier {
   ApplyWorkService _applyWorkService = ApplyWorkService();
 
-  Future<bool> create({WorkModel work, UserModel user, String reason}) async {
-    if (work == null) return false;
+  Future<bool> create({
+    UserModel user,
+    WorkModel work,
+    String reason,
+  }) async {
     if (user == null) return false;
+    if (work == null) return false;
     try {
       String _id = _applyWorkService.id();
       List<Map> _breaks = [];

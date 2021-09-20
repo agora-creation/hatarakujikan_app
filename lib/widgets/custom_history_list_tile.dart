@@ -3,7 +3,7 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
-import 'package:hatarakujikan_app/models/work_state.dart';
+import 'package:hatarakujikan_app/models/work_shift.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:intl/intl.dart';
 
@@ -11,32 +11,17 @@ class CustomHistoryListTile extends StatelessWidget {
   final UserModel user;
   final DateTime day;
   final List<WorkModel> dayWorks;
-  final WorkStateModel dayWorkState;
+  final WorkShiftModel dayWorkShift;
 
   CustomHistoryListTile({
     this.user,
     this.day,
     this.dayWorks,
-    this.dayWorkState,
+    this.dayWorkShift,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color _chipColor = Colors.grey.shade300;
-    switch (dayWorkState?.state) {
-      case '欠勤':
-        _chipColor = Colors.red.shade300;
-        break;
-      case '特別休暇':
-        _chipColor = Colors.green.shade300;
-        break;
-      case '有給休暇':
-        _chipColor = Colors.teal.shade300;
-        break;
-      case '代休':
-        _chipColor = Colors.pink.shade300;
-        break;
-    }
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
@@ -61,31 +46,22 @@ class CustomHistoryListTile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Chip(
-                            backgroundColor: _chipColor,
+                            backgroundColor: Colors.grey.shade300,
                             label: Text(
                               '${_work.state}',
                               style: TextStyle(fontSize: 10.0),
                             ),
                           ),
-                          Text(
-                            _startTime,
-                            style: kListDayTextStyle,
-                          ),
-                          Text(
-                            _endTime,
-                            style: kListDayTextStyle,
-                          ),
-                          Text(
-                            _workTime,
-                            style: kListDayTextStyle,
-                          ),
+                          Text(_startTime, style: kListDayTextStyle),
+                          Text(_endTime, style: kListDayTextStyle),
+                          Text(_workTime, style: kListDayTextStyle),
                         ],
                       ),
                       onTap: () => nextScreen(
                         context,
                         HistoryDetailsScreen(
-                          work: _work,
                           user: user,
+                          work: _work,
                         ),
                       ),
                     );
@@ -94,30 +70,21 @@ class CustomHistoryListTile extends StatelessWidget {
                   }
                 },
               )
-            : dayWorkState != null
+            : dayWorkShift != null
                 ? ListTile(
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Chip(
-                          backgroundColor: _chipColor,
+                          backgroundColor: dayWorkShift.stateColor(),
                           label: Text(
-                            '${dayWorkState.state}',
+                            '${dayWorkShift.state}',
                             style: TextStyle(fontSize: 10.0),
                           ),
                         ),
-                        Text(
-                          '00:00',
-                          style: kListDay2TextStyle,
-                        ),
-                        Text(
-                          '00:00',
-                          style: kListDay2TextStyle,
-                        ),
-                        Text(
-                          '00:00',
-                          style: kListDay2TextStyle,
-                        ),
+                        Text('00:00', style: kListDay2TextStyle),
+                        Text('00:00', style: kListDay2TextStyle),
+                        Text('00:00', style: kListDay2TextStyle),
                       ],
                     ),
                     onTap: null,

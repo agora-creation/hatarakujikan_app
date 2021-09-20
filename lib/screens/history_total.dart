@@ -34,8 +34,8 @@ class _HistoryTotalState extends State<HistoryTotal> {
   void _init() async {
     await widget.workProvider
         .selectList(
-      groupId: widget.userProvider.group?.id,
-      userId: widget.userProvider.user?.id,
+      group: widget.userProvider.group,
+      user: widget.userProvider.user,
       startAt: widget.days.first,
       endAt: widget.days.last,
     )

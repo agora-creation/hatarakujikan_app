@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/models/user.dart';
@@ -14,12 +15,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ApplyWorkScreen extends StatefulWidget {
-  final WorkModel work;
   final UserModel user;
+  final WorkModel work;
 
   ApplyWorkScreen({
-    @required this.work,
     @required this.user,
+    @required this.work,
   });
 
   @override
@@ -27,11 +28,11 @@ class ApplyWorkScreen extends StatefulWidget {
 }
 
 class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
-  WorkModel work;
+  WorkModel _work;
   TextEditingController reason = TextEditingController();
 
   void _init() async {
-    setState(() => work = widget.work);
+    setState(() => _work = widget.work);
   }
 
   @override
@@ -76,20 +77,16 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                   onTap: () async {
                     DateTime _selected = await showDatePicker(
                       context: context,
-                      initialDate: work.startedAt,
+                      initialDate: _work.startedAt,
                       firstDate: kDayFirstDate,
                       lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
-                      String _date =
-                          '${DateFormat('yyyy-MM-dd').format(_selected)}';
-                      String _time =
-                          '${DateFormat('HH:mm').format(work.startedAt)}:00.000';
-                      DateTime _dateTime = DateTime.parse('$_date $_time');
-                      setState(() => work.startedAt = _dateTime);
+                      _selected = rebuildDate(_selected, _work.startedAt);
+                      setState(() => _work.startedAt = _selected);
                     }
                   },
-                  label: '${DateFormat('yyyy/MM/dd').format(work.startedAt)}',
+                  label: '${DateFormat('yyyy/MM/dd').format(_work.startedAt)}',
                 ),
               ),
               SizedBox(width: 4.0),
@@ -97,38 +94,35 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 2,
                 child: CustomTimeButton(
                   onTap: () async {
-                    String _hour = '${DateFormat('H').format(work.startedAt)}';
-                    String _minute =
-                        '${DateFormat('m').format(work.startedAt)}';
                     TimeOfDay _selected = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay(
-                        hour: int.parse(_hour),
-                        minute: int.parse(_minute),
+                        hour: timeToInt(_work.startedAt)[0],
+                        minute: timeToInt(_work.startedAt)[1],
                       ),
                     );
                     if (_selected != null) {
-                      String _date =
-                          '${DateFormat('yyyy-MM-dd').format(work.startedAt)}';
-                      String _time =
-                          '${_selected.format(context).padLeft(5, '0')}:00.000';
-                      DateTime _dateTime = DateTime.parse('$_date $_time');
-                      setState(() => work.startedAt = _dateTime);
+                      DateTime _dateTime = rebuildTime(
+                        context,
+                        _work.startedAt,
+                        _selected,
+                      );
+                      setState(() => _work.startedAt = _dateTime);
                     }
                   },
-                  label: '${DateFormat('HH:mm').format(work.startedAt)}',
+                  label: '${DateFormat('HH:mm').format(_work.startedAt)}',
                 ),
               ),
             ],
           ),
           SizedBox(height: 8.0),
-          work.breaks.length > 0
+          _work.breaks.length > 0
               ? ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: work.breaks.length,
+                  itemCount: _work.breaks.length,
                   itemBuilder: (_, index) {
-                    BreaksModel _breaks = work?.breaks[index];
+                    BreaksModel _breaks = _work.breaks[index];
                     return Column(
                       children: [
                         CustomIconLabel(
@@ -149,14 +143,10 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                     lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
-                                    String _date =
-                                        '${DateFormat('yyyy-MM-dd').format(_selected)}';
-                                    String _time =
-                                        '${DateFormat('HH:mm').format(_breaks.startedAt)}';
-                                    DateTime _dateTime =
-                                        DateTime.parse('$_date $_time');
+                                    _selected = rebuildDate(
+                                        _selected, _breaks.startedAt);
                                     setState(
-                                        () => _breaks.startedAt = _dateTime);
+                                        () => _breaks.startedAt = _selected);
                                   }
                                 },
                                 label:
@@ -168,24 +158,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 2,
                               child: CustomTimeButton(
                                 onTap: () async {
-                                  String _hour =
-                                      '${DateFormat('H').format(_breaks.startedAt)}';
-                                  String _minute =
-                                      '${DateFormat('m').format(_breaks.startedAt)}';
                                   TimeOfDay _selected = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
-                                      hour: int.parse(_hour),
-                                      minute: int.parse(_minute),
+                                      hour: timeToInt(_breaks.startedAt)[0],
+                                      minute: timeToInt(_breaks.startedAt)[1],
                                     ),
                                   );
                                   if (_selected != null) {
-                                    String _date =
-                                        '${DateFormat('yyyy-MM-dd').format(_breaks.startedAt)}';
-                                    String _time =
-                                        '${_selected.format(context).padLeft(5, '0')}:00.000';
-                                    DateTime _dateTime =
-                                        DateTime.parse('$_date $_time');
+                                    DateTime _dateTime = rebuildTime(
+                                      context,
+                                      _breaks.startedAt,
+                                      _selected,
+                                    );
                                     setState(
                                         () => _breaks.startedAt = _dateTime);
                                   }
@@ -218,13 +203,9 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                     lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
-                                    String _date =
-                                        '${DateFormat('yyyy-MM-dd').format(_selected)}';
-                                    String _time =
-                                        '${DateFormat('HH:mm').format(_breaks.endedAt)}:00.000';
-                                    DateTime _dateTime =
-                                        DateTime.parse('$_date $_time');
-                                    setState(() => _breaks.endedAt = _dateTime);
+                                    _selected =
+                                        rebuildDate(_selected, _breaks.endedAt);
+                                    setState(() => _breaks.endedAt = _selected);
                                   }
                                 },
                                 label:
@@ -236,24 +217,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 2,
                               child: CustomTimeButton(
                                 onTap: () async {
-                                  String _hour =
-                                      '${DateFormat('H').format(_breaks.endedAt)}';
-                                  String _minute =
-                                      '${DateFormat('m').format(_breaks.endedAt)}';
                                   TimeOfDay _selected = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
-                                      hour: int.parse(_hour),
-                                      minute: int.parse(_minute),
+                                      hour: timeToInt(_breaks.endedAt)[0],
+                                      minute: timeToInt(_breaks.endedAt)[1],
                                     ),
                                   );
                                   if (_selected != null) {
-                                    String _date =
-                                        '${DateFormat('yyyy-MM-dd').format(_breaks.endedAt)}';
-                                    String _time =
-                                        '${_selected.format(context).padLeft(5, '0')}:00.000';
-                                    DateTime _dateTime =
-                                        DateTime.parse('$_date $_time');
+                                    DateTime _dateTime = rebuildTime(
+                                      context,
+                                      _breaks.endedAt,
+                                      _selected,
+                                    );
                                     setState(() => _breaks.endedAt = _dateTime);
                                   }
                                 },
@@ -282,20 +258,16 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                   onTap: () async {
                     DateTime _selected = await showDatePicker(
                       context: context,
-                      initialDate: work.endedAt,
+                      initialDate: _work.endedAt,
                       firstDate: kDayFirstDate,
                       lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
-                      String _date =
-                          '${DateFormat('yyyy-MM-dd').format(_selected)}';
-                      String _time =
-                          '${DateFormat('HH:mm').format(work.endedAt)}:00.000';
-                      DateTime _dateTime = DateTime.parse('$_date $_time');
-                      setState(() => work.endedAt = _dateTime);
+                      _selected = rebuildDate(_selected, _work.endedAt);
+                      setState(() => _work.endedAt = _selected);
                     }
                   },
-                  label: '${DateFormat('yyyy/MM/dd').format(work.endedAt)}',
+                  label: '${DateFormat('yyyy/MM/dd').format(_work.endedAt)}',
                 ),
               ),
               SizedBox(width: 4.0),
@@ -303,25 +275,23 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 2,
                 child: CustomTimeButton(
                   onTap: () async {
-                    String _hour = '${DateFormat('H').format(work.endedAt)}';
-                    String _minute = '${DateFormat('m').format(work.endedAt)}';
                     TimeOfDay _selected = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay(
-                        hour: int.parse(_hour),
-                        minute: int.parse(_minute),
+                        hour: timeToInt(_work.endedAt)[0],
+                        minute: timeToInt(_work.endedAt)[1],
                       ),
                     );
                     if (_selected != null) {
-                      String _date =
-                          '${DateFormat('yyyy-MM-dd').format(work.endedAt)}';
-                      String _time =
-                          '${_selected.format(context).padLeft(5, '0')}:00.000';
-                      DateTime _dateTime = DateTime.parse('$_date $_time');
-                      setState(() => work.endedAt = _dateTime);
+                      DateTime _dateTime = rebuildTime(
+                        context,
+                        _work.endedAt,
+                        _selected,
+                      );
+                      setState(() => _work.endedAt = _dateTime);
                     }
                   },
-                  label: '${DateFormat('HH:mm').format(work.endedAt)}',
+                  label: '${DateFormat('HH:mm').format(_work.endedAt)}',
                 ),
               ),
             ],
@@ -342,8 +312,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
           RoundBackgroundButton(
             onPressed: () async {
               if (!await applyWorkProvider.create(
-                work: work,
                 user: widget.user,
+                work: _work,
                 reason: reason.text.trim(),
               )) {
                 showDialog(

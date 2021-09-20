@@ -19,14 +19,14 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future<bool> updateIn({
-    UserModel user,
     GroupModel group,
+    UserModel user,
   }) async {
-    if (user == null) return false;
     if (group == null) return false;
+    if (user == null) return false;
     try {
       List<String> _userIds = [];
-      _userIds = group.userIds;
+      _userIds = group?.userIds;
       if (!_userIds.contains(user.id)) {
         _userIds.add(user.id);
       }
@@ -42,9 +42,12 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateExit({UserModel user, GroupModel group}) async {
-    if (user == null) return false;
+  Future<bool> updateExit({
+    GroupModel group,
+    UserModel user,
+  }) async {
     if (group == null) return false;
+    if (user == null) return false;
     List<GroupModel> _groups = [];
     await _groupService.selectListUser(userId: user.id).then((value) {
       _groups = value;
