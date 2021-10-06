@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
@@ -36,6 +37,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<DateTime> _days = [];
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     setState(() => _days = generateDays(_month));
   }
 

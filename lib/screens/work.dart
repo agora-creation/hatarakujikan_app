@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
@@ -30,6 +31,14 @@ class _WorkScreenState extends State<WorkScreen> {
   bool locationError = false;
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     bool isGetLocation = await widget.userProvider.checkLocation();
     if (isGetLocation) {
       List<String> _locations = await widget.userProvider.getLocation();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
@@ -32,6 +33,14 @@ class _HistoryTotalState extends State<HistoryTotal> {
   String nightTime = '00:00';
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     await widget.workProvider
         .selectList(
       group: widget.userProvider.group,

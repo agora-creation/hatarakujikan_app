@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
@@ -30,6 +31,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   String _prefsGroupId = '';
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     String _prefs = await getPrefs(key: 'groupId');
     setState(() => _prefsGroupId = _prefs);
   }

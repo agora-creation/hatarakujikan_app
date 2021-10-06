@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:intl/intl.dart';
 
@@ -17,6 +19,14 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
   Set<Marker> markers = {};
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     WorkModel _work = widget.work;
     setState(() {
       markers.add(Marker(

@@ -1,11 +1,16 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:package_info/package_info.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void nextScreen(BuildContext context, Widget widget) {
   Navigator.push(
@@ -245,4 +250,45 @@ List<DateTime> separateDayNight({
     }
   }
   return [_dayS, _dayE, _nightS, _nightE];
+}
+
+// アップデートチェック
+Future<bool> checkUpdate() async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  final appVersionStr = packageInfo.version;
+  // 現在のアプリのバージョンを取得
+  final appVersion = Version.parse(appVersionStr);
+  // remoteConfigの初期化
+  final RemoteConfig remoteConfig = RemoteConfig.instance;
+  // RemoteConfigから値を取ってこれなかった場合のフォールバック
+  final defaultValues = <String, dynamic>{
+    'android_required_semver': appVersionStr,
+    'ios_required_semver': appVersionStr
+  };
+  await remoteConfig.setDefaults(defaultValues);
+  await remoteConfig.fetchAndActivate();
+  final remoteConfigAppVersionKey =
+      Platform.isIOS ? 'ios_required_semver' : 'android_required_semver';
+  final requiredVersion =
+      Version.parse(remoteConfig.getString(remoteConfigAppVersionKey));
+  return appVersion.compareTo(requiredVersion).isNegative;
+}
+
+// ストアURL
+const String iosUrl = 'https://itunes.apple.com/jp/app/id1571895381?mt=8';
+const String androidUrl =
+    'https://play.google.com/store/apps/details?id=com.agoracreation.hatarakujikan_app';
+
+void launchUpdate() async {
+  String _url;
+  if (Platform.isIOS) {
+    _url = iosUrl;
+  } else {
+    _url = androidUrl;
+  }
+  if (await canLaunch(_url)) {
+    await launch(_url);
+  } else {
+    throw 'Could not launch $_url';
+  }
 }

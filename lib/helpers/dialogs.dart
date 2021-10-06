@@ -1,9 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+class UpdaterDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'アップデートのお知らせ',
+        style: TextStyle(fontSize: 18.0),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('各種パフォーマンスの改善および新機能を追加しました。最新バージョンへのアップデートをお願いします。'),
+          SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomTextButton(
+                onPressed: () => Navigator.pop(context),
+                label: 'キャンセル',
+                color: Colors.grey,
+              ),
+              CustomTextButton(
+                onPressed: () => launchUpdate(),
+                label: 'アップデート',
+                color: Colors.blue,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class PermissionDialog extends StatelessWidget {
   @override

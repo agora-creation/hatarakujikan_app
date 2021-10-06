@@ -27,6 +27,14 @@ class _GroupScreenState extends State<GroupScreen> {
   String _prefsGroupId = '';
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     String _prefs = await getPrefs(key: 'groupId');
     setState(() => _prefsGroupId = _prefs);
   }

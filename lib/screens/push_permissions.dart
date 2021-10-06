@@ -1,6 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
@@ -41,6 +43,14 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
   NotificationSettings _settings;
 
   void _init() async {
+    checkUpdate().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
     setState(() => _fetching = true);
     await widget.userNoticeProvider.requestPermissions().then((value) {
       setState(() {
