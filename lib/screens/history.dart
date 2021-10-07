@@ -37,7 +37,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<DateTime> _days = [];
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,

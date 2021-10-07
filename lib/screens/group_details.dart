@@ -31,7 +31,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   String _prefsGroupId = '';
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,

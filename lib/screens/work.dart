@@ -31,7 +31,7 @@ class _WorkScreenState extends State<WorkScreen> {
   bool locationError = false;
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,

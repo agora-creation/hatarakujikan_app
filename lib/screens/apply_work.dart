@@ -33,7 +33,7 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
   TextEditingController reason = TextEditingController();
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,

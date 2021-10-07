@@ -8,7 +8,6 @@ import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -252,26 +251,25 @@ List<DateTime> separateDayNight({
   return [_dayS, _dayE, _nightS, _nightE];
 }
 
-// アップデートチェック
-Future<bool> checkUpdate() async {
-  final packageInfo = await PackageInfo.fromPlatform();
-  final appVersionStr = packageInfo.version;
-  // 現在のアプリのバージョンを取得
-  final appVersion = Version.parse(appVersionStr);
-  // remoteConfigの初期化
+// バージョンチェック
+Future<bool> versionCheck() async {
+  final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  int currentVersion = int.parse(packageInfo.buildNumber);
   final RemoteConfig remoteConfig = RemoteConfig.instance;
-  // RemoteConfigから値を取ってこれなかった場合のフォールバック
-  final defaultValues = <String, dynamic>{
-    'android_required_semver': appVersionStr,
-    'ios_required_semver': appVersionStr
-  };
-  await remoteConfig.setDefaults(defaultValues);
-  await remoteConfig.fetchAndActivate();
-  final remoteConfigAppVersionKey =
-      Platform.isIOS ? 'ios_required_semver' : 'android_required_semver';
-  final requiredVersion =
-      Version.parse(remoteConfig.getString(remoteConfigAppVersionKey));
-  return appVersion.compareTo(requiredVersion).isNegative;
+  try {
+    await remoteConfig.fetch();
+    await remoteConfig.fetchAndActivate();
+    final remoteConfigAppVersionKey =
+        Platform.isIOS ? 'ios_required_semver' : 'android_required_semver';
+    int newVersion = remoteConfig.getInt(remoteConfigAppVersionKey);
+    if (newVersion > currentVersion) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
 }
 
 // ストアURL

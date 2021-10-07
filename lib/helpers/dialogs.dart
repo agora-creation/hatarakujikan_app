@@ -21,13 +21,8 @@ class UpdaterDialog extends StatelessWidget {
           Text('各種パフォーマンスの改善および新機能を追加しました。最新バージョンへのアップデートをお願いします。'),
           SizedBox(height: 16.0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CustomTextButton(
-                onPressed: () => Navigator.pop(context),
-                label: 'キャンセル',
-                color: Colors.grey,
-              ),
               CustomTextButton(
                 onPressed: () => launchUpdate(),
                 label: 'アップデート',

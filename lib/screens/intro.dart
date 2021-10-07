@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/screens/registration.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
@@ -85,6 +86,17 @@ class _IntroScreenState extends State<IntroScreen> {
     ];
   }
 
+  void _init() async {
+    await versionCheck().then((value) {
+      if (!value) return;
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => UpdaterDialog(),
+      );
+    });
+  }
+
   void _complete(context) {
     changeScreen(context, RegistrationScreen());
   }
@@ -92,6 +104,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
     super.initState();
+    _init();
   }
 
   @override

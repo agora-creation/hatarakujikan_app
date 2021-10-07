@@ -33,7 +33,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
   String nightTime = '00:00';
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,

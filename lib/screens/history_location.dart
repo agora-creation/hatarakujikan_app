@@ -19,7 +19,7 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
   Set<Marker> markers = {};
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,

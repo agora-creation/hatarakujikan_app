@@ -43,7 +43,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
   NotificationSettings _settings;
 
   void _init() async {
-    checkUpdate().then((value) {
+    await versionCheck().then((value) {
       if (!value) return;
       showDialog(
         barrierDismissible: false,
