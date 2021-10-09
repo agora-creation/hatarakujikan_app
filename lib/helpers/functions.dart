@@ -259,8 +259,9 @@ Future<bool> versionCheck() async {
   try {
     await remoteConfig.fetch();
     await remoteConfig.fetchAndActivate();
-    final remoteConfigAppVersionKey =
-        Platform.isIOS ? 'ios_required_semver' : 'android_required_semver';
+    final remoteConfigAppVersionKey = Platform.isIOS
+        ? 'app_ios_required_semver'
+        : 'app_android_required_semver';
     int newVersion = remoteConfig.getInt(remoteConfigAppVersionKey);
     if (newVersion > currentVersion) {
       return true;
