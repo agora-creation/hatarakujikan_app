@@ -67,11 +67,28 @@ class WorkProvider with ChangeNotifier {
     try {
       WorkModel _work = await _workService.select(id: user?.lastWorkId);
       if (_work?.groupId != group?.id) return false;
+      List<Map> _breaks = [];
+      for (BreaksModel breaks in _work?.breaks) {
+        _breaks.add(breaks.toMap());
+      }
+      if (group?.autoBreak == true) {
+        String _id = randomString(20);
+        _breaks.add({
+          'id': _id,
+          'startedAt': DateTime.now(),
+          'startedLat': 0.0,
+          'startedLon': 0.0,
+          'endedAt': DateTime.now().add(Duration(hours: 1)),
+          'endedLat': 0.0,
+          'endedLon': 0.0,
+        });
+      }
       _workService.update({
         'id': user?.lastWorkId,
         'endedAt': DateTime.now(),
         'endedLat': locations.first,
         'endedLon': locations.last,
+        'breaks': _breaks,
       });
       int _workLv = 0;
       _userService.update({
