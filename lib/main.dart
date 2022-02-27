@@ -63,11 +63,12 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
-          const Locale('ja'),
+          const Locale('ja', ''),
         ],
-        locale: const Locale('ja'),
+        locale: const Locale('ja', ''),
         title: 'はたらくじかんforスマートフォン',
         theme: theme(),
         home: SplashController(),
