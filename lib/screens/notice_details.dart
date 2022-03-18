@@ -9,8 +9,8 @@ class NoticeDetailsScreen extends StatefulWidget {
   final UserNoticeModel notice;
 
   NoticeDetailsScreen({
-    @required this.userNoticeProvider,
-    @required this.notice,
+    required this.userNoticeProvider,
+    required this.notice,
   });
 
   @override
@@ -21,7 +21,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    if (!widget.notice.read) {
+    if (widget.notice.read == false) {
       widget.userNoticeProvider.updateRead(notice: widget.notice);
     }
   }
@@ -43,20 +43,20 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         children: [
           Text(
-            widget.notice?.title,
+            widget.notice.title ?? '',
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(height: 8.0),
-          Text(widget.notice?.message),
+          Text(widget.notice.message ?? ''),
           SizedBox(height: 8.0),
           Divider(),
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-              '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt)}',
+              '${DateFormat('yyyy/MM/dd HH:mm').format(widget.notice.createdAt ?? DateTime.now())}',
             ),
           ),
           SizedBox(height: 16.0),

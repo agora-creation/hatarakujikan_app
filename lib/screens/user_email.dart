@@ -8,7 +8,7 @@ import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 class UserEmailScreen extends StatefulWidget {
   final UserProvider userProvider;
 
-  UserEmailScreen({@required this.userProvider});
+  UserEmailScreen({required this.userProvider});
 
   @override
   _UserEmailScreenState createState() => _UserEmailScreenState();

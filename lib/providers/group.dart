@@ -7,7 +7,7 @@ import 'package:hatarakujikan_app/services/group.dart';
 class GroupProvider with ChangeNotifier {
   GroupService _groupService = GroupService();
 
-  Future<bool> updatePrefs({String groupId}) async {
+  Future<bool> updatePrefs({String? groupId}) async {
     if (groupId == '') return false;
     try {
       await setPrefs(key: 'groupId', value: groupId);
@@ -19,22 +19,22 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future<bool> updateIn({
-    GroupModel group,
-    UserModel user,
+    GroupModel? group,
+    UserModel? user,
   }) async {
     if (group == null) return false;
     if (user == null) return false;
     try {
       List<String> _userIds = [];
-      _userIds = group?.userIds;
+      _userIds = group.userIds;
       if (!_userIds.contains(user.id)) {
-        _userIds.add(user.id);
+        _userIds.add(user.id!);
       }
       _groupService.update({
         'id': '',
         'userIds': _userIds,
       });
-      await setPrefs(key: 'groupId', value: group?.id);
+      await setPrefs(key: 'groupId', value: group.id);
       return true;
     } catch (e) {
       print(e.toString());
@@ -43,8 +43,8 @@ class GroupProvider with ChangeNotifier {
   }
 
   Future<bool> updateExit({
-    GroupModel group,
-    UserModel user,
+    GroupModel? group,
+    UserModel? user,
   }) async {
     if (group == null) return false;
     if (user == null) return false;
@@ -74,11 +74,11 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
-  Future<GroupModel> select({String id}) async {
-    GroupModel _group;
+  Future<GroupModel> select({String? id}) async {
+    GroupModel? _group;
     await _groupService.select(id: id).then((value) {
       _group = value;
     });
-    return _group;
+    return _group!;
   }
 }

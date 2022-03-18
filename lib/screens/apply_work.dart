@@ -20,8 +20,8 @@ class ApplyWorkScreen extends StatefulWidget {
   final WorkModel work;
 
   ApplyWorkScreen({
-    @required this.user,
-    @required this.work,
+    required this.user,
+    required this.work,
   });
 
   @override
@@ -29,7 +29,7 @@ class ApplyWorkScreen extends StatefulWidget {
 }
 
 class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
-  WorkModel _work;
+  WorkModel? _work;
   TextEditingController reason = TextEditingController();
 
   void _init() async {
@@ -84,18 +84,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 3,
                 child: CustomDateButton(
                   onTap: () async {
-                    DateTime _selected = await showDatePicker(
+                    DateTime? _selected = await showDatePicker(
                       context: context,
-                      initialDate: _work.startedAt,
+                      initialDate: _work?.startedAt ?? DateTime.now(),
                       firstDate: kDayFirstDate,
                       lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
-                      _selected = rebuildDate(_selected, _work.startedAt);
-                      setState(() => _work.startedAt = _selected);
+                      _selected = rebuildDate(_selected, _work?.startedAt);
+                      setState(() => _work?.startedAt = _selected);
                     }
                   },
-                  label: '${DateFormat('yyyy/MM/dd').format(_work.startedAt)}',
+                  label:
+                      '${DateFormat('yyyy/MM/dd').format(_work?.startedAt ?? DateTime.now())}',
                 ),
               ),
               SizedBox(width: 4.0),
@@ -103,35 +104,36 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 2,
                 child: CustomTimeButton(
                   onTap: () async {
-                    TimeOfDay _selected = await showTimePicker(
+                    TimeOfDay? _selected = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay(
-                        hour: timeToInt(_work.startedAt)[0],
-                        minute: timeToInt(_work.startedAt)[1],
+                        hour: timeToInt(_work?.startedAt)[0],
+                        minute: timeToInt(_work?.startedAt)[1],
                       ),
                     );
                     if (_selected != null) {
                       DateTime _dateTime = rebuildTime(
                         context,
-                        _work.startedAt,
+                        _work?.startedAt,
                         _selected,
                       );
-                      setState(() => _work.startedAt = _dateTime);
+                      setState(() => _work?.startedAt = _dateTime);
                     }
                   },
-                  label: '${DateFormat('HH:mm').format(_work.startedAt)}',
+                  label:
+                      '${DateFormat('HH:mm').format(_work?.startedAt ?? DateTime.now())}',
                 ),
               ),
             ],
           ),
           SizedBox(height: 8.0),
-          _work.breaks.length > 0
+          _work?.breaks.length != 0
               ? ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: _work.breaks.length,
+                  itemCount: _work?.breaks.length,
                   itemBuilder: (_, index) {
-                    BreaksModel _breaks = _work.breaks[index];
+                    BreaksModel? _breaks = _work?.breaks[index];
                     return Column(
                       children: [
                         CustomIconLabel(
@@ -145,21 +147,22 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 3,
                               child: CustomDateButton(
                                 onTap: () async {
-                                  DateTime _selected = await showDatePicker(
+                                  DateTime? _selected = await showDatePicker(
                                     context: context,
-                                    initialDate: _breaks.startedAt,
+                                    initialDate:
+                                        _breaks?.startedAt ?? DateTime.now(),
                                     firstDate: kDayFirstDate,
                                     lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
                                     _selected = rebuildDate(
-                                        _selected, _breaks.startedAt);
+                                        _selected, _breaks?.startedAt);
                                     setState(
-                                        () => _breaks.startedAt = _selected);
+                                        () => _breaks?.startedAt = _selected);
                                   }
                                 },
                                 label:
-                                    '${DateFormat('yyyy/MM/dd').format(_breaks.startedAt)}',
+                                    '${DateFormat('yyyy/MM/dd').format(_breaks?.startedAt ?? DateTime.now())}',
                               ),
                             ),
                             SizedBox(width: 4.0),
@@ -167,25 +170,25 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 2,
                               child: CustomTimeButton(
                                 onTap: () async {
-                                  TimeOfDay _selected = await showTimePicker(
+                                  TimeOfDay? _selected = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
-                                      hour: timeToInt(_breaks.startedAt)[0],
-                                      minute: timeToInt(_breaks.startedAt)[1],
+                                      hour: timeToInt(_breaks?.startedAt)[0],
+                                      minute: timeToInt(_breaks?.startedAt)[1],
                                     ),
                                   );
                                   if (_selected != null) {
                                     DateTime _dateTime = rebuildTime(
                                       context,
-                                      _breaks.startedAt,
+                                      _breaks?.startedAt,
                                       _selected,
                                     );
                                     setState(
-                                        () => _breaks.startedAt = _dateTime);
+                                        () => _breaks?.startedAt = _dateTime);
                                   }
                                 },
                                 label:
-                                    '${DateFormat('HH:mm').format(_breaks.startedAt)}',
+                                    '${DateFormat('HH:mm').format(_breaks?.startedAt ?? DateTime.now())}',
                               ),
                             ),
                           ],
@@ -205,20 +208,22 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 3,
                               child: CustomDateButton(
                                 onTap: () async {
-                                  DateTime _selected = await showDatePicker(
+                                  DateTime? _selected = await showDatePicker(
                                     context: context,
-                                    initialDate: _breaks.endedAt,
+                                    initialDate:
+                                        _breaks?.endedAt ?? DateTime.now(),
                                     firstDate: kDayFirstDate,
                                     lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
-                                    _selected =
-                                        rebuildDate(_selected, _breaks.endedAt);
-                                    setState(() => _breaks.endedAt = _selected);
+                                    _selected = rebuildDate(
+                                        _selected, _breaks?.endedAt);
+                                    setState(
+                                        () => _breaks?.endedAt = _selected);
                                   }
                                 },
                                 label:
-                                    '${DateFormat('yyyy/MM/dd').format(_breaks.endedAt)}',
+                                    '${DateFormat('yyyy/MM/dd').format(_breaks?.endedAt ?? DateTime.now())}',
                               ),
                             ),
                             SizedBox(width: 4.0),
@@ -226,24 +231,25 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 2,
                               child: CustomTimeButton(
                                 onTap: () async {
-                                  TimeOfDay _selected = await showTimePicker(
+                                  TimeOfDay? _selected = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
-                                      hour: timeToInt(_breaks.endedAt)[0],
-                                      minute: timeToInt(_breaks.endedAt)[1],
+                                      hour: timeToInt(_breaks?.endedAt)[0],
+                                      minute: timeToInt(_breaks?.endedAt)[1],
                                     ),
                                   );
                                   if (_selected != null) {
                                     DateTime _dateTime = rebuildTime(
                                       context,
-                                      _breaks.endedAt,
+                                      _breaks?.endedAt,
                                       _selected,
                                     );
-                                    setState(() => _breaks.endedAt = _dateTime);
+                                    setState(
+                                        () => _breaks?.endedAt = _dateTime);
                                   }
                                 },
                                 label:
-                                    '${DateFormat('HH:mm').format(_breaks.endedAt)}',
+                                    '${DateFormat('HH:mm').format(_breaks?.endedAt ?? DateTime.now())}',
                               ),
                             ),
                           ],
@@ -265,18 +271,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 3,
                 child: CustomDateButton(
                   onTap: () async {
-                    DateTime _selected = await showDatePicker(
+                    DateTime? _selected = await showDatePicker(
                       context: context,
-                      initialDate: _work.endedAt,
+                      initialDate: _work?.endedAt ?? DateTime.now(),
                       firstDate: kDayFirstDate,
                       lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
-                      _selected = rebuildDate(_selected, _work.endedAt);
-                      setState(() => _work.endedAt = _selected);
+                      _selected = rebuildDate(_selected, _work?.endedAt);
+                      setState(() => _work?.endedAt = _selected);
                     }
                   },
-                  label: '${DateFormat('yyyy/MM/dd').format(_work.endedAt)}',
+                  label:
+                      '${DateFormat('yyyy/MM/dd').format(_work?.endedAt ?? DateTime.now())}',
                 ),
               ),
               SizedBox(width: 4.0),
@@ -284,23 +291,24 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 2,
                 child: CustomTimeButton(
                   onTap: () async {
-                    TimeOfDay _selected = await showTimePicker(
+                    TimeOfDay? _selected = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay(
-                        hour: timeToInt(_work.endedAt)[0],
-                        minute: timeToInt(_work.endedAt)[1],
+                        hour: timeToInt(_work?.endedAt)[0],
+                        minute: timeToInt(_work?.endedAt)[1],
                       ),
                     );
                     if (_selected != null) {
                       DateTime _dateTime = rebuildTime(
                         context,
-                        _work.endedAt,
+                        _work?.endedAt,
                         _selected,
                       );
-                      setState(() => _work.endedAt = _dateTime);
+                      setState(() => _work?.endedAt = _dateTime);
                     }
                   },
-                  label: '${DateFormat('HH:mm').format(_work.endedAt)}',
+                  label:
+                      '${DateFormat('HH:mm').format(_work?.endedAt ?? DateTime.now())}',
                 ),
               ),
             ],

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomExpandedButton extends StatelessWidget {
-  final Color backgroundColor;
-  final String label;
-  final Color color;
-  final Icon leading;
-  final Icon trailing;
-  final Function onTap;
+  final Color? backgroundColor;
+  final String? label;
+  final Color? color;
+  final Icon? leading;
+  final Icon? trailing;
+  final Function()? onTap;
 
   CustomExpandedButton({
     this.backgroundColor,
@@ -24,7 +24,7 @@ class CustomExpandedButton extends StatelessWidget {
       child: ListTile(
         leading: leading,
         title: Text(
-          label,
+          label!,
           style: TextStyle(color: color),
           overflow: TextOverflow.ellipsis,
         ),

@@ -21,7 +21,7 @@ class DateMachineUtil {
         '-' +
         '01';
     dateMap['start'] = DateUtil.formatDate(
-        DateTime.fromMillisecondsSinceEpoch(turnTimestamp(dateMap['start'])),
+        DateTime.fromMillisecondsSinceEpoch(turnTimestamp(dateMap['start']!)),
         format: 'yyyy-MM-dd');
     String endMonth = '$yearTime' +
         '-' +

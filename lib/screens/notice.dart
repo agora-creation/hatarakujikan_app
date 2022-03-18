@@ -12,14 +12,14 @@ import 'package:provider/provider.dart';
 class NoticeScreen extends StatelessWidget {
   final UserModel user;
 
-  NoticeScreen({@required this.user});
+  NoticeScreen({required this.user});
 
   @override
   Widget build(BuildContext context) {
     final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('user')
-        .doc(user?.id ?? 'error')
+        .doc(user.id ?? 'error')
         .collection('notice')
         .orderBy('createdAt', descending: true)
         .snapshots();
@@ -46,7 +46,8 @@ class NoticeScreen extends StatelessWidget {
             return Loading(color: Colors.cyan);
           }
           notices.clear();
-          for (DocumentSnapshot doc in snapshot.data.docs) {
+          for (DocumentSnapshot<Map<String, dynamic>> doc
+              in snapshot.data<Map<String, dynamic>>.docs) {
             notices.add(UserNoticeModel.fromSnapshot(doc));
           }
           if (notices.length > 0) {

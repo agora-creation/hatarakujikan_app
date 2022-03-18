@@ -31,7 +31,7 @@ const previewMap = {
 class PushPermissionsScreen extends StatefulWidget {
   final UserNoticeProvider userNoticeProvider;
 
-  PushPermissionsScreen({@required this.userNoticeProvider});
+  PushPermissionsScreen({required this.userNoticeProvider});
 
   @override
   _PushPermissionsScreenState createState() => _PushPermissionsScreenState();
@@ -40,7 +40,7 @@ class PushPermissionsScreen extends StatefulWidget {
 class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
   bool _requested = false;
   bool _fetching = false;
-  NotificationSettings _settings;
+  NotificationSettings? _settings;
 
   void _init() async {
     await versionCheck().then((value) {
@@ -90,7 +90,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                   child: ListTile(
                     title: Text('Authorization Status'),
                     trailing: _requested
-                        ? Text(statusMap[_settings.authorizationStatus])
+                        ? Text(statusMap[_settings?.authorizationStatus] ?? '')
                         : null,
                   ),
                 ),
@@ -100,7 +100,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Alert'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.alert])
+                              ? Text(settingsMap[_settings?.alert] ?? '')
                               : null,
                         ),
                       )
@@ -111,7 +111,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Announcement'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.announcement])
+                              ? Text(settingsMap[_settings?.announcement] ?? '')
                               : null,
                         ),
                       )
@@ -122,7 +122,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Badge'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.badge])
+                              ? Text(settingsMap[_settings?.badge] ?? '')
                               : null,
                         ),
                       )
@@ -133,7 +133,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Car Play'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.carPlay])
+                              ? Text(settingsMap[_settings?.carPlay] ?? '')
                               : null,
                         ),
                       )
@@ -144,7 +144,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Lock Screen'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.lockScreen])
+                              ? Text(settingsMap[_settings?.lockScreen] ?? '')
                               : null,
                         ),
                       )
@@ -155,7 +155,9 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Notification Center'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.notificationCenter])
+                              ? Text(
+                                  settingsMap[_settings?.notificationCenter] ??
+                                      '')
                               : null,
                         ),
                       )
@@ -166,7 +168,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Show Previews'),
                           trailing: _requested
-                              ? Text(previewMap[_settings.showPreviews])
+                              ? Text(previewMap[_settings?.showPreviews] ?? '')
                               : null,
                         ),
                       )
@@ -177,7 +179,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
                         child: ListTile(
                           title: Text('Sound'),
                           trailing: _requested
-                              ? Text(settingsMap[_settings.sound])
+                              ? Text(settingsMap[_settings?.sound] ?? '')
                               : null,
                         ),
                       )

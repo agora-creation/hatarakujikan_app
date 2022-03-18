@@ -4,8 +4,8 @@ import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:intl/intl.dart';
 
 class CustomNoticeListTile extends StatelessWidget {
-  final UserNoticeModel notice;
-  final Function onTap;
+  final UserNoticeModel? notice;
+  final Function()? onTap;
 
   CustomNoticeListTile({
     this.notice,
@@ -17,17 +17,19 @@ class CustomNoticeListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        leading: notice.read
+        leading: notice?.read == true
             ? Text('既読')
             : Text(
                 '未読',
                 style: TextStyle(color: Colors.red),
               ),
         title: Text(
-          notice.title,
+          notice?.title ?? '',
           overflow: TextOverflow.ellipsis,
         ),
-        subtitle: Text('${DateFormat('yyyy/MM/dd').format(notice.createdAt)}'),
+        subtitle: Text(
+          '${DateFormat('yyyy/MM/dd').format(notice?.createdAt ?? DateTime.now())}',
+        ),
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),

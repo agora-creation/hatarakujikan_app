@@ -14,9 +14,9 @@ class GroupQRViewScreen extends StatefulWidget {
   final GroupModel group;
 
   GroupQRViewScreen({
-    @required this.groupProvider,
-    @required this.userProvider,
-    @required this.group,
+    required this.groupProvider,
+    required this.userProvider,
+    required this.group,
   });
 
   @override
@@ -29,7 +29,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
   @override
   Widget build(BuildContext context) {
     var contain = widget.userProvider.groups.where(
-      (e) => e.id == widget.group?.id,
+      (e) => e.id == widget.group.id,
     );
 
     return Scaffold(
@@ -55,7 +55,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group?.name ?? ''),
+                    trailing: Text(widget.group.name ?? ''),
                   ),
                 ),
                 SizedBox(height: 16.0),

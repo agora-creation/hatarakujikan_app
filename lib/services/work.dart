@@ -19,27 +19,29 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<WorkModel> select({String id}) async {
-    WorkModel _work;
+  Future<WorkModel> select({String? id}) async {
+    WorkModel? _work;
     await _firebaseFirestore
         .collection(_collection)
         .doc(id)
         .get()
         .then((value) {
       _work = WorkModel.fromSnapshot(value);
+    }).catchError((e) {
+      _work = null;
     });
-    return _work;
+    return _work!;
   }
 
   Future<List<WorkModel>> selectList({
-    String groupId,
-    String userId,
-    DateTime startAt,
-    DateTime endAt,
+    String? groupId,
+    String? userId,
+    DateTime? startAt,
+    DateTime? endAt,
   }) async {
     List<WorkModel> _works = [];
-    Timestamp _startAt = convertTimestamp(startAt, false);
-    Timestamp _endAt = convertTimestamp(endAt, true);
+    Timestamp _startAt = convertTimestamp(startAt!, false);
+    Timestamp _endAt = convertTimestamp(endAt!, true);
     await _firebaseFirestore
         .collection(_collection)
         .where('groupId', isEqualTo: groupId)
@@ -49,7 +51,7 @@ class WorkService {
         .endAt([_endAt])
         .get()
         .then((value) {
-          for (DocumentSnapshot _work in value.docs) {
+          for (DocumentSnapshot<Map<String, dynamic>> _work in value.docs) {
             _works.add(WorkModel.fromSnapshot(_work));
           }
         });

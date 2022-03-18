@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
 class CustomHistoryDetailsListTile extends StatelessWidget {
-  final Icon icon;
-  final String label;
-  final String time;
+  final Icon? icon;
+  final String? label;
+  final String? time;
 
   CustomHistoryDetailsListTile({
     this.icon,
@@ -18,8 +18,8 @@ class CustomHistoryDetailsListTile extends StatelessWidget {
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: icon,
-        title: Text(label),
-        trailing: Text(time),
+        title: Text(label!),
+        trailing: Text(time!),
       ),
     );
   }

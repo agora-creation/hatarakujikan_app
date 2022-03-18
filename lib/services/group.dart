@@ -9,8 +9,8 @@ class GroupService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<GroupModel> select({String id}) async {
-    GroupModel _group;
+  Future<GroupModel> select({String? id}) async {
+    GroupModel? _group;
     await _firebaseFirestore
         .collection(_collection)
         .doc(id)
@@ -20,10 +20,10 @@ class GroupService {
     }).catchError((e) {
       _group = null;
     });
-    return _group;
+    return _group!;
   }
 
-  Future<List<GroupModel>> selectListUser({String userId}) async {
+  Future<List<GroupModel>> selectListUser({String? userId}) async {
     List<GroupModel> _groups = [];
     await _firebaseFirestore
         .collection(_collection)
@@ -31,7 +31,7 @@ class GroupService {
         .orderBy('createdAt', descending: true)
         .get()
         .then((value) {
-      for (DocumentSnapshot _group in value.docs) {
+      for (DocumentSnapshot<Map<String, dynamic>> _group in value.docs) {
         _groups.add(GroupModel.fromSnapshot(_group));
       }
     });

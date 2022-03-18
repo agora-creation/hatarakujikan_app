@@ -53,35 +53,35 @@ String randomString(int length) {
   return String.fromCharCodes(codeUnits);
 }
 
-Future<String> getPrefs({String key}) async {
+Future<String> getPrefs({String? key}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  return _prefs.getString(key) ?? '';
+  return _prefs.getString(key!) ?? '';
 }
 
-Future<void> setPrefs({String key, String value}) async {
+Future<void> setPrefs({String? key, String? value}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  _prefs.setString(key, value);
+  _prefs.setString(key!, value!);
 }
 
-Future<void> removePrefs({String key}) async {
+Future<void> removePrefs({String? key}) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  _prefs.remove(key);
+  _prefs.remove(key!);
 }
 
-DateTime rebuildDate(DateTime date, DateTime time) {
-  String _date = '${DateFormat('yyyy-MM-dd').format(date)}';
-  String _time = '${DateFormat('HH:mm').format(time)}:00.000';
+DateTime rebuildDate(DateTime? date, DateTime? time) {
+  String _date = '${DateFormat('yyyy-MM-dd').format(date!)}';
+  String _time = '${DateFormat('HH:mm').format(time!)}:00.000';
   return DateTime.parse('$_date $_time');
 }
 
-DateTime rebuildTime(BuildContext context, DateTime date, TimeOfDay time) {
-  String _date = '${DateFormat('yyyy-MM-dd').format(date)}';
-  String _time = '${time.format(context).padLeft(5, '0')}:00.000';
+DateTime rebuildTime(BuildContext context, DateTime? date, TimeOfDay? time) {
+  String _date = '${DateFormat('yyyy-MM-dd').format(date!)}';
+  String _time = '${time?.format(context).padLeft(5, '0')}:00.000';
   return DateTime.parse('$_date $_time');
 }
 
-List<int> timeToInt(DateTime dateTime) {
-  String _h = '${DateFormat('H').format(dateTime)}';
+List<int> timeToInt(DateTime? dateTime) {
+  String _h = '${DateFormat('H').format(dateTime!)}';
   String _m = '${DateFormat('m').format(dateTime)}';
   return [int.parse(_h), int.parse(_m)];
 }
@@ -165,17 +165,17 @@ List<DateTime> generateDays(DateTime month) {
 
 // 通常時間と深夜時間に分ける関数
 List<DateTime> separateDayNight({
-  DateTime startedAt,
-  DateTime endedAt,
-  String nightStart,
-  String nightEnd,
+  DateTime? startedAt,
+  DateTime? endedAt,
+  String? nightStart,
+  String? nightEnd,
 }) {
   DateTime _dayS;
   DateTime _dayE;
   DateTime _nightS;
   DateTime _nightE;
-  String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
-  String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+  String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt!)}';
+  String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt!)}';
   DateTime _ss = DateTime.parse('$_startedDate $nightStart:00.000');
   DateTime _se = DateTime.parse('$_startedDate $nightEnd:00.000');
   DateTime _es = DateTime.parse('$_endedDate $nightStart:00.000');
@@ -255,7 +255,7 @@ List<DateTime> separateDayNight({
 Future<bool> versionCheck() async {
   final PackageInfo packageInfo = await PackageInfo.fromPlatform();
   int currentVersion = int.parse(packageInfo.buildNumber);
-  final RemoteConfig remoteConfig = RemoteConfig.instance;
+  final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
   try {
     await remoteConfig.fetch();
     await remoteConfig.fetchAndActivate();

@@ -64,12 +64,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(Icons.notifications_off_outlined),
                 );
               }
-              List<DocumentSnapshot> docs = snapshot.data.docs;
+              List<DocumentSnapshot> docs = snapshot.data!.docs;
               if (docs.length == 0) {
                 return IconButton(
                   onPressed: () => overlayScreen(
                     context,
-                    NoticeScreen(user: userProvider.user),
+                    NoticeScreen(user: userProvider.user!),
                   ),
                   icon: Icon(Icons.notifications_none),
                 );
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return IconButton(
                   onPressed: () => overlayScreen(
                     context,
-                    NoticeScreen(user: userProvider.user),
+                    NoticeScreen(user: userProvider.user!),
                   ),
                   icon: Icon(
                     Icons.notification_important_sharp,

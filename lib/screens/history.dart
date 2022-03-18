@@ -23,8 +23,8 @@ class HistoryScreen extends StatefulWidget {
   final WorkProvider workProvider;
 
   HistoryScreen({
-    @required this.userProvider,
-    @required this.workProvider,
+    required this.userProvider,
+    required this.workProvider,
   });
 
   @override
@@ -47,8 +47,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    GroupModel _group = widget.userProvider.group;
-    UserModel _user = widget.userProvider.user;
+    GroupModel? _group = widget.userProvider.group;
+    UserModel? _user = widget.userProvider.user;
     Timestamp _startAt = convertTimestamp(_days.first, false);
     Timestamp _endAt = convertTimestamp(_days.last, true);
     Stream<QuerySnapshot> _streamWork = FirebaseFirestore.instance
@@ -75,7 +75,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   GroupSelect(userProvider: widget.userProvider),
                 ),
                 backgroundColor: Colors.blueGrey,
-                label: _group?.name ?? '',
+                label: _group.name ?? '',
                 color: Colors.white,
                 leading: Icon(Icons.store, color: Colors.white),
                 trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -112,13 +112,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   builder: (context, snapshot) {
                     _works.clear();
                     if (snapshot.item1.hasData) {
-                      for (DocumentSnapshot doc in snapshot.item1.data.docs) {
+                      for (DocumentSnapshot<Map<String, dynamic>> doc in snapshot.item1.data<Map<String, dynamic>>.docs) {
                         _works.add(WorkModel.fromSnapshot(doc));
                       }
                     }
                     _workShifts.clear();
                     if (snapshot.item2.hasData) {
-                      for (DocumentSnapshot doc in snapshot.item2.data.docs) {
+                      for (DocumentSnapshot<Map<String, dynamic>> doc in snapshot.item2.data<Map<String, dynamic>>.docs) {
                         _workShifts.add(WorkShiftModel.fromSnapshot(doc));
                       }
                     }
@@ -128,7 +128,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         DateFormat _format = DateFormat('yyyy-MM-dd');
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in _works) {
-                          String _start = '${_format.format(_work.startedAt)}';
+                          String _start = '${_format.format(_work?.startedAt)}';
                           if (_days[index] == DateTime.parse(_start)) {
                             _dayWorks.add(_work);
                           }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomWorkButton extends StatelessWidget {
-  final String label;
-  final Color color;
-  final Color backgroundColor;
-  final Color borderColor;
-  final Function onPressed;
+  final String? label;
+  final Color? color;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final Function()? onPressed;
 
   CustomWorkButton({
     this.label,
@@ -20,7 +20,7 @@ class CustomWorkButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        label,
+        label!,
         style: TextStyle(
           color: color,
           fontSize: 16.0,
@@ -29,7 +29,7 @@ class CustomWorkButton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor: backgroundColor,
         side: borderColor != null
-            ? BorderSide(color: borderColor, width: 1)
+            ? BorderSide(color: borderColor!, width: 1)
             : null,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.zero,

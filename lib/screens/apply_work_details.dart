@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class ApplyWorkDetailsScreen extends StatelessWidget {
   final ApplyWorkModel applyWork;
 
-  ApplyWorkDetailsScreen({@required this.applyWork});
+  ApplyWorkDetailsScreen({required this.applyWork});
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,12 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
           CustomApplyWorkListTile(
             label: '申請日時',
             value:
-                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.createdAt)}',
+                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.createdAt ?? DateTime.now())}',
           ),
           CustomApplyWorkListTile(
             label: '出勤日時',
             value:
-                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.startedAt)}',
+                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.startedAt ?? DateTime.now())}',
           ),
           applyWork.breaks.length > 0
               ? ListView.builder(
@@ -55,12 +55,12 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
                         CustomApplyWorkListTile(
                           label: '休憩開始日時',
                           value:
-                              '${DateFormat('yyyy/MM/dd HH:mm').format(_breaks.startedAt)}',
+                              '${DateFormat('yyyy/MM/dd HH:mm').format(_breaks.startedAt ?? DateTime.now())}',
                         ),
                         CustomApplyWorkListTile(
                           label: '休憩終了日時',
                           value:
-                              '${DateFormat('yyyy/MM/dd HH:mm').format(_breaks.endedAt)}',
+                              '${DateFormat('yyyy/MM/dd HH:mm').format(_breaks.endedAt ?? DateTime.now())}',
                         ),
                       ],
                     );
@@ -70,7 +70,7 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
           CustomApplyWorkListTile(
             label: '退勤日時',
             value:
-                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.endedAt)}',
+                '${DateFormat('yyyy/MM/dd HH:mm').format(applyWork.endedAt ?? DateTime.now())}',
           ),
           CustomApplyWorkListTile(
             label: '事由',

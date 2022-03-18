@@ -78,10 +78,10 @@ class WorkStartDialog extends StatefulWidget {
   final String state;
 
   WorkStartDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
-    @required this.state,
+    required this.userProvider,
+    required this.workProvider,
+    required this.locations,
+    required this.state,
   });
 
   @override
@@ -132,9 +132,9 @@ class WorkEndDialog extends StatefulWidget {
   final List<double> locations;
 
   WorkEndDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
+    required this.userProvider,
+    required this.workProvider,
+    required this.locations,
   });
 
   @override
@@ -184,9 +184,9 @@ class BreakStartDialog extends StatefulWidget {
   final List<double> locations;
 
   BreakStartDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
+    required this.userProvider,
+    required this.workProvider,
+    required this.locations,
   });
 
   @override
@@ -236,9 +236,9 @@ class BreakEndDialog extends StatefulWidget {
   final List<double> locations;
 
   BreakEndDialog({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
+    required this.userProvider,
+    required this.workProvider,
+    required this.locations,
   });
 
   @override

@@ -8,7 +8,7 @@ import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 class UserRecordPasswordScreen extends StatefulWidget {
   final UserProvider userProvider;
 
-  UserRecordPasswordScreen({@required this.userProvider});
+  UserRecordPasswordScreen({required this.userProvider});
 
   @override
   _UserRecordPasswordScreenState createState() =>

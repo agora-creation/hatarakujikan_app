@@ -7,7 +7,7 @@ import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 class UserPasswordScreen extends StatelessWidget {
   final UserProvider userProvider;
 
-  UserPasswordScreen({@required this.userProvider});
+  UserPasswordScreen({required this.userProvider});
 
   @override
   Widget build(BuildContext context) {

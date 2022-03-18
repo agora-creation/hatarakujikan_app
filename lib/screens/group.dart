@@ -15,8 +15,8 @@ class GroupScreen extends StatefulWidget {
   final UserProvider userProvider;
 
   GroupScreen({
-    @required this.groupProvider,
-    @required this.userProvider,
+    required this.groupProvider,
+    required this.userProvider,
   });
 
   @override
@@ -61,7 +61,7 @@ class _GroupScreenState extends State<GroupScreen> {
                         ),
                       ),
                       group: _group,
-                      fixed: _group?.id == _prefsGroupId,
+                      fixed: _group.id == _prefsGroupId,
                     );
                   },
                 )

@@ -14,8 +14,8 @@ class HistoryDetailsScreen extends StatelessWidget {
   final WorkModel work;
 
   HistoryDetailsScreen({
-    @required this.user,
-    @required this.work,
+    required this.user,
+    required this.work,
   });
 
   @override
@@ -26,7 +26,7 @@ class HistoryDetailsScreen extends StatelessWidget {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(work.startedAt)}',
+          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(work.startedAt ?? DateTime.now())}',
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),

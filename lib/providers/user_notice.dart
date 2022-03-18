@@ -6,7 +6,7 @@ import 'package:hatarakujikan_app/services/user_notice.dart';
 class UserNoticeProvider with ChangeNotifier {
   UserNoticeService _userNoticeService = UserNoticeService();
 
-  void updateRead({UserNoticeModel notice}) {
+  void updateRead({UserNoticeModel? notice}) {
     _userNoticeService.update({
       'id': notice?.id,
       'userId': notice?.userId,
@@ -14,7 +14,7 @@ class UserNoticeProvider with ChangeNotifier {
     });
   }
 
-  void delete({UserNoticeModel notice}) {
+  void delete({UserNoticeModel? notice}) {
     _userNoticeService.delete({
       'id': notice?.id,
       'userId': notice?.userId,

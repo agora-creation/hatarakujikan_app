@@ -2,15 +2,15 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:intl/intl.dart';
 
 class BreaksModel {
-  String _id;
-  DateTime startedAt;
-  double startedLat;
-  double startedLon;
-  DateTime endedAt;
-  double endedLat;
-  double endedLon;
+  String? _id;
+  DateTime? startedAt;
+  double? startedLat;
+  double? startedLon;
+  DateTime? endedAt;
+  double? endedLat;
+  double? endedLon;
 
-  String get id => _id;
+  String? get id => _id;
 
   BreaksModel.fromMap(Map data) {
     _id = data['id'];
@@ -33,21 +33,21 @@ class BreaksModel {
       };
 
   String startTime() {
-    String _time = '${DateFormat('HH:mm').format(startedAt)}';
+    String _time = '${DateFormat('HH:mm').format(startedAt!)}';
     return _time;
   }
 
   String endTime() {
-    String _time = '${DateFormat('HH:mm').format(endedAt)}';
+    String _time = '${DateFormat('HH:mm').format(endedAt!)}';
     return _time;
   }
 
   String breakTime() {
     String _time = '00:00';
-    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
+    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt!)}';
     String _startedTime = '${startTime()}:00.000';
     DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
-    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt!)}';
     String _endedTime = '${endTime()}:00.000';
     DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
     // 休憩開始時間と休憩終了時間の差を求める

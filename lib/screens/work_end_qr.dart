@@ -12,9 +12,9 @@ class WorkEndQRScreen extends StatefulWidget {
   final List<double> locations;
 
   WorkEndQRScreen({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
+    required this.userProvider,
+    required this.workProvider,
+    required this.locations,
   });
 
   @override
@@ -22,7 +22,7 @@ class WorkEndQRScreen extends StatefulWidget {
 }
 
 class _WorkEndQRScreenState extends State<WorkEndQRScreen> {
-  QRViewController _qrController;
+  QRViewController? _qrController;
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   bool _isQRScanned = false;
 
@@ -49,7 +49,7 @@ class _WorkEndQRScreenState extends State<WorkEndQRScreen> {
           SnackBar(content: Text('QRコードがありません')),
         );
       }
-      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code)) {
+      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code!)) {
         if (widget.userProvider.group?.id == scanData.code) {
           _nextAction();
         }

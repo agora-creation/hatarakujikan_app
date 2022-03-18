@@ -13,7 +13,7 @@ import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 class ApplyScreen extends StatefulWidget {
   final UserProvider userProvider;
 
-  ApplyScreen({@required this.userProvider});
+  ApplyScreen({required this.userProvider});
 
   @override
   _ApplyScreenState createState() => _ApplyScreenState();
@@ -22,8 +22,8 @@ class ApplyScreen extends StatefulWidget {
 class _ApplyScreenState extends State<ApplyScreen> {
   @override
   Widget build(BuildContext context) {
-    GroupModel _group = widget.userProvider.group;
-    UserModel _user = widget.userProvider.user;
+    GroupModel? _group = widget.userProvider.group;
+    UserModel? _user = widget.userProvider.user;
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('applyWork')
         .where('groupId', isEqualTo: _group?.id ?? 'error')
@@ -38,7 +38,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
             children: [
               CustomExpandedButton(
                 backgroundColor: Colors.blueGrey,
-                label: widget.userProvider.group?.name,
+                label: widget.userProvider.group?.name ?? '',
                 color: Colors.white,
                 leading: Icon(Icons.store, color: Colors.white),
                 trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -53,7 +53,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
                   builder: (context, snapshot) {
                     _applyWorks.clear();
                     if (snapshot.hasData) {
-                      for (DocumentSnapshot doc in snapshot.data.docs) {
+                      for (DocumentSnapshot<Map<String, dynamic>> doc
+                          in snapshot.data<Map<String, dynamic>>.docs) {
                         _applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
                       }
                     }

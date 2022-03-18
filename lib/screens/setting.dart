@@ -43,8 +43,8 @@ class SettingScreen extends StatelessWidget {
           CustomSettingListTile(
             onTap: () {
               userProvider.clearController();
-              userProvider.name.text = userProvider.user?.name;
-              userProvider.email.text = userProvider.user?.email;
+              userProvider.name.text = userProvider.user?.name ?? '';
+              userProvider.email.text = userProvider.user?.email ?? '';
               nextScreen(
                 context,
                 UserEmailScreen(userProvider: userProvider),
@@ -68,7 +68,7 @@ class SettingScreen extends StatelessWidget {
             onTap: () {
               userProvider.clearController();
               userProvider.recordPassword.text =
-                  userProvider.user?.recordPassword;
+                  userProvider.user?.recordPassword ?? '';
               nextScreen(
                 context,
                 UserRecordPasswordScreen(userProvider: userProvider),
@@ -171,7 +171,7 @@ class SettingScreen extends StatelessWidget {
 class SignOutDialog extends StatelessWidget {
   final UserProvider userProvider;
 
-  SignOutDialog({@required this.userProvider});
+  SignOutDialog({required this.userProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +210,7 @@ class SignOutDialog extends StatelessWidget {
 class DeleteDialog extends StatelessWidget {
   final UserProvider userProvider;
 
-  DeleteDialog({@required this.userProvider});
+  DeleteDialog({required this.userProvider});
 
   @override
   Widget build(BuildContext context) {

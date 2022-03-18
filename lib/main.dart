@@ -22,8 +22,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel',
   'High Importance Notifications',
-  'This channel is used for important notifications.',
+  description: 'This channel is used for important notifications.',
   importance: Importance.high,
+  playSound: true,
 );
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -83,13 +84,9 @@ class SplashController extends StatefulWidget {
 }
 
 class _SplashControllerState extends State<SplashController> {
-  @override
-  void initState() {
-    super.initState();
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage message) {
-      if (message != null) {}
+  void _init() async {
+    await FirebaseMessaging.instance.getInitialMessage().then((value) {
+      if (value != null) {}
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
@@ -103,7 +100,7 @@ class _SplashControllerState extends State<SplashController> {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              channel.description,
+              channelDescription: channel.description,
               icon: 'launch_background',
             ),
           ),
@@ -113,6 +110,12 @@ class _SplashControllerState extends State<SplashController> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
   }
 
   @override

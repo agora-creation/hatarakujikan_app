@@ -17,9 +17,9 @@ class GroupDetailsScreen extends StatefulWidget {
   final GroupModel group;
 
   GroupDetailsScreen({
-    @required this.groupProvider,
-    @required this.userProvider,
-    @required this.group,
+    required this.groupProvider,
+    required this.userProvider,
+    required this.group,
   });
 
   @override
@@ -56,7 +56,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text(widget.group?.name ?? ''),
+        title: Text(widget.group.name ?? ''),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
@@ -74,19 +74,19 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group?.name ?? ''),
+                    trailing: Text(widget.group.name ?? ''),
                   ),
                 ),
                 SizedBox(height: 16.0),
                 Center(
                   child: QrImage(
-                    data: widget.group?.id ?? '',
+                    data: widget.group.id ?? '',
                     version: QrVersions.auto,
                     size: 200.0,
                   ),
                 ),
                 SizedBox(height: 16.0),
-                _prefsGroupId == widget.group?.id
+                _prefsGroupId == widget.group.id
                     ? RoundBackgroundButton(
                         onPressed: null,
                         label: '既定に設定中',
@@ -116,7 +116,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         borderColor: Colors.blue,
                       ),
                 SizedBox(height: 8.0),
-                widget.userProvider.user?.id != widget.group?.adminUserId
+                widget.userProvider.user?.id != widget.group.adminUserId
                     ? RoundBorderButton(
                         onPressed: () async {
                           setState(() => _isLoading = true);

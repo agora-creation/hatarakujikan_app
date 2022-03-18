@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomIconLabel extends StatelessWidget {
-  final Icon icon;
-  final String label;
+  final Icon? icon;
+  final String? label;
 
   CustomIconLabel({
     this.icon,
@@ -15,9 +15,9 @@ class CustomIconLabel extends StatelessWidget {
       children: [
         Row(
           children: [
-            icon,
+            icon!,
             SizedBox(width: 4.0),
-            Text(label),
+            Text(label!),
           ],
         ),
       ],

@@ -5,38 +5,38 @@ import 'package:hatarakujikan_app/models/group.dart';
 import 'package:intl/intl.dart';
 
 class WorkModel {
-  String _id;
-  String _groupId;
-  String _userId;
-  DateTime startedAt;
-  double startedLat;
-  double startedLon;
-  DateTime endedAt;
-  double endedLat;
-  double endedLon;
-  List<BreaksModel> breaks;
-  String _state;
-  DateTime _createdAt;
+  String? _id;
+  String? _groupId;
+  String? _userId;
+  DateTime? startedAt;
+  double? startedLat;
+  double? startedLon;
+  DateTime? endedAt;
+  double? endedLat;
+  double? endedLon;
+  List<BreaksModel> breaks = [];
+  String? _state;
+  DateTime? _createdAt;
 
-  String get id => _id;
-  String get groupId => _groupId;
-  String get userId => _userId;
-  String get state => _state;
-  DateTime get createdAt => _createdAt;
+  String? get id => _id;
+  String? get groupId => _groupId;
+  String? get userId => _userId;
+  String? get state => _state;
+  DateTime? get createdAt => _createdAt;
 
-  WorkModel.fromSnapshot(DocumentSnapshot snapshot) {
-    _id = snapshot.data()['id'];
-    _groupId = snapshot.data()['groupId'];
-    _userId = snapshot.data()['userId'];
-    startedAt = snapshot.data()['startedAt'].toDate();
-    startedLat = snapshot.data()['startedLat'].toDouble();
-    startedLon = snapshot.data()['startedLon'].toDouble();
-    endedAt = snapshot.data()['endedAt'].toDate();
-    endedLat = snapshot.data()['endedLat'].toDouble();
-    endedLon = snapshot.data()['endedLon'].toDouble();
-    breaks = _convertBreaks(snapshot.data()['breaks']) ?? [];
-    _state = snapshot.data()['state'] ?? '';
-    _createdAt = snapshot.data()['createdAt'].toDate();
+  WorkModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    _id = snapshot.data()!['id'] ?? '';
+    _groupId = snapshot.data()!['groupId'] ?? '';
+    _userId = snapshot.data()!['userId'] ?? '';
+    startedAt = snapshot.data()!['startedAt'].toDate();
+    startedLat = snapshot.data()!['startedLat'].toDouble();
+    startedLon = snapshot.data()!['startedLon'].toDouble();
+    endedAt = snapshot.data()!['endedAt'].toDate();
+    endedLat = snapshot.data()!['endedLat'].toDouble();
+    endedLon = snapshot.data()!['endedLon'].toDouble();
+    breaks = _convertBreaks(snapshot.data()!['breaks']);
+    _state = snapshot.data()!['state'] ?? '';
+    _createdAt = snapshot.data()!['createdAt'].toDate();
   }
 
   List<BreaksModel> _convertBreaks(List breaks) {
@@ -48,12 +48,12 @@ class WorkModel {
   }
 
   String startTime() {
-    String _time = '${DateFormat('HH:mm').format(startedAt)}';
+    String _time = '${DateFormat('HH:mm').format(startedAt!)}';
     return _time;
   }
 
   String endTime() {
-    String _time = '${DateFormat('HH:mm').format(endedAt)}';
+    String _time = '${DateFormat('HH:mm').format(endedAt!)}';
     return _time;
   }
 
@@ -69,10 +69,10 @@ class WorkModel {
 
   String workTime() {
     String _time = '00:00';
-    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
+    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt!)}';
     String _startedTime = '${startTime()}:00.000';
     DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
-    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt!)}';
     String _endedTime = '${endTime()}:00.000';
     DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
     // 出勤時間と退勤時間の差を求める
@@ -96,7 +96,7 @@ class WorkModel {
     String _time1 = '00:00';
     String _time2 = '00:00';
     List<String> _times = workTime().split(':');
-    if (group.legal <= int.parse(_times.first)) {
+    if (group.legal! <= int.parse(_times.first)) {
       _time1 = addTime(_time1, '0${group.legal}:00');
       String _tmp = subTime(workTime(), '0${group.legal}:00');
       _time2 = addTime(_time2, _tmp);
@@ -111,10 +111,10 @@ class WorkModel {
   List<String> nightTimes(GroupModel group) {
     String _time1 = '00:00';
     String _time2 = '00:00';
-    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
+    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt!)}';
     String _startedTime = '${startTime()}:00.000';
     DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
-    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt!)}';
     String _endedTime = '${endTime()}:00.000';
     DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
     // ----------------------------------------

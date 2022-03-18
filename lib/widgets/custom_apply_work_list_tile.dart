@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
 class CustomApplyWorkListTile extends StatelessWidget {
-  final String label;
-  final String value;
+  final String? label;
+  final String? value;
 
   CustomApplyWorkListTile({
     this.label,
@@ -18,8 +18,8 @@ class CustomApplyWorkListTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 14.0)),
-          Text(value, style: TextStyle(color: Colors.black87, fontSize: 18.0)),
+          Text(label!, style: TextStyle(fontSize: 14.0)),
+          Text(value!, style: TextStyle(color: Colors.black87, fontSize: 18.0)),
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'package:hatarakujikan_app/widgets/custom_group_select_list_tile.dart';
 class GroupSelect extends StatelessWidget {
   final UserProvider userProvider;
 
-  GroupSelect({@required this.userProvider});
+  GroupSelect({required this.userProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class GroupSelect extends StatelessWidget {
               Navigator.of(context, rootNavigator: true).pop();
             },
             group: _group,
-            selected: _group?.id == userProvider.group?.id,
+            selected: _group.id == userProvider.group?.id,
           );
         },
       ),

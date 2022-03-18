@@ -8,10 +8,10 @@ import 'package:hatarakujikan_app/screens/history_details.dart';
 import 'package:intl/intl.dart';
 
 class CustomHistoryListTile extends StatelessWidget {
-  final UserModel user;
-  final DateTime day;
-  final List<WorkModel> dayWorks;
-  final WorkShiftModel dayWorkShift;
+  final UserModel? user;
+  final DateTime? day;
+  final List<WorkModel>? dayWorks;
+  final WorkShiftModel? dayWorkShift;
 
   CustomHistoryListTile({
     this.user,
@@ -22,21 +22,22 @@ class CustomHistoryListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int dayWorksLength = dayWorks?.length ?? 0;
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: Text(
-          '${DateFormat('dd (E)', 'ja').format(day)}',
+          '${DateFormat('dd (E)', 'ja').format(day!)}',
           style: kListDayTextStyle,
         ),
-        title: dayWorks.length > 0
+        title: dayWorksLength > 0
             ? ListView.separated(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 separatorBuilder: (_, index) => Divider(height: 0.0),
-                itemCount: dayWorks.length,
+                itemCount: dayWorksLength,
                 itemBuilder: (_, index) {
-                  WorkModel _work = dayWorks[index];
+                  WorkModel? _work = dayWorks![index];
                   if (_work.startedAt != _work.endedAt) {
                     String _startTime = _work.startTime();
                     String _endTime = _work.endTime();
@@ -60,7 +61,7 @@ class CustomHistoryListTile extends StatelessWidget {
                       onTap: () => nextScreen(
                         context,
                         HistoryDetailsScreen(
-                          user: user,
+                          user: user!,
                           work: _work,
                         ),
                       ),
@@ -76,9 +77,9 @@ class CustomHistoryListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Chip(
-                          backgroundColor: dayWorkShift.stateColor(),
+                          backgroundColor: dayWorkShift?.stateColor(),
                           label: Text(
-                            '${dayWorkShift.state}',
+                            '${dayWorkShift?.state}',
                             style: TextStyle(fontSize: 10.0),
                           ),
                         ),

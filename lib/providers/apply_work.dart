@@ -9,26 +9,26 @@ class ApplyWorkProvider with ChangeNotifier {
   ApplyWorkService _applyWorkService = ApplyWorkService();
 
   Future<bool> create({
-    UserModel user,
-    WorkModel work,
-    String reason,
+    UserModel? user,
+    WorkModel? work,
+    String? reason,
   }) async {
     if (user == null) return false;
     if (work == null) return false;
     try {
       String _id = _applyWorkService.id();
       List<Map> _breaks = [];
-      for (BreaksModel breaks in work?.breaks) {
+      for (BreaksModel breaks in work.breaks) {
         _breaks.add(breaks.toMap());
       }
       _applyWorkService.create({
         'id': _id,
-        'workId': work?.id,
-        'groupId': work?.groupId,
-        'userId': work?.userId,
-        'userName': user?.name,
-        'startedAt': work?.startedAt,
-        'endedAt': work?.endedAt,
+        'workId': work.id,
+        'groupId': work.groupId,
+        'userId': work.userId,
+        'userName': user.name,
+        'endedAt': work.endedAt,
+        'startedAt': work.startedAt,
         'breaks': _breaks,
         'reason': reason,
         'approval': false,
@@ -41,7 +41,7 @@ class ApplyWorkProvider with ChangeNotifier {
     }
   }
 
-  void delete({ApplyWorkModel applyWork}) {
+  void delete({ApplyWorkModel? applyWork}) {
     _applyWorkService.delete({'id': applyWork?.id});
   }
 }

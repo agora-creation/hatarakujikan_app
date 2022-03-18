@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
@@ -13,8 +12,8 @@ class GroupQRScreen extends StatefulWidget {
   final UserProvider userProvider;
 
   GroupQRScreen({
-    @required this.groupProvider,
-    @required this.userProvider,
+    required this.groupProvider,
+    required this.userProvider,
   });
 
   @override
@@ -22,10 +21,10 @@ class GroupQRScreen extends StatefulWidget {
 }
 
 class _GroupQRScreenState extends State<GroupQRScreen> {
-  QRViewController _qrController;
+  QRViewController? _qrController;
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   bool _isQRScanned = false;
-  GroupModel _group;
+  GroupModel? _group;
 
   @override
   void reassemble() {
@@ -50,13 +49,13 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
           SnackBar(content: Text('QRコードがありません')),
         );
       }
-      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code)) {
-        _nextScreen(groupId: scanData.code);
+      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code!)) {
+        _nextScreen(groupId: scanData.code!);
       }
     });
   }
 
-  Future<void> _nextScreen({String groupId}) async {
+  Future<void> _nextScreen({String? groupId}) async {
     _group = await widget.groupProvider.select(id: groupId);
     if (_group != null) {
       if (!_isQRScanned) {
@@ -68,7 +67,7 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
             builder: (context) => GroupQRViewScreen(
               groupProvider: widget.groupProvider,
               userProvider: widget.userProvider,
-              group: _group,
+              group: _group!,
             ),
           ),
         ).then((value) {

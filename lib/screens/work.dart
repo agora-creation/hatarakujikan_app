@@ -14,8 +14,8 @@ class WorkScreen extends StatefulWidget {
   final WorkProvider workProvider;
 
   WorkScreen({
-    @required this.userProvider,
-    @required this.workProvider,
+    required this.userProvider,
+    required this.workProvider,
   });
 
   @override
@@ -23,8 +23,8 @@ class WorkScreen extends StatefulWidget {
 }
 
 class _WorkScreenState extends State<WorkScreen> {
-  GoogleMapController mapController;
-  List<double> locations;
+  GoogleMapController? mapController;
+  List<double> locations = [];
   bool error = false;
   String errorText = '';
   bool locationError = false;
@@ -33,17 +33,17 @@ class _WorkScreenState extends State<WorkScreen> {
     bool isGetLocation = await widget.userProvider.checkLocation();
     if (isGetLocation) {
       List<String> _locations = await widget.userProvider.getLocation();
-      if (_locations != null && mounted) {
+      if (_locations.length != 0 && mounted) {
         setState(() {
           locations = [
-            double.parse(_locations?.first ?? 0),
-            double.parse(_locations?.last ?? 0),
+            double.parse(_locations.first),
+            double.parse(_locations.last),
           ];
           if (widget.userProvider.group?.areaSecurity == true) {
             if (!areaCheck(
-              widget.userProvider.group?.areaLat,
-              widget.userProvider.group?.areaLon,
-              widget.userProvider.group?.areaRange,
+              widget.userProvider.group?.areaLat ?? 0,
+              widget.userProvider.group?.areaLon ?? 0,
+              widget.userProvider.group?.areaRange ?? 0,
               locations,
             )) {
               locationError = true;
@@ -55,7 +55,7 @@ class _WorkScreenState extends State<WorkScreen> {
           errorText = '会社/組織に所属していません';
         }
       }
-      if (locations == null) {
+      if (locations.length == 0) {
         error = true;
         errorText = '位置情報の取得に失敗しました';
       }
@@ -67,17 +67,17 @@ class _WorkScreenState extends State<WorkScreen> {
 
   Future<void> _future() async {
     List<String> _locations = await widget.userProvider.getLocation();
-    if (_locations != null && mounted) {
+    if (_locations.length != 0 && mounted) {
       setState(() {
         locations = [
-          double.parse(_locations?.first ?? 0),
-          double.parse(_locations?.last ?? 0),
+          double.parse(_locations.first),
+          double.parse(_locations.last),
         ];
         if (widget.userProvider.group?.areaSecurity == true) {
           if (!areaCheck(
-            widget.userProvider.group?.areaLat,
-            widget.userProvider.group?.areaLon,
-            widget.userProvider.group?.areaRange,
+            widget.userProvider.group?.areaLat ?? 0,
+            widget.userProvider.group?.areaLon ?? 0,
+            widget.userProvider.group?.areaRange ?? 0,
             locations,
           )) {
             locationError = true;
@@ -120,7 +120,7 @@ class _WorkScreenState extends State<WorkScreen> {
             builder: (context, snapshot) {
               return Container(
                 height: double.infinity,
-                child: locations != null
+                child: locations.length != 0
                     ? GoogleMap(
                         onMapCreated: _onMapCreated,
                         initialCameraPosition: CameraPosition(
@@ -135,15 +135,16 @@ class _WorkScreenState extends State<WorkScreen> {
                                 Circle(
                                   circleId: CircleId('area'),
                                   center: LatLng(
-                                    widget.userProvider.group?.areaLat,
-                                    widget.userProvider.group?.areaLon,
+                                    widget.userProvider.group?.areaLat ?? 0,
+                                    widget.userProvider.group?.areaLon ?? 0,
                                   ),
-                                  radius: widget.userProvider.group?.areaRange,
+                                  radius:
+                                      widget.userProvider.group?.areaRange ?? 0,
                                   fillColor: Colors.red.withOpacity(0.3),
                                   strokeColor: Colors.transparent,
                                 ),
                               ])
-                            : null,
+                            : Set<Circle>(),
                         compassEnabled: false,
                         rotateGesturesEnabled: false,
                         tiltGesturesEnabled: false,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ErrorListTile extends StatelessWidget {
-  final String label;
+  final String? label;
 
   ErrorListTile({this.label});
 
@@ -10,7 +10,7 @@ class ErrorListTile extends StatelessWidget {
     return ListTile(
       tileColor: Colors.redAccent,
       title: Text(
-        label,
+        label!,
         style: TextStyle(color: Colors.white, fontSize: 14.0),
       ),
     );

@@ -18,11 +18,11 @@ class WorkButton extends StatelessWidget {
   final bool locationError;
 
   WorkButton({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.locations,
-    @required this.error,
-    @required this.locationError,
+    required this.userProvider,
+    required this.workProvider,
+    required this.locations,
+    required this.error,
+    required this.locationError,
   });
 
   @override

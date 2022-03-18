@@ -15,10 +15,10 @@ class HistoryTotal extends StatefulWidget {
   final GroupModel group;
 
   HistoryTotal({
-    @required this.userProvider,
-    @required this.workProvider,
-    @required this.days,
-    @required this.group,
+    required this.userProvider,
+    required this.workProvider,
+    required this.days,
+    required this.group,
   });
 
   @override
@@ -56,14 +56,15 @@ class _HistoryTotalState extends State<HistoryTotal> {
       String _nonLegalTime = '00:00';
       String _nightTime = '00:00';
       for (WorkModel _work in value) {
-        if (_work?.startedAt != _work?.endedAt) {
-          String _key = '${DateFormat('yyyy-MM-dd').format(_work?.startedAt)}';
+        if (_work.startedAt != _work.endedAt) {
+          String _key =
+              '${DateFormat('yyyy-MM-dd').format(_work.startedAt ?? DateTime.now())}';
           _count[_key] = '';
-          _workTime = addTime(_workTime, _work?.workTime());
-          List<String> _legalTimes = _work?.legalTimes(widget.group);
+          _workTime = addTime(_workTime, _work.workTime());
+          List<String> _legalTimes = _work.legalTimes(widget.group);
           _legalTime = addTime(_legalTime, _legalTimes.first);
           _nonLegalTime = addTime(_nonLegalTime, _legalTimes.last);
-          List<String> _nightTimes = _work?.nightTimes(widget.group);
+          List<String> _nightTimes = _work.nightTimes(widget.group);
           _nightTime = addTime(_nightTime, _nightTimes.last);
         }
       }
@@ -110,7 +111,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
             decoration: kBottomBorderDecoration,
             child: ListTile(
               title: Text('会社/組織'),
-              trailing: Text(widget.group?.name ?? ''),
+              trailing: Text(widget.group.name ?? ''),
             ),
           ),
           Container(
