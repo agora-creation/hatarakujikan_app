@@ -1,25 +1,24 @@
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:intl/intl.dart';
 
 class BreaksModel {
-  String? _id;
-  DateTime? startedAt;
-  double? startedLat;
-  double? startedLon;
-  DateTime? endedAt;
-  double? endedLat;
-  double? endedLon;
+  String _id = '';
+  DateTime startedAt = DateTime.now();
+  double startedLat = 0;
+  double startedLon = 0;
+  DateTime endedAt = DateTime.now();
+  double endedLat = 0;
+  double endedLon = 0;
 
-  String? get id => _id;
+  String get id => _id;
 
   BreaksModel.fromMap(Map data) {
-    _id = data['id'];
-    startedAt = data['startedAt'].toDate();
-    startedLat = data['startedLat'].toDouble();
-    startedLon = data['startedLon'].toDouble();
-    endedAt = data['endedAt'].toDate();
-    endedLat = data['endedLat'].toDouble();
-    endedLon = data['endedLon'].toDouble();
+    _id = data['id'] ?? '';
+    startedAt = data['startedAt'].toDate() ?? DateTime.now();
+    startedLat = data['startedLat'].toDouble() ?? 0;
+    startedLon = data['startedLon'].toDouble() ?? 0;
+    endedAt = data['endedAt'].toDate() ?? DateTime.now();
+    endedLat = data['endedLat'].toDouble() ?? 0;
+    endedLon = data['endedLon'].toDouble() ?? 0;
   }
 
   Map toMap() => {
@@ -33,21 +32,21 @@ class BreaksModel {
       };
 
   String startTime() {
-    String _time = '${DateFormat('HH:mm').format(startedAt!)}';
+    String _time = dateText('HH:mm', startedAt);
     return _time;
   }
 
   String endTime() {
-    String _time = '${DateFormat('HH:mm').format(endedAt!)}';
+    String _time = dateText('HH:mm', endedAt);
     return _time;
   }
 
   String breakTime() {
     String _time = '00:00';
-    String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt!)}';
+    String _startedDate = dateText('yyyy-MM-dd', startedAt);
     String _startedTime = '${startTime()}:00.000';
     DateTime _startedAt = DateTime.parse('$_startedDate $_startedTime');
-    String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt!)}';
+    String _endedDate = dateText('yyyy-MM-dd', endedAt);
     String _endedTime = '${endTime()}:00.000';
     DateTime _endedAt = DateTime.parse('$_endedDate $_endedTime');
     // 休憩開始時間と休憩終了時間の差を求める

@@ -55,7 +55,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group.name ?? ''),
+                    trailing: Text(widget.group.name),
                   ),
                 ),
                 SizedBox(height: 16.0),
@@ -65,7 +65,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateIn(
                             group: widget.group,
-                            user: widget.userProvider.user,
+                            user: widget.userProvider.user!,
                           )) {
                             setState(() => _isLoading = false);
                             showDialog(

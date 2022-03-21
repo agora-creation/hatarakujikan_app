@@ -56,7 +56,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text(widget.group.name ?? ''),
+        title: Text(widget.group.name),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
@@ -74,13 +74,13 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                       '会社/組織名',
                       style: TextStyle(color: Colors.black54),
                     ),
-                    trailing: Text(widget.group.name ?? ''),
+                    trailing: Text(widget.group.name),
                   ),
                 ),
                 SizedBox(height: 16.0),
                 Center(
                   child: QrImage(
-                    data: widget.group.id ?? '',
+                    data: widget.group.id,
                     version: QrVersions.auto,
                     size: 200.0,
                   ),
@@ -116,12 +116,12 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         borderColor: Colors.blue,
                       ),
                 SizedBox(height: 8.0),
-                widget.userProvider.user?.id != widget.group.adminUserId
+                widget.userProvider.user!.id != widget.group.adminUserId
                     ? RoundBorderButton(
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
-                            user: widget.userProvider.user,
+                            user: widget.userProvider.user!,
                             group: widget.group,
                           )) {
                             setState(() => _isLoading = false);

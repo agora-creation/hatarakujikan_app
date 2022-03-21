@@ -20,7 +20,7 @@ class RoundBackgroundButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         child: Text(
-          label!,
+          label ?? '',
           style: TextStyle(
             color: color,
             fontSize: 16.0,

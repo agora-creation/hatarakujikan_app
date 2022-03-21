@@ -24,7 +24,7 @@ class CustomExpandedButton extends StatelessWidget {
       child: ListTile(
         leading: leading,
         title: Text(
-          label!,
+          label ?? '',
           style: TextStyle(color: color),
           overflow: TextOverflow.ellipsis,
         ),

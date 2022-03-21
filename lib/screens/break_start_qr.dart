@@ -50,7 +50,7 @@ class _BreakStartQRScreenState extends State<BreakStartQRScreen> {
         );
       }
       if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code!)) {
-        if (widget.userProvider.group?.id == scanData.code) {
+        if (widget.userProvider.group!.id == scanData.code) {
           _nextAction();
         }
       }

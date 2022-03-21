@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/work.dart';
-import 'package:intl/intl.dart';
 
 class HistoryLocationScreen extends StatefulWidget {
   final WorkModel work;
@@ -32,51 +31,47 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
       markers.add(Marker(
         markerId: MarkerId('start_${_work.id}'),
         position: LatLng(
-          _work.startedLat ?? 0,
-          _work.startedLon ?? 0,
+          _work.startedLat,
+          _work.startedLon,
         ),
         infoWindow: InfoWindow(
           title: '出勤日時',
-          snippet:
-              '${DateFormat('yyyy/MM/dd HH:mm').format(_work.startedAt ?? DateTime.now())}',
+          snippet: dateText('yyyy/MM/dd HH:mm', _work.startedAt),
         ),
       ));
       _work.breaks.forEach((e) {
         markers.add(Marker(
           markerId: MarkerId('start_${e.id}'),
           position: LatLng(
-            e.startedLat ?? 0,
-            e.startedLon ?? 0,
+            e.startedLat,
+            e.startedLon,
           ),
           infoWindow: InfoWindow(
             title: '休憩開始日時',
-            snippet:
-                '${DateFormat('yyyy/MM/dd HH:mm').format(e.startedAt ?? DateTime.now())}',
+            snippet: dateText('yyyy/MM/dd HH:mm', e.startedAt),
           ),
         ));
         markers.add(Marker(
           markerId: MarkerId('end_${e.id}'),
           position: LatLng(
-            e.endedLat ?? 0,
-            e.endedLon ?? 0,
+            e.endedLat,
+            e.endedLon,
           ),
           infoWindow: InfoWindow(
             title: '休憩終了日時',
-            snippet:
-                '${DateFormat('yyyy/MM/dd HH:mm').format(e.endedAt ?? DateTime.now())}',
+            snippet: dateText('yyyy/MM/dd HH:mm', e.endedAt),
           ),
         ));
       });
       markers.add(Marker(
         markerId: MarkerId('end_${_work.id}'),
         position: LatLng(
-          _work.endedLat ?? 0,
-          _work.endedLon ?? 0,
+          _work.endedLat,
+          _work.endedLon,
         ),
         infoWindow: InfoWindow(
           title: '退勤日時',
-          snippet:
-              '${DateFormat('yyyy/MM/dd HH:mm').format(_work.endedAt ?? DateTime.now())}',
+          snippet: dateText('yyyy/MM/dd HH:mm', _work.endedAt),
         ),
       ));
     });
@@ -112,8 +107,8 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
           markers: markers,
           initialCameraPosition: CameraPosition(
             target: LatLng(
-              widget.work.startedLat ?? 0,
-              widget.work.startedLon ?? 0,
+              widget.work.startedLat,
+              widget.work.startedLon,
             ),
             zoom: 17.0,
           ),

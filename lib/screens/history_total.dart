@@ -6,7 +6,6 @@ import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
-import 'package:intl/intl.dart';
 
 class HistoryTotal extends StatefulWidget {
   final UserProvider userProvider;
@@ -43,8 +42,8 @@ class _HistoryTotalState extends State<HistoryTotal> {
     });
     await widget.workProvider
         .selectList(
-      group: widget.userProvider.group,
-      user: widget.userProvider.user,
+      group: widget.userProvider.group!,
+      user: widget.userProvider.user!,
       startAt: widget.days.first,
       endAt: widget.days.last,
     )
@@ -57,8 +56,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
       String _nightTime = '00:00';
       for (WorkModel _work in value) {
         if (_work.startedAt != _work.endedAt) {
-          String _key =
-              '${DateFormat('yyyy-MM-dd').format(_work.startedAt ?? DateTime.now())}';
+          String _key = dateText('yyyy-MM-dd', _work.startedAt);
           _count[_key] = '';
           _workTime = addTime(_workTime, _work.workTime());
           List<String> _legalTimes = _work.legalTimes(widget.group);
@@ -94,7 +92,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${DateFormat('yyyy年MM月').format(widget.days.first)}の集計',
+          '${dateText('yyyy年MM月', widget.days.first)}の集計',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -111,7 +109,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
             decoration: kBottomBorderDecoration,
             child: ListTile(
               title: Text('会社/組織'),
-              trailing: Text(widget.group.name ?? ''),
+              trailing: Text(widget.group.name),
             ),
           ),
           Container(

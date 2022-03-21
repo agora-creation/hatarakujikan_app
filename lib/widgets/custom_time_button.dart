@@ -23,7 +23,7 @@ class CustomTimeButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Icon(Icons.access_time, color: Colors.black54),
-            Text(label!, style: TextStyle(color: Colors.black87)),
+            Text(label ?? '', style: TextStyle(color: Colors.black87)),
             Icon(Icons.arrow_drop_down, color: Colors.black54),
           ],
         ),

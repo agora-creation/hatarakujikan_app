@@ -14,7 +14,6 @@ import 'package:hatarakujikan_app/screens/history_total.dart';
 import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_head_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_list_tile.dart';
-import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:multiple_stream_builder/multiple_stream_builder.dart';
 
@@ -47,26 +46,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    GroupModel? _group = widget.userProvider.group;
-    UserModel? _user = widget.userProvider.user;
+    GroupModel _group = widget.userProvider.group!;
+    UserModel _user = widget.userProvider.user!;
     Timestamp _startAt = convertTimestamp(_days.first, false);
     Timestamp _endAt = convertTimestamp(_days.last, true);
-    Stream<QuerySnapshot> _streamWork = FirebaseFirestore.instance
+    Stream<QuerySnapshot<Map<String, dynamic>>> _streamWork = FirebaseFirestore
+        .instance
         .collection('work')
-        .where('groupId', isEqualTo: _group?.id ?? 'error')
-        .where('userId', isEqualTo: _user?.id ?? 'error')
+        .where('groupId', isEqualTo: _group.id)
+        .where('userId', isEqualTo: _user.id)
         .orderBy('startedAt', descending: false)
         .startAt([_startAt]).endAt([_endAt]).snapshots();
-    Stream<QuerySnapshot> _streamWorkShift = FirebaseFirestore.instance
-        .collection('workShift')
-        .where('groupId', isEqualTo: _group?.id ?? 'error')
-        .where('userId', isEqualTo: _user?.id ?? 'error')
-        .orderBy('startedAt', descending: false)
-        .startAt([_startAt]).endAt([_endAt]).snapshots();
+    Stream<QuerySnapshot<Map<String, dynamic>>> _streamWorkShift =
+        FirebaseFirestore.instance
+            .collection('workShift')
+            .where('groupId', isEqualTo: _group.id)
+            .where('userId', isEqualTo: _user.id)
+            .orderBy('startedAt', descending: false)
+            .startAt([_startAt]).endAt([_endAt]).snapshots();
     List<WorkModel> _works = [];
     List<WorkShiftModel> _workShifts = [];
 
-    return _group != null
+    return _group.id != ''
         ? Column(
             children: [
               CustomExpandedButton(
@@ -75,7 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   GroupSelect(userProvider: widget.userProvider),
                 ),
                 backgroundColor: Colors.blueGrey,
-                label: _group.name ?? '',
+                label: _group.name,
                 color: Colors.white,
                 leading: Icon(Icons.store, color: Colors.white),
                 trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -103,40 +104,47 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     group: _group,
                   ),
                 ),
-                month: '${DateFormat('yyyy年MM月').format(_month)}',
+                month: dateText('yyyy年MM月', _month),
               ),
               CustomHeadListTile(),
               Expanded(
-                child: StreamBuilder2<QuerySnapshot, QuerySnapshot>(
+                child: StreamBuilder2<QuerySnapshot<Map<String, dynamic>>,
+                    QuerySnapshot<Map<String, dynamic>>>(
                   streams: Tuple2(_streamWork, _streamWorkShift),
                   builder: (context, snapshot) {
                     _works.clear();
                     if (snapshot.item1.hasData) {
-                      for (DocumentSnapshot<Map<String, dynamic>> doc in snapshot.item1.data<Map<String, dynamic>>.docs) {
+                      for (DocumentSnapshot<Map<String, dynamic>> doc
+                          in snapshot.item1.data!.docs) {
                         _works.add(WorkModel.fromSnapshot(doc));
                       }
                     }
                     _workShifts.clear();
                     if (snapshot.item2.hasData) {
-                      for (DocumentSnapshot<Map<String, dynamic>> doc in snapshot.item2.data<Map<String, dynamic>>.docs) {
+                      for (DocumentSnapshot<Map<String, dynamic>> doc
+                          in snapshot.item2.data!.docs) {
                         _workShifts.add(WorkShiftModel.fromSnapshot(doc));
                       }
                     }
                     return ListView.builder(
                       itemCount: _days.length,
                       itemBuilder: (_, index) {
-                        DateFormat _format = DateFormat('yyyy-MM-dd');
                         List<WorkModel> _dayWorks = [];
                         for (WorkModel _work in _works) {
-                          String _start = '${_format.format(_work?.startedAt)}';
+                          String _start = dateText(
+                            'yyyy-MM-dd',
+                            _work.startedAt,
+                          );
                           if (_days[index] == DateTime.parse(_start)) {
                             _dayWorks.add(_work);
                           }
                         }
-                        WorkShiftModel _dayWorkShift;
+                        WorkShiftModel? _dayWorkShift;
                         for (WorkShiftModel _workShift in _workShifts) {
-                          String _start =
-                              '${_format.format(_workShift.startedAt)}';
+                          String _start = dateText(
+                            'yyyy-MM-dd',
+                            _workShift.startedAt,
+                          );
                           if (_days[index] == DateTime.parse(_start)) {
                             _dayWorkShift = _workShift;
                           }

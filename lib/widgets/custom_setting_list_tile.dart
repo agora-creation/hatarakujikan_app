@@ -18,7 +18,7 @@ class CustomSettingListTile extends StatelessWidget {
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: Icon(iconData),
-        title: Text(label!),
+        title: Text(label ?? ''),
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),

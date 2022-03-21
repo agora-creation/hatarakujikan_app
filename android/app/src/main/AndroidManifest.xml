@@ -28,7 +28,7 @@
    <application
        android:name=".Application"
         android:label="はたらくじかんforスマートフォン"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCsS1-ozieu9hR4YNoMcIJjZEVBb4-uURE"/>

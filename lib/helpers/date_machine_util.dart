@@ -14,15 +14,18 @@ class DateMachineUtil {
   }
 
   static Map<String, String> timeConversion(int monthTime, String yearTime) {
-    Map<String, String> dateMap = Map();
+    Map<String, String>? dateMap = Map();
     dateMap['start'] = '$yearTime' +
         '-' +
         (monthTime < 10 ? '0' + monthTime.toString() : '$monthTime') +
         '-' +
         '01';
     dateMap['start'] = DateUtil.formatDate(
-        DateTime.fromMillisecondsSinceEpoch(turnTimestamp(dateMap['start']!)),
-        format: 'yyyy-MM-dd');
+      DateTime.fromMillisecondsSinceEpoch(
+        turnTimestamp(dateMap['start']!),
+      ),
+      format: 'yyyy-MM-dd',
+    );
     String endMonth = '$yearTime' +
         '-' +
         ((monthTime + 1) < 10
@@ -33,8 +36,9 @@ class DateMachineUtil {
         '00';
     var endMonthTimeStamp = turnTimestamp(endMonth);
     endMonth = DateUtil.formatDate(
-        DateTime.fromMillisecondsSinceEpoch(endMonthTimeStamp),
-        format: 'yyyy-MM-dd');
+      DateTime.fromMillisecondsSinceEpoch(endMonthTimeStamp),
+      format: 'yyyy-MM-dd',
+    );
     dateMap['end'] = endMonth;
     return dateMap;
   }

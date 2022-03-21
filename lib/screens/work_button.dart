@@ -27,7 +27,7 @@ class WorkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!error && userProvider.user?.workLv == 0) {
+    if (!error && userProvider.user!.workLv == 0) {
       // 未出勤
       return Container(
         color: Color(0xFFFEFFFA),
@@ -46,7 +46,7 @@ class WorkButton extends StatelessWidget {
                         )
                       : CustomWorkButton(
                           onPressed: () async {
-                            if (userProvider.group?.qrSecurity == true) {
+                            if (userProvider.group!.qrSecurity == true) {
                               if (await Permission.camera.request().isGranted) {
                                 overlayScreen(
                                   context,
@@ -133,7 +133,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!error && userProvider.user?.workLv == 1) {
+    } else if (!error && userProvider.user!.workLv == 1) {
       // 出勤中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -152,7 +152,7 @@ class WorkButton extends StatelessWidget {
                         )
                       : CustomWorkButton(
                           onPressed: () async {
-                            if (userProvider.group?.qrSecurity == true) {
+                            if (userProvider.group!.qrSecurity == true) {
                               if (await Permission.camera.request().isGranted) {
                                 overlayScreen(
                                   context,
@@ -203,7 +203,7 @@ class WorkButton extends StatelessWidget {
                         )
                       : CustomWorkButton(
                           onPressed: () async {
-                            if (userProvider.group?.qrSecurity == true) {
+                            if (userProvider.group!.qrSecurity == true) {
                               if (await Permission.camera.request().isGranted) {
                                 overlayScreen(
                                   context,
@@ -253,7 +253,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!error && userProvider.user?.workLv == 2) {
+    } else if (!error && userProvider.user!.workLv == 2) {
       // 直行中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -319,7 +319,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!error && userProvider.user?.workLv == 3) {
+    } else if (!error && userProvider.user!.workLv == 3) {
       // テレワーク中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -385,7 +385,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!error && userProvider.user?.workLv == 91) {
+    } else if (!error && userProvider.user!.workLv == 91) {
       // 出勤休憩中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -428,7 +428,7 @@ class WorkButton extends StatelessWidget {
                         )
                       : CustomWorkButton(
                           onPressed: () async {
-                            if (userProvider.group?.qrSecurity == true) {
+                            if (userProvider.group!.qrSecurity == true) {
                               if (await Permission.camera.request().isGranted) {
                                 overlayScreen(
                                   context,
@@ -468,7 +468,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!error && userProvider.user?.workLv == 92) {
+    } else if (!error && userProvider.user!.workLv == 92) {
       // 直行休憩中
       return Container(
         color: Color(0xFFFEFFFA),
@@ -524,7 +524,7 @@ class WorkButton extends StatelessWidget {
           ],
         ),
       );
-    } else if (!error && userProvider.user?.workLv == 93) {
+    } else if (!error && userProvider.user!.workLv == 93) {
       // テレワーク休憩中
       return Container(
         color: Color(0xFFFEFFFA),

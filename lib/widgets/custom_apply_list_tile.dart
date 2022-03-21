@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
-import 'package:intl/intl.dart';
 
 class CustomApplyListTile extends StatelessWidget {
   final String? state;
@@ -20,7 +20,7 @@ class CustomApplyListTile extends StatelessWidget {
       child: ListTile(
         leading: Chip(
           backgroundColor: Colors.blue.shade100,
-          label: Text(state!, style: TextStyle(color: Colors.black87)),
+          label: Text(state ?? '', style: TextStyle(color: Colors.black87)),
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +33,7 @@ class CustomApplyListTile extends StatelessWidget {
               ),
             ),
             Text(
-              '${DateFormat('yyyy/MM/dd').format(dateTime!)}',
+              dateText('yyyy/MM/dd', dateTime),
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 16.0,

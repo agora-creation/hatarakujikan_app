@@ -16,7 +16,7 @@ class CustomLinkButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Text(
-        label!,
+        label ?? '',
         style: TextStyle(
           color: color,
           decoration: TextDecoration.underline,

@@ -39,11 +39,11 @@ class _WorkScreenState extends State<WorkScreen> {
             double.parse(_locations.first),
             double.parse(_locations.last),
           ];
-          if (widget.userProvider.group?.areaSecurity == true) {
+          if (widget.userProvider.group!.areaSecurity == true) {
             if (!areaCheck(
-              widget.userProvider.group?.areaLat ?? 0,
-              widget.userProvider.group?.areaLon ?? 0,
-              widget.userProvider.group?.areaRange ?? 0,
+              widget.userProvider.group!.areaLat,
+              widget.userProvider.group!.areaLon,
+              widget.userProvider.group!.areaRange,
               locations,
             )) {
               locationError = true;
@@ -73,11 +73,11 @@ class _WorkScreenState extends State<WorkScreen> {
           double.parse(_locations.first),
           double.parse(_locations.last),
         ];
-        if (widget.userProvider.group?.areaSecurity == true) {
+        if (widget.userProvider.group!.areaSecurity == true) {
           if (!areaCheck(
-            widget.userProvider.group?.areaLat ?? 0,
-            widget.userProvider.group?.areaLon ?? 0,
-            widget.userProvider.group?.areaRange ?? 0,
+            widget.userProvider.group!.areaLat,
+            widget.userProvider.group!.areaLon,
+            widget.userProvider.group!.areaRange,
             locations,
           )) {
             locationError = true;
@@ -108,7 +108,7 @@ class _WorkScreenState extends State<WorkScreen> {
                   GroupSelect(userProvider: widget.userProvider),
                 ),
                 backgroundColor: Colors.blueGrey,
-                label: widget.userProvider.group?.name ?? '',
+                label: widget.userProvider.group!.name,
                 color: Colors.white,
                 leading: Icon(Icons.store, color: Colors.white),
                 trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -135,11 +135,10 @@ class _WorkScreenState extends State<WorkScreen> {
                                 Circle(
                                   circleId: CircleId('area'),
                                   center: LatLng(
-                                    widget.userProvider.group?.areaLat ?? 0,
-                                    widget.userProvider.group?.areaLon ?? 0,
+                                    widget.userProvider.group!.areaLat,
+                                    widget.userProvider.group!.areaLon,
                                   ),
-                                  radius:
-                                      widget.userProvider.group?.areaRange ?? 0,
+                                  radius: widget.userProvider.group!.areaRange,
                                   fillColor: Colors.red.withOpacity(0.3),
                                   strokeColor: Colors.transparent,
                                 ),

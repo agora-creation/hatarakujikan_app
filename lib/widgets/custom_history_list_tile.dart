@@ -5,7 +5,6 @@ import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/models/work_shift.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
-import 'package:intl/intl.dart';
 
 class CustomHistoryListTile extends StatelessWidget {
   final UserModel? user;
@@ -22,22 +21,21 @@ class CustomHistoryListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int dayWorksLength = dayWorks?.length ?? 0;
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: Text(
-          '${DateFormat('dd (E)', 'ja').format(day!)}',
+          dateText('dd (E)', day),
           style: kListDayTextStyle,
         ),
-        title: dayWorksLength > 0
+        title: dayWorks!.length > 0
             ? ListView.separated(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 separatorBuilder: (_, index) => Divider(height: 0.0),
-                itemCount: dayWorksLength,
+                itemCount: dayWorks!.length,
                 itemBuilder: (_, index) {
-                  WorkModel? _work = dayWorks![index];
+                  WorkModel _work = dayWorks![index];
                   if (_work.startedAt != _work.endedAt) {
                     String _startTime = _work.startTime();
                     String _endTime = _work.endTime();
@@ -49,7 +47,7 @@ class CustomHistoryListTile extends StatelessWidget {
                           Chip(
                             backgroundColor: Colors.grey.shade300,
                             label: Text(
-                              '${_work.state}',
+                              _work.state,
                               style: TextStyle(fontSize: 10.0),
                             ),
                           ),
@@ -77,9 +75,9 @@ class CustomHistoryListTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Chip(
-                          backgroundColor: dayWorkShift?.stateColor(),
+                          backgroundColor: dayWorkShift!.stateColor(),
                           label: Text(
-                            '${dayWorkShift?.state}',
+                            dayWorkShift!.state,
                             style: TextStyle(fontSize: 10.0),
                           ),
                         ),

@@ -24,21 +24,22 @@ class _ApplyScreenState extends State<ApplyScreen> {
   Widget build(BuildContext context) {
     GroupModel? _group = widget.userProvider.group;
     UserModel? _user = widget.userProvider.user;
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+    Stream<QuerySnapshot<Map<String, dynamic>>> _stream = FirebaseFirestore
+        .instance
         .collection('applyWork')
-        .where('groupId', isEqualTo: _group?.id ?? 'error')
-        .where('userId', isEqualTo: _user?.id ?? 'error')
+        .where('groupId', isEqualTo: _group!.id)
+        .where('userId', isEqualTo: _user!.id)
         .where('approval', isEqualTo: false)
         .orderBy('createdAt', descending: true)
         .snapshots();
     List<ApplyWorkModel> _applyWorks = [];
 
-    return _group != null
+    return _group.id != ''
         ? Column(
             children: [
               CustomExpandedButton(
                 backgroundColor: Colors.blueGrey,
-                label: widget.userProvider.group?.name ?? '',
+                label: widget.userProvider.group!.name,
                 color: Colors.white,
                 leading: Icon(Icons.store, color: Colors.white),
                 trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -48,13 +49,13 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 ),
               ),
               Expanded(
-                child: StreamBuilder<QuerySnapshot>(
+                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: _stream,
                   builder: (context, snapshot) {
                     _applyWorks.clear();
                     if (snapshot.hasData) {
                       for (DocumentSnapshot<Map<String, dynamic>> doc
-                          in snapshot.data<Map<String, dynamic>>.docs) {
+                          in snapshot.data!.docs) {
                         _applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
                       }
                     }

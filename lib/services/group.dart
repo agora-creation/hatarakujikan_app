@@ -9,7 +9,7 @@ class GroupService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<GroupModel> select({String? id}) async {
+  Future<GroupModel> select({required String id}) async {
     GroupModel? _group;
     await _firebaseFirestore
         .collection(_collection)

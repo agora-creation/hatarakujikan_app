@@ -10,7 +10,7 @@ class ErrorListTile extends StatelessWidget {
     return ListTile(
       tileColor: Colors.redAccent,
       title: Text(
-        label!,
+        label ?? '',
         style: TextStyle(color: Colors.white, fontSize: 14.0),
       ),
     );

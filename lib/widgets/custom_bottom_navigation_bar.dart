@@ -19,10 +19,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
       child: BottomNavigationBar(
         onTap: onTap,
         backgroundColor: Colors.white,
-        currentIndex: currentIndex!,
+        currentIndex: currentIndex ?? 0,
         fixedColor: Colors.cyan.shade700,
         type: BottomNavigationBarType.fixed,
-        items: items!,
+        items: items ?? [],
       ),
     );
   }

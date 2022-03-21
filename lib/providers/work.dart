@@ -26,11 +26,11 @@ class WorkProvider with ChangeNotifier {
         'groupId': group.id,
         'userId': user.id,
         'startedAt': DateTime.now(),
-        'startedLat': locations?.first,
-        'startedLon': locations?.last,
+        'startedLat': locations!.first,
+        'startedLon': locations.last,
         'endedAt': DateTime.now(),
-        'endedLat': locations?.first,
-        'endedLon': locations?.last,
+        'endedLat': locations.first,
+        'endedLon': locations.last,
         'breaks': [],
         'state': state,
         'createdAt': DateTime.now(),
@@ -86,8 +86,8 @@ class WorkProvider with ChangeNotifier {
       _workService.update({
         'id': user.lastWorkId,
         'endedAt': DateTime.now(),
-        'endedLat': locations?.first,
-        'endedLon': locations?.last,
+        'endedLat': locations!.first,
+        'endedLon': locations.last,
         'breaks': _breaks,
       });
       int _workLv = 0;
@@ -119,11 +119,11 @@ class WorkProvider with ChangeNotifier {
       _breaks.add({
         'id': _id,
         'startedAt': DateTime.now(),
-        'startedLat': locations?.first,
-        'startedLon': locations?.last,
+        'startedLat': locations!.first,
+        'startedLon': locations.last,
         'endedAt': DateTime.now(),
-        'endedLat': locations?.first,
-        'endedLon': locations?.last,
+        'endedLat': locations.first,
+        'endedLon': locations.last,
       });
       _workService.update({
         'id': user.lastWorkId,
@@ -165,8 +165,8 @@ class WorkProvider with ChangeNotifier {
       for (BreaksModel breaks in _work.breaks) {
         if (breaks.id == user.lastBreakId) {
           breaks.endedAt = DateTime.now();
-          breaks.endedLat = locations?.first;
-          breaks.endedLon = locations?.last;
+          breaks.endedLat = locations!.first;
+          breaks.endedLon = locations.last;
         }
         _breaks.add(breaks.toMap());
       }
@@ -197,16 +197,16 @@ class WorkProvider with ChangeNotifier {
   }
 
   Future<List<WorkModel>> selectList({
-    GroupModel? group,
-    UserModel? user,
-    DateTime? startAt,
-    DateTime? endAt,
+    required GroupModel group,
+    required UserModel user,
+    required DateTime startAt,
+    required DateTime endAt,
   }) async {
     List<WorkModel> _works = [];
     await _workService
         .selectList(
-      groupId: group?.id,
-      userId: user?.id,
+      groupId: group.id,
+      userId: user.id,
       startAt: startAt,
       endAt: endAt,
     )

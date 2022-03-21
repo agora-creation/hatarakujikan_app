@@ -16,7 +16,7 @@ class CustomTextButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: Text(
-        label!,
+        label ?? '',
         style: TextStyle(color: Colors.white),
       ),
       style: TextButton.styleFrom(

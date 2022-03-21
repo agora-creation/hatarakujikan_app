@@ -12,7 +12,6 @@ import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/custom_time_button.dart';
 import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ApplyWorkScreen extends StatefulWidget {
@@ -86,17 +85,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                   onTap: () async {
                     DateTime? _selected = await showDatePicker(
                       context: context,
-                      initialDate: _work?.startedAt ?? DateTime.now(),
+                      initialDate: _work!.startedAt,
                       firstDate: kDayFirstDate,
                       lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
-                      _selected = rebuildDate(_selected, _work?.startedAt);
-                      setState(() => _work?.startedAt = _selected);
+                      _selected = rebuildDate(
+                        _selected,
+                        _work!.startedAt,
+                      );
+                      setState(() => _work!.startedAt = _selected!);
                     }
                   },
-                  label:
-                      '${DateFormat('yyyy/MM/dd').format(_work?.startedAt ?? DateTime.now())}',
+                  label: dateText('yyyy/MM/dd', _work!.startedAt),
                 ),
               ),
               SizedBox(width: 4.0),
@@ -107,33 +108,32 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                     TimeOfDay? _selected = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay(
-                        hour: timeToInt(_work?.startedAt)[0],
-                        minute: timeToInt(_work?.startedAt)[1],
+                        hour: timeToInt(_work!.startedAt)[0],
+                        minute: timeToInt(_work!.startedAt)[1],
                       ),
                     );
                     if (_selected != null) {
-                      DateTime _dateTime = rebuildTime(
+                      DateTime? _dateTime = rebuildTime(
                         context,
-                        _work?.startedAt,
+                        _work!.startedAt,
                         _selected,
                       );
-                      setState(() => _work?.startedAt = _dateTime);
+                      setState(() => _work!.startedAt = _dateTime);
                     }
                   },
-                  label:
-                      '${DateFormat('HH:mm').format(_work?.startedAt ?? DateTime.now())}',
+                  label: dateText('HH:mm', _work!.startedAt),
                 ),
               ),
             ],
           ),
           SizedBox(height: 8.0),
-          _work?.breaks.length != 0
+          _work!.breaks.length > 0
               ? ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: _work?.breaks.length,
+                  itemCount: _work!.breaks.length,
                   itemBuilder: (_, index) {
-                    BreaksModel? _breaks = _work?.breaks[index];
+                    BreaksModel _breaks = _work!.breaks[index];
                     return Column(
                       children: [
                         CustomIconLabel(
@@ -149,20 +149,21 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                 onTap: () async {
                                   DateTime? _selected = await showDatePicker(
                                     context: context,
-                                    initialDate:
-                                        _breaks?.startedAt ?? DateTime.now(),
+                                    initialDate: _breaks.startedAt,
                                     firstDate: kDayFirstDate,
                                     lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
                                     _selected = rebuildDate(
-                                        _selected, _breaks?.startedAt);
+                                      _selected,
+                                      _breaks.startedAt,
+                                    );
                                     setState(
-                                        () => _breaks?.startedAt = _selected);
+                                        () => _breaks.startedAt = _selected!);
                                   }
                                 },
                                 label:
-                                    '${DateFormat('yyyy/MM/dd').format(_breaks?.startedAt ?? DateTime.now())}',
+                                    dateText('yyyy/MM/dd', _breaks.startedAt),
                               ),
                             ),
                             SizedBox(width: 4.0),
@@ -173,22 +174,21 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                   TimeOfDay? _selected = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
-                                      hour: timeToInt(_breaks?.startedAt)[0],
-                                      minute: timeToInt(_breaks?.startedAt)[1],
+                                      hour: timeToInt(_breaks.startedAt)[0],
+                                      minute: timeToInt(_breaks.startedAt)[1],
                                     ),
                                   );
                                   if (_selected != null) {
                                     DateTime _dateTime = rebuildTime(
                                       context,
-                                      _breaks?.startedAt,
+                                      _breaks.startedAt,
                                       _selected,
                                     );
                                     setState(
-                                        () => _breaks?.startedAt = _dateTime);
+                                        () => _breaks.startedAt = _dateTime);
                                   }
                                 },
-                                label:
-                                    '${DateFormat('HH:mm').format(_breaks?.startedAt ?? DateTime.now())}',
+                                label: dateText('HH:mm', _breaks.startedAt),
                               ),
                             ),
                           ],
@@ -210,20 +210,20 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                 onTap: () async {
                                   DateTime? _selected = await showDatePicker(
                                     context: context,
-                                    initialDate:
-                                        _breaks?.endedAt ?? DateTime.now(),
+                                    initialDate: _breaks.endedAt,
                                     firstDate: kDayFirstDate,
                                     lastDate: kDayLastDate,
                                   );
                                   if (_selected != null) {
                                     _selected = rebuildDate(
-                                        _selected, _breaks?.endedAt);
+                                      _selected,
+                                      _breaks.endedAt,
+                                    );
                                     setState(
-                                        () => _breaks?.endedAt = _selected);
+                                        () => _breaks.endedAt = _selected!);
                                   }
                                 },
-                                label:
-                                    '${DateFormat('yyyy/MM/dd').format(_breaks?.endedAt ?? DateTime.now())}',
+                                label: dateText('yyyy/MM/dd', _breaks.endedAt),
                               ),
                             ),
                             SizedBox(width: 4.0),
@@ -234,22 +234,20 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                   TimeOfDay? _selected = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
-                                      hour: timeToInt(_breaks?.endedAt)[0],
-                                      minute: timeToInt(_breaks?.endedAt)[1],
+                                      hour: timeToInt(_breaks.endedAt)[0],
+                                      minute: timeToInt(_breaks.endedAt)[1],
                                     ),
                                   );
                                   if (_selected != null) {
                                     DateTime _dateTime = rebuildTime(
                                       context,
-                                      _breaks?.endedAt,
+                                      _breaks.endedAt,
                                       _selected,
                                     );
-                                    setState(
-                                        () => _breaks?.endedAt = _dateTime);
+                                    setState(() => _breaks.endedAt = _dateTime);
                                   }
                                 },
-                                label:
-                                    '${DateFormat('HH:mm').format(_breaks?.endedAt ?? DateTime.now())}',
+                                label: dateText('HH:mm', _breaks.endedAt),
                               ),
                             ),
                           ],
@@ -273,17 +271,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                   onTap: () async {
                     DateTime? _selected = await showDatePicker(
                       context: context,
-                      initialDate: _work?.endedAt ?? DateTime.now(),
+                      initialDate: _work!.endedAt,
                       firstDate: kDayFirstDate,
                       lastDate: kDayLastDate,
                     );
                     if (_selected != null) {
-                      _selected = rebuildDate(_selected, _work?.endedAt);
-                      setState(() => _work?.endedAt = _selected);
+                      _selected = rebuildDate(
+                        _selected,
+                        _work!.endedAt,
+                      );
+                      setState(() => _work!.endedAt = _selected!);
                     }
                   },
-                  label:
-                      '${DateFormat('yyyy/MM/dd').format(_work?.endedAt ?? DateTime.now())}',
+                  label: dateText('yyyy/MM/dd', _work!.endedAt),
                 ),
               ),
               SizedBox(width: 4.0),
@@ -294,21 +294,20 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                     TimeOfDay? _selected = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay(
-                        hour: timeToInt(_work?.endedAt)[0],
-                        minute: timeToInt(_work?.endedAt)[1],
+                        hour: timeToInt(_work!.endedAt)[0],
+                        minute: timeToInt(_work!.endedAt)[1],
                       ),
                     );
                     if (_selected != null) {
                       DateTime _dateTime = rebuildTime(
                         context,
-                        _work?.endedAt,
+                        _work!.endedAt,
                         _selected,
                       );
-                      setState(() => _work?.endedAt = _dateTime);
+                      setState(() => _work!.endedAt = _dateTime);
                     }
                   },
-                  label:
-                      '${DateFormat('HH:mm').format(_work?.endedAt ?? DateTime.now())}',
+                  label: dateText('HH:mm', _work!.endedAt),
                 ),
               ),
             ],

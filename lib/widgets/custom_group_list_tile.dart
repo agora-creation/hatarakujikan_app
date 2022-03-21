@@ -15,12 +15,11 @@ class CustomGroupListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? groupName = group?.name;
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        title: Text(groupName!),
-        subtitle: fixed! ? Text('既定に設定中') : null,
+        title: Text(group!.name),
+        subtitle: fixed == true ? Text('既定に設定中') : null,
         trailing: Icon(Icons.chevron_right),
         onTap: onTap,
       ),

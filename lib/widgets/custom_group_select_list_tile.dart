@@ -15,13 +15,13 @@ class CustomGroupSelectListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? groupName = group?.name;
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        title: Text(groupName!),
-        subtitle: selected! ? Text('選択中') : null,
-        trailing: selected! ? Icon(Icons.check, color: Colors.green) : null,
+        title: Text(group!.name),
+        subtitle: selected == true ? Text('選択中') : null,
+        trailing:
+            selected == true ? Icon(Icons.check, color: Colors.green) : null,
         onTap: onTap,
       ),
     );

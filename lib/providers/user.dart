@@ -37,7 +37,7 @@ class UserProvider with ChangeNotifier {
   bool isReHidden = false;
 
   UserProvider.initialize() : _auth = FirebaseAuth.instance {
-    _auth?.authStateChanges().listen(_onStateChanged);
+    _auth!.authStateChanges().listen(_onStateChanged);
   }
 
   void changeHidden() {
@@ -53,12 +53,12 @@ class UserProvider with ChangeNotifier {
   Future<bool> signIn() async {
     if (email.text == '') return false;
     if (password.text == '') return false;
-    String? _token = await setToken();
+    String _token = await setToken();
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      await _auth
-          ?.signInWithEmailAndPassword(
+      await _auth!
+          .signInWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       )
@@ -82,12 +82,12 @@ class UserProvider with ChangeNotifier {
     if (email.text == '') return false;
     if (password.text == '') return false;
     if (password.text != rePassword.text) return false;
-    String? _token = await setToken();
+    String _token = await setToken();
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      await _auth
-          ?.createUserWithEmailAndPassword(
+      await _auth!
+          .createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       )
@@ -119,9 +119,9 @@ class UserProvider with ChangeNotifier {
     if (name.text == '') return false;
     if (email.text == '') return false;
     try {
-      await _auth?.currentUser?.updateEmail(email.text.trim()).then((value) {
+      await _auth!.currentUser!.updateEmail(email.text.trim()).then((value) {
         _userService.update({
-          'id': _auth?.currentUser?.uid,
+          'id': _auth!.currentUser!.uid,
           'name': name.text.trim(),
           'email': email.text.trim(),
         });
@@ -139,15 +139,15 @@ class UserProvider with ChangeNotifier {
     if (newPassword.text != newRePassword.text) return false;
     try {
       AuthCredential credential = EmailAuthProvider.credential(
-        email: _auth?.currentUser?.email ?? '',
+        email: _auth!.currentUser!.email ?? '',
         password: password.text.trim(),
       );
-      await _auth?.signInWithCredential(credential);
-      await _auth?.currentUser
-          ?.updatePassword(newPassword.text.trim())
+      await _auth!.signInWithCredential(credential);
+      await _auth!.currentUser!
+          .updatePassword(newPassword.text.trim())
           .then((value) {
         _userService.update({
-          'id': _auth?.currentUser?.uid,
+          'id': _auth!.currentUser!.uid,
           'password': newPassword.text.trim(),
         });
       });
@@ -163,7 +163,7 @@ class UserProvider with ChangeNotifier {
     if (recordPassword.text.length > 8) return false;
     try {
       _userService.update({
-        'id': _auth?.currentUser?.uid,
+        'id': _auth!.currentUser!.uid,
         'recordPassword': recordPassword.text.trim(),
       });
       return true;
@@ -174,19 +174,19 @@ class UserProvider with ChangeNotifier {
   }
 
   Future delete() async {
-    _userService.delete({'id': _auth?.currentUser?.uid});
+    _userService.delete({'id': _auth!.currentUser!.uid});
     if (_groups.length > 0) {
       for (GroupModel _group in _groups) {
         List<String> _userIds = [];
         _userIds = _group.userIds;
-        _userIds.remove(_auth?.currentUser?.uid);
+        _userIds.remove(_auth!.currentUser!.uid);
         _groupService.update({
           'id': _group.id,
           'userIds': _userIds,
         });
       }
     }
-    await _auth?.currentUser?.delete();
+    await _auth!.currentUser!.delete();
     _status = Status.Unauthenticated;
     _user = null;
     await removePrefs(key: 'groupId');
@@ -195,7 +195,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future signOut() async {
-    await _auth?.signOut();
+    await _auth!.signOut();
     _status = Status.Unauthenticated;
     _user = null;
     await removePrefs(key: 'groupId');
@@ -214,8 +214,10 @@ class UserProvider with ChangeNotifier {
   }
 
   Future reloadUserModel() async {
-    _user = await _userService.select(id: _fUser?.uid);
-    _groups = await _groupService.selectListUser(userId: _user?.id);
+    _user = await _userService.select(id: _fUser!.uid);
+    if (_user != null) {
+      _groups = await _groupService.selectListUser(userId: _user!.id);
+    }
     if (_groups.length > 0) {
       String _groupId = await getPrefs(key: 'groupId');
       if (_groupId == '') {
@@ -238,8 +240,12 @@ class UserProvider with ChangeNotifier {
     } else {
       _fUser = firebaseUser;
       _status = Status.Authenticated;
-      _user = await _userService.select(id: _fUser?.uid);
-      _groups = await _groupService.selectListUser(userId: _user?.id);
+      await _userService.select(id: _fUser!.uid).then((value) {
+        _user = value;
+      });
+      if (_user != null) {
+        _groups = await _groupService.selectListUser(userId: _user!.id);
+      }
       if (_groups.length > 0) {
         String _groupId = await getPrefs(key: 'groupId');
         if (_groupId == '') {
@@ -257,11 +263,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?> setToken() async {
-    String? _token = '';
+  Future<String> setToken() async {
+    String _token = '';
     Stream<String> _tokenStream;
     await FirebaseMessaging.instance.getToken().then((value) {
-      _token = value;
+      _token = value!;
     });
     _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
     _tokenStream.listen((value) {

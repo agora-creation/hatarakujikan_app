@@ -17,9 +17,10 @@ class NoticeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
+    Stream<QuerySnapshot<Map<String, dynamic>>> _stream = FirebaseFirestore
+        .instance
         .collection('user')
-        .doc(user.id ?? 'error')
+        .doc(user.id)
         .collection('notice')
         .orderBy('createdAt', descending: true)
         .snapshots();
@@ -39,7 +40,7 @@ class NoticeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _stream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -47,7 +48,7 @@ class NoticeScreen extends StatelessWidget {
           }
           notices.clear();
           for (DocumentSnapshot<Map<String, dynamic>> doc
-              in snapshot.data<Map<String, dynamic>>.docs) {
+              in snapshot.data!.docs) {
             notices.add(UserNoticeModel.fromSnapshot(doc));
           }
           if (notices.length > 0) {

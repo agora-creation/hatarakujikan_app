@@ -17,7 +17,7 @@ class CustomIconLabel extends StatelessWidget {
           children: [
             icon!,
             SizedBox(width: 4.0),
-            Text(label!),
+            Text(label ?? ''),
           ],
         ),
       ],

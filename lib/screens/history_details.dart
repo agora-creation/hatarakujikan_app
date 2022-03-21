@@ -7,7 +7,6 @@ import 'package:hatarakujikan_app/screens/apply_work.dart';
 import 'package:hatarakujikan_app/screens/history_location.dart';
 import 'package:hatarakujikan_app/widgets/custom_history_details_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
-import 'package:intl/intl.dart';
 
 class HistoryDetailsScreen extends StatelessWidget {
   final UserModel user;
@@ -25,9 +24,7 @@ class HistoryDetailsScreen extends StatelessWidget {
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
-        title: Text(
-          '${DateFormat('yyyy年MM月dd日 (E)', 'ja').format(work.startedAt ?? DateTime.now())}',
-        ),
+        title: Text(dateText('yyyy年MM月dd日 (E)', work.startedAt)),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
@@ -42,7 +39,7 @@ class HistoryDetailsScreen extends StatelessWidget {
           CustomHistoryDetailsListTile(
             icon: null,
             label: '勤務状況',
-            time: '${work.state}',
+            time: work.state,
           ),
           CustomHistoryDetailsListTile(
             icon: work.startedLat != 0.0 || work.startedLon != 0.0

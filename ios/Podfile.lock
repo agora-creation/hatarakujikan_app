@@ -362,14 +362,14 @@ PODS:
   - Firebase/RemoteConfig (8.11.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 8.11.0)
-  - firebase_auth (3.3.10):
+  - firebase_auth (3.3.11):
     - Firebase/Auth (= 8.11.0)
     - firebase_core
     - Flutter
   - firebase_core (1.13.1):
     - Firebase/CoreOnly (= 8.11.0)
     - Flutter
-  - firebase_messaging (11.2.10):
+  - firebase_messaging (11.2.11):
     - Firebase/Messaging (= 8.11.0)
     - firebase_core
     - Flutter
@@ -580,9 +580,9 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: c6c42fe62809b7417aa3c45a6ef0c2812f7fb0d6
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
-  firebase_auth: fa562bf84ce3e872cc4225374cb687edb32e8d26
+  firebase_auth: bdfbd5b10da1db6d5eb6ae7dbda5d81365b9cc9d
   firebase_core: 08f6a85f62060111de5e98d6a214810d11365de9
-  firebase_messaging: 4d312cb55c8a5f9d5c93661845aedc473fc72769
+  firebase_messaging: 4a993bb4aa1a83349988d853c637fbb0494dab15
   firebase_remote_config: 588bafe2eff61076e53b018758ec1fa96893e3c3
   FirebaseABTesting: c390fb900b9dd6e9c04888e34dda8e9e84b07195
   FirebaseAuth: d96d73aba85d192d7a7aa0b86dd6d7f8ec170b4b
@@ -612,6 +612,6 @@ SPEC CHECKSUMS:
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
-PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
+PODFILE CHECKSUM: 454a5868b3f09e53637854a0a769b0fc4760010a
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

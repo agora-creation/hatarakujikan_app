@@ -18,8 +18,11 @@ class CustomApplyWorkListTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label!, style: TextStyle(fontSize: 14.0)),
-          Text(value!, style: TextStyle(color: Colors.black87, fontSize: 18.0)),
+          Text(label ?? '', style: TextStyle(fontSize: 14.0)),
+          Text(
+            value ?? '',
+            style: TextStyle(color: Colors.black87, fontSize: 18.0),
+          ),
         ],
       ),
     );

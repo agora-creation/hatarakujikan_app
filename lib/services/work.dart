@@ -19,7 +19,7 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<WorkModel> select({String? id}) async {
+  Future<WorkModel> select({required String id}) async {
     WorkModel? _work;
     await _firebaseFirestore
         .collection(_collection)
@@ -34,14 +34,14 @@ class WorkService {
   }
 
   Future<List<WorkModel>> selectList({
-    String? groupId,
-    String? userId,
-    DateTime? startAt,
-    DateTime? endAt,
+    required String groupId,
+    required String userId,
+    required DateTime startAt,
+    required DateTime endAt,
   }) async {
     List<WorkModel> _works = [];
-    Timestamp _startAt = convertTimestamp(startAt!, false);
-    Timestamp _endAt = convertTimestamp(endAt!, true);
+    Timestamp _startAt = convertTimestamp(startAt, false);
+    Timestamp _endAt = convertTimestamp(endAt, true);
     await _firebaseFirestore
         .collection(_collection)
         .where('groupId', isEqualTo: groupId)

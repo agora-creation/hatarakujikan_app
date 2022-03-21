@@ -18,8 +18,8 @@ class CustomHistoryDetailsListTile extends StatelessWidget {
       decoration: kBottomBorderDecoration,
       child: ListTile(
         leading: icon,
-        title: Text(label!),
-        trailing: Text(time!),
+        title: Text(label ?? ''),
+        trailing: Text(time ?? ''),
       ),
     );
   }

@@ -56,7 +56,7 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
   }
 
   Future<void> _nextScreen({String? groupId}) async {
-    _group = await widget.groupProvider.select(id: groupId);
+    _group = await widget.groupProvider.select(id: groupId!);
     if (_group != null) {
       if (!_isQRScanned) {
         _qrController?.pauseCamera();

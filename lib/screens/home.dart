@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
         .collection('user')
-        .doc(userProvider.user?.id ?? 'error')
+        .doc(userProvider.user!.id)
         .collection('notice')
         .where('read', isEqualTo: false)
         .snapshots();
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(userProvider.user?.name ?? ''),
+        title: Text(userProvider.user!.name),
         actions: [
           StreamBuilder<QuerySnapshot>(
             stream: _stream,
