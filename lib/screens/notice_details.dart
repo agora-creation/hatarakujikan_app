@@ -22,7 +22,10 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
   void initState() {
     super.initState();
     if (widget.notice.read == false) {
-      widget.userNoticeProvider.updateRead(notice: widget.notice);
+      widget.userNoticeProvider.update(
+        id: widget.notice.id,
+        userId: widget.notice.userId,
+      );
     }
   }
 
@@ -62,7 +65,10 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
           SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () {
-              widget.userNoticeProvider.delete(notice: widget.notice);
+              widget.userNoticeProvider.delete(
+                id: widget.notice.id,
+                userId: widget.notice.userId,
+              );
               Navigator.pop(context);
             },
             label: 'このお知らせを削除する',

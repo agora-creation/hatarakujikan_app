@@ -120,7 +120,6 @@ class RegistrationScreen extends StatelessWidget {
                               return;
                             }
                             userProvider.clearController();
-                            userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
                           label: '登録',

@@ -41,10 +41,10 @@ class _WorkScreenState extends State<WorkScreen> {
           ];
           if (widget.userProvider.group!.areaSecurity == true) {
             if (!areaCheck(
-              widget.userProvider.group!.areaLat,
-              widget.userProvider.group!.areaLon,
-              widget.userProvider.group!.areaRange,
-              locations,
+              areaLat: widget.userProvider.group?.areaLat ?? 0,
+              areaLon: widget.userProvider.group?.areaLon ?? 0,
+              areaRange: widget.userProvider.group?.areaRange ?? 0,
+              locations: locations,
             )) {
               locationError = true;
             }
@@ -75,10 +75,10 @@ class _WorkScreenState extends State<WorkScreen> {
         ];
         if (widget.userProvider.group!.areaSecurity == true) {
           if (!areaCheck(
-            widget.userProvider.group!.areaLat,
-            widget.userProvider.group!.areaLon,
-            widget.userProvider.group!.areaRange,
-            locations,
+            areaLat: widget.userProvider.group?.areaLat ?? 0,
+            areaLon: widget.userProvider.group?.areaLon ?? 0,
+            areaRange: widget.userProvider.group?.areaRange ?? 0,
+            locations: locations,
           )) {
             locationError = true;
           }

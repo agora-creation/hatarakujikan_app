@@ -6,7 +6,7 @@ import 'package:hatarakujikan_app/models/group.dart';
 class WorkModel {
   String _id = '';
   String _groupId = '';
-  String _userId = '';
+  String userId = '';
   DateTime startedAt = DateTime.now();
   double startedLat = 0;
   double startedLon = 0;
@@ -14,19 +14,17 @@ class WorkModel {
   double endedLat = 0;
   double endedLon = 0;
   List<BreaksModel> breaks = [];
-  String _state = '';
+  String state = '';
   DateTime _createdAt = DateTime.now();
 
   String get id => _id;
   String get groupId => _groupId;
-  String get userId => _userId;
-  String get state => _state;
   DateTime get createdAt => _createdAt;
 
   WorkModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     _id = snapshot.data()!['id'] ?? '';
     _groupId = snapshot.data()!['groupId'] ?? '';
-    _userId = snapshot.data()!['userId'] ?? '';
+    userId = snapshot.data()!['userId'] ?? '';
     startedAt = snapshot.data()!['startedAt'].toDate() ?? DateTime.now();
     startedLat = snapshot.data()!['startedLat'].toDouble() ?? 0;
     startedLon = snapshot.data()!['startedLon'].toDouble() ?? 0;
@@ -34,7 +32,7 @@ class WorkModel {
     endedLat = snapshot.data()!['endedLat'].toDouble() ?? 0;
     endedLon = snapshot.data()!['endedLon'].toDouble() ?? 0;
     breaks = _convertBreaks(snapshot.data()!['breaks']);
-    _state = snapshot.data()!['state'] ?? '';
+    state = snapshot.data()!['state'] ?? '';
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }
 
@@ -91,23 +89,25 @@ class WorkModel {
   }
 
   // 法定内時間/法定外時間
-  List<String> legalTimes(GroupModel group) {
+  List<String> legalTimes(GroupModel? group) {
     String _time1 = '00:00';
     String _time2 = '00:00';
-    List<String> _times = workTime().split(':');
-    if (group.legal <= int.parse(_times.first)) {
-      _time1 = addTime(_time1, '0${group.legal}:00');
-      String _tmp = subTime(workTime(), '0${group.legal}:00');
-      _time2 = addTime(_time2, _tmp);
-    } else {
-      _time1 = addTime(_time1, workTime());
-      _time2 = addTime(_time2, '00:00');
+    if (group != null) {
+      List<String> _times = workTime().split(':');
+      if (group.legal <= int.parse(_times.first)) {
+        _time1 = addTime(_time1, '0${group.legal}:00');
+        String _tmp = subTime(workTime(), '0${group.legal}:00');
+        _time2 = addTime(_time2, _tmp);
+      } else {
+        _time1 = addTime(_time1, workTime());
+        _time2 = addTime(_time2, '00:00');
+      }
     }
     return [_time1, _time2];
   }
 
   // 深夜時間/深夜時間外
-  List<String> nightTimes(GroupModel group) {
+  List<String> nightTimes(GroupModel? group) {
     String _time1 = '00:00';
     String _time2 = '00:00';
     String _startedDate = dateText('yyyy-MM-dd', startedAt);
@@ -121,13 +121,13 @@ class WorkModel {
     List<DateTime> _dayNightList = separateDayNight(
       startedAt: _startedAt,
       endedAt: _endedAt,
-      nightStart: group.nightStart,
-      nightEnd: group.nightEnd,
+      nightStart: group?.nightStart ?? '22:00',
+      nightEnd: group?.nightEnd ?? '05:00',
     );
-    DateTime _dayS = _dayNightList[0];
-    DateTime _dayE = _dayNightList[1];
-    DateTime _nightS = _dayNightList[2];
-    DateTime _nightE = _dayNightList[3];
+    DateTime? _dayS = _dayNightList[0];
+    DateTime? _dayE = _dayNightList[1];
+    DateTime? _nightS = _dayNightList[2];
+    DateTime? _nightE = _dayNightList[3];
     // ----------------------------------------
     // 深夜時間外
     if (_dayS.millisecondsSinceEpoch < _dayE.millisecondsSinceEpoch) {

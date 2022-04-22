@@ -5,8 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
+import 'package:hatarakujikan_app/helpers/define.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,17 +55,17 @@ String randomString(int length) {
   return String.fromCharCodes(codeUnits);
 }
 
-Future<String> getPrefs({required String key}) async {
+Future<String?> getPrefs(String key) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  return _prefs.getString(key) ?? '';
+  return _prefs.getString(key);
 }
 
-Future<void> setPrefs({required String key, required String value}) async {
+Future setPrefs(String key, String value) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.setString(key, value);
 }
 
-Future<void> removePrefs({required String key}) async {
+Future removePrefs(String key) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   _prefs.remove(key);
 }
@@ -71,18 +73,18 @@ Future<void> removePrefs({required String key}) async {
 DateTime rebuildDate(DateTime? date, DateTime? time) {
   DateTime _ret = DateTime.now();
   if (date != null && time != null) {
-    String _date = '${DateFormat('yyyy-MM-dd').format(date)}';
-    String _time = '${DateFormat('HH:mm').format(time)}:00.000';
+    String _date = dateText('yyyy-MM-dd', date);
+    String _time = '${dateText('HH:mm', time)}:00.000';
     _ret = DateTime.parse('$_date $_time');
   }
   return _ret;
 }
 
-DateTime rebuildTime(BuildContext context, DateTime? date, TimeOfDay? time) {
+DateTime rebuildTime(BuildContext context, DateTime? date, String? time) {
   DateTime _ret = DateTime.now();
   if (date != null && time != null) {
-    String _date = '${DateFormat('yyyy-MM-dd').format(date)}';
-    String _time = '${time.format(context).padLeft(5, '0')}:00.000';
+    String _date = dateText('yyyy-MM-dd', date);
+    String _time = '$time:00.000';
     _ret = DateTime.parse('$_date $_time');
   }
   return _ret;
@@ -91,8 +93,8 @@ DateTime rebuildTime(BuildContext context, DateTime? date, TimeOfDay? time) {
 List<int> timeToInt(DateTime? dateTime) {
   List<int> _ret = [0, 0];
   if (dateTime != null) {
-    String _h = '${DateFormat('H').format(dateTime)}';
-    String _m = '${DateFormat('m').format(dateTime)}';
+    String _h = dateText('H', dateTime);
+    String _m = dateText('m', dateTime);
     _ret = [int.parse(_h), int.parse(_m)];
   }
   return _ret;
@@ -130,12 +132,12 @@ String subTime(String left, String right) {
 }
 
 // エリアチェック
-bool areaCheck(
-  double areaLat,
-  double areaLon,
-  double areaRange,
-  List<double> locations,
-) {
+bool areaCheck({
+  required double areaLat,
+  required double areaLon,
+  required double areaRange,
+  required List<double> locations,
+}) {
   // 1mあたりの度数に変換
   double rate = areaRange * 0.00001;
   double minLat = double.parse((areaLat - rate).toStringAsFixed(5));
@@ -154,9 +156,9 @@ bool areaCheck(
 
 // DateTime => Timestamp
 Timestamp convertTimestamp(DateTime date, bool end) {
-  String _dateTime = '${DateFormat('yyyy-MM-dd').format(date)} 00:00:00.000';
-  if (end) {
-    _dateTime = '${DateFormat('yyyy-MM-dd').format(date)} 23:59:59.999';
+  String _dateTime = '${dateText('yyyy-MM-dd', date)} 00:00:00.000';
+  if (end == true) {
+    _dateTime = '${dateText('yyyy-MM-dd', date)} 23:59:59.999';
   }
   return Timestamp.fromMillisecondsSinceEpoch(
     DateTime.parse(_dateTime).millisecondsSinceEpoch,
@@ -182,12 +184,12 @@ List<DateTime> separateDayNight({
   required String nightStart,
   required String nightEnd,
 }) {
-  DateTime _dayS;
-  DateTime _dayE;
-  DateTime _nightS;
-  DateTime _nightE;
-  String _startedDate = '${DateFormat('yyyy-MM-dd').format(startedAt)}';
-  String _endedDate = '${DateFormat('yyyy-MM-dd').format(endedAt)}';
+  DateTime? _dayS;
+  DateTime? _dayE;
+  DateTime? _nightS;
+  DateTime? _nightE;
+  String _startedDate = dateText('yyyy-MM-dd', startedAt);
+  String _endedDate = dateText('yyyy-MM-dd', endedAt);
   DateTime _ss = DateTime.parse('$_startedDate $nightStart:00.000');
   DateTime _se = DateTime.parse('$_startedDate $nightEnd:00.000');
   DateTime _es = DateTime.parse('$_endedDate $nightStart:00.000');
@@ -308,6 +310,55 @@ String dateText(String format, DateTime? date) {
   String _ret = '';
   if (date != null) {
     _ret = DateFormat(format, 'ja').format(date);
+  }
+  return _ret;
+}
+
+Future<DateTime?> customMonthPicker({
+  required BuildContext context,
+  required DateTime init,
+}) async {
+  DateTime? _ret;
+  DateTime? _selected = await showMonthPicker(
+    context: context,
+    initialDate: init,
+    firstDate: kMonthFirstDate,
+    lastDate: kMonthLastDate,
+  );
+  if (_selected != null) _ret = _selected;
+  return _ret;
+}
+
+Future<DateTime?> customDatePicker({
+  required BuildContext context,
+  required DateTime init,
+}) async {
+  DateTime? _ret;
+  DateTime? _selected = await showDatePicker(
+    context: context,
+    initialDate: init,
+    firstDate: kDayFirstDate,
+    lastDate: kDayLastDate,
+  );
+  if (_selected != null) _ret = _selected;
+  return _ret;
+}
+
+Future<String?> customTimePicker({
+  required BuildContext context,
+  String? init,
+}) async {
+  String? _ret;
+  List<String> _hm = init!.split(':');
+  TimeOfDay? _selected = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay(
+      hour: int.parse(_hm.first),
+      minute: int.parse(_hm.last),
+    ),
+  );
+  if (_selected != null) {
+    _ret = '${_selected.format(context)}';
   }
   return _ret;
 }

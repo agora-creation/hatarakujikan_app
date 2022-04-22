@@ -72,7 +72,7 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                       return;
                     }
                     widget.userProvider.clearController();
-                    widget.userProvider.reloadUserModel();
+                    widget.userProvider.reloadUser();
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },

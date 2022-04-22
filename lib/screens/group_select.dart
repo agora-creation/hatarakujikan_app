@@ -31,7 +31,7 @@ class GroupSelect extends StatelessWidget {
           GroupModel _group = userProvider.groups[index];
           return CustomGroupSelectListTile(
             onTap: () {
-              userProvider.groupChange(_group);
+              userProvider.changeGroup(_group);
               Navigator.of(context, rootNavigator: true).pop();
             },
             group: _group,

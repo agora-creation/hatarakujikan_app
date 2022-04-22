@@ -75,7 +75,7 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
           SizedBox(height: 16.0),
           RoundBorderButton(
             onPressed: () {
-              applyWorkProvider.delete(applyWork: applyWork);
+              // applyWorkProvider.delete(applyWork: applyWork);
               Navigator.pop(context);
             },
             label: '申請を取り消す',

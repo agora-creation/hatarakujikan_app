@@ -1,24 +1,45 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:hatarakujikan_app/services/user_notice.dart';
 
 class UserNoticeProvider with ChangeNotifier {
   UserNoticeService _userNoticeService = UserNoticeService();
 
-  void updateRead({required UserNoticeModel notice}) {
-    _userNoticeService.update({
-      'id': notice.id,
-      'userId': notice.userId,
-      'read': true,
-    });
+  Future<bool> update({
+    String? id,
+    String? userId,
+  }) async {
+    if (id == null) return false;
+    if (userId == null) return false;
+    try {
+      _userNoticeService.update({
+        'id': id,
+        'userId': userId,
+        'read': true,
+      });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
   }
 
-  void delete({required UserNoticeModel notice}) {
-    _userNoticeService.delete({
-      'id': notice.id,
-      'userId': notice.userId,
-    });
+  Future<bool> delete({
+    String? id,
+    String? userId,
+  }) async {
+    if (id == null) return false;
+    if (userId == null) return false;
+    try {
+      _userNoticeService.delete({
+        'id': id,
+        'userId': userId,
+      });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
   }
 
   Future<NotificationSettings> requestPermissions() async {

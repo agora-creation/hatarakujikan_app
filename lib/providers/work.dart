@@ -11,14 +11,15 @@ class WorkProvider with ChangeNotifier {
   UserService _userService = UserService();
   WorkService _workService = WorkService();
 
-  Future<void> workStart({
+  Future<bool> workStart({
     GroupModel? group,
     UserModel? user,
     List<double>? locations,
     String? state,
   }) async {
-    if (group == null) return;
-    if (user == null) return;
+    if (group == null) return false;
+    if (user == null) return false;
+    if (state == null) return false;
     try {
       String _id = _workService.id();
       _workService.create({
@@ -26,11 +27,11 @@ class WorkProvider with ChangeNotifier {
         'groupId': group.id,
         'userId': user.id,
         'startedAt': DateTime.now(),
-        'startedLat': locations!.first,
-        'startedLon': locations.last,
+        'startedLat': locations?.first ?? 0,
+        'startedLon': locations?.last ?? 0,
         'endedAt': DateTime.now(),
-        'endedLat': locations.first,
-        'endedLon': locations.last,
+        'endedLat': locations?.first ?? 0,
+        'endedLon': locations?.last ?? 0,
         'breaks': [],
         'state': state,
         'createdAt': DateTime.now(),
@@ -52,29 +53,32 @@ class WorkProvider with ChangeNotifier {
         'workLv': _workLv,
         'lastWorkId': _id,
       });
+      return true;
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
-  Future<void> workEnd({
+  Future<bool> workEnd({
     GroupModel? group,
     UserModel? user,
     List<double>? locations,
   }) async {
-    if (group == null) return;
-    if (user == null) return;
+    if (group == null) return false;
+    if (user == null) return false;
+    WorkModel? _work = await _workService.select(id: user.lastWorkId);
+    if (_work?.groupId != group.id) return false;
+    if (_work?.userId != user.id) return false;
     try {
-      WorkModel _work = await _workService.select(id: user.lastWorkId);
-      if (_work.groupId != group.id) return;
       List<Map> _breaks = [];
-      for (BreaksModel breaks in _work.breaks) {
-        _breaks.add(breaks.toMap());
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        _breaks.add(_breaksModel.toMap());
       }
       if (group.autoBreak == true) {
-        String _id = randomString(20);
+        String _breaksId = randomString(20);
         _breaks.add({
-          'id': _id,
+          'id': _breaksId,
           'startedAt': DateTime.now(),
           'startedLat': 0.0,
           'startedLon': 0.0,
@@ -84,53 +88,55 @@ class WorkProvider with ChangeNotifier {
         });
       }
       _workService.update({
-        'id': user.lastWorkId,
+        'id': _work?.id,
         'endedAt': DateTime.now(),
-        'endedLat': locations!.first,
-        'endedLon': locations.last,
+        'endedLat': locations?.first ?? 0,
+        'endedLon': locations?.last ?? 0,
         'breaks': _breaks,
       });
-      int _workLv = 0;
       _userService.update({
         'id': user.id,
-        'workLv': _workLv,
+        'workLv': 0,
         'lastWorkId': '',
       });
+      return true;
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
-  Future<void> breakStart({
+  Future<bool> breakStart({
     GroupModel? group,
     UserModel? user,
     List<double>? locations,
   }) async {
-    if (group == null) return;
-    if (user == null) return;
+    if (group == null) return false;
+    if (user == null) return false;
+    WorkModel? _work = await _workService.select(id: user.lastWorkId);
+    if (_work?.groupId != group.id) return false;
+    if (_work?.userId != user.id) return false;
     try {
-      WorkModel _work = await _workService.select(id: user.lastWorkId);
-      if (_work.groupId != group.id) return;
       List<Map> _breaks = [];
-      for (BreaksModel breaks in _work.breaks) {
-        _breaks.add(breaks.toMap());
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        _breaks.add(_breaksModel.toMap());
       }
-      String _id = randomString(20);
+      String _breaksId = randomString(20);
       _breaks.add({
-        'id': _id,
+        'id': _breaksId,
         'startedAt': DateTime.now(),
-        'startedLat': locations!.first,
-        'startedLon': locations.last,
+        'startedLat': locations?.first ?? 0,
+        'startedLon': locations?.last ?? 0,
         'endedAt': DateTime.now(),
-        'endedLat': locations.first,
-        'endedLon': locations.last,
+        'endedLat': locations?.first ?? 0,
+        'endedLon': locations?.last ?? 0,
       });
       _workService.update({
-        'id': user.lastWorkId,
+        'id': _work?.id,
         'breaks': _breaks,
       });
       int _workLv = 91;
-      switch (_work.state) {
+      switch (_work?.state) {
         case '通常勤務':
           _workLv = 91;
           break;
@@ -144,38 +150,41 @@ class WorkProvider with ChangeNotifier {
       _userService.update({
         'id': user.id,
         'workLv': _workLv,
-        'lastBreakId': _id,
+        'lastBreakId': _breaksId,
       });
+      return true;
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
-  Future<void> breakEnd({
+  Future<bool> breakEnd({
     GroupModel? group,
     UserModel? user,
     List<double>? locations,
   }) async {
-    if (group == null) return;
-    if (user == null) return;
+    if (group == null) return false;
+    if (user == null) return false;
+    WorkModel? _work = await _workService.select(id: user.lastWorkId);
+    if (_work?.groupId != group.id) return false;
+    if (_work?.userId != user.id) return false;
     try {
-      WorkModel _work = await _workService.select(id: user.lastWorkId);
-      if (_work.groupId != group.id) return;
       List<Map> _breaks = [];
-      for (BreaksModel breaks in _work.breaks) {
-        if (breaks.id == user.lastBreakId) {
-          breaks.endedAt = DateTime.now();
-          breaks.endedLat = locations!.first;
-          breaks.endedLon = locations.last;
+      for (BreaksModel _breaksModel in _work?.breaks ?? []) {
+        if (_breaksModel.id == user.lastBreakId) {
+          _breaksModel.endedAt = DateTime.now();
+          _breaksModel.endedLat = locations?.first ?? 0;
+          _breaksModel.endedLon = locations?.last ?? 0;
         }
-        _breaks.add(breaks.toMap());
+        _breaks.add(_breaksModel.toMap());
       }
       _workService.update({
-        'id': user.lastWorkId,
+        'id': _work?.id,
         'breaks': _breaks,
       });
       int _workLv = 1;
-      switch (_work.state) {
+      switch (_work?.state) {
         case '通常勤務':
           _workLv = 1;
           break;
@@ -191,22 +200,24 @@ class WorkProvider with ChangeNotifier {
         'workLv': _workLv,
         'lastBreakId': '',
       });
+      return true;
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
   Future<List<WorkModel>> selectList({
-    required GroupModel group,
-    required UserModel user,
-    required DateTime startAt,
-    required DateTime endAt,
+    GroupModel? group,
+    UserModel? user,
+    DateTime? startAt,
+    DateTime? endAt,
   }) async {
     List<WorkModel> _works = [];
     await _workService
         .selectList(
-      groupId: group.id,
-      userId: user.id,
+      groupId: group?.id,
+      userId: user?.id,
       startAt: startAt,
       endAt: endAt,
     )

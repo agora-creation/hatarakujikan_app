@@ -99,7 +99,7 @@ class _WorkStartDialogState extends State<WorkStartDialog> {
       state: widget.state,
     )
         .then((value) {
-      widget.userProvider.reloadUserModel();
+      widget.userProvider.reloadUser();
       Navigator.pop(context);
     });
   }
@@ -151,7 +151,7 @@ class _WorkEndDialogState extends State<WorkEndDialog> {
       locations: widget.locations,
     )
         .then((value) {
-      widget.userProvider.reloadUserModel();
+      widget.userProvider.reloadUser();
       Navigator.pop(context);
     });
   }
@@ -203,7 +203,7 @@ class _BreakStartDialogState extends State<BreakStartDialog> {
       locations: widget.locations,
     )
         .then((value) {
-      widget.userProvider.reloadUserModel();
+      widget.userProvider.reloadUser();
       Navigator.pop(context);
     });
   }
@@ -255,7 +255,7 @@ class _BreakEndDialogState extends State<BreakEndDialog> {
       locations: widget.locations,
     )
         .then((value) {
-      widget.userProvider.reloadUserModel();
+      widget.userProvider.reloadUser();
       Navigator.pop(context);
     });
   }

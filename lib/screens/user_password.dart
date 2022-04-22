@@ -72,7 +72,7 @@ class UserPasswordScreen extends StatelessWidget {
                 return;
               }
               userProvider.clearController();
-              userProvider.reloadUserModel();
+              userProvider.reloadUser();
               Navigator.pop(context);
             },
             label: '変更を保存',

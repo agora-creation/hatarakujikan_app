@@ -5,8 +5,7 @@ class ApplyWorkService {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   String id() {
-    String _id = _firebaseFirestore.collection(_collection).doc().id;
-    return _id;
+    return _firebaseFirestore.collection(_collection).doc().id;
   }
 
   void create(Map<String, dynamic> values) {

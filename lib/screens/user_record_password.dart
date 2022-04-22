@@ -63,7 +63,7 @@ class _UserRecordPasswordScreenState extends State<UserRecordPasswordScreen> {
                       return;
                     }
                     widget.userProvider.clearController();
-                    widget.userProvider.reloadUserModel();
+                    widget.userProvider.reloadUser();
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },

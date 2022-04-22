@@ -14,7 +14,7 @@ import 'package:hatarakujikan_app/screens/intro.dart';
 import 'package:hatarakujikan_app/screens/splash.dart';
 import 'package:provider/provider.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
@@ -30,7 +30,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-Future<void> main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -67,9 +67,9 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
-          const Locale('ja', ''),
+          const Locale('ja'),
         ],
-        locale: const Locale('ja', ''),
+        locale: const Locale('ja'),
         title: 'はたらくじかんforスマートフォン',
         theme: theme(),
         home: SplashController(),

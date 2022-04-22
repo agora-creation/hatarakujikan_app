@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/define.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
@@ -10,7 +10,6 @@ import 'package:hatarakujikan_app/widgets/custom_date_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_icon_label.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/custom_time_button.dart';
-import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
 
@@ -113,12 +112,12 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                       ),
                     );
                     if (_selected != null) {
-                      DateTime? _dateTime = rebuildTime(
-                        context,
-                        _work!.startedAt,
-                        _selected,
-                      );
-                      setState(() => _work!.startedAt = _dateTime);
+                      // DateTime? _dateTime = rebuildTime(
+                      //   context,
+                      //   _work!.startedAt,
+                      //   _selected,
+                      // );
+                      // setState(() => _work!.startedAt = _dateTime);
                     }
                   },
                   label: dateText('HH:mm', _work!.startedAt),
@@ -179,13 +178,13 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                     ),
                                   );
                                   if (_selected != null) {
-                                    DateTime _dateTime = rebuildTime(
-                                      context,
-                                      _breaks.startedAt,
-                                      _selected,
-                                    );
-                                    setState(
-                                        () => _breaks.startedAt = _dateTime);
+                                    // DateTime _dateTime = rebuildTime(
+                                    //   context,
+                                    //   _breaks.startedAt,
+                                    //   _selected,
+                                    // );
+                                    // setState(
+                                    //     () => _breaks.startedAt = _dateTime);
                                   }
                                 },
                                 label: dateText('HH:mm', _breaks.startedAt),
@@ -239,12 +238,12 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                                     ),
                                   );
                                   if (_selected != null) {
-                                    DateTime _dateTime = rebuildTime(
-                                      context,
-                                      _breaks.endedAt,
-                                      _selected,
-                                    );
-                                    setState(() => _breaks.endedAt = _dateTime);
+                                    // DateTime _dateTime = rebuildTime(
+                                    //   context,
+                                    //   _breaks.endedAt,
+                                    //   _selected,
+                                    // );
+                                    // setState(() => _breaks.endedAt = _dateTime);
                                   }
                                 },
                                 label: dateText('HH:mm', _breaks.endedAt),
@@ -299,12 +298,12 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                       ),
                     );
                     if (_selected != null) {
-                      DateTime _dateTime = rebuildTime(
-                        context,
-                        _work!.endedAt,
-                        _selected,
-                      );
-                      setState(() => _work!.endedAt = _dateTime);
+                      // DateTime _dateTime = rebuildTime(
+                      //   context,
+                      //   _work!.endedAt,
+                      //   _selected,
+                      // );
+                      // setState(() => _work!.endedAt = _dateTime);
                     }
                   },
                   label: dateText('HH:mm', _work!.endedAt),
@@ -327,18 +326,18 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
           SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () async {
-              if (!await applyWorkProvider.create(
-                user: widget.user,
-                work: _work,
-                reason: reason.text.trim(),
-              )) {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (_) => ErrorDialog('申請に失敗しました。'),
-                );
-                return;
-              }
+              // if (!await applyWorkProvider.create(
+              //   user: widget.user,
+              //   work: _work,
+              //   reason: reason.text.trim(),
+              // )) {
+              //   showDialog(
+              //     barrierDismissible: false,
+              //     context: context,
+              //     builder: (_) => ErrorDialog('申請に失敗しました。'),
+              //   );
+              //   return;
+              // }
               Navigator.of(context, rootNavigator: true).pop();
             },
             label: '申請する',

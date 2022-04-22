@@ -88,12 +88,13 @@ class LoginScreen extends StatelessWidget {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (_) => ErrorDialog('ログインに失敗しました。'),
+                                builder: (_) => ErrorDialog(
+                                  'ログインに失敗しました。',
+                                ),
                               );
                               return;
                             }
                             userProvider.clearController();
-                            userProvider.reloadUserModel();
                             changeScreen(context, HomeScreen());
                           },
                           label: 'ログイン',

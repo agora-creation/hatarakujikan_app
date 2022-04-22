@@ -27,8 +27,8 @@ class _GroupScreenState extends State<GroupScreen> {
   String _prefsGroupId = '';
 
   void _init() async {
-    String _prefs = await getPrefs(key: 'groupId');
-    setState(() => _prefsGroupId = _prefs);
+    String? _prefs = await getPrefs('groupId');
+    setState(() => _prefsGroupId = _prefs ?? '');
   }
 
   @override

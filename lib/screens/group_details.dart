@@ -39,8 +39,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         builder: (_) => UpdaterDialog(),
       );
     });
-    String _prefs = await getPrefs(key: 'groupId');
-    setState(() => _prefsGroupId = _prefs);
+    String? _prefs = await getPrefs('groupId');
+    setState(() => _prefsGroupId = _prefs ?? '');
   }
 
   @override
@@ -107,7 +107,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             );
                             return;
                           }
-                          widget.userProvider.reloadUserModel();
+                          widget.userProvider.reloadUser();
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
@@ -132,7 +132,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                             );
                             return;
                           }
-                          widget.userProvider.reloadUserModel();
+                          widget.userProvider.reloadUser();
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },

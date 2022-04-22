@@ -75,7 +75,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                             );
                             return;
                           }
-                          widget.userProvider.reloadUserModel();
+                          widget.userProvider.reloadUser();
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },

@@ -7,8 +7,7 @@ class WorkService {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   String id() {
-    String _id = _firebaseFirestore.collection(_collection).doc().id;
-    return _id;
+    return _firebaseFirestore.collection(_collection).doc().id;
   }
 
   void create(Map<String, dynamic> values) {
@@ -19,7 +18,7 @@ class WorkService {
     _firebaseFirestore.collection(_collection).doc(values['id']).update(values);
   }
 
-  Future<WorkModel> select({required String id}) async {
+  Future<WorkModel?> select({String? id}) async {
     WorkModel? _work;
     await _firebaseFirestore
         .collection(_collection)
@@ -27,21 +26,19 @@ class WorkService {
         .get()
         .then((value) {
       _work = WorkModel.fromSnapshot(value);
-    }).catchError((e) {
-      _work = null;
     });
-    return _work!;
+    return _work;
   }
 
   Future<List<WorkModel>> selectList({
-    required String groupId,
-    required String userId,
-    required DateTime startAt,
-    required DateTime endAt,
+    String? groupId,
+    String? userId,
+    DateTime? startAt,
+    DateTime? endAt,
   }) async {
     List<WorkModel> _works = [];
-    Timestamp _startAt = convertTimestamp(startAt, false);
-    Timestamp _endAt = convertTimestamp(endAt, true);
+    Timestamp _startAt = convertTimestamp(startAt!, false);
+    Timestamp _endAt = convertTimestamp(endAt!, true);
     await _firebaseFirestore
         .collection(_collection)
         .where('groupId', isEqualTo: groupId)
