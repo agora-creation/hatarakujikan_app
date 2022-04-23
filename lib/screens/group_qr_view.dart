@@ -65,7 +65,7 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateIn(
                             group: widget.group,
-                            user: widget.userProvider.user!,
+                            user: widget.userProvider.user,
                           )) {
                             setState(() => _isLoading = false);
                             showDialog(
@@ -96,7 +96,6 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                   color: Colors.blue,
                   borderColor: Colors.blue,
                 ),
-                SizedBox(height: 40.0),
               ],
             ),
     );

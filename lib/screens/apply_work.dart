@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/define.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
@@ -10,16 +10,17 @@ import 'package:hatarakujikan_app/widgets/custom_date_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_icon_label.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/custom_time_button.dart';
+import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
 import 'package:provider/provider.dart';
 
 class ApplyWorkScreen extends StatefulWidget {
-  final UserModel user;
   final WorkModel work;
+  final UserModel user;
 
   ApplyWorkScreen({
-    required this.user,
     required this.work,
+    required this.user,
   });
 
   @override
@@ -27,7 +28,8 @@ class ApplyWorkScreen extends StatefulWidget {
 }
 
 class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
-  WorkModel? _work;
+  ApplyWorkModel? applyWork;
+  List<BreaksModel> breaks = [];
   TextEditingController reason = TextEditingController();
 
   void _init() async {
@@ -39,7 +41,19 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
         builder: (_) => UpdaterDialog(),
       );
     });
-    setState(() => _work = widget.work);
+    if (mounted) {
+      setState(() {
+        applyWork = ApplyWorkModel.set({
+          'workId': widget.work.id,
+          'groupId': widget.work.groupId,
+          'userId': widget.work.userId,
+          'userName': '',
+          'startedAt': widget.work.startedAt,
+          'endedAt': widget.work.endedAt,
+        });
+        breaks = widget.work.breaks;
+      });
+    }
   }
 
   @override
@@ -61,8 +75,8 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
         title: Text('記録修正申請', style: TextStyle(color: Colors.black54)),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Colors.black54),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),
@@ -82,21 +96,18 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 3,
                 child: CustomDateButton(
                   onTap: () async {
-                    DateTime? _selected = await showDatePicker(
+                    DateTime? _date = await customDatePicker(
                       context: context,
-                      initialDate: _work!.startedAt,
-                      firstDate: kDayFirstDate,
-                      lastDate: kDayLastDate,
+                      init: applyWork?.startedAt ?? DateTime.now(),
                     );
-                    if (_selected != null) {
-                      _selected = rebuildDate(
-                        _selected,
-                        _work!.startedAt,
-                      );
-                      setState(() => _work!.startedAt = _selected!);
-                    }
+                    if (_date == null) return;
+                    DateTime _dateTime = rebuildDate(
+                      _date,
+                      applyWork?.startedAt,
+                    );
+                    setState(() => applyWork?.startedAt = _dateTime);
                   },
-                  label: dateText('yyyy/MM/dd', _work!.startedAt),
+                  label: dateText('yyyy/MM/dd', applyWork?.startedAt),
                 ),
               ),
               SizedBox(width: 4.0),
@@ -104,35 +115,79 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                 flex: 2,
                 child: CustomTimeButton(
                   onTap: () async {
-                    TimeOfDay? _selected = await showTimePicker(
+                    String? _time = await customTimePicker(
                       context: context,
-                      initialTime: TimeOfDay(
-                        hour: timeToInt(_work!.startedAt)[0],
-                        minute: timeToInt(_work!.startedAt)[1],
-                      ),
+                      init: dateText('HH:mm', applyWork?.startedAt),
                     );
-                    if (_selected != null) {
-                      // DateTime? _dateTime = rebuildTime(
-                      //   context,
-                      //   _work!.startedAt,
-                      //   _selected,
-                      // );
-                      // setState(() => _work!.startedAt = _dateTime);
-                    }
+                    if (_time == null) return;
+                    DateTime _dateTime = rebuildTime(
+                      context,
+                      applyWork?.startedAt,
+                      _time,
+                    );
+                    setState(() => applyWork?.startedAt = _dateTime);
                   },
-                  label: dateText('HH:mm', _work!.startedAt),
+                  label: dateText('HH:mm', applyWork?.startedAt),
                 ),
               ),
             ],
           ),
           SizedBox(height: 8.0),
-          _work!.breaks.length > 0
+          CustomIconLabel(
+            icon: Icon(Icons.run_circle, color: Colors.red),
+            label: '退勤日時',
+          ),
+          SizedBox(height: 4.0),
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: CustomDateButton(
+                  onTap: () async {
+                    DateTime? _date = await customDatePicker(
+                      context: context,
+                      init: applyWork?.endedAt ?? DateTime.now(),
+                    );
+                    if (_date == null) return;
+                    DateTime _dateTime = rebuildDate(
+                      _date,
+                      applyWork?.endedAt,
+                    );
+                    setState(() => applyWork?.endedAt = _dateTime);
+                  },
+                  label: dateText('yyyy/MM/dd', applyWork?.endedAt),
+                ),
+              ),
+              SizedBox(width: 4.0),
+              Expanded(
+                flex: 2,
+                child: CustomTimeButton(
+                  onTap: () async {
+                    String? _time = await customTimePicker(
+                      context: context,
+                      init: dateText('HH:mm', applyWork?.endedAt),
+                    );
+                    if (_time == null) return;
+                    DateTime _dateTime = rebuildTime(
+                      context,
+                      applyWork?.endedAt,
+                      _time,
+                    );
+                    setState(() => applyWork?.endedAt = _dateTime);
+                  },
+                  label: dateText('HH:mm', applyWork?.endedAt),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.0),
+          breaks.length > 0
               ? ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
-                  itemCount: _work!.breaks.length,
+                  itemCount: breaks.length,
                   itemBuilder: (_, index) {
-                    BreaksModel _breaks = _work!.breaks[index];
+                    BreaksModel _breaks = breaks[index];
                     return Column(
                       children: [
                         CustomIconLabel(
@@ -146,23 +201,21 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 3,
                               child: CustomDateButton(
                                 onTap: () async {
-                                  DateTime? _selected = await showDatePicker(
+                                  DateTime? _date = await customDatePicker(
                                     context: context,
-                                    initialDate: _breaks.startedAt,
-                                    firstDate: kDayFirstDate,
-                                    lastDate: kDayLastDate,
+                                    init: _breaks.startedAt,
                                   );
-                                  if (_selected != null) {
-                                    _selected = rebuildDate(
-                                      _selected,
-                                      _breaks.startedAt,
-                                    );
-                                    setState(
-                                        () => _breaks.startedAt = _selected!);
-                                  }
+                                  if (_date == null) return;
+                                  DateTime _dateTime = rebuildDate(
+                                    _date,
+                                    _breaks.startedAt,
+                                  );
+                                  setState(() => _breaks.startedAt = _dateTime);
                                 },
-                                label:
-                                    dateText('yyyy/MM/dd', _breaks.startedAt),
+                                label: dateText(
+                                  'yyyy/MM/dd',
+                                  _breaks.startedAt,
+                                ),
                               ),
                             ),
                             SizedBox(width: 4.0),
@@ -170,22 +223,17 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 2,
                               child: CustomTimeButton(
                                 onTap: () async {
-                                  TimeOfDay? _selected = await showTimePicker(
+                                  String? _time = await customTimePicker(
                                     context: context,
-                                    initialTime: TimeOfDay(
-                                      hour: timeToInt(_breaks.startedAt)[0],
-                                      minute: timeToInt(_breaks.startedAt)[1],
-                                    ),
+                                    init: dateText('HH:mm', _breaks.startedAt),
                                   );
-                                  if (_selected != null) {
-                                    // DateTime _dateTime = rebuildTime(
-                                    //   context,
-                                    //   _breaks.startedAt,
-                                    //   _selected,
-                                    // );
-                                    // setState(
-                                    //     () => _breaks.startedAt = _dateTime);
-                                  }
+                                  if (_time == null) return;
+                                  DateTime _dateTime = rebuildTime(
+                                    context,
+                                    _breaks.startedAt,
+                                    _time,
+                                  );
+                                  setState(() => _breaks.startedAt = _dateTime);
                                 },
                                 label: dateText('HH:mm', _breaks.startedAt),
                               ),
@@ -207,20 +255,16 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 3,
                               child: CustomDateButton(
                                 onTap: () async {
-                                  DateTime? _selected = await showDatePicker(
+                                  DateTime? _date = await customDatePicker(
                                     context: context,
-                                    initialDate: _breaks.endedAt,
-                                    firstDate: kDayFirstDate,
-                                    lastDate: kDayLastDate,
+                                    init: _breaks.endedAt,
                                   );
-                                  if (_selected != null) {
-                                    _selected = rebuildDate(
-                                      _selected,
-                                      _breaks.endedAt,
-                                    );
-                                    setState(
-                                        () => _breaks.endedAt = _selected!);
-                                  }
+                                  if (_date == null) return;
+                                  DateTime _dateTime = rebuildDate(
+                                    _date,
+                                    _breaks.endedAt,
+                                  );
+                                  setState(() => _breaks.endedAt = _dateTime);
                                 },
                                 label: dateText('yyyy/MM/dd', _breaks.endedAt),
                               ),
@@ -230,21 +274,17 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                               flex: 2,
                               child: CustomTimeButton(
                                 onTap: () async {
-                                  TimeOfDay? _selected = await showTimePicker(
+                                  String? _time = await customTimePicker(
                                     context: context,
-                                    initialTime: TimeOfDay(
-                                      hour: timeToInt(_breaks.endedAt)[0],
-                                      minute: timeToInt(_breaks.endedAt)[1],
-                                    ),
+                                    init: dateText('HH:mm', _breaks.endedAt),
                                   );
-                                  if (_selected != null) {
-                                    // DateTime _dateTime = rebuildTime(
-                                    //   context,
-                                    //   _breaks.endedAt,
-                                    //   _selected,
-                                    // );
-                                    // setState(() => _breaks.endedAt = _dateTime);
-                                  }
+                                  if (_time == null) return;
+                                  DateTime _dateTime = rebuildTime(
+                                    context,
+                                    _breaks.endedAt,
+                                    _time,
+                                  );
+                                  setState(() => _breaks.endedAt = _dateTime);
                                 },
                                 label: dateText('HH:mm', _breaks.endedAt),
                               ),
@@ -256,61 +296,6 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
                   },
                 )
               : Container(),
-          SizedBox(height: 8.0),
-          CustomIconLabel(
-            icon: Icon(Icons.run_circle, color: Colors.red),
-            label: '退勤日時',
-          ),
-          SizedBox(height: 4.0),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: CustomDateButton(
-                  onTap: () async {
-                    DateTime? _selected = await showDatePicker(
-                      context: context,
-                      initialDate: _work!.endedAt,
-                      firstDate: kDayFirstDate,
-                      lastDate: kDayLastDate,
-                    );
-                    if (_selected != null) {
-                      _selected = rebuildDate(
-                        _selected,
-                        _work!.endedAt,
-                      );
-                      setState(() => _work!.endedAt = _selected!);
-                    }
-                  },
-                  label: dateText('yyyy/MM/dd', _work!.endedAt),
-                ),
-              ),
-              SizedBox(width: 4.0),
-              Expanded(
-                flex: 2,
-                child: CustomTimeButton(
-                  onTap: () async {
-                    TimeOfDay? _selected = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay(
-                        hour: timeToInt(_work!.endedAt)[0],
-                        minute: timeToInt(_work!.endedAt)[1],
-                      ),
-                    );
-                    if (_selected != null) {
-                      // DateTime _dateTime = rebuildTime(
-                      //   context,
-                      //   _work!.endedAt,
-                      //   _selected,
-                      // );
-                      // setState(() => _work!.endedAt = _dateTime);
-                    }
-                  },
-                  label: dateText('HH:mm', _work!.endedAt),
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: 16.0),
           CustomTextFormField(
             controller: reason,
@@ -326,25 +311,22 @@ class _ApplyWorkScreenState extends State<ApplyWorkScreen> {
           SizedBox(height: 16.0),
           RoundBackgroundButton(
             onPressed: () async {
-              // if (!await applyWorkProvider.create(
-              //   user: widget.user,
-              //   work: _work,
-              //   reason: reason.text.trim(),
-              // )) {
-              //   showDialog(
-              //     barrierDismissible: false,
-              //     context: context,
-              //     builder: (_) => ErrorDialog('申請に失敗しました。'),
-              //   );
-              //   return;
-              // }
+              applyWork?.breaks = breaks;
+              applyWork?.reason = reason.text.trim();
+              if (!await applyWorkProvider.create(applyWork: applyWork)) {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (_) => ErrorDialog('申請に失敗しました。'),
+                );
+                return;
+              }
               Navigator.of(context, rootNavigator: true).pop();
             },
             label: '申請する',
             color: Colors.white,
             backgroundColor: Colors.blue,
           ),
-          SizedBox(height: 40.0),
         ],
       ),
     );

@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/providers/apply_work.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/apply.dart';
 import 'package:hatarakujikan_app/screens/group.dart';
@@ -13,20 +16,16 @@ import 'package:hatarakujikan_app/screens/work.dart';
 import 'package:hatarakujikan_app/widgets/custom_bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _tabsIndex = 0;
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final applyWorkProvider = Provider.of<ApplyWorkProvider>(context);
     final groupProvider = Provider.of<GroupProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
     final workProvider = Provider.of<WorkProvider>(context);
-    final List<Widget> _tabs = [
+    UserModel? user = userProvider.user;
+    List<Widget> _tabs = [
       WorkScreen(
         userProvider: userProvider,
         workProvider: workProvider,
@@ -36,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         workProvider: workProvider,
       ),
       ApplyScreen(
+        applyWorkProvider: applyWorkProvider,
         userProvider: userProvider,
       ),
       GroupScreen(
@@ -43,62 +43,55 @@ class _HomeScreenState extends State<HomeScreen> {
         userProvider: userProvider,
       ),
     ];
-    Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
-        .collection('user')
-        .doc(userProvider.user!.id)
-        .collection('notice')
-        .where('read', isEqualTo: false)
-        .snapshots();
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(userProvider.user!.name),
+        title: Text(user?.name ?? ''),
         actions: [
           StreamBuilder<QuerySnapshot>(
-            stream: _stream,
+            stream: userProvider.streamNotice(userId: user?.id),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return IconButton(
-                  onPressed: null,
                   icon: Icon(Icons.notifications_off_outlined),
+                  onPressed: null,
                 );
               }
               List<DocumentSnapshot> docs = snapshot.data!.docs;
-              if (docs.length == 0) {
-                return IconButton(
-                  onPressed: () => overlayScreen(
-                    context,
-                    NoticeScreen(user: userProvider.user!),
+              return IconButton(
+                icon: docs.length == 0
+                    ? Icon(Icons.notifications_none)
+                    : Icon(
+                        Icons.notification_important_sharp,
+                        color: Colors.red,
+                      ),
+                onPressed: () => overlayScreen(
+                  context,
+                  NoticeScreen(
+                    userProvider: userProvider,
+                    userNoticeProvider: userNoticeProvider,
                   ),
-                  icon: Icon(Icons.notifications_none),
-                );
-              } else {
-                return IconButton(
-                  onPressed: () => overlayScreen(
-                    context,
-                    NoticeScreen(user: userProvider.user!),
-                  ),
-                  icon: Icon(
-                    Icons.notification_important_sharp,
-                    color: Colors.red,
-                  ),
-                );
-              }
+                ),
+              );
             },
           ),
           IconButton(
-            onPressed: () => overlayScreen(context, SettingScreen()),
             icon: Icon(Icons.settings),
+            onPressed: () => overlayScreen(
+              context,
+              SettingScreen(
+                userProvider: userProvider,
+                userNoticeProvider: userNoticeProvider,
+              ),
+            ),
           ),
         ],
       ),
-      body: _tabs[_tabsIndex],
+      body: _tabs[userProvider.tabsIndex],
       bottomNavigationBar: CustomBottomNavigationBar(
-        onTap: (index) {
-          setState(() => _tabsIndex = index);
-        },
-        currentIndex: _tabsIndex,
+        onTap: (index) => userProvider.changeTabs(index),
+        currentIndex: userProvider.tabsIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

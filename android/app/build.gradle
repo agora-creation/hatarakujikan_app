@@ -41,9 +41,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 32
 //        versionCode flutterVersionCode.toInteger()
-        versionCode 30
+        versionCode 31
 //        versionName flutterVersionName
-        versionName '2.0.0'
+        versionName '2.0.1'
         multiDexEnabled true
     }
 
@@ -78,7 +78,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.2'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.3'
     implementation 'com.google.firebase:firebase-inappmessaging-display'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-analytics'

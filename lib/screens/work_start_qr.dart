@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/define.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -45,12 +47,10 @@ class _WorkStartQRScreenState extends State<WorkStartQRScreen> {
     setState(() => _qrController = qrController);
     qrController.scannedDataStream.listen((scanData) {
       if (scanData.code == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('QRコードがありません')),
-        );
+        customSnackBar(context, 'QRコードがありません');
       }
-      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code!)) {
-        if (widget.userProvider.group!.id == scanData.code) {
+      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code ?? '')) {
+        if (widget.userProvider.group?.id == scanData.code) {
           _nextAction();
         }
       }
@@ -68,7 +68,7 @@ class _WorkStartQRScreenState extends State<WorkStartQRScreen> {
           userProvider: widget.userProvider,
           workProvider: widget.workProvider,
           locations: widget.locations,
-          state: '通常勤務',
+          state: workStates[0],
         ),
       ).then((value) {
         _qrController?.dispose();
@@ -89,8 +89,8 @@ class _WorkStartQRScreenState extends State<WorkStartQRScreen> {
         title: Text('出勤する', style: TextStyle(color: Color(0xFFFEFFFA))),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Color(0xFFFEFFFA)),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),

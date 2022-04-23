@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class CustomHeadListTile extends StatelessWidget {
+class HistoryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

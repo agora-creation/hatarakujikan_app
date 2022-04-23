@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
@@ -43,5 +44,20 @@ class ApplyWorkProvider with ChangeNotifier {
       print(e.toString());
       return false;
     }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamList({
+    String? groupId,
+    String? userId,
+  }) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
+    _ret = FirebaseFirestore.instance
+        .collection('applyWork')
+        .where('groupId', isEqualTo: groupId ?? 'error')
+        .where('userId', isEqualTo: userId ?? 'error')
+        .where('approval', isEqualTo: false)
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+    return _ret;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomExpandedButton extends StatelessWidget {
+class ExpandedButton extends StatelessWidget {
   final Color? backgroundColor;
   final String? label;
   final Color? color;
@@ -8,7 +8,7 @@ class CustomExpandedButton extends StatelessWidget {
   final Icon? trailing;
   final Function()? onTap;
 
-  CustomExpandedButton({
+  ExpandedButton({
     this.backgroundColor,
     this.label,
     this.color,

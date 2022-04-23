@@ -314,6 +314,12 @@ String dateText(String format, DateTime? date) {
   return _ret;
 }
 
+void customSnackBar(BuildContext context, String? message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message ?? '')),
+  );
+}
+
 Future<DateTime?> customMonthPicker({
   required BuildContext context,
   required DateTime init,

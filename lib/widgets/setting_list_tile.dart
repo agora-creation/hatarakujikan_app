@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class CustomSettingListTile extends StatelessWidget {
+class SettingListTile extends StatelessWidget {
   final IconData? iconData;
   final String? label;
   final Function()? onTap;
 
-  CustomSettingListTile({
+  SettingListTile({
     this.iconData,
     this.label,
     this.onTap,

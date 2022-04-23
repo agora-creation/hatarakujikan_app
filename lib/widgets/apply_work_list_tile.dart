@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class CustomApplyWorkListTile extends StatelessWidget {
+class ApplyWorkListTile extends StatelessWidget {
   final String? label;
   final String? value;
 
-  CustomApplyWorkListTile({
+  ApplyWorkListTile({
     this.label,
     this.value,
   });

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
@@ -225,5 +226,46 @@ class WorkProvider with ChangeNotifier {
       _works = value;
     });
     return _works;
+  }
+
+  DateTime month = DateTime.now();
+  List<DateTime> days = generateDays(DateTime.now());
+
+  void changeMonth(DateTime value) {
+    month = value;
+    days = generateDays(month);
+    notifyListeners();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamList({
+    String? groupId,
+    String? userId,
+  }) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
+    Timestamp _startAt = convertTimestamp(days.first, false);
+    Timestamp _endAt = convertTimestamp(days.last, true);
+    _ret = FirebaseFirestore.instance
+        .collection('work')
+        .where('groupId', isEqualTo: groupId ?? 'error')
+        .where('userId', isEqualTo: userId ?? 'error')
+        .orderBy('startedAt', descending: false)
+        .startAt([_startAt]).endAt([_endAt]).snapshots();
+    return _ret;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamListShift({
+    String? groupId,
+    String? userId,
+  }) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
+    Timestamp _startAt = convertTimestamp(days.first, false);
+    Timestamp _endAt = convertTimestamp(days.last, true);
+    _ret = FirebaseFirestore.instance
+        .collection('workShift')
+        .where('groupId', isEqualTo: groupId ?? 'error')
+        .where('userId', isEqualTo: userId ?? 'error')
+        .orderBy('startedAt', descending: false)
+        .startAt([_startAt]).endAt([_endAt]).snapshots();
+    return _ret;
   }
 }

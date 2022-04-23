@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class CustomApplyListTile extends StatelessWidget {
+class ApplyListTile extends StatelessWidget {
   final String? state;
   final DateTime? dateTime;
   final Function()? onTap;
 
-  CustomApplyListTile({
+  ApplyListTile({
     this.state,
     this.dateTime,
     this.onTap,

@@ -7,10 +7,10 @@ class ApplyWorkModel {
   String _groupId = '';
   String _userId = '';
   String _userName = '';
-  DateTime _startedAt = DateTime.now();
-  DateTime _endedAt = DateTime.now();
+  DateTime startedAt = DateTime.now();
+  DateTime endedAt = DateTime.now();
   List<BreaksModel> breaks = [];
-  String _reason = '';
+  String reason = '';
   bool _approval = false;
   DateTime _createdAt = DateTime.now();
 
@@ -19,11 +19,22 @@ class ApplyWorkModel {
   String get groupId => _groupId;
   String get userId => _userId;
   String get userName => _userName;
-  DateTime get startedAt => _startedAt;
-  DateTime get endedAt => _endedAt;
-  String get reason => _reason;
   bool get approval => _approval;
   DateTime get createdAt => _createdAt;
+
+  ApplyWorkModel.set(Map data) {
+    _id = data['id'] ?? '';
+    _workId = data['groupId'] ?? '';
+    _groupId = data['groupId'] ?? '';
+    _userId = data['userId'] ?? '';
+    _userName = data['userName'] ?? '';
+    startedAt = data['startedAt'] ?? DateTime.now();
+    endedAt = data['endedAt'] ?? DateTime.now();
+    breaks = data['breaks'] ?? [];
+    reason = data['reason'] ?? '';
+    _approval = data['approval'] ?? false;
+    _createdAt = data['createdAt'] ?? DateTime.now();
+  }
 
   ApplyWorkModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     _id = snapshot.data()!['id'] ?? '';
@@ -31,10 +42,10 @@ class ApplyWorkModel {
     _groupId = snapshot.data()!['groupId'] ?? '';
     _userId = snapshot.data()!['userId'] ?? '';
     _userName = snapshot.data()!['userName'] ?? '';
-    _startedAt = snapshot.data()!['startedAt'].toDate() ?? DateTime.now();
-    _endedAt = snapshot.data()!['endedAt'].toDate() ?? DateTime.now();
+    startedAt = snapshot.data()!['startedAt'].toDate() ?? DateTime.now();
+    endedAt = snapshot.data()!['endedAt'].toDate() ?? DateTime.now();
     breaks = _convertBreaks(snapshot.data()!['breaks']);
-    _reason = snapshot.data()!['reason'] ?? '';
+    reason = snapshot.data()!['reason'] ?? '';
     _approval = snapshot.data()!['approval'] ?? false;
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }

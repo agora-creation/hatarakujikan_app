@@ -3,19 +3,20 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/providers/apply_work.dart';
-import 'package:hatarakujikan_app/widgets/custom_apply_work_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/apply_work_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:provider/provider.dart';
 
 class ApplyWorkDetailsScreen extends StatelessWidget {
+  final ApplyWorkProvider applyWorkProvider;
   final ApplyWorkModel applyWork;
 
-  ApplyWorkDetailsScreen({required this.applyWork});
+  ApplyWorkDetailsScreen({
+    required this.applyWorkProvider,
+    required this.applyWork,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final applyWorkProvider = Provider.of<ApplyWorkProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue.shade100,
@@ -23,8 +24,8 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('記録修正申請', style: TextStyle(color: Colors.black54)),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: ListView(
@@ -32,11 +33,11 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
         children: [
           Text('申請内容をご確認ください。'),
           SizedBox(height: 16.0),
-          CustomApplyWorkListTile(
+          ApplyWorkListTile(
             label: '申請日時',
             value: dateText('yyyy/MM/dd HH:mm', applyWork.createdAt),
           ),
-          CustomApplyWorkListTile(
+          ApplyWorkListTile(
             label: '出勤日時',
             value: dateText('yyyy/MM/dd HH:mm', applyWork.startedAt),
           ),
@@ -50,39 +51,43 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        CustomApplyWorkListTile(
+                        ApplyWorkListTile(
                           label: '休憩開始日時',
-                          value:
-                              dateText('yyyy/MM/dd HH:mm', _breaks.startedAt),
+                          value: dateText(
+                            'yyyy/MM/dd HH:mm',
+                            _breaks.startedAt,
+                          ),
                         ),
-                        CustomApplyWorkListTile(
+                        ApplyWorkListTile(
                           label: '休憩終了日時',
-                          value: dateText('yyyy/MM/dd HH:mm', _breaks.endedAt),
+                          value: dateText(
+                            'yyyy/MM/dd HH:mm',
+                            _breaks.endedAt,
+                          ),
                         ),
                       ],
                     );
                   },
                 )
               : Container(),
-          CustomApplyWorkListTile(
+          ApplyWorkListTile(
             label: '退勤日時',
             value: dateText('yyyy/MM/dd HH:mm', applyWork.endedAt),
           ),
-          CustomApplyWorkListTile(
+          ApplyWorkListTile(
             label: '事由',
             value: applyWork.reason,
           ),
           SizedBox(height: 16.0),
           RoundBorderButton(
-            onPressed: () {
-              // applyWorkProvider.delete(applyWork: applyWork);
-              Navigator.pop(context);
-            },
             label: '申請を取り消す',
             color: Colors.red,
             borderColor: Colors.red,
+            onPressed: () {
+              applyWorkProvider.delete(id: applyWork.id);
+              Navigator.pop(context);
+            },
           ),
-          SizedBox(height: 40.0),
         ],
       ),
     );

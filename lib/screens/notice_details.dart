@@ -38,8 +38,8 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
         centerTitle: true,
         title: Text('お知らせの詳細'),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: ListView(
@@ -64,6 +64,9 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
           ),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
+            label: 'このお知らせを削除する',
+            color: Colors.white,
+            backgroundColor: Colors.red,
             onPressed: () {
               widget.userNoticeProvider.delete(
                 id: widget.notice.id,
@@ -71,11 +74,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
               );
               Navigator.pop(context);
             },
-            label: 'このお知らせを削除する',
-            color: Colors.white,
-            backgroundColor: Colors.red,
           ),
-          SizedBox(height: 40.0),
         ],
       ),
     );

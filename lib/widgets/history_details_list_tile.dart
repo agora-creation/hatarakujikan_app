@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class CustomHistoryDetailsListTile extends StatelessWidget {
+class HistoryDetailsListTile extends StatelessWidget {
   final Icon? icon;
   final String? label;
   final String? time;
 
-  CustomHistoryDetailsListTile({
+  HistoryDetailsListTile({
     this.icon,
     this.label,
     this.time,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
+import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/screens/login.dart';
@@ -8,17 +9,23 @@ import 'package:hatarakujikan_app/screens/user_email.dart';
 import 'package:hatarakujikan_app/screens/user_password.dart';
 import 'package:hatarakujikan_app/screens/user_record_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
-import 'package:hatarakujikan_app/widgets/custom_setting_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:provider/provider.dart';
+import 'package:hatarakujikan_app/widgets/setting_list_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatelessWidget {
+  final UserProvider userProvider;
+  final UserNoticeProvider userNoticeProvider;
+
+  SettingScreen({
+    required this.userProvider,
+    required this.userNoticeProvider,
+  });
+
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    final userNoticeProvider = Provider.of<UserNoticeProvider>(context);
+    UserModel? _user = userProvider.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,8 +36,8 @@ class SettingScreen extends StatelessWidget {
         title: Text('各種設定'),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),
@@ -40,20 +47,22 @@ class SettingScreen extends StatelessWidget {
           Text('ユーザー情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
-          CustomSettingListTile(
+          SettingListTile(
+            iconData: Icons.person,
+            label: 'ユーザー情報変更',
             onTap: () {
               userProvider.clearController();
-              userProvider.name.text = userProvider.user?.name ?? '';
-              userProvider.email.text = userProvider.user?.email ?? '';
+              userProvider.name.text = _user?.name ?? '';
+              userProvider.email.text = _user?.email ?? '';
               nextScreen(
                 context,
                 UserEmailScreen(userProvider: userProvider),
               );
             },
-            iconData: Icons.person,
-            label: 'ユーザー情報変更',
           ),
-          CustomSettingListTile(
+          SettingListTile(
+            iconData: Icons.lock,
+            label: 'パスワード再設定',
             onTap: () {
               userProvider.clearController();
               nextScreen(
@@ -61,23 +70,22 @@ class SettingScreen extends StatelessWidget {
                 UserPasswordScreen(userProvider: userProvider),
               );
             },
-            iconData: Icons.lock,
-            label: 'パスワード再設定',
           ),
-          CustomSettingListTile(
+          SettingListTile(
+            iconData: Icons.vpn_key,
+            label: 'タブレット用暗証番号',
             onTap: () {
               userProvider.clearController();
-              userProvider.recordPassword.text =
-                  userProvider.user?.recordPassword ?? '';
+              userProvider.recordPassword.text = _user?.recordPassword ?? '';
               nextScreen(
                 context,
                 UserRecordPasswordScreen(userProvider: userProvider),
               );
             },
-            iconData: Icons.vpn_key,
-            label: 'タブレット用暗証番号',
           ),
-          CustomSettingListTile(
+          SettingListTile(
+            iconData: Icons.notifications,
+            label: 'PUSH通知の許可',
             onTap: () {
               userNoticeProvider.requestPermissions();
               nextScreen(
@@ -87,14 +95,14 @@ class SettingScreen extends StatelessWidget {
                 ),
               );
             },
-            iconData: Icons.notifications,
-            label: 'PUSH通知の許可',
           ),
           SizedBox(height: 16.0),
           Text('会社/組織情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
-          CustomSettingListTile(
+          SettingListTile(
+            iconData: Icons.store,
+            label: '会社/組織の作成申請',
             onTap: () async {
               const url = 'https://www.agora-c.com/hatarakujikan/';
               if (await canLaunch(url)) {
@@ -107,14 +115,14 @@ class SettingScreen extends StatelessWidget {
                 throw 'このURLにはアクセスできません';
               }
             },
-            iconData: Icons.store,
-            label: '会社/組織の作成申請',
           ),
           SizedBox(height: 16.0),
           Text('アプリ情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
-          CustomSettingListTile(
+          SettingListTile(
+            iconData: Icons.business_outlined,
+            label: '開発/運営会社',
             onTap: () async {
               const url = 'https://www.agora-c.com/';
               if (await canLaunch(url)) {
@@ -127,11 +135,12 @@ class SettingScreen extends StatelessWidget {
                 throw 'このURLにはアクセスできません';
               }
             },
-            iconData: Icons.business_outlined,
-            label: '開発/運営会社',
           ),
           SizedBox(height: 16.0),
           RoundBorderButton(
+            label: 'ログアウト',
+            color: Colors.blue,
+            borderColor: Colors.blue,
             onPressed: () {
               showDialog(
                 barrierDismissible: false,
@@ -141,13 +150,12 @@ class SettingScreen extends StatelessWidget {
                 ),
               );
             },
-            label: 'ログアウト',
-            color: Colors.blue,
-            borderColor: Colors.blue,
           ),
           SizedBox(height: 32.0),
           Center(
             child: CustomLinkButton(
+              label: 'このアカウントを削除する',
+              color: Colors.red,
               onTap: () {
                 showDialog(
                   barrierDismissible: false,
@@ -157,8 +165,6 @@ class SettingScreen extends StatelessWidget {
                   ),
                 );
               },
-              label: 'このアカウントを削除する',
-              color: Colors.red,
             ),
           ),
           SizedBox(height: 40.0),
@@ -186,18 +192,17 @@ class SignOutDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomTextButton(
-                onPressed: () => Navigator.pop(context),
                 label: 'キャンセル',
                 color: Colors.grey,
+                onPressed: () => Navigator.pop(context),
               ),
               CustomTextButton(
-                onPressed: () async {
-                  await userProvider.signOut();
-                  Navigator.pop(context);
-                  changeScreen(context, LoginScreen());
-                },
                 label: 'はい',
                 color: Colors.blue,
+                onPressed: () async {
+                  await userProvider.signOut();
+                  changeScreen(context, LoginScreen());
+                },
               ),
             ],
           ),
@@ -225,18 +230,17 @@ class DeleteDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomTextButton(
-                onPressed: () => Navigator.pop(context),
                 label: 'キャンセル',
                 color: Colors.grey,
+                onPressed: () => Navigator.pop(context),
               ),
               CustomTextButton(
-                onPressed: () async {
-                  await userProvider.delete();
-                  Navigator.pop(context);
-                  changeScreen(context, LoginScreen());
-                },
                 label: 'はい',
                 color: Colors.blue,
+                onPressed: () async {
+                  await userProvider.delete();
+                  changeScreen(context, LoginScreen());
+                },
               ),
             ],
           ),

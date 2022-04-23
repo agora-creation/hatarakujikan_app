@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -45,12 +46,10 @@ class _BreakEndQRScreenState extends State<BreakEndQRScreen> {
     setState(() => _qrController = qrController);
     qrController.scannedDataStream.listen((scanData) {
       if (scanData.code == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('QRコードがありません')),
-        );
+        customSnackBar(context, 'QRコードがありません');
       }
-      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code!)) {
-        if (widget.userProvider.group!.id == scanData.code) {
+      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code ?? '')) {
+        if (widget.userProvider.group?.id == scanData.code) {
           _nextAction();
         }
       }

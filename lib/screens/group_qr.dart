@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -45,18 +46,16 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
     setState(() => _qrController = qrController);
     qrController.scannedDataStream.listen((scanData) {
       if (scanData.code == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('QRコードがありません')),
-        );
+        customSnackBar(context, 'QRコードがありません');
       }
-      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code!)) {
-        _nextScreen(groupId: scanData.code!);
+      if (RegExp(r'^[A-Za-z0-9]+$').hasMatch(scanData.code ?? '')) {
+        _nextScreen(groupId: scanData.code ?? '');
       }
     });
   }
 
   Future<void> _nextScreen({String? groupId}) async {
-    _group = await widget.groupProvider.select(id: groupId!);
+    _group = await widget.groupProvider.select(id: groupId);
     if (_group != null) {
       if (!_isQRScanned) {
         _qrController?.pauseCamera();

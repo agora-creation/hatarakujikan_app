@@ -1,90 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
+import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 
-class HistoryTotal extends StatefulWidget {
+class HistoryTotal extends StatelessWidget {
   final UserProvider userProvider;
   final WorkProvider workProvider;
-  final List<DateTime> days;
-  final GroupModel group;
 
   HistoryTotal({
     required this.userProvider,
     required this.workProvider,
-    required this.days,
-    required this.group,
   });
 
   @override
-  _HistoryTotalState createState() => _HistoryTotalState();
-}
-
-class _HistoryTotalState extends State<HistoryTotal> {
-  int workCount = 0;
-  String workTime = '00:00';
-  String legalTime = '00:00';
-  String nonLegalTime = '00:00';
-  String nightTime = '00:00';
-
-  void _init() async {
-    await versionCheck().then((value) {
-      if (!value) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => UpdaterDialog(),
-      );
-    });
-    await widget.workProvider
-        .selectList(
-      group: widget.userProvider.group!,
-      user: widget.userProvider.user!,
-      startAt: widget.days.first,
-      endAt: widget.days.last,
-    )
-        .then((value) {
-      Map _count = {};
-      int _workCount = 0;
-      String _workTime = '00:00';
-      String _legalTime = '00:00';
-      String _nonLegalTime = '00:00';
-      String _nightTime = '00:00';
-      for (WorkModel _work in value) {
-        if (_work.startedAt != _work.endedAt) {
-          String _key = dateText('yyyy-MM-dd', _work.startedAt);
-          _count[_key] = '';
-          _workTime = addTime(_workTime, _work.workTime());
-          List<String> _legalTimes = _work.legalTimes(widget.group);
-          _legalTime = addTime(_legalTime, _legalTimes.first);
-          _nonLegalTime = addTime(_nonLegalTime, _legalTimes.last);
-          List<String> _nightTimes = _work.nightTimes(widget.group);
-          _nightTime = addTime(_nightTime, _nightTimes.last);
-        }
-      }
-      _workCount = _count.length;
-      setState(() {
-        workCount = _workCount;
-        workTime = _workTime;
-        legalTime = _legalTime;
-        nonLegalTime = _nonLegalTime;
-        nightTime = _nightTime;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    GroupModel? _group = userProvider.group;
+    UserModel? _user = userProvider.user;
+    List<WorkModel> works = [];
+    Map _cnt = {};
+    int workDays = 0;
+    String workTimes = '00:00';
+    String legalTimes = '00:00';
+    String nonLegalTimes = '00:00';
+    String nightTimes = '00:00';
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -92,7 +36,7 @@ class _HistoryTotalState extends State<HistoryTotal> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          '${dateText('yyyy年MM月', widget.days.first)}の集計',
+          '${dateText('yyyy年MM月', workProvider.days.first)}の集計',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -102,53 +46,77 @@ class _HistoryTotalState extends State<HistoryTotal> {
           ),
         ],
       ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        children: [
-          Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('会社/組織'),
-              trailing: Text(widget.group.name),
-            ),
-          ),
-          Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('総勤務日数'),
-              trailing: Text('$workCount 日'),
-            ),
-          ),
-          Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('総勤務時間'),
-              trailing: Text(workTime),
-            ),
-          ),
-          Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('総法定内時間'),
-              trailing: Text(legalTime),
-            ),
-          ),
-          Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('総法定外時間'),
-              trailing: Text(nonLegalTime),
-            ),
-          ),
-          Container(
-            decoration: kBottomBorderDecoration,
-            child: ListTile(
-              title: Text('総深夜時間'),
-              trailing: Text(nightTime),
-            ),
-          ),
-          SizedBox(height: 40.0),
-        ],
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: workProvider.streamList(groupId: _group?.id, userId: _user?.id),
+        builder: (context, snapshot) {
+          works.clear();
+          if (snapshot.hasData) {
+            for (DocumentSnapshot<Map<String, dynamic>> doc
+                in snapshot.data!.docs) {
+              works.add(WorkModel.fromSnapshot(doc));
+            }
+          }
+          for (WorkModel _work in works) {
+            if (_work.startedAt != _work.endedAt) {
+              String _key = dateText('yyyy-MM-dd', _work.startedAt);
+              _cnt[_key] = '';
+              workTimes = addTime(workTimes, _work.workTime());
+              List<String> _legalTimes = _work.legalTimes(_group);
+              legalTimes = addTime(legalTimes, _legalTimes.first);
+              nonLegalTimes = addTime(nonLegalTimes, _legalTimes.last);
+              List<String> _nightTimes = _work.nightTimes(_group);
+              nightTimes = addTime(nightTimes, _nightTimes.last);
+            }
+          }
+          workDays = _cnt.length;
+          return ListView(
+            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            children: [
+              Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  title: Text('会社/組織'),
+                  trailing: Text(_group?.name ?? ''),
+                ),
+              ),
+              Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  title: Text('総勤務日数'),
+                  trailing: Text('$workDays日'),
+                ),
+              ),
+              Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  title: Text('総勤務時間'),
+                  trailing: Text(workTimes),
+                ),
+              ),
+              Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  title: Text('総法定内時間'),
+                  trailing: Text(legalTimes),
+                ),
+              ),
+              Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  title: Text('総法定外時間'),
+                  trailing: Text(nonLegalTimes),
+                ),
+              ),
+              Container(
+                decoration: kBottomBorderDecoration,
+                child: ListTile(
+                  title: Text('総深夜時間'),
+                  trailing: Text(nightTimes),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

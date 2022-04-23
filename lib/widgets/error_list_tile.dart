@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ErrorListTile extends StatelessWidget {
   final String? label;
 
-  ErrorListTile({this.label});
+  ErrorListTile(this.label);
 
   @override
   Widget build(BuildContext context) {

@@ -58,8 +58,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         centerTitle: true,
         title: Text(widget.group.name),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: _isLoading
@@ -94,6 +94,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                         backgroundColor: Colors.grey,
                       )
                     : RoundBorderButton(
+                        label: '既定に設定する',
+                        color: Colors.blue,
+                        borderColor: Colors.blue,
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updatePrefs(
@@ -111,17 +114,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
-                        label: '既定に設定する',
-                        color: Colors.blue,
-                        borderColor: Colors.blue,
                       ),
                 SizedBox(height: 8.0),
-                widget.userProvider.user!.id != widget.group.adminUserId
+                widget.userProvider.user?.id != widget.group.adminUserId
                     ? RoundBorderButton(
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
-                            user: widget.userProvider.user!,
+                            user: widget.userProvider.user,
                             group: widget.group,
                           )) {
                             setState(() => _isLoading = false);

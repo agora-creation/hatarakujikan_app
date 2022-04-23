@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -307,8 +308,39 @@ class UserProvider with ChangeNotifier {
     return _locations;
   }
 
+  Future<List<double>> futureLocation() async {
+    List<double> _locations = [];
+    bool isLocation = await checkLocation();
+    if (isLocation == true) {
+      List<String> _tmp = await getLocation();
+      _locations = [
+        double.parse(_tmp.first),
+        double.parse(_tmp.last),
+      ];
+    }
+    return _locations;
+  }
+
   void changeGroup(GroupModel groupModel) {
     _group = groupModel;
+    notifyListeners();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamNotice({String? userId}) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
+    _ret = FirebaseFirestore.instance
+        .collection('user')
+        .doc(userId ?? 'error')
+        .collection('notice')
+        .where('read', isEqualTo: false)
+        .snapshots();
+    return _ret;
+  }
+
+  int tabsIndex = 0;
+
+  void changeTabs(int index) {
+    tabsIndex = index;
     notifyListeners();
   }
 }

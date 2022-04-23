@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/widgets/custom_group_select_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/group_select_list_tile.dart';
 
 class GroupSelect extends StatelessWidget {
   final UserProvider userProvider;
@@ -19,8 +19,8 @@ class GroupSelect extends StatelessWidget {
         title: Text('会社/組織の切替', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Colors.white),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),
@@ -29,13 +29,13 @@ class GroupSelect extends StatelessWidget {
         itemCount: userProvider.groups.length,
         itemBuilder: (_, index) {
           GroupModel _group = userProvider.groups[index];
-          return CustomGroupSelectListTile(
+          return GroupSelectListTile(
+            group: _group,
+            selected: _group.id == userProvider.group?.id,
             onTap: () {
               userProvider.changeGroup(_group);
               Navigator.of(context, rootNavigator: true).pop();
             },
-            group: _group,
-            selected: _group.id == userProvider.group!.id,
           );
         },
       ),

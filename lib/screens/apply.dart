@@ -4,84 +4,79 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/providers/apply_work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/screens/apply_work_details.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
-import 'package:hatarakujikan_app/widgets/custom_apply_list_tile.dart';
-import 'package:hatarakujikan_app/widgets/custom_expanded_button.dart';
+import 'package:hatarakujikan_app/widgets/apply_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/expanded_button.dart';
 
-class ApplyScreen extends StatefulWidget {
+class ApplyScreen extends StatelessWidget {
+  final ApplyWorkProvider applyWorkProvider;
   final UserProvider userProvider;
 
-  ApplyScreen({required this.userProvider});
+  ApplyScreen({
+    required this.applyWorkProvider,
+    required this.userProvider,
+  });
 
-  @override
-  _ApplyScreenState createState() => _ApplyScreenState();
-}
-
-class _ApplyScreenState extends State<ApplyScreen> {
   @override
   Widget build(BuildContext context) {
-    GroupModel? _group = widget.userProvider.group;
-    UserModel? _user = widget.userProvider.user;
-    Stream<QuerySnapshot<Map<String, dynamic>>> _stream = FirebaseFirestore
-        .instance
-        .collection('applyWork')
-        .where('groupId', isEqualTo: _group!.id)
-        .where('userId', isEqualTo: _user!.id)
-        .where('approval', isEqualTo: false)
-        .orderBy('createdAt', descending: true)
-        .snapshots();
+    GroupModel? _group = userProvider.group;
+    UserModel? _user = userProvider.user;
     List<ApplyWorkModel> _applyWorks = [];
 
-    return _group.id != ''
-        ? Column(
-            children: [
-              CustomExpandedButton(
-                backgroundColor: Colors.blueGrey,
-                label: widget.userProvider.group!.name,
-                color: Colors.white,
-                leading: Icon(Icons.store, color: Colors.white),
-                trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
-                onTap: () => overlayScreen(
-                  context,
-                  GroupSelect(userProvider: widget.userProvider),
-                ),
-              ),
-              Expanded(
-                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: _stream,
-                  builder: (context, snapshot) {
-                    _applyWorks.clear();
-                    if (snapshot.hasData) {
-                      for (DocumentSnapshot<Map<String, dynamic>> doc
-                          in snapshot.data!.docs) {
-                        _applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
-                      }
-                    }
-                    if (_applyWorks.length > 0) {
-                      return ListView.builder(
-                        itemCount: _applyWorks.length,
-                        itemBuilder: (_, index) {
-                          ApplyWorkModel _applyWork = _applyWorks[index];
-                          return CustomApplyListTile(
-                            onTap: () => nextScreen(
-                              context,
-                              ApplyWorkDetailsScreen(applyWork: _applyWork),
-                            ),
-                            state: '記録修正申請',
-                            dateTime: _applyWork.createdAt,
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: Text('未承認の申請はありません'));
-                    }
-                  },
-                ),
-              ),
-            ],
-          )
-        : Center(child: Text('会社/組織に所属していません'));
+    if (_group == null) return Center(child: Text('会社/組織に所属していません'));
+    return Column(
+      children: [
+        ExpandedButton(
+          backgroundColor: Colors.blueGrey,
+          label: _group.name,
+          color: Colors.white,
+          leading: Icon(Icons.store, color: Colors.white),
+          trailing: Icon(Icons.arrow_drop_down, color: Colors.white),
+          onTap: () => overlayScreen(
+            context,
+            GroupSelect(userProvider: userProvider),
+          ),
+        ),
+        Expanded(
+          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: applyWorkProvider.streamList(
+              groupId: _group.id,
+              userId: _user?.id,
+            ),
+            builder: (context, snapshot) {
+              _applyWorks.clear();
+              if (snapshot.hasData) {
+                for (DocumentSnapshot<Map<String, dynamic>> doc
+                    in snapshot.data!.docs) {
+                  _applyWorks.add(ApplyWorkModel.fromSnapshot(doc));
+                }
+              }
+              if (_applyWorks.length == 0)
+                return Center(child: Text('未承認の申請はありません'));
+              return ListView.builder(
+                itemCount: _applyWorks.length,
+                itemBuilder: (_, index) {
+                  ApplyWorkModel _applyWork = _applyWorks[index];
+                  return ApplyListTile(
+                    state: '記録修正申請',
+                    dateTime: _applyWork.createdAt,
+                    onTap: () => nextScreen(
+                      context,
+                      ApplyWorkDetailsScreen(
+                        applyWorkProvider: applyWorkProvider,
+                        applyWork: _applyWork,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }
