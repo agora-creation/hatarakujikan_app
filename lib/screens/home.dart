@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/providers/apply_pto.dart';
 import 'package:hatarakujikan_app/providers/apply_work.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -19,6 +20,7 @@ import 'package:provider/provider.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final applyPTOProvider = Provider.of<ApplyPTOProvider>(context);
     final applyWorkProvider = Provider.of<ApplyWorkProvider>(context);
     final groupProvider = Provider.of<GroupProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
@@ -35,6 +37,7 @@ class HomeScreen extends StatelessWidget {
         workProvider: workProvider,
       ),
       ApplyScreen(
+        applyPTOProvider: applyPTOProvider,
         applyWorkProvider: applyWorkProvider,
         userProvider: userProvider,
       ),

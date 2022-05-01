@@ -18,8 +18,8 @@ class UserPasswordScreen extends StatelessWidget {
         centerTitle: true,
         title: Text('パスワード再設定'),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: ListView(
@@ -33,8 +33,6 @@ class UserPasswordScreen extends StatelessWidget {
             label: '現在のパスワード',
             color: Colors.black54,
             prefix: Icons.lock,
-            suffix: null,
-            onTap: null,
           ),
           SizedBox(height: 8.0),
           CustomTextFormField(
@@ -45,8 +43,6 @@ class UserPasswordScreen extends StatelessWidget {
             label: '新しいパスワード',
             color: Colors.black54,
             prefix: Icons.lock_outlined,
-            suffix: null,
-            onTap: null,
           ),
           SizedBox(height: 8.0),
           CustomTextFormField(
@@ -57,11 +53,12 @@ class UserPasswordScreen extends StatelessWidget {
             label: '新しいパスワードの再入力',
             color: Colors.black54,
             prefix: Icons.lock_outline,
-            suffix: null,
-            onTap: null,
           ),
           SizedBox(height: 16.0),
           RoundBackgroundButton(
+            label: '変更を保存',
+            color: Colors.white,
+            backgroundColor: Colors.blue,
             onPressed: () async {
               if (!await userProvider.updatePassword()) {
                 showDialog(
@@ -75,11 +72,7 @@ class UserPasswordScreen extends StatelessWidget {
               userProvider.reloadUser();
               Navigator.pop(context);
             },
-            label: '変更を保存',
-            color: Colors.white,
-            backgroundColor: Colors.blue,
           ),
-          SizedBox(height: 40.0),
         ],
       ),
     );

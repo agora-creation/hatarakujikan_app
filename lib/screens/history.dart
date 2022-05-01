@@ -8,7 +8,7 @@ import 'package:hatarakujikan_app/models/work_shift.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
 import 'package:hatarakujikan_app/screens/group_select.dart';
-import 'package:hatarakujikan_app/screens/history_button.dart';
+import 'package:hatarakujikan_app/screens/history_buttons.dart';
 import 'package:hatarakujikan_app/screens/history_total.dart';
 import 'package:hatarakujikan_app/widgets/expanded_button.dart';
 import 'package:hatarakujikan_app/widgets/history_header.dart';
@@ -46,7 +46,8 @@ class HistoryScreen extends StatelessWidget {
             GroupSelect(userProvider: userProvider),
           ),
         ),
-        HistoryButton(
+        HistoryButtons(
+          month: dateText('yyyy年MM月', workProvider.month),
           monthOnPressed: () async {
             DateTime? selected = await customMonthPicker(
               context: context,
@@ -62,7 +63,6 @@ class HistoryScreen extends StatelessWidget {
               workProvider: workProvider,
             ),
           ),
-          month: dateText('yyyy年MM月', workProvider.month),
         ),
         HistoryHeader(),
         Expanded(
@@ -111,7 +111,6 @@ class HistoryScreen extends StatelessWidget {
                     }
                   }
                   return HistoryList(
-                    user: _user,
                     day: workProvider.days[index],
                     dayInWorks: _dayInWorks,
                     dayInWorkShift: _dayInWorkShift,

@@ -90,8 +90,8 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
         title: Text('会社/組織を入る', style: TextStyle(color: Colors.blue)),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Colors.blue),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),

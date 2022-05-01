@@ -27,8 +27,8 @@ class _UserRecordPasswordScreenState extends State<UserRecordPasswordScreen> {
         centerTitle: true,
         title: Text('タブレット用暗証番号'),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: _isLoading
@@ -44,13 +44,14 @@ class _UserRecordPasswordScreenState extends State<UserRecordPasswordScreen> {
                   label: '暗証番号',
                   color: Colors.black54,
                   prefix: Icons.vpn_key,
-                  suffix: null,
-                  onTap: null,
                 ),
                 SizedBox(height: 8.0),
                 Text('※タブレットアプリ内で、このユーザーにログインするときに必要な暗証番号です。数字8桁以内でご入力ください。'),
                 SizedBox(height: 16.0),
                 RoundBackgroundButton(
+                  label: '変更を保存',
+                  color: Colors.white,
+                  backgroundColor: Colors.blue,
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.userProvider.updateRecordPassword()) {
@@ -67,11 +68,7 @@ class _UserRecordPasswordScreenState extends State<UserRecordPasswordScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
-                  label: '変更を保存',
-                  color: Colors.white,
-                  backgroundColor: Colors.blue,
                 ),
-                SizedBox(height: 40.0),
               ],
             ),
     );

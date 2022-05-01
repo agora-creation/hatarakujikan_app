@@ -6,8 +6,7 @@ import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
 import 'package:hatarakujikan_app/screens/notice_details.dart';
-import 'package:hatarakujikan_app/widgets/loading.dart';
-import 'package:hatarakujikan_app/widgets/notice_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/notice_list.dart';
 
 class NoticeScreen extends StatelessWidget {
   final UserProvider userProvider;
@@ -40,13 +39,12 @@ class NoticeScreen extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: userNoticeProvider.streamList(userId: user?.id),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Loading(color: Colors.cyan);
-          }
           notices.clear();
-          for (DocumentSnapshot<Map<String, dynamic>> doc
-              in snapshot.data!.docs) {
-            notices.add(UserNoticeModel.fromSnapshot(doc));
+          if (snapshot.hasData) {
+            for (DocumentSnapshot<Map<String, dynamic>> doc
+                in snapshot.data!.docs) {
+              notices.add(UserNoticeModel.fromSnapshot(doc));
+            }
           }
           if (notices.length == 0) return Center(child: Text('お知らせはありません'));
           return ListView.builder(
@@ -54,7 +52,7 @@ class NoticeScreen extends StatelessWidget {
             itemCount: notices.length,
             itemBuilder: (_, index) {
               UserNoticeModel _notice = notices[index];
-              return NoticeListTile(
+              return NoticeList(
                 notice: _notice,
                 onTap: () => nextScreen(
                   context,

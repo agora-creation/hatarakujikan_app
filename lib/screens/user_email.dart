@@ -26,8 +26,8 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
         centerTitle: true,
         title: Text('ユーザー情報変更'),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: _isLoading
@@ -43,8 +43,6 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                   label: 'お名前',
                   color: Colors.black54,
                   prefix: Icons.person,
-                  suffix: null,
-                  onTap: null,
                 ),
                 SizedBox(height: 8.0),
                 CustomTextFormField(
@@ -55,11 +53,12 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                   label: 'メールアドレス',
                   color: Colors.black54,
                   prefix: Icons.email,
-                  suffix: null,
-                  onTap: null,
                 ),
                 SizedBox(height: 16.0),
                 RoundBackgroundButton(
+                  label: '変更を保存',
+                  color: Colors.white,
+                  backgroundColor: Colors.blue,
                   onPressed: () async {
                     setState(() => _isLoading = true);
                     if (!await widget.userProvider.updateEmail()) {
@@ -76,11 +75,7 @@ class _UserEmailScreenState extends State<UserEmailScreen> {
                     setState(() => _isLoading = false);
                     Navigator.pop(context);
                   },
-                  label: '変更を保存',
-                  color: Colors.white,
-                  backgroundColor: Colors.blue,
                 ),
-                SizedBox(height: 40.0),
               ],
             ),
     );

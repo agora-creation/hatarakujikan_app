@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/providers/work.dart';
+import 'package:hatarakujikan_app/widgets/custom_list_tile.dart';
 
 class HistoryTotal extends StatelessWidget {
   final UserProvider userProvider;
@@ -41,8 +41,8 @@ class HistoryTotal extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Colors.white),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),
@@ -72,47 +72,29 @@ class HistoryTotal extends StatelessWidget {
           return ListView(
             padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             children: [
-              Container(
-                decoration: kBottomBorderDecoration,
-                child: ListTile(
-                  title: Text('会社/組織'),
-                  trailing: Text(_group?.name ?? ''),
-                ),
+              CustomListTile(
+                label: '会社/組織名',
+                value: _group?.name,
               ),
-              Container(
-                decoration: kBottomBorderDecoration,
-                child: ListTile(
-                  title: Text('総勤務日数'),
-                  trailing: Text('$workDays日'),
-                ),
+              CustomListTile(
+                label: '総勤務日数',
+                value: '$workDays日',
               ),
-              Container(
-                decoration: kBottomBorderDecoration,
-                child: ListTile(
-                  title: Text('総勤務時間'),
-                  trailing: Text(workTimes),
-                ),
+              CustomListTile(
+                label: '総勤務時間',
+                value: workTimes,
               ),
-              Container(
-                decoration: kBottomBorderDecoration,
-                child: ListTile(
-                  title: Text('総法定内時間'),
-                  trailing: Text(legalTimes),
-                ),
+              CustomListTile(
+                label: '総法定内時間',
+                value: legalTimes,
               ),
-              Container(
-                decoration: kBottomBorderDecoration,
-                child: ListTile(
-                  title: Text('総法定外時間'),
-                  trailing: Text(nonLegalTimes),
-                ),
+              CustomListTile(
+                label: '総法定外時間',
+                value: nonLegalTimes,
               ),
-              Container(
-                decoration: kBottomBorderDecoration,
-                child: ListTile(
-                  title: Text('総深夜時間'),
-                  trailing: Text(nightTimes),
-                ),
+              CustomListTile(
+                label: '総深夜時間',
+                value: nightTimes,
               ),
             ],
           );

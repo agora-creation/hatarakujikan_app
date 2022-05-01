@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 
-class CustomGroupListTile extends StatelessWidget {
+class GroupList extends StatelessWidget {
   final GroupModel? group;
-  final bool? fixed;
+  final bool? selected;
   final Function()? onTap;
 
-  CustomGroupListTile({
+  GroupList({
     this.group,
-    this.fixed,
+    this.selected,
     this.onTap,
   });
 
@@ -18,9 +18,10 @@ class CustomGroupListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        title: Text(group!.name),
-        subtitle: fixed == true ? Text('既定に設定中') : null,
-        trailing: Icon(Icons.chevron_right),
+        title: Text(group?.name ?? ''),
+        subtitle: selected == true ? Text('選択中') : null,
+        trailing:
+            selected == true ? Icon(Icons.check, color: Colors.green) : null,
         onTap: onTap,
       ),
     );

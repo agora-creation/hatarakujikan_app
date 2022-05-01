@@ -63,13 +63,3 @@ const TextStyle kSubTitleTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
-
-const TextStyle kListDayTextStyle = TextStyle(
-  color: Colors.black54,
-  fontSize: 15.0,
-);
-
-const TextStyle kListDay2TextStyle = TextStyle(
-  color: Colors.transparent,
-  fontSize: 15.0,
-);

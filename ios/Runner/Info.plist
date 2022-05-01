@@ -39,6 +39,8 @@
 	<string>このアプリでは会社/組織のQRコードを読み取る為、カメラへのアクセスが必要です。</string>
 	<key>NSContactsUsageDescription</key>
 	<string>${PRODUCT_NAME} contact use</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>このアプリには勤務場所を記録する為、位置情報が必要です。</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>このアプリには勤務場所を記録する為、位置情報が必要です。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

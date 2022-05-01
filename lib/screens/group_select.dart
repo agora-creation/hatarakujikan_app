@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
-import 'package:hatarakujikan_app/widgets/group_select_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/group_list.dart';
 
 class GroupSelect extends StatelessWidget {
   final UserProvider userProvider;
@@ -29,7 +29,7 @@ class GroupSelect extends StatelessWidget {
         itemCount: userProvider.groups.length,
         itemBuilder: (_, index) {
           GroupModel _group = userProvider.groups[index];
-          return GroupSelectListTile(
+          return GroupList(
             group: _group,
             selected: _group.id == userProvider.group?.id,
             onTap: () {

@@ -3,11 +3,11 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
 
-class NoticeListTile extends StatelessWidget {
+class NoticeList extends StatelessWidget {
   final UserNoticeModel? notice;
   final Function()? onTap;
 
-  NoticeListTile({
+  NoticeList({
     this.notice,
     this.onTap,
   });

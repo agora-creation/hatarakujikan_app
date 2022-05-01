@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class HistoryDetailsListTile extends StatelessWidget {
+class CustomListTile extends StatelessWidget {
   final Icon? icon;
   final String? label;
-  final String? time;
+  final String? value;
 
-  HistoryDetailsListTile({
+  CustomListTile({
     this.icon,
     this.label,
-    this.time,
+    this.value,
   });
 
   @override
@@ -19,7 +19,7 @@ class HistoryDetailsListTile extends StatelessWidget {
       child: ListTile(
         leading: icon,
         title: Text(label ?? ''),
-        trailing: Text(time ?? ''),
+        trailing: Text(value ?? ''),
       ),
     );
   }

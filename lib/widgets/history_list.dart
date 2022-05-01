@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
-import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/models/work_shift.dart';
 import 'package:hatarakujikan_app/screens/history_details.dart';
 
+const TextStyle kListDayTextStyle = TextStyle(
+  color: Colors.black54,
+  fontSize: 15.0,
+);
+
+const TextStyle kListDay2TextStyle = TextStyle(
+  color: Colors.transparent,
+  fontSize: 15.0,
+);
+
 class HistoryList extends StatelessWidget {
-  final UserModel user;
   final DateTime day;
   final List<WorkModel> dayInWorks;
   final WorkShiftModel? dayInWorkShift;
 
   HistoryList({
-    required this.user,
     required this.day,
     required this.dayInWorks,
     this.dayInWorkShift,
@@ -58,7 +65,7 @@ class HistoryList extends StatelessWidget {
                     ),
                     onTap: () => nextScreen(
                       context,
-                      HistoryDetailsScreen(work: _work, user: user),
+                      HistoryDetailsScreen(work: _work),
                     ),
                   );
                 },

@@ -1,30 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
+import 'package:hatarakujikan_app/models/user.dart';
+import 'package:hatarakujikan_app/models/work.dart';
 import 'package:hatarakujikan_app/services/apply_work.dart';
+import 'package:hatarakujikan_app/services/user.dart';
 
 class ApplyWorkProvider with ChangeNotifier {
   ApplyWorkService _applyWorkService = ApplyWorkService();
+  UserService _userService = UserService();
 
-  Future<bool> create({ApplyWorkModel? applyWork}) async {
-    if (applyWork == null) return false;
+  Future<bool> create({
+    WorkModel? work,
+    List<BreaksModel>? breaks,
+    String? reason,
+  }) async {
+    if (work == null) return false;
+    if (breaks == null) return false;
+    UserModel? _user = await _userService.select(id: work.userId);
+    if (_user == null) return false;
     try {
       String _id = _applyWorkService.id();
       List<Map> _breaks = [];
-      for (BreaksModel breaksModel in applyWork.breaks) {
-        _breaks.add(breaksModel.toMap());
+      for (BreaksModel _breaksModel in breaks) {
+        _breaks.add(_breaksModel.toMap());
       }
       _applyWorkService.create({
         'id': _id,
-        'workId': applyWork.workId,
-        'groupId': applyWork.groupId,
-        'userId': applyWork.userId,
-        'userName': applyWork.userName,
-        'startedAt': applyWork.startedAt,
-        'endedAt': applyWork.endedAt,
+        'workId': work.id,
+        'groupId': work.groupId,
+        'userId': work.userId,
+        'userName': _user.name,
+        'startedAt': work.startedAt,
+        'endedAt': work.endedAt,
         'breaks': _breaks,
-        'reason': applyWork.reason,
+        'reason': reason,
         'approval': false,
         'createdAt': DateTime.now(),
       });

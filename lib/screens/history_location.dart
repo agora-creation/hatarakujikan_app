@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/work.dart';
 
@@ -18,63 +17,56 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
   Set<Marker> markers = {};
 
   void _init() async {
-    await versionCheck().then((value) {
-      if (!value) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => UpdaterDialog(),
-      );
-    });
-    WorkModel _work = widget.work;
-    setState(() {
-      markers.add(Marker(
-        markerId: MarkerId('start_${_work.id}'),
-        position: LatLng(
-          _work.startedLat,
-          _work.startedLon,
-        ),
-        infoWindow: InfoWindow(
-          title: '出勤日時',
-          snippet: dateText('yyyy/MM/dd HH:mm', _work.startedAt),
-        ),
-      ));
-      _work.breaks.forEach((e) {
+    if (mounted) {
+      setState(() {
         markers.add(Marker(
-          markerId: MarkerId('start_${e.id}'),
+          markerId: MarkerId('start_${widget.work.id}'),
           position: LatLng(
-            e.startedLat,
-            e.startedLon,
+            widget.work.startedLat,
+            widget.work.startedLon,
           ),
           infoWindow: InfoWindow(
-            title: '休憩開始日時',
-            snippet: dateText('yyyy/MM/dd HH:mm', e.startedAt),
+            title: '出勤日時',
+            snippet: dateText('yyyy/MM/dd HH:mm', widget.work.startedAt),
           ),
         ));
         markers.add(Marker(
-          markerId: MarkerId('end_${e.id}'),
+          markerId: MarkerId('end_${widget.work.id}'),
           position: LatLng(
-            e.endedLat,
-            e.endedLon,
+            widget.work.endedLat,
+            widget.work.endedLon,
           ),
           infoWindow: InfoWindow(
-            title: '休憩終了日時',
-            snippet: dateText('yyyy/MM/dd HH:mm', e.endedAt),
+            title: '退勤日時',
+            snippet: dateText('yyyy/MM/dd HH:mm', widget.work.endedAt),
           ),
         ));
+        widget.work.breaks.forEach((e) {
+          markers.add(Marker(
+            markerId: MarkerId('breakStart_${e.id}'),
+            position: LatLng(
+              e.startedLat,
+              e.startedLon,
+            ),
+            infoWindow: InfoWindow(
+              title: '休憩開始日時',
+              snippet: dateText('yyyy/MM/dd HH:mm', e.startedAt),
+            ),
+          ));
+          markers.add(Marker(
+            markerId: MarkerId('breakEnd_${e.id}'),
+            position: LatLng(
+              e.endedLat,
+              e.endedLon,
+            ),
+            infoWindow: InfoWindow(
+              title: '休憩終了日時',
+              snippet: dateText('yyyy/MM/dd HH:mm', e.endedAt),
+            ),
+          ));
+        });
       });
-      markers.add(Marker(
-        markerId: MarkerId('end_${_work.id}'),
-        position: LatLng(
-          _work.endedLat,
-          _work.endedLon,
-        ),
-        infoWindow: InfoWindow(
-          title: '退勤日時',
-          snippet: dateText('yyyy/MM/dd HH:mm', _work.endedAt),
-        ),
-      ));
-    });
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -96,8 +88,8 @@ class _HistoryLocationScreenState extends State<HistoryLocationScreen> {
         centerTitle: true,
         title: Text('位置情報を確認'),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Container(

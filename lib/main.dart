@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
+import 'package:hatarakujikan_app/providers/apply_pto.dart';
 import 'package:hatarakujikan_app/providers/apply_work.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: ApplyPTOProvider()),
         ChangeNotifierProvider.value(value: ApplyWorkProvider()),
         ChangeNotifierProvider.value(value: GroupProvider()),
         ChangeNotifierProvider.value(value: UserProvider.initialize()),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/widgets/custom_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
@@ -31,14 +30,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   String _prefsGroupId = '';
 
   void _init() async {
-    await versionCheck().then((value) {
-      if (!value) return;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => UpdaterDialog(),
-      );
-    });
     String? _prefs = await getPrefs('groupId');
     setState(() => _prefsGroupId = _prefs ?? '');
   }
@@ -67,15 +58,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    title: Text(
-                      '会社/組織名',
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                    trailing: Text(widget.group.name),
-                  ),
+                CustomListTile(
+                  label: '会社/組織名',
+                  value: widget.group.name,
                 ),
                 SizedBox(height: 16.0),
                 Center(
@@ -88,7 +73,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 SizedBox(height: 16.0),
                 _prefsGroupId == widget.group.id
                     ? RoundBackgroundButton(
-                        onPressed: null,
                         label: '既定に設定中',
                         color: Colors.white,
                         backgroundColor: Colors.grey,
@@ -118,6 +102,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 SizedBox(height: 8.0),
                 widget.userProvider.user?.id != widget.group.adminUserId
                     ? RoundBorderButton(
+                        label: '退職する',
+                        color: Colors.red,
+                        borderColor: Colors.red,
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateExit(
@@ -136,12 +123,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
-                        label: '退職する',
-                        color: Colors.red,
-                        borderColor: Colors.red,
                       )
                     : RoundBackgroundButton(
-                        onPressed: null,
                         label: '退職する',
                         color: Colors.white,
                         backgroundColor: Colors.grey,
@@ -152,7 +135,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
-                SizedBox(height: 40.0),
               ],
             ),
     );

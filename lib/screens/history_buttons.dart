@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class HistoryButton extends StatelessWidget {
+class HistoryButtons extends StatelessWidget {
   final String? month;
   final Function()? monthOnPressed;
   final Function()? totalOnPressed;
 
-  HistoryButton({
+  HistoryButtons({
     this.month,
     this.monthOnPressed,
     this.totalOnPressed,

@@ -11,7 +11,7 @@ import 'package:hatarakujikan_app/screens/user_record_password.dart';
 import 'package:hatarakujikan_app/widgets/custom_link_button.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_button.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
-import 'package:hatarakujikan_app/widgets/setting_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/setting_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -47,7 +47,7 @@ class SettingScreen extends StatelessWidget {
           Text('ユーザー情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
-          SettingListTile(
+          SettingList(
             iconData: Icons.person,
             label: 'ユーザー情報変更',
             onTap: () {
@@ -60,7 +60,7 @@ class SettingScreen extends StatelessWidget {
               );
             },
           ),
-          SettingListTile(
+          SettingList(
             iconData: Icons.lock,
             label: 'パスワード再設定',
             onTap: () {
@@ -71,7 +71,7 @@ class SettingScreen extends StatelessWidget {
               );
             },
           ),
-          SettingListTile(
+          SettingList(
             iconData: Icons.vpn_key,
             label: 'タブレット用暗証番号',
             onTap: () {
@@ -83,7 +83,7 @@ class SettingScreen extends StatelessWidget {
               );
             },
           ),
-          SettingListTile(
+          SettingList(
             iconData: Icons.notifications,
             label: 'PUSH通知の許可',
             onTap: () {
@@ -100,7 +100,7 @@ class SettingScreen extends StatelessWidget {
           Text('会社/組織情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
-          SettingListTile(
+          SettingList(
             iconData: Icons.store,
             label: '会社/組織の作成申請',
             onTap: () async {
@@ -120,7 +120,7 @@ class SettingScreen extends StatelessWidget {
           Text('アプリ情報'),
           SizedBox(height: 8.0),
           Divider(height: 1.0, color: Colors.grey),
-          SettingListTile(
+          SettingList(
             iconData: Icons.business_outlined,
             label: '開発/運営会社',
             onTap: () async {
@@ -167,7 +167,6 @@ class SettingScreen extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 40.0),
         ],
       ),
     );

@@ -3,7 +3,7 @@ import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/apply_work.dart';
 import 'package:hatarakujikan_app/models/breaks.dart';
 import 'package:hatarakujikan_app/providers/apply_work.dart';
-import 'package:hatarakujikan_app/widgets/apply_work_list_tile.dart';
+import 'package:hatarakujikan_app/widgets/custom_column.dart';
 import 'package:hatarakujikan_app/widgets/round_border_button.dart';
 
 class ApplyWorkDetailsScreen extends StatelessWidget {
@@ -19,10 +19,10 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade100,
+        backgroundColor: Colors.lightBlue.shade100,
         elevation: 0.0,
         centerTitle: true,
-        title: Text('記録修正申請', style: TextStyle(color: Colors.black54)),
+        title: Text('勤怠修正の申請', style: TextStyle(color: Colors.black54)),
         leading: IconButton(
           icon: Icon(Icons.chevron_left, size: 32.0, color: Colors.black54),
           onPressed: () => Navigator.pop(context),
@@ -33,13 +33,17 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
         children: [
           Text('申請内容をご確認ください。'),
           SizedBox(height: 16.0),
-          ApplyWorkListTile(
+          CustomColumn(
             label: '申請日時',
             value: dateText('yyyy/MM/dd HH:mm', applyWork.createdAt),
           ),
-          ApplyWorkListTile(
+          CustomColumn(
             label: '出勤日時',
             value: dateText('yyyy/MM/dd HH:mm', applyWork.startedAt),
+          ),
+          CustomColumn(
+            label: '退勤日時',
+            value: dateText('yyyy/MM/dd HH:mm', applyWork.endedAt),
           ),
           applyWork.breaks.length > 0
               ? ListView.builder(
@@ -49,16 +53,15 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
                   itemBuilder: (_, index) {
                     BreaksModel _breaks = applyWork.breaks[index];
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        ApplyWorkListTile(
+                        CustomColumn(
                           label: '休憩開始日時',
                           value: dateText(
                             'yyyy/MM/dd HH:mm',
                             _breaks.startedAt,
                           ),
                         ),
-                        ApplyWorkListTile(
+                        CustomColumn(
                           label: '休憩終了日時',
                           value: dateText(
                             'yyyy/MM/dd HH:mm',
@@ -70,11 +73,7 @@ class ApplyWorkDetailsScreen extends StatelessWidget {
                   },
                 )
               : Container(),
-          ApplyWorkListTile(
-            label: '退勤日時',
-            value: dateText('yyyy/MM/dd HH:mm', applyWork.endedAt),
-          ),
-          ApplyWorkListTile(
+          CustomColumn(
             label: '事由',
             value: applyWork.reason,
           ),

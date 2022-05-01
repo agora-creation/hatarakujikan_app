@@ -87,8 +87,8 @@ class _BreakStartQRScreenState extends State<BreakStartQRScreen> {
         title: Text('休憩開始する', style: TextStyle(color: Color(0xFFFEFFFA))),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Color(0xFFFEFFFA)),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),

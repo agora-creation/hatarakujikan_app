@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
 
-class SettingListTile extends StatelessWidget {
-  final IconData? iconData;
+class ApplyList2 extends StatelessWidget {
   final String? label;
+  final String? subLabel;
   final Function()? onTap;
 
-  SettingListTile({
-    this.iconData,
+  ApplyList2({
     this.label,
+    this.subLabel,
     this.onTap,
   });
 
@@ -17,9 +17,14 @@ class SettingListTile extends StatelessWidget {
     return Container(
       decoration: kBottomBorderDecoration,
       child: ListTile(
-        leading: Icon(iconData),
         title: Text(label ?? ''),
-        trailing: Icon(Icons.chevron_right),
+        subtitle: subLabel != null
+            ? Text(
+                subLabel ?? '',
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              )
+            : null,
+        trailing: onTap != null ? Icon(Icons.chevron_right) : null,
         onTap: onTap,
       ),
     );

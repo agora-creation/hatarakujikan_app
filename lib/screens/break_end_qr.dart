@@ -87,8 +87,8 @@ class _BreakEndQRScreenState extends State<BreakEndQRScreen> {
         title: Text('退勤する', style: TextStyle(color: Colors.orange)),
         actions: [
           IconButton(
-            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
             icon: Icon(Icons.close, color: Colors.orange),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           ),
         ],
       ),

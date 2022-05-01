@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
+import 'package:hatarakujikan_app/widgets/custom_list_tile.dart';
 import 'package:hatarakujikan_app/widgets/error_dialog.dart';
 import 'package:hatarakujikan_app/widgets/loading.dart';
 import 'package:hatarakujikan_app/widgets/round_background_button.dart';
@@ -48,19 +48,16 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
           : ListView(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               children: [
-                Container(
-                  decoration: kBottomBorderDecoration,
-                  child: ListTile(
-                    title: Text(
-                      '会社/組織名',
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                    trailing: Text(widget.group.name),
-                  ),
+                CustomListTile(
+                  label: '会社/組織名',
+                  value: widget.group.name,
                 ),
                 SizedBox(height: 16.0),
                 contain.isEmpty
                     ? RoundBackgroundButton(
+                        label: 'この会社/組織に所属する',
+                        color: Colors.white,
+                        backgroundColor: Colors.blue,
                         onPressed: () async {
                           setState(() => _isLoading = true);
                           if (!await widget.groupProvider.updateIn(
@@ -79,22 +76,18 @@ class _GroupQRViewScreenState extends State<GroupQRViewScreen> {
                           setState(() => _isLoading = false);
                           Navigator.pop(context);
                         },
-                        label: 'この会社/組織に所属する',
-                        color: Colors.white,
-                        backgroundColor: Colors.blue,
                       )
                     : RoundBackgroundButton(
-                        onPressed: null,
                         label: '既に所属済み',
                         color: Colors.white,
                         backgroundColor: Colors.grey,
                       ),
                 SizedBox(height: 8.0),
                 RoundBorderButton(
-                  onPressed: () => Navigator.pop(context),
                   label: 'もう一度読み取る',
                   color: Colors.blue,
                   borderColor: Colors.blue,
+                  onPressed: () => Navigator.pop(context),
                 ),
               ],
             ),

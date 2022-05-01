@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ErrorListTile extends StatelessWidget {
+class ErrorList extends StatelessWidget {
   final String? label;
 
-  ErrorListTile(this.label);
+  ErrorList(this.label);
 
   @override
   Widget build(BuildContext context) {
