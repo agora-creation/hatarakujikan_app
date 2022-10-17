@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -80,6 +81,7 @@ class _BreakEndQRScreenState extends State<BreakEndQRScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,

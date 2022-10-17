@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/apply_pto.dart';
@@ -49,6 +50,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         automaticallyImplyLeading: false,
         title: Text(user?.name ?? ''),
         actions: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/user.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
@@ -29,6 +30,7 @@ class SettingScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,

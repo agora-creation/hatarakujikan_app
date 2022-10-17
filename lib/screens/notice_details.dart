@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/user_notice.dart';
 import 'package:hatarakujikan_app/providers/user_notice.dart';
@@ -33,6 +34,7 @@ class _NoticeDetailsScreenState extends State<NoticeDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,

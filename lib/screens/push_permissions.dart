@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/dialogs.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/helpers/style.dart';
@@ -71,6 +72,7 @@ class _PushPermissionsScreenState extends State<PushPermissionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,

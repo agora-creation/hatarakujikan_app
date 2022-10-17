@@ -8,7 +8,7 @@ import 'package:hatarakujikan_app/helpers/date_machine_util.dart';
 import 'package:hatarakujikan_app/helpers/define.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';

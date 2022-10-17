@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/helpers/functions.dart';
 import 'package:hatarakujikan_app/models/group.dart';
 import 'package:hatarakujikan_app/providers/group.dart';
@@ -83,6 +84,7 @@ class _GroupQRScreenState extends State<GroupQRScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,

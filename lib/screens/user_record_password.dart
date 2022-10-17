@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hatarakujikan_app/providers/user.dart';
 import 'package:hatarakujikan_app/widgets/custom_text_form_field.dart';
 import 'package:hatarakujikan_app/widgets/error_dialog.dart';
@@ -22,6 +23,7 @@ class _UserRecordPasswordScreenState extends State<UserRecordPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         backgroundColor: Color(0xFFFEFFFA),
         elevation: 0.0,
         centerTitle: true,
