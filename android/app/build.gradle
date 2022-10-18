@@ -29,7 +29,7 @@ apply plugin: 'com.google.gms.google-services'
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -41,9 +41,9 @@ android {
         minSdkVersion 23
         targetSdkVersion 33
 //        versionCode flutterVersionCode.toInteger()
-        versionCode 33
+        versionCode 35
 //        versionName flutterVersionName
-        versionName '2.0.3'
+        versionName '2.0.4'
         multiDexEnabled true
     }
 
