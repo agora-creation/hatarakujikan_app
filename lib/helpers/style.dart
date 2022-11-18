@@ -63,3 +63,6 @@ const TextStyle kSubTitleTextStyle = TextStyle(
   color: Colors.white,
   fontSize: 16.0,
 );
+
+const ANDROID_APP_ID = 'com.agoracreation.hatarakujikan_app';
+const IOS_BUNDLE_ID = 'com.agoracreation.hatarakujikanApp';
