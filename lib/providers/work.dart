@@ -26,37 +26,79 @@ class WorkProvider with ChangeNotifier {
     String _id = _workService.id();
     if (_id == '') return false;
     try {
-      _workService.create({
-        'id': _id,
-        'groupId': group.id,
-        'userId': user.id,
-        'startedAt': DateTime.now(),
-        'startedLat': locations?.first ?? 0,
-        'startedLon': locations?.last ?? 0,
-        'endedAt': DateTime.now(),
-        'endedLat': locations?.first ?? 0,
-        'endedLon': locations?.last ?? 0,
-        'breaks': [],
-        'state': state,
-        'createdAt': DateTime.now(),
-      });
-      int _workLv = 1;
-      switch (state) {
-        case '通常勤務':
-          _workLv = 1;
-          break;
-        case '直行/直帰':
-          _workLv = 2;
-          break;
-        case 'テレワーク':
-          _workLv = 3;
-          break;
+      if (user.autoWorkEnd == true) {
+        DateTime startedAt = DateTime.now();
+        String _date = dateText('yyyy-MM-dd', DateTime.now());
+        String _time = '${user.autoWorkEndTime.padLeft(5, '0')}:00.000';
+        DateTime endedAt = DateTime.parse('$_date $_time');
+        if (startedAt.millisecondsSinceEpoch > endedAt.millisecondsSinceEpoch) {
+          endedAt.add(Duration(days: 1));
+        }
+        List<Map> _breaks = [];
+        if (group.autoBreak == true) {
+          String _breaksId = randomString(20);
+          _breaks.add({
+            'id': _breaksId,
+            'startedAt': DateTime.now(),
+            'startedLat': locations?.first ?? 0,
+            'startedLon': locations?.last ?? 0,
+            'endedAt': DateTime.now().add(Duration(hours: 1)),
+            'endedLat': locations?.first ?? 0,
+            'endedLon': locations?.last ?? 0,
+          });
+        }
+        _workService.create({
+          'id': _id,
+          'groupId': group.id,
+          'userId': user.id,
+          'startedAt': startedAt,
+          'startedLat': locations?.first ?? 0,
+          'startedLon': locations?.last ?? 0,
+          'endedAt': endedAt,
+          'endedLat': locations?.first ?? 0,
+          'endedLon': locations?.last ?? 0,
+          'breaks': _breaks,
+          'state': state,
+          'createdAt': DateTime.now(),
+        });
+        _userService.update({
+          'id': user.id,
+          'workLv': 0,
+          'lastWorkId': '',
+        });
+      } else {
+        _workService.create({
+          'id': _id,
+          'groupId': group.id,
+          'userId': user.id,
+          'startedAt': DateTime.now(),
+          'startedLat': locations?.first ?? 0,
+          'startedLon': locations?.last ?? 0,
+          'endedAt': DateTime.now(),
+          'endedLat': locations?.first ?? 0,
+          'endedLon': locations?.last ?? 0,
+          'breaks': [],
+          'state': state,
+          'createdAt': DateTime.now(),
+        });
+        int _workLv = 1;
+        switch (state) {
+          case '通常勤務':
+            _workLv = 1;
+            break;
+          case '直行/直帰':
+            _workLv = 2;
+            break;
+          case 'テレワーク':
+            _workLv = 3;
+            break;
+        }
+        _userService.update({
+          'id': user.id,
+          'workLv': _workLv,
+          'lastWorkId': _id,
+        });
       }
-      _userService.update({
-        'id': user.id,
-        'workLv': _workLv,
-        'lastWorkId': _id,
-      });
       return true;
     } catch (e) {
       print(e.toString());

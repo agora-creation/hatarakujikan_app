@@ -8,7 +8,6 @@ import 'package:hatarakujikan_app/helpers/style.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
-import 'package:new_version/new_version.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void nextScreen(BuildContext context, Widget widget) {
@@ -324,30 +323,4 @@ Future<String?> customTimePicker({
     _ret = '${_selected.format(context)}';
   }
   return _ret;
-}
-
-void versionCheck(BuildContext context) {
-  final newVersion = NewVersion(
-    androidId: ANDROID_APP_ID,
-    iOSId: IOS_BUNDLE_ID,
-    iOSAppStoreCountry: 'JP',
-  );
-  _advancedStatusCheck(newVersion, context);
-}
-
-void _advancedStatusCheck(NewVersion newVersion, BuildContext context) async {
-  final status = await newVersion.getVersionStatus();
-  if (status != null && status.canUpdate) {
-    String storeVersion = status.storeVersion;
-    String releaseNote = status.releaseNotes.toString();
-    newVersion.showUpdateDialog(
-      context: context,
-      versionStatus: status,
-      dialogTitle: 'アップデートが必要です。',
-      dialogText:
-          'Ver.$storeVersionが公開されています。¥n最新バージョンにアップデートをお願いします。¥n¥nバージョンアップ内容は以下の通りです。¥n$releaseNote',
-      updateButtonText: 'アップデート',
-      allowDismissal: false,
-    );
-  }
 }
