@@ -32,19 +32,22 @@ class UserModel {
   DateTime get createdAt => _createdAt;
 
   UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    _id = snapshot.data()!['id'] ?? '';
-    _number = snapshot.data()!['number'] ?? '';
-    _name = snapshot.data()!['name'] ?? '';
-    _email = snapshot.data()!['email'] ?? '';
-    _password = snapshot.data()!['password'] ?? '';
-    _recordPassword = snapshot.data()!['recordPassword'] ?? '';
-    _workLv = snapshot.data()!['workLv'] ?? 0;
-    _lastWorkId = snapshot.data()!['lastWorkId'] ?? '';
-    _lastBreakId = snapshot.data()!['lastBreakId'] ?? '';
-    _autoWorkEnd = snapshot.data()!['autoWorkEnd'] ?? false;
-    _autoWorkEndTime = snapshot.data()!['autoWorkEndTime'] ?? '00:00';
-    _token = snapshot.data()!['token'] ?? '';
-    _smartphone = snapshot.data()!['smartphone'] ?? false;
-    _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
+    Map<String, dynamic> map = snapshot.data() ?? {};
+    _id = map['id'] ?? '';
+    _number = map['number'] ?? '';
+    _name = map['name'] ?? '';
+    _email = map['email'] ?? '';
+    _password = map['password'] ?? '';
+    _recordPassword = map['recordPassword'] ?? '';
+    _workLv = map['workLv'] ?? 0;
+    _lastWorkId = map['lastWorkId'] ?? '';
+    _lastBreakId = map['lastBreakId'] ?? '';
+    _autoWorkEnd = map['autoWorkEnd'] ?? false;
+    _autoWorkEndTime = map['autoWorkEndTime'] ?? '00:00';
+    _token = map['token'] ?? '';
+    _smartphone = map['smartphone'] ?? false;
+    if (map['createdAt'] != null) {
+      _createdAt = map['createdAt'].toDate() ?? DateTime.now();
+    }
   }
 }
