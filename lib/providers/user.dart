@@ -330,7 +330,7 @@ class UserProvider with ChangeNotifier {
     Stream<QuerySnapshot<Map<String, dynamic>>>? _ret;
     _ret = FirebaseFirestore.instance
         .collection('user')
-        .doc(userId ?? 'error')
+        .doc(userId)
         .collection('notice')
         .where('read', isEqualTo: false)
         .snapshots();
