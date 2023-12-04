@@ -25,12 +25,14 @@ class GroupService {
     List<GroupModel> _groups = [];
     await _firebaseFirestore
         .collection(_collection)
-        .where('userIds', arrayContains: userId)
         .orderBy('createdAt', descending: true)
         .get()
         .then((value) {
       for (DocumentSnapshot<Map<String, dynamic>> _data in value.docs) {
-        _groups.add(GroupModel.fromSnapshot(_data));
+        GroupModel _group = GroupModel.fromSnapshot(_data);
+        if (_group.userIds.contains(userId)) {
+          _groups.add(_group);
+        }
       }
     });
     return _groups;
